@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <link rel="stylesheet" type="text/css" href="css/blocks.css" />
+        <link rel="stylesheet" type="text/css" href="css/lobby.css" />
+        
+        <title>Login</title>
+    </head>
+    <body>
+        <!--<div class="app">
+            <h1>PhoneGap</h1>
+            <div id="deviceready" class="blink">
+                <p class="event listening">Connecting to Device</p>
+                <p class="event received">Device is Ready</p>
+            </div>
+        </div>-->
+        <div id="div_header" class="header-div">
+            <div><img src="img/logo-ucla.png" class="header-logo"/><span id="DeptName" class="header-text"></span></div>
+            
+        </div>
+        <div class="div-white-body">
+            <div class="center-text">
+                <span class="clear-margin-padding header-text">Register to check in</span>
+            </div>
+            <div class="gray-div horizontal-center">
+                <table class="form-table">
+                        <tr>
+                            <td class="form-table-label">First Name:</td>
+                            <td><input id="txt_firstname" type="text" class="textbox" placeholder="" style="display:block;"/></td>
+                        </tr>
+                        <tr>
+                            <td class="form-table-label">Last Name:</td>
+                            <td><input id="txt_lastname" type="text" class="textbox" placeholder="" style="display:block;"/></td>
+                        </tr>
+                        <tr>
+                            <td class="form-table-label">Mobile Phone:</td>
+                            <td><input id="txt_phone" type="text" class="textbox" placeholder="Example: (310)111-9898" style="display:block;"/></td>
+                        </tr>
+                        <tr>
+                            <td class="form-table-label">Email Address:</td>
+                            <td><input id="txt_email" type="text" class="textbox" placeholder="Example: yourname@yahoo.com" style="display:block;"/></td>
+                        </tr>
+                        <tr>
+                            <td class="form-table-label">Student UID:</td>
+                            <td><input id="txt_uid" type="text" class="textbox" placeholder="Example: 123456789" style="display:block;"/></td>
+                        </tr>
+                </table>
+                <div class="center-text">
+                    <a class="button large primary" style="margin:1%;" onclick="">Register</a><a class="button large" style="margin:1%;" onclick="">Cancel</a>
+                </div>
+            </div>
+        </div>
+        <!--<script type="text/javascript" src="phonegap.js"></script>-->
+        <script type="text/javascript" src="js/login.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script type="text/javascript" src="js/blocks.js"></script>
+        <script type="text/javascript" src="js/global.js"></script>
+        <script type="text/javascript">
+            //app.initialize();
+            
+            window.onload = function(){
+                $("#DeptName").text(localStorage.getItem("deptname"));
+            };
+        
+        
+        </script>
+    </body>
+</html>
