@@ -60,7 +60,7 @@
                         <a id="btn_logon" class="button" onclick="ClickLogon();">UCLA Logon ID</a>
                     </span>
                 </div>
-                <div style="margin-top:20px;">
+                <div style="margin-top:20px;" id="div_register">
                     Don't have a UCLA Logon? <a href="registration.html" class="link-gold">Register</a>
                 </div>
             </div>
@@ -121,6 +121,11 @@
             window.onload = function(){
                 $("#DeptName").text(localStorage.getItem("deptname"));
                 $("#welcome_text").text("Welcome to " + localStorage.getItem("deptname"));
+                
+                if(localStorage.getItem("allowregistration") == "false")
+                {
+                    $("#div_register").addClass("invisible");
+                }
                 if(localStorage.getItem("anon") == "true")
                 {
                     $("#anon").removeClass("invisible");
