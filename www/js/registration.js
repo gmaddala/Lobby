@@ -40,7 +40,7 @@ function Register()
     }
     
     var numbers = /^[0-9]+$/;
-    if($('#txt_uid').val().length < 9 || !$('#txt_uid').val().match(numbers))
+    if($('#txt_uid').val().length != 9 || !$('#txt_uid').val().match(numbers))
     {
         hasError = true;
         $('#uid_error').text('Please enter valid UID');
@@ -48,5 +48,42 @@ function Register()
     else
     {
         $('#uid_error').text('');
+    }
+    
+    if($('#txt_phone').val().length != 10 || !$('#txt_phone').val().match(numbers))
+    {
+        hasError = true;
+        $('#phone_error').text('Please enter valid Phone Number');
+    }
+    else
+    {
+        $('#uid_error').text('');
+    }
+    
+    debugger;
+    
+    if(!hasError)
+    {
+        var submitIntake = false; //if no reasons list, immediately submit intake
+        if(typeof localStorage.getItem("reasons").VisitReasonList == "undefined")
+        {
+            submitIntake = true;
+        }
+        
+        localStorage.setItem("uid", $('#txt_uid').val());
+        localStorage.setItem("firstname", $('#txt_firstname').val())
+        localStorage.setItem("lastname", $('#txt_lastname').val());
+        localStorage.setItem("phone", $('#txt_phone').val());
+        localStorage.setItem("email", $('#txt_email').val());
+        
+        if(submitIntake)
+        {
+            var jsonobj = SetUpIntakeJSONObj();
+            SubmitIntake(jsonobj);
+        }
+        else
+        {
+            window.open("reasons.html", "_self");
+        }
     }
 }
