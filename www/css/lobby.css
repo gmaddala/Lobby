@@ -281,3 +281,9 @@ div.gray-div + div.gray-div{
 .form-table td{
     padding:1%;
 }
+
+#close-link{
+    margin-right:5%;
+    float:right;
+    color:white;
+}

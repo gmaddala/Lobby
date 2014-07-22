@@ -215,3 +215,22 @@ function CheckIn(logon, isoverride){
            });
 }
 
+function CloseApp(e)
+{
+    e.preventDefault();
+    var key = window.prompt("Please enter Application Key");
+    if(key == null)
+    {
+        //do nothing
+    }
+    if(key == localStorage.getItem("key"))
+    {
+        window.open("index.html", "_self");
+        //window.location.href = "index.html";
+    }
+    else
+    {
+        alert("Incorrect key");
+    }
+}
+
