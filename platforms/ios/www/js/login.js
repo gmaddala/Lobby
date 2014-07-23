@@ -38,27 +38,33 @@ var app = {
         app.startCardReader(); //cfries- added
     },
     startCardReader: function() {
-        var success = function(uid) {
-            if(localStorage.getItem("rsvp") == "true" || localStorage.getItem("enforcedeligibility") == "true")
-            {
-                CheckIn(uid, false);
-            }
-            else
-            {
-                SignIn(uid);
-            }
-        };
-        var error = function(message) {
-            alert("Error: Please reswipe card");
-            app.stopCardReader();
-            window.open("login.html", "_self");
-        };
-        cardreader.startCardReader(success, error);
+        if(typeof cardreader != "undefined")
+        {
+            var success = function(uid) {
+                if(localStorage.getItem("rsvp") == "true" || localStorage.getItem("enforcedeligibility") == "true")
+                {
+                    CheckIn(uid, false);
+                }
+                else
+                {
+                    SignIn(uid, true);
+                }
+            };
+            var error = function(message) {
+                alert("Error: Please reswipe card");
+                app.stopCardReader();
+                window.open("login.html", "_self");
+            };
+            cardreader.startCardReader(success, error);
+        }
     },
     stopCardReader: function(){
-        var success = function() { };
-        var error = function(message) { };
-        cardreader.closeCardReader(success, error);
+        if(typeof cardreader != "undefined")
+        {
+            var success = function() { };
+            var error = function(message) { };
+            cardreader.closeCardReader(success, error);
+        }
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
@@ -92,19 +98,26 @@ function ClickLogon(){
 }
 
 //self logging in
-function SignIn(logon){
-    alert("'" + logon + "'");
+function SignIn(logon, isCardreader){
+    //alert(logon);
+    isCardreader = typeof a != 'undefined' ? isCardreader : false;
+    
+    var submitIntake = false; //if no reasons list, immediately submit intake
+    if(typeof localStorage.getItem("reasons").VisitReasonList == "undefined")
+    {
+        submitIntake = true;
+    }
+    
     $.ajax({
            type: "GET",
            url: "http://sait-test.uclanet.ucla.edu/sawebnew2/api/validlogon",
-           data: {"logon": logon},
+           data: {"logon": logon, "submitIntake": submitIntake, "appkey": localStorage.getItem("key"), "initialintakestatus": localStorage.getItem("initialintakestatus"), "locationID": localStorage.getItem("selLocationID")},
            beforeSend: function(){
-		alert(logon);
            app.stopCardReader();
            $('body').addClass('ajax-spinner');
            },
            success: function(data){
-            alert(data);
+            //alert(data);
             var jsonobj = JSON.parse(data);
             if(jsonobj.Data.IsValidLogon == true)
             {
@@ -113,7 +126,14 @@ function SignIn(logon){
                 localStorage.setItem("lastname", jsonobj.Data.DictionaryUserInfo.LastName);
                 localStorage.setItem("phone", jsonobj.Data.DictionaryUserInfo.Phone);
                 localStorage.setItem("email", jsonobj.Data.DictionaryUserInfo.Email);
-                window.open("reasons.html", "_self");
+                if(!submitIntake)
+                {
+                    window.open("reasons.html", "_self");
+                }
+                else
+                {
+                    window.open("thankyou.html", "_self");
+                }
                 //window.open("reasons.html?key=" + getUrlParameter('key') + "&uid=" + jsonobj.Data.UID + "&rsvp=" + getUrlParameter("rsvp") + "&anon=" + getUrlParameter("anon") + "&firstname=" + jsonobj.Data.DictionaryUserInfo.FirstName + "&lastname=" + jsonobj.Data.DictionaryUserInfo.LastName + "&phone=" + jsonobj.Data.DictionaryUserInfo.Phone + "&email=" + jsonobj.Data.DictionaryUserInfo.Email + "&initialintakestatus=" + getUrlParameter("initialintakestatus"), "_self");
             }
             else
@@ -146,10 +166,10 @@ function CheckIn(logon, isoverride){
     $.ajax({
            type: "GET",
            url: "http://sait-test.uclanet.ucla.edu/sawebnew2/api/checkineventuser",
-           data: {"appid": localStorage.getItem("appid"), "uid": logon, "overrideRegistration": isoverride, "type": type},
+           data: {"appid": localStorage.getItem("appid"), "uid": logon, "overrideRegistration": isoverride, "type": type, "initialintakestatus": localStorage.getItem("initialintakestatus"), "locationID": localStorage.getItem("selLocationID"), "appKey": localStorage.getItem("key")},
            beforeSend: function(){
-           app.stopCardReader();
-           $('body').addClass('ajax-spinner');
+                app.stopCardReader();
+                $('body').addClass('ajax-spinner');
            },
            success: function(data){
                //alert(data);
@@ -160,6 +180,7 @@ function CheckIn(logon, isoverride){
                 }
                else
                {
+           
                    localStorage.setItem("uid", jsonobj.Data.UserInfo.DictionaryUserInfo.UID);
                    localStorage.setItem("firstname", jsonobj.Data.UserInfo.DictionaryUserInfo.FirstName)
                    localStorage.setItem("lastname", jsonobj.Data.UserInfo.DictionaryUserInfo.LastName);
@@ -178,18 +199,45 @@ function CheckIn(logon, isoverride){
                         $('#success').addClass('invisible');
                     }
            
+           
                }
                 app.startCardReader();
                //window.open("login.html?key=" + $('#txtAccessKey').val() + "&deptname=" + jsonobj.Data.DeptName ,"_self");
            },
            error: function (jqXHR, textStatus, errorThrown) {
-           alert("Invalid UCLA logon");
-           app.startCardReader();
+                alert("Invalid UCLA logon");
+                app.startCardReader();
            //alert(jqXHR + ";\n\n" + textStatus + ";\n\n" + errorThrown);
            },
            complete: function(){
            $('body').removeClass('ajax-spinner');
            }
            });
+}
+
+function CloseApp(e)
+{
+    e.preventDefault();
+    var key = window.prompt("Please enter Application Key");
+    if(key == null)
+    {
+        //do nothing
+    }
+    if(key == localStorage.getItem("key"))
+    {
+        app.stopCardReader();
+        window.open("index.html", "_self");
+        //window.location.href = "index.html";
+    }
+    else
+    {
+        alert("Incorrect key");
+    }
+}
+
+function OverrideHelp(e)
+{
+    e.preventDefault();
+    alert("Selecting 'Override' marks the attendee as having been admitted but failed to meet the criteria set for this event.");
 }
 

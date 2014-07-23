@@ -38,7 +38,7 @@ var app = {
         app.startCardReader(); //cfries- added
     },
     startCardReader: function() {
-        if(typeof(cardreader) != "undefined")
+        if(typeof cardreader != "undefined")
         {
             var success = function(uid) {
                 if(localStorage.getItem("rsvp") == "true" || localStorage.getItem("enforcedeligibility") == "true")
@@ -47,7 +47,7 @@ var app = {
                 }
                 else
                 {
-                    SignIn(uid);
+                    SignIn(uid, true);
                 }
             };
             var error = function(message) {
@@ -59,7 +59,7 @@ var app = {
         }
     },
     stopCardReader: function(){
-        if(typeof(cardreader) != "undefined")
+        if(typeof cardreader != "undefined")
         {
             var success = function() { };
             var error = function(message) { };
@@ -98,18 +98,26 @@ function ClickLogon(){
 }
 
 //self logging in
-function SignIn(logon){
-    alert(logon);
+function SignIn(logon, isCardreader){
+    //alert(logon);
+    isCardreader = typeof a != 'undefined' ? isCardreader : false;
+    
+    var submitIntake = false; //if no reasons list, immediately submit intake
+    if(typeof localStorage.getItem("reasons").VisitReasonList == "undefined")
+    {
+        submitIntake = true;
+    }
+    
     $.ajax({
            type: "GET",
            url: "http://sait-test.uclanet.ucla.edu/sawebnew2/api/validlogon",
-           data: {"logon": logon},
+           data: {"logon": logon, "submitIntake": submitIntake, "appkey": localStorage.getItem("key"), "initialintakestatus": localStorage.getItem("initialintakestatus"), "locationID": localStorage.getItem("selLocationID")},
            beforeSend: function(){
            app.stopCardReader();
            $('body').addClass('ajax-spinner');
            },
            success: function(data){
-            alert(data);
+            //alert(data);
             var jsonobj = JSON.parse(data);
             if(jsonobj.Data.IsValidLogon == true)
             {
@@ -118,7 +126,14 @@ function SignIn(logon){
                 localStorage.setItem("lastname", jsonobj.Data.DictionaryUserInfo.LastName);
                 localStorage.setItem("phone", jsonobj.Data.DictionaryUserInfo.Phone);
                 localStorage.setItem("email", jsonobj.Data.DictionaryUserInfo.Email);
-                window.open("reasons.html", "_self");
+                if(!submitIntake)
+                {
+                    window.open("reasons.html", "_self");
+                }
+                else
+                {
+                    window.open("thankyou.html", "_self");
+                }
                 //window.open("reasons.html?key=" + getUrlParameter('key') + "&uid=" + jsonobj.Data.UID + "&rsvp=" + getUrlParameter("rsvp") + "&anon=" + getUrlParameter("anon") + "&firstname=" + jsonobj.Data.DictionaryUserInfo.FirstName + "&lastname=" + jsonobj.Data.DictionaryUserInfo.LastName + "&phone=" + jsonobj.Data.DictionaryUserInfo.Phone + "&email=" + jsonobj.Data.DictionaryUserInfo.Email + "&initialintakestatus=" + getUrlParameter("initialintakestatus"), "_self");
             }
             else
@@ -157,7 +172,7 @@ function CheckIn(logon, isoverride){
                 $('body').addClass('ajax-spinner');
            },
            success: function(data){
-               alert(data);
+               //alert(data);
                var jsonobj = JSON.parse(data);
                 if(jsonobj.Data.UserInfo.IsValidLogon == false)
                 {
@@ -198,5 +213,31 @@ function CheckIn(logon, isoverride){
            $('body').removeClass('ajax-spinner');
            }
            });
+}
+
+function CloseApp(e)
+{
+    e.preventDefault();
+    var key = window.prompt("Please enter Application Key");
+    if(key == null)
+    {
+        //do nothing
+    }
+    if(key == localStorage.getItem("key"))
+    {
+        app.stopCardReader();
+        window.open("index.html", "_self");
+        //window.location.href = "index.html";
+    }
+    else
+    {
+        alert("Incorrect key");
+    }
+}
+
+function OverrideHelp(e)
+{
+    e.preventDefault();
+    alert("Selecting 'Override' marks the attendee as having been admitted but failed to meet the criteria set for this event.");
 }
 

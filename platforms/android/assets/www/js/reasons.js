@@ -8,7 +8,7 @@ function SubmitReasons()
         return;
     }
     
-    var myJsonObj = SetUpJSONObj();
+    var myJsonObj = SetUpIntakeJSONObj();
     
     $('input[type=checkbox]:checked').each(function () {
                                    myJsonObj.Reasons.ReasonsList.push({"ReasonID": $(this).attr('id'), "ReasonDetails": ""});
@@ -19,13 +19,13 @@ function SubmitReasons()
 
 function SubmitNoReasons()
 {
-    var myJsonObj = SetUpJSONObj();
+    var myJsonObj = SetUpIntakeJSONObj();
     
     SubmitIntake(myJsonObj);
 }
 
 
-function SetUpJSONObj()
+function SetUpIntakeJSONObj()
 {
     var myJsonObj = {
     UID: localStorage.getItem("uid"),

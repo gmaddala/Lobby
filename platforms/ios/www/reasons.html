@@ -51,12 +51,19 @@
         <script type="text/javascript" src="js/global.js"></script>
         <script type="text/javascript">
             window.onload = function(){
+                
+                
                 if(typeof localStorage.getItem("firstname") != "undefined" && typeof localStorage.getItem("lastname") != "undefined" && typeof localStorage.getItem("firstname") != "object" && typeof localStorage.getItem("lastname") != "object" )
                 {
                     $("#NameText").text("Welcome, " + localStorage.getItem("firstname") + " " + localStorage.getItem("lastname"));
                 }
                 var obj = JSON.parse(localStorage.getItem("reasons"));
                 var reason_array = obj.VisitReasonList;
+                /*
+                 if(typeof reason_array == "undefined")
+                 {
+                 SubmitNoReasons();
+                 }*/
                 for(var i = 0; i < reason_array.length; i++) {
                     var obj = reason_array[i];
                     

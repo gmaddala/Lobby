@@ -172,7 +172,7 @@ function CheckIn(logon, isoverride){
                 $('body').addClass('ajax-spinner');
            },
            success: function(data){
-               alert(data);
+               //alert(data);
                var jsonobj = JSON.parse(data);
                 if(jsonobj.Data.UserInfo.IsValidLogon == false)
                 {
@@ -225,6 +225,7 @@ function CloseApp(e)
     }
     if(key == localStorage.getItem("key"))
     {
+        app.stopCardReader();
         window.open("index.html", "_self");
         //window.location.href = "index.html";
     }
@@ -232,5 +233,11 @@ function CloseApp(e)
     {
         alert("Incorrect key");
     }
+}
+
+function OverrideHelp(e)
+{
+    e.preventDefault();
+    alert("Selecting 'Override' marks the attendee as having been admitted but failed to meet the criteria set for this event.");
 }
 

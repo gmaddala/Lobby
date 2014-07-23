@@ -18,7 +18,7 @@
 
 - (void) RunCardReaderListener:(CDVInvokedUrlCommand *)command;
 
-//- (void) StopCardReaderListener:(CDVInvokedUrlCommand *)command;
+- (void) StopCardReaderListener:(CDVInvokedUrlCommand *)command;
 
 #pragma mark -
 #pragma mark MTSCRA Property
@@ -33,6 +33,6 @@
 #pragma mark -
 
 - (void)openDevice;
-//- (void)closeDevice;
+- (void)closeDevice;
 
 @end

@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		1D3623260D0F684500981E51 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* AppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
@@ -41,13 +40,13 @@
 		7E7966E71810823500FA85AD /* icon-small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7966DD1810823500FA85AD /* icon-small@2x.png */; };
 		BB8E5C36196F46C500295259 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB8E5C35196F46C500295259 /* CoreAudio.framework */; };
 		BB8E5C3D196F476100295259 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB8E5C3C196F476100295259 /* AudioToolbox.framework */; };
-		BB8E5C661976E9D900295259 /* CardReader.m in Sources */ = {isa = PBXBuildFile; fileRef = DA5884C3D53A457FA3A9EC62 /* CardReader.m */; };
 		BB8E5C671976EA1600295259 /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6646EA55541348DDA959E380 /* ExternalAccessory.framework */; };
 		BB8E5C681976EA2700295259 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 476EF7F8AE8242F58F463FC5 /* UIKit.framework */; };
 		BB8E5C691976EA3000295259 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD73AD4B83894CACB95BAD97 /* Foundation.framework */; };
 		BB8E5C6A1976EA3900295259 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 968DBD91261B415DBB2DDE28 /* MediaPlayer.framework */; };
 		BB8E5C6B1976EA4300295259 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E80D4A082E254785957217F4 /* AVFoundation.framework */; };
 		BB8E5C6C1976EA5300295259 /* libMTSCRA.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BB8E5C3A196F472D00295259 /* libMTSCRA.a */; };
+		BB8E5C71197F160300295259 /* CardReader.m in Sources */ = {isa = PBXBuildFile; fileRef = DA5884C3D53A457FA3A9EC62 /* CardReader.m */; };
 		D4A0D8761607E02300AEF8BB /* Default-568h@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = D4A0D8751607E02300AEF8BB /* Default-568h@2x~iphone.png */; };
 /* End PBXBuildFile section */
 
@@ -140,12 +139,12 @@
 				BB8E5C6B1976EA4300295259 /* AVFoundation.framework in Frameworks */,
 				4CE5E1F71596485A9747369F /* libstdc++.dylib in Frameworks */,
 				BB8E5C6A1976EA3900295259 /* MediaPlayer.framework in Frameworks */,
+				BB8E5C3D196F476100295259 /* AudioToolbox.framework in Frameworks */,
+				BB8E5C6C1976EA5300295259 /* libMTSCRA.a in Frameworks */,
 				BB8E5C691976EA3000295259 /* Foundation.framework in Frameworks */,
 				BB8E5C681976EA2700295259 /* UIKit.framework in Frameworks */,
 				288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */,
 				BB8E5C671976EA1600295259 /* ExternalAccessory.framework in Frameworks */,
-				BB8E5C6C1976EA5300295259 /* libMTSCRA.a in Frameworks */,
-				BB8E5C3D196F476100295259 /* AudioToolbox.framework in Frameworks */,
 				BB8E5C36196F46C500295259 /* CoreAudio.framework in Frameworks */,
 				5B1594DD16A7569C00FEF299 /* AssetsLibrary.framework in Frameworks */,
 				301BF552109A68D80062928A /* libCordova.a in Frameworks */,
@@ -472,7 +471,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BB8E5C661976E9D900295259 /* CardReader.m in Sources */,
+				BB8E5C71197F160300295259 /* CardReader.m in Sources */,
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* AppDelegate.m in Sources */,
 				302D95F114D2391D003F00A1 /* MainViewController.m in Sources */,

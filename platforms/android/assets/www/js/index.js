@@ -167,4 +167,10 @@ function SetTestData()
     localStorage.setItem("hasreasons", "false");
 }
 
+function AccessKeyHelp(e)
+{
+    e.preventDefault();
+    alert('Access Key is a system-generated passkey assigned to your event. You can find the Access Key on the Event Kiosk page of the staff portal.');
+}
+
 

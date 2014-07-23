@@ -26,6 +26,11 @@
                                                object:nil];
 }
 
+-(void) StopCardReaderListener:(CDVInvokedUrlCommand *)command{
+    self.cordovaCommand = command;
+    [self closeDevice];
+}
+
 
 #pragma mark -
 #pragma mark Post Notification Selector Methods
@@ -219,19 +224,29 @@
 #ifdef _DGBPRNT
         NSLog(@"%@", pResponse);
 #endif
-        
-        
-        NSString * uid = [[self.mtSCRALib getTrack1Masked] substringWithRange:NSMakeRange(6, 9)];
-#ifdef _DGBPRNT
-        NSLog(@"%@", uid);
-#endif
-        CDVPluginResult *pluginResult = [CDVPluginResult
-                                         resultWithStatus: CDVCommandStatus_OK
-                                         messageAsString: uid];
-        
-        [self.mtSCRALib clearBuffers];
-        
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:self.cordovaCommand.callbackId];
+        if([self.mtSCRALib getTrack1Masked].length == 0)
+        {
+            CDVPluginResult *pluginResult = [CDVPluginResult
+                                             resultWithStatus: CDVCommandStatus_ERROR                                     messageAsString: @"Did not capture UID"];
+            
+            [self.mtSCRALib clearBuffers];
+            
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:self.cordovaCommand.callbackId];
+        }
+        else
+        {
+            NSString * uid = [[self.mtSCRALib getTrack1Masked] substringWithRange:NSMakeRange(6, 9)];
+    #ifdef _DGBPRNT
+            NSLog(@"%@", uid);
+    #endif
+            CDVPluginResult *pluginResult = [CDVPluginResult
+                                             resultWithStatus: CDVCommandStatus_OK
+                                             messageAsString: uid];
+            
+            [self.mtSCRALib clearBuffers];
+            
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:self.cordovaCommand.callbackId];
+        }
     }
 }
 
@@ -242,6 +257,17 @@
     {
         [self.mtSCRALib openDevice];
     }
+}
+
+- (void)closeDevice
+{
+    if([self.mtSCRALib isDeviceOpened])
+    {
+        [self.mtSCRALib closeDevice];
+    }
+    
+    [self.mtSCRALib clearBuffers];
+    
 }
 
 

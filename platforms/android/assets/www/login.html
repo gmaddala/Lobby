@@ -37,7 +37,11 @@
             </div>
         </div>-->
         <div id="div_header" class="header-div">
-            <div><img src="img/logo-ucla.png" class="header-logo"/><span id="DeptName" class="header-text"></span></div>
+            <div>
+                <img src="img/logo-ucla.png" class="header-logo"/>
+                <span id="DeptName" class="header-text"></span>
+                <a href="" id="close-link" onclick="CloseApp(event);">Close</a>
+            </div>
             
         </div>
         <div id="welcome_text_div" class="center-text">
@@ -60,8 +64,8 @@
                         <a id="btn_logon" class="button" onclick="ClickLogon();">UCLA Logon ID</a>
                     </span>
                 </div>
-                <div style="margin-top:20px;">
-                    Don't have a UCLA Logon? <a href="http://www.ucla.edu/" class="link-gold">Register</a>
+                <div style="margin-top:20px;" id="div_register">
+                    Don't have a UCLA Logon? <a href="registration.html" class="link-gold">Register</a>
                 </div>
             </div>
         </div>
@@ -88,7 +92,7 @@
                                 <span id="success" class="invisible">SUCCESS</span>
                                 <span id="failed" class="invisible">FAILED
                                     <a id="btn_override" class="button small" onclick="CheckIn(localStorage.getItem('uid'), true);">Override</a>
-                                        <span><a href="http://wwww.ucla.edu" class="link-blue text-right"><small>What is this?</small></a></span>
+                                        <span><a href="" class="link-blue text-right" onclick="OverrideHelp(event);"><small>What is this?</small></a></span>
                                         </span>
                             </td>
                         </tr>
@@ -110,6 +114,7 @@
                 <button class="button large horizontal-center long-button" style="" onclick="CheckIn($('#txt_rsvp_eleg_uid').val(), false);">Check In</button>
             </div>
         </div>
+
         <script type="text/javascript" src="phonegap.js"></script>
         <script type="text/javascript" src="js/login.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
@@ -121,6 +126,11 @@
             window.onload = function(){
                 $("#DeptName").text(localStorage.getItem("deptname"));
                 $("#welcome_text").text("Welcome to " + localStorage.getItem("deptname"));
+                
+                if(localStorage.getItem("allowregistration") == "false")
+                {
+                    $("#div_register").addClass("invisible");
+                }
                 if(localStorage.getItem("anon") == "true")
                 {
                     $("#anon").removeClass("invisible");
