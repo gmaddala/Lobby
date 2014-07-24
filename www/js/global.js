@@ -22,6 +22,7 @@ function replaceAll(string, find, replace) {
 
 function clearStudentInfo()
 {
+    /*
     var key = localStorage.getItem("key");
     var deptname = localStorage.getItem("deptname");
     var appid = localStorage.getItem("appid");
@@ -30,6 +31,14 @@ function clearStudentInfo()
     var initialintakestatus = localStorage.getItem("initialintakestatus");
     var hasreasons = localStorage.getItem("hasreasons");
     var reasons = localStorage.getItem("reasons");
+    var enforcedeligibility = localStorage.getItem("enforcedeligibility");
+    var appdescription = localStorage.getItem("appdescription");
+    var allowregistration = localStorage.getItem("allowregistration");
+    var eligiblitytype = localStorage.getItem("eligibilitytype");
+    var locations = localStorage.getItem("locations");
+    var selLocationID = localStorage.getItem("selLocationID");
+    var question = localStorage.getItem("question");
+    var reasonstype = localStorage.getItem("reasonstype");
     
     localStorage.clear();
     
@@ -41,4 +50,12 @@ function clearStudentInfo()
     localStorage.setItem("initialintakestatus", initialintakestatus);
     localStorage.setItem("hasreasons", hasreasons);
     localStorage.setItem("reasons", reasons);
+     */
+    
+    localStorage.setItem("uid", null);
+    localStorage.setItem("firstname", null);
+    localStorage.setItem("lastname", null);
+    localStorage.setItem("phone", null);
+    localStorage.setItem("email", null);
+    localStorage.setItem("cardswiped", null);
 }

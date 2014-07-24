@@ -110,9 +110,11 @@ function LaunchKiosk()
                         localStorage.setItem("anon", jsonobj.Data.IsAnonymous);
                         localStorage.setItem("enforcedeligibility", jsonobj.Data.IsEnforcedEligibility);
                         localStorage.setItem("initialintakestatus", jsonobj.Data.InitialIntakeStatus);
-                        localStorage.setItem("hasreasons", jsonobj.Data.HasReasons);
+                        //localStorage.setItem("hasreasons", jsonobj.Data.HasReasons);
                         localStorage.setItem("reasons", JSON.stringify(jsonobj.Data.Reasons));
                        localStorage.setItem("allowregistration", jsonobj.Data.AllowRegistration);
+                        localStorage.setItem("question", jsonobj.Data.PromptQuestion);
+                        localStorage.setItem("reasonstype", jsonobj.Data.ReasonsType);
                        
                        localStorage.setItem("eligibilitytype", jsonobj.Data.EligibilityType);
                        

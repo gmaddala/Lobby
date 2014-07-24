@@ -25,6 +25,8 @@
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
         <link rel="stylesheet" type="text/css" href="css/blocks.css" />
         <link rel="stylesheet" type="text/css" href="css/lobby.css" />
+        <!--<link rel="stylesheet" type="text/css" href="css/iwe.css" />-->
+        <link rel="stylesheet" type="text/css" href="css/iwe_icon_fonts.css" />
         
         <title>Login</title>
     </head>
@@ -49,15 +51,21 @@
         </div>
         <div id="not_anon" class="login-textbox">
             <div id="div_bruincard" style="margin-bottom:10%;">
-                <p class="bold-instruction">Swipe your Bruincard</p>
+                <p class="bold-instruction"><i class="icon-credit"></i> <span style="margin-left:2%;">Swipe your Bruincard</span></p>
             </div>
-        
+            <!--
+            <div>
+                <img src="img/DAY2_SHOT1_SCULPTUREGARDEN_login.jpg" class="login-image" />
+            </div>
+             -->
             <div id="div_logon" class="gray-div horizontal-center" style="display:none;">
                 <input id="txt_logon" type="text" class="horizontal-center textbox" placeholder="Enter your UCLA Logon ID" style="display:block;"/>
                 <button class="button large horizontal-center long-button" style="" onclick="SignIn($('#txt_logon').val());">Sign In</button>
             </div>
-            <div id="div_signin_method" class="gray-div horizontal-center">
+            <div id="div_signin_method" class="horizontal-center div-white-body half-div">
                 <div>
+                    <button class="button large panel-button horizontal-center" onclick="LaunchKiosk();" onclick="ClickBruincard();">Press here to use your UCLA Logon ID</button>
+                    <button class="button large panel-button horizontal-center" onclick="LaunchKiosk();" onclick="ClickLogon();">Press here to register</button>
                     <span style="margin-right:1%;">Check in with:</span>
                     <span class="group">
                         <a id="btn_bruincard" class="button primary active" onclick="ClickBruincard();">Bruincard</a>

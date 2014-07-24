@@ -36,7 +36,7 @@
         <div class="div-white-body">
             <form class="form">
                 <div class="control" id="div_reason_list">
-                    <label id="i-4">Please provide the reason(s) for your visit.</label>
+                    <label id="i-4"><span id="prompt">Please provide the reason(s) for your visit.</span></label>
                 </div>
                 <div class="control">
                     <button class="button large horizontal-center" style="width:90%;display:block;margin-bottom:40px;" onclick="SubmitReasons();">Continue</button>
@@ -52,7 +52,7 @@
         <script type="text/javascript">
             window.onload = function(){
                 
-                
+                $('#prompt').text(localStorage.getItem("question"));
                 if(typeof localStorage.getItem("firstname") != "undefined" && typeof localStorage.getItem("lastname") != "undefined" && typeof localStorage.getItem("firstname") != "object" && typeof localStorage.getItem("lastname") != "object" )
                 {
                     $("#NameText").text("Welcome, " + localStorage.getItem("firstname") + " " + localStorage.getItem("lastname"));
@@ -64,10 +64,16 @@
                  {
                  SubmitNoReasons();
                  }*/
+                var inputtype = "checkbox";
+                if(localStorage.getItem("reasonstype") == "1")
+                {
+                    inputtype = "radio";
+                }
+                
                 for(var i = 0; i < reason_array.length; i++) {
                     var obj = reason_array[i];
                     
-                    $('#div_reason_list').append('<label><input type="checkbox" aria-labelledby="i-4" id="' + obj.ReasonID + '">' + obj.ReasonText + '</label>');
+                    $('#div_reason_list').append('<label><input type="' + inputtype +'" aria-labelledby="i-4" id="' + obj.ReasonID + '" name="reasons">' + obj.ReasonText + '</label>');
                 }
             }
         

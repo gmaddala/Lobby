@@ -101,9 +101,11 @@ function ClickLogon(){
 function SignIn(logon, isCardreader){
     //alert(logon);
     isCardreader = typeof a != 'undefined' ? isCardreader : false;
+    localStorage.setItem("cardswiped", isCardreader);
     
     var submitIntake = false; //if no reasons list, immediately submit intake
-    if(typeof localStorage.getItem("reasons").VisitReasonList == "undefined")
+    var reasonsjson = JSON.parse(localStorage.getItem("reasons"));
+    if(reasonsjson.HasReasons == false)
     {
         submitIntake = true;
     }
@@ -111,7 +113,7 @@ function SignIn(logon, isCardreader){
     $.ajax({
            type: "GET",
            url: "http://sait-test.uclanet.ucla.edu/sawebnew2/api/validlogon",
-           data: {"logon": logon, "submitIntake": submitIntake, "appkey": localStorage.getItem("key"), "initialintakestatus": localStorage.getItem("initialintakestatus"), "locationID": localStorage.getItem("selLocationID")},
+           data: {"logon": logon, "submitIntake": submitIntake, "appkey": localStorage.getItem("key"), "initialintakestatus": localStorage.getItem("initialintakestatus"), "locationID": localStorage.getItem("selLocationID"), "cardSwiped": localStorage.getItem("cardswiped")},
            beforeSend: function(){
            app.stopCardReader();
            $('body').addClass('ajax-spinner');
@@ -153,7 +155,9 @@ function SignIn(logon, isCardreader){
 }
 
 //rsvp or eligibility check
-function CheckIn(logon, isoverride){
+function CheckIn(logon, isoverride, isCardreader){
+    isCardreader = typeof a != 'undefined' ? isCardreader : false;
+    localStorage.setItem("cardswiped", isCardreader);
     var type = -1; //if rsvp or enforced eligibility
     if(localStorage.getItem("rsvp") == "true")
     {
@@ -166,7 +170,7 @@ function CheckIn(logon, isoverride){
     $.ajax({
            type: "GET",
            url: "http://sait-test.uclanet.ucla.edu/sawebnew2/api/checkineventuser",
-           data: {"appid": localStorage.getItem("appid"), "uid": logon, "overrideRegistration": isoverride, "type": type, "initialintakestatus": localStorage.getItem("initialintakestatus"), "locationID": localStorage.getItem("selLocationID"), "appKey": localStorage.getItem("key")},
+           data: {"appid": localStorage.getItem("appid"), "uid": logon, "overrideRegistration": isoverride, "type": type, "initialintakestatus": localStorage.getItem("initialintakestatus"), "locationID": localStorage.getItem("selLocationID"), "appKey": localStorage.getItem("key"), "cardswiped": localStorage.getItem("cardswiped")},
            beforeSend: function(){
                 app.stopCardReader();
                 $('body').addClass('ajax-spinner');

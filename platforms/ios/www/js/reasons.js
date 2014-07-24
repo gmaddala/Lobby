@@ -39,7 +39,8 @@ function SetUpIntakeJSONObj()
     IntakeID: 0,
     ReasonsList: []
     },
-    LocationID: localStorage.getItem("selLocationID")
+    LocationID: localStorage.getItem("selLocationID"),
+    CardSwiped: localStorage.getItem("cardswiped")
     };
     
     return myJsonObj;
