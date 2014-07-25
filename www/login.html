@@ -30,7 +30,7 @@
         
         <title>Login</title>
     </head>
-    <body>
+    <body class="molecules-bg ajax-spinner" id="body">
         <!--<div class="app">
             <h1>PhoneGap</h1>
             <div id="deviceready" class="blink">
@@ -46,10 +46,16 @@
             </div>
             
         </div>
+        <div id="div_header_cancel" class="header-div invisible">
+            <div>
+                <a href="" class="cancel-link" onclick="ClickBruincard();">Cancel</a>
+            </div>
+            
+        </div>
         <div id="welcome_text_div" class="center-text">
             <span id="welcome_text" class="clear-margin-padding header-text"></span>
         </div>
-        <div id="not_anon" class="login-textbox">
+        <div id="not_anon" class="login-textbox invisible">
             <div id="div_bruincard" style="margin-bottom:10%;">
                 <p class="bold-instruction"><i class="icon-credit"></i> <span style="margin-left:2%;">Swipe your Bruincard</span></p>
             </div>
@@ -62,19 +68,20 @@
                 <input id="txt_logon" type="text" class="horizontal-center textbox" placeholder="Enter your UCLA Logon ID" style="display:block;"/>
                 <button class="button large horizontal-center long-button" style="" onclick="SignIn($('#txt_logon').val());">Sign In</button>
             </div>
-            <div id="div_signin_method" class="horizontal-center div-white-body half-div">
-                <div>
-                    <button class="button large panel-button horizontal-center" onclick="LaunchKiosk();" onclick="ClickBruincard();">Press here to use your UCLA Logon ID</button>
-                    <button class="button large panel-button horizontal-center" onclick="LaunchKiosk();" onclick="ClickLogon();">Press here to register</button>
+            <div class="horizontal-center div-white-body half-div">
+                <div id="div_signin_method">
+                    <button class="button large panel-button horizontal-center" onclick="ClickLogon();" style="border-bottom:0;">Press here to use your UCLA Logon ID <span class="arrow">></span></button>
+                    <button class="button large panel-button horizontal-center" onclick="location.href='registration.html'">Press here to register <span class="arrow">></span></button>
+                    <!--
                     <span style="margin-right:1%;">Check in with:</span>
                     <span class="group">
                         <a id="btn_bruincard" class="button primary active" onclick="ClickBruincard();">Bruincard</a>
                         <a id="btn_logon" class="button" onclick="ClickLogon();">UCLA Logon ID</a>
-                    </span>
+                    </span>-->
                 </div>
-                <div style="margin-top:20px;" id="div_register">
+                <!--<div style="margin-top:20px;" id="div_register">
                     Don't have a UCLA Logon? <a href="registration.html" class="link-gold">Register</a>
-                </div>
+                </div>-->
             </div>
         </div>
         <div id="anon" class="invisible center-text">
@@ -99,7 +106,7 @@
                             <td id="">
                                 <span id="success" class="invisible">SUCCESS</span>
                                 <span id="failed" class="invisible">FAILED
-                                    <a id="btn_override" class="button small" onclick="CheckIn(localStorage.getItem('uid'), true);">Override</a>
+                                    <a id="btn_override" class="button small small-button" onclick="CheckIn(localStorage.getItem('uid'), true);">Override</a>
                                         <span><a href="" class="link-blue text-right" onclick="OverrideHelp(event);"><small>What is this?</small></a></span>
                                         </span>
                             </td>
@@ -146,10 +153,15 @@
                 }
                 else if(localStorage.getItem("rsvp") == "true" || localStorage.getItem("enforcedeligibility") == "true")
                 {
+                    $("#body").removeClass("molecules-bg");
                     $("#rsvp_eleg").removeClass("invisible");
                     $("#not_anon").addClass("invisible");
                     $("#welcome_text_div").addClass("invisible");
                     $("#event_name").text(localStorage.getItem("appdescription"));
+                }
+                else
+                {
+                    $("#not_anon").removeClass("invisible");
                 }
             };
         

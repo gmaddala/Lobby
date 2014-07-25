@@ -44,6 +44,13 @@ body {
     /*text-transform:uppercase;*/
     width:100%;
     background-color:#3284bf;
+
+}
+
+.molecules-bg{
+    background-image:url(../img/molecules-left.png) !important;
+    background-repeat:no-repeat;
+    background-position:center top;
 }
 
 /* Portrait layout (default) */
@@ -135,9 +142,34 @@ h1 {
     border-width:1px;
     border-color:#bfbfbf;
     margin:auto;
-    width:70%;
+    width:40%;
     padding:3%;
     display:block;
+}
+
+.div-white-body-interior{
+    width:50%;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.div-white-body-interior button{
+    margin-right:8%;
+}
+
+@media screen and(max-width: 768px)
+{
+    .gray-div{
+        width:70%;
+    }
+    
+    .div-white-body{
+        /*padding-right:50px;*/
+    }
+
+    .div-white-body-interior{
+        width:100%;
+    }
 }
 
 .textbox{
@@ -157,7 +189,10 @@ h1 {
   width: 100%;
   height: 100%;
   z-index: 10;
-  background-color: rgba(0,0,0,0.5); /*dim the background*/
+  background-color: rgba(0,0,0,0.5) !important; /*dim the background*/
+  background-image: url(../img/BG-spinner.gif);
+  background-repeat:no-repeat;
+  background-position:center;
 
 }
 
@@ -201,14 +236,14 @@ h1 {
 
 .div-white-body{
     background-color:#ffffff;
-    padding:50px;
-    margin-top:20px;
+    padding:5%;
     font-size:medium;
     color:#000;
     position:absolute;
-    width:100%;
+    width:91%;
     /*height:40%;*/
     bottom:0;
+    top:50px;
     z-index:-1;
 }
 
@@ -249,10 +284,11 @@ div.div-white-body span,p,div{
     font-size:medium;
 }
 
-div.gray-div button, big-blue-button{
+div.div-white-body-interior button, div.gray-div button{
     width:91.5%;
     display:block;
     margin-bottom:3%;
+    margin-top:5%;
     height:3.5em;
     background-color:#3284bf !important;
     border:none !important;
@@ -260,7 +296,7 @@ div.gray-div button, big-blue-button{
     background-image: none !important;
 }
 
-div.gray-div button:active, div.gray-div button:hover, big-blue-button:active, big-blue-button:hover{
+div.gray-div button:active, div.gray-div button:hover, div.div-white-body-interior button:active, div.div-white-body-interior button:hover{
     background-color:#286998 !important;
 }
 
@@ -275,7 +311,7 @@ div.gray-div + div.gray-div{
 
 .form-table-label{
     font-weight:bold;
-    margin-right:1%;
+    padding-top:2%;
 }
 
 #success{
@@ -297,7 +333,12 @@ div.gray-div + div.gray-div{
 }
 
 .form-table{
-    width:70%;
+    width:90%;
+    margin:3%;
+}
+
+.form-table tr{
+    height:2em;
 }
 
 .form-table td{
@@ -310,14 +351,21 @@ div.gray-div + div.gray-div{
     color:white;
 }
 
+.cancel-link{
+    color:white;
+    font-size:large;
+}
+
 .login-image{
     width:100%;
     margin-top:-5%;
 }
 
 .half-div{
-    height:40%;
+    height:50%;
     padding:0;
+    top:auto;
+    width:100%;
 }
 
 .panel-button{
@@ -329,8 +377,34 @@ div.gray-div + div.gray-div{
     color:#464749l !important;
     background-image: none !important;
     border-color:#8C8F93 !important;
+    text-align:left !important;
+    font-weight:bold !important;
 }
 
 .panel-button:active, .panel-button:hover{
     background-color:#BBBFC4 !important;
+}
+
+.arrow{
+    float:right;
+    font-size:xx-large;
+}
+
+#div_logon{
+    margin-top:7%;
+
+}
+
+.reasons-form{
+    font-size:x-large;
+    line-height:150%;;
+}
+
+.small-button{
+    background-color:white !important;
+    border-color:#3284bf !important;
+    color:#3284bf !important;
+    margin-left:6% !important;
+    margin-right:6% !important;
+    background-image:none !important;
 }

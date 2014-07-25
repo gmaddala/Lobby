@@ -80,19 +80,23 @@ var app = {
 };
 
 function ClickBruincard(){
-    $('#btn_bruincard').addClass('primary active');
-    $('#btn_logon').removeClass('primary active');
     $('#div_logon').css('display', 'none');
+    $('#div_signin_method').css('display', 'block');
     $('#div_bruincard').css('display', 'block');
+    $('#div_header').removeClass('invisible');
+    $('#div_header_cancel').addClass('invisible');
     
     app.startCardReader();
 }
 
 function ClickLogon(){
-    $('#btn_bruincard').removeClass('primary active');
-    $('#btn_logon').addClass('primary active');
     $('#div_bruincard').css('display', 'none');
+    $('#div_signin_method').css('display', 'none');
     $('#div_logon').css('display', 'block');
+    
+    $('#div_header').addClass('invisible');
+    $('#div_header_cancel').removeClass('invisible');
+    
     
     app.stopCardReader();
 }

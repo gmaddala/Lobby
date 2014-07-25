@@ -36,15 +36,39 @@
                 <p class="event received">Device is Ready</p>
             </div>
         </div>-->
-        <div id="div_header" class="header-div">
+        <!--<div id="div_header" class="header-div">
             <div><img src="img/logo-ucla.png" class="header-logo"/><span id="DeptName" class="header-text"></span></div>
             
+        </div>-->
+        <div id="div_header_cancel" class="header-div">
+            <div>
+                <a href="login.html" class="cancel-link">Cancel</a>
+            </div>
+            
         </div>
-        <div class="div-white-body">
+        <div class="div-white-body" style="height:75%;">
+            <div class="div-white-body-interior">
+                <div class="form-table-label" style="padding-top:0;">Name</div>
+                <table style="width:95%;">
+                    <tr>
+                        <td><input id="txt_firstname" type="text" class="textbox" placeholder="First" style="display:block;"/></td>
+                        <Td><input id="txt_lastname" type="text" class="textbox" placeholder="Last" style="display:block;"/></td>
+                    </tr>
+                    
+                </table>
+                <div class="form-table-label">Email Address</div>
+                <input id="txt_email" type="text" class="textbox" placeholder="Example: yourname@domain.com" style="display:block;"/>
+                <div class="form-table-label">Mobile Phone</div>
+                <input id="txt_phone" type="text" class="textbox" placeholder="Example: (310)123-4567" style="display:block;"/>
+                <div class="form-table-label">Student UID</div>
+                <input id="txt_uid" type="text" class="textbox" placeholder="Example: 123456789" style="display:block;" maxlength="9"/>
+                
+                <button class="button large horizontal-center big-blue-button" onclick="Register();" style="">Register</button>
+            </div>
+            <!--
             <div class="center-text">
                 <span class="clear-margin-padding header-text">Register to check in</span>
             </div>
-            <div class="gray-div horizontal-center">
                 <table class="form-table">
                         <tr>
                             <td></td>
@@ -95,7 +119,8 @@
                 <div class="center-text">
                     <a class="button large primary" style="margin:1%;" onclick="Register()">Register</a><a class="button large" style="margin:1%;" onclick="" href="login.html">Cancel</a>
                 </div>
-            </div>
+             -->
+            
         </div>
         <!--<script type="text/javascript" src="phonegap.js"></script>-->
         <script type="text/javascript" src="js/reasons.js"></script>
@@ -107,7 +132,7 @@
             //app.initialize();
             
             window.onload = function(){
-                $("#DeptName").text(localStorage.getItem("deptname"));
+                //$("#DeptName").text(localStorage.getItem("deptname"));
             };
         
         
