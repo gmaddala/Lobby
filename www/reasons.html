@@ -29,22 +29,24 @@
         <title>Lobby</title>
     </head>
     <body>
-        <div id="div_header" class="header-div">
-            <div><img src="img/logo-ucla.png" class="header-logo"/><span id="NameText" class="header-text"></span></div>
-            
-        </div>
-        <div class="div-white-body">
-            <div class="div-white-body-interior">
-                <form class="form">
-                    <div class="control reasons-form" id="div_reason_list">
-                        <label id="i-4" style="margin-bottom:3%;"><span id="prompt">Please provide the reason(s) for your visit.</span></label>
-                    </div>
-                    <div class="control">
-                        <button class="button large horizontal-center" style="width:90%;display:block;margin-bottom:40px;" onclick="SubmitReasons();">Continue</button>
-                            </div>
-                </form>
+        <div class="container">
+            <div id="div_header" class="header-div">
+                <div><img src="img/logo-ucla.png" class="header-logo"/><span id="NameText" class="header-text"></span></div>
+                
             </div>
-            
+            <div class="div-white-body">
+                <div class="div-white-body-interior">
+                    <form class="form">
+                        <div class="control reasons-form" id="div_reason_list">
+                            <label id="i-4" style="margin-bottom:3%;"><span id="prompt">Please provide the reason(s) for your visit.</span></label>
+                        </div>
+                        <div class="control">
+                            <button class="button large horizontal-center" style="width:90%;display:block;margin-bottom:40px;" onclick="SubmitReasons();">Continue</button>
+                                </div>
+                    </form>
+                </div>
+                
+            </div>
         </div>
         <script type="text/javascript" src="phonegap.js"></script>
         <script type="text/javascript" src="js/reasons.js"></script>

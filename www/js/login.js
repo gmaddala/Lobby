@@ -43,7 +43,7 @@ var app = {
             var success = function(uid) {
                 if(localStorage.getItem("rsvp") == "true" || localStorage.getItem("enforcedeligibility") == "true")
                 {
-                    CheckIn(uid, false);
+                    CheckIn(uid, false, true);
                 }
                 else
                 {
@@ -104,7 +104,7 @@ function ClickLogon(){
 //self logging in
 function SignIn(logon, isCardreader){
     //alert(logon);
-    isCardreader = typeof a != 'undefined' ? isCardreader : false;
+    isCardreader = typeof isCardreader != 'undefined' ? isCardreader : false;
     localStorage.setItem("cardswiped", isCardreader);
     
     var submitIntake = false; //if no reasons list, immediately submit intake
@@ -160,7 +160,7 @@ function SignIn(logon, isCardreader){
 
 //rsvp or eligibility check
 function CheckIn(logon, isoverride, isCardreader){
-    isCardreader = typeof a != 'undefined' ? isCardreader : false;
+    isCardreader = typeof isCardreader != 'undefined' ? isCardreader : false;
     localStorage.setItem("cardswiped", isCardreader);
     var type = -1; //if rsvp or enforced eligibility
     if(localStorage.getItem("rsvp") == "true")

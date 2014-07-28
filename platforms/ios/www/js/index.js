@@ -110,11 +110,13 @@ function LaunchKiosk()
                         localStorage.setItem("anon", jsonobj.Data.IsAnonymous);
                         localStorage.setItem("enforcedeligibility", jsonobj.Data.IsEnforcedEligibility);
                         localStorage.setItem("initialintakestatus", jsonobj.Data.InitialIntakeStatus);
+                        //localStorage.setItem("hasreasons", jsonobj.Data.HasReasons);
                         localStorage.setItem("reasons", JSON.stringify(jsonobj.Data.Reasons));
-                        localStorage.setItem("allowregistration", jsonobj.Data.AllowRegistration);
+                       localStorage.setItem("allowregistration", jsonobj.Data.AllowRegistration);
                         localStorage.setItem("question", jsonobj.Data.PromptQuestion);
                         localStorage.setItem("reasonstype", jsonobj.Data.ReasonsType);
-                        localStorage.setItem("eligibilitytype", jsonobj.Data.EligibilityType);
+                       
+                       localStorage.setItem("eligibilitytype", jsonobj.Data.EligibilityType);
                        
                        localStorage.setItem("locations", JSON.stringify(jsonobj.Data.Locations));
                        var location_array = jsonobj.Data.Locations;
@@ -127,6 +129,7 @@ function LaunchKiosk()
                         window.open("login.html", "_self");
                        }
                         $('#div-locations').removeClass('invisible');
+                        //$('#div-locations').empty();
                        for(var i = 0 ; i < location_array.length ; i++)
                        {
                             $('#ddl-locations').append($('<option></option>').val(location_array[i].ID).html(location_array[i].Name));
@@ -164,7 +167,7 @@ function SetTestData()
     localStorage.setItem("anon", "0");
     localStorage.setItem("enforcedeligibility", "0");
     localStorage.setItem("initialintakestatus", "5");
-    //localStorage.setItem("hasreasons", "false");
+    localStorage.setItem("hasreasons", "false");
 }
 
 function AccessKeyHelp(e)

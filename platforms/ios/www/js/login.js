@@ -43,7 +43,7 @@ var app = {
             var success = function(uid) {
                 if(localStorage.getItem("rsvp") == "true" || localStorage.getItem("enforcedeligibility") == "true")
                 {
-                    CheckIn(uid, false);
+                    CheckIn(uid, false, true);
                 }
                 else
                 {
@@ -80,19 +80,23 @@ var app = {
 };
 
 function ClickBruincard(){
-    $('#btn_bruincard').addClass('primary active');
-    $('#btn_logon').removeClass('primary active');
     $('#div_logon').css('display', 'none');
+    $('#div_signin_method').css('display', 'block');
     $('#div_bruincard').css('display', 'block');
+    $('#div_header').removeClass('invisible');
+    $('#div_header_cancel').addClass('invisible');
     
     app.startCardReader();
 }
 
 function ClickLogon(){
-    $('#btn_bruincard').removeClass('primary active');
-    $('#btn_logon').addClass('primary active');
     $('#div_bruincard').css('display', 'none');
+    $('#div_signin_method').css('display', 'none');
     $('#div_logon').css('display', 'block');
+    
+    $('#div_header').addClass('invisible');
+    $('#div_header_cancel').removeClass('invisible');
+    
     
     app.stopCardReader();
 }
@@ -100,10 +104,12 @@ function ClickLogon(){
 //self logging in
 function SignIn(logon, isCardreader){
     //alert(logon);
-    isCardreader = typeof a != 'undefined' ? isCardreader : false;
+    isCardreader = typeof isCardreader != 'undefined' ? isCardreader : false;
+    localStorage.setItem("cardswiped", isCardreader);
     
     var submitIntake = false; //if no reasons list, immediately submit intake
-    if(typeof localStorage.getItem("reasons").VisitReasonList == "undefined")
+    var reasonsjson = JSON.parse(localStorage.getItem("reasons"));
+    if(reasonsjson.HasReasons == false)
     {
         submitIntake = true;
     }
@@ -111,7 +117,7 @@ function SignIn(logon, isCardreader){
     $.ajax({
            type: "GET",
            url: "http://sait-test.uclanet.ucla.edu/sawebnew2/api/validlogon",
-           data: {"logon": logon, "submitIntake": submitIntake, "appkey": localStorage.getItem("key"), "initialintakestatus": localStorage.getItem("initialintakestatus"), "locationID": localStorage.getItem("selLocationID")},
+           data: {"logon": logon, "submitIntake": submitIntake, "appkey": localStorage.getItem("key"), "initialintakestatus": localStorage.getItem("initialintakestatus"), "locationID": localStorage.getItem("selLocationID"), "cardSwiped": localStorage.getItem("cardswiped")},
            beforeSend: function(){
            app.stopCardReader();
            $('body').addClass('ajax-spinner');
@@ -153,7 +159,9 @@ function SignIn(logon, isCardreader){
 }
 
 //rsvp or eligibility check
-function CheckIn(logon, isoverride){
+function CheckIn(logon, isoverride, isCardreader){
+    isCardreader = typeof isCardreader != 'undefined' ? isCardreader : false;
+    localStorage.setItem("cardswiped", isCardreader);
     var type = -1; //if rsvp or enforced eligibility
     if(localStorage.getItem("rsvp") == "true")
     {
@@ -166,7 +174,7 @@ function CheckIn(logon, isoverride){
     $.ajax({
            type: "GET",
            url: "http://sait-test.uclanet.ucla.edu/sawebnew2/api/checkineventuser",
-           data: {"appid": localStorage.getItem("appid"), "uid": logon, "overrideRegistration": isoverride, "type": type, "initialintakestatus": localStorage.getItem("initialintakestatus"), "locationID": localStorage.getItem("selLocationID"), "appKey": localStorage.getItem("key")},
+           data: {"appid": localStorage.getItem("appid"), "uid": logon, "overrideRegistration": isoverride, "type": type, "initialintakestatus": localStorage.getItem("initialintakestatus"), "locationID": localStorage.getItem("selLocationID"), "appKey": localStorage.getItem("key"), "cardswiped": localStorage.getItem("cardswiped")},
            beforeSend: function(){
                 app.stopCardReader();
                 $('body').addClass('ajax-spinner');
