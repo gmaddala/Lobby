@@ -227,11 +227,11 @@ function CloseApp(e)
 {
     e.preventDefault();
     var key = window.prompt("Please enter Application Key");
-    if(key == null)
+    if(key == null || key == "")
     {
         //do nothing
     }
-    if(key == localStorage.getItem("key"))
+    else if(key == localStorage.getItem("key"))
     {
         app.stopCardReader();
         window.open("index.html", "_self");

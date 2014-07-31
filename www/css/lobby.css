@@ -44,6 +44,7 @@ body {
     /*text-transform:uppercase;*/
     width:100%;
     background-color:#3284bf;
+    position:fixed;
 
 }
 
@@ -129,7 +130,10 @@ h1 {
 }
 
 .splash-div{
-    margin-top:10%;
+    top:50vh;
+    bottom:0;
+    position:absolute;
+
 }
 
 .splash-logo{
@@ -157,10 +161,10 @@ h1 {
     margin-right:8%;
 }
 
-@media screen and(max-width: 768px)
+@media screen and (max-width: 768px)
 {
     .gray-div{
-        width:70%;
+        width:400px;
     }
     
     .div-white-body{
@@ -180,10 +184,15 @@ h1 {
     display:block;
     height:2.5em !important;
     border-radius:0px !important;
+    font-size:150% !important;
+}
+
+div.div-white-body-interior .textbox{
+    font-size:100% !important;
 }
 
 .ajax-spinner{
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -193,7 +202,7 @@ h1 {
   background-image: url(../img/BG-spinner.gif) !important;
   background-size: 3% auto;
   background-repeat:no-repeat;
-  background-position:center;
+  background-position:center center;
 }
 
 .ajax-spinner .container{
@@ -202,17 +211,17 @@ h1 {
 
 .header-text{
     color:#fff;
-    font-size:large;
+    font-size:x-large;
     margin-left:2%;
     vertical-align:bottom;
 
 }
 
 .header-div{
-    padding-top:1%;
-    padding-left:2%;
-    padding-right:2%;
-    width:100%;
+    padding-top:2%;
+    margin-left:2%;
+    margin-right:2%;
+    width:96%;
 }
 
 .header-logo{
@@ -225,7 +234,7 @@ h1 {
     color:#fff;
     font-size:xx-large;
     font-weight:bold;
-    margin-top:5%;
+    margin:0 !important;
 }
 
 .link-gold{
@@ -243,7 +252,7 @@ h1 {
     padding:5%;
     font-size:medium;
     color:#000;
-    position:absolute;
+    position:fixed;
     width:91%;
     /*height:40%;*/
     bottom:0;
@@ -271,7 +280,7 @@ div.div-white-body span,p,div{
 
 .center-text { 
     text-align: center;
-    padding:2%
+    padding:7%
 }
 
 .clear-margin-padding{
@@ -288,6 +297,20 @@ div.div-white-body span,p,div{
     font-size:medium;
 }
 
+.link-button{
+    background-color:#3284bf !important;
+    border:none !important;
+    color:#fff !important;
+    background-image: none !important;
+    height:2em;
+    fon-size:large !important;
+    float:right;
+}
+
+.link-button:hover, .link-button:active{
+    box-shadow:none !important;
+}
+
 div.div-white-body-interior button, div.gray-div button{
     width:91.5%;
     display:block;
@@ -298,6 +321,7 @@ div.div-white-body-interior button, div.gray-div button{
     border:none !important;
     color:#fff !important;
     background-image: none !important;
+    font-size:150% !important;
 }
 
 div.gray-div button:active, div.gray-div button:hover, div.div-white-body-interior button:active, div.div-white-body-interior button:hover{
@@ -379,10 +403,11 @@ div.gray-div + div.gray-div{
     height:4em;
     background-color:#EAEFF5 !important;
     color:#464749l !important;
-    background-image: none !important;
+    /*background-image: none !important;*/
     border-color:#8C8F93 !important;
     text-align:left !important;
     font-weight:bold !important;
+    font-size:150% !important;
 }
 
 .panel-button:active, .panel-button:hover{
@@ -415,4 +440,22 @@ div.gray-div + div.gray-div{
 
 .container{
     margin:0 !important;
+    width: 100% !important;
+    /*overflow-y:hidden;*/
+}
+
+.panel-button-div{
+    position:fixed;
+    bottom:0;
+    width:100%;
+}
+
+.absolute-center{
+    margin: auto;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    height:7%;
 }

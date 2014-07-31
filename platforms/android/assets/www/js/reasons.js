@@ -2,15 +2,21 @@ function SubmitReasons()
 {
     event.preventDefault();
     
-    if($('input[type=checkbox]:checked').length == 0)
+    var type = "checkbox";
+    if(localStorage.getItem("responsetype") == "1")
     {
-        alert("Please select at least 1 checkbox.");
+        type = "radio";
+    }
+    
+    if($('input[type=' + type + ']:checked').length == 0)
+    {
+        alert("Please select a response.");
         return;
     }
     
     var myJsonObj = SetUpIntakeJSONObj();
     
-    $('input[type=checkbox]:checked').each(function () {
+    $('input[type=' + type + ']:checked').each(function () {
                                    myJsonObj.Reasons.ReasonsList.push({"ReasonID": $(this).attr('id'), "ReasonDetails": ""});
                                    });
     
@@ -39,7 +45,8 @@ function SetUpIntakeJSONObj()
     IntakeID: 0,
     ReasonsList: []
     },
-    LocationID: localStorage.getItem("selLocationID")
+    LocationID: localStorage.getItem("selLocationID"),
+    CardSwiped: localStorage.getItem("cardswiped")
     };
     
     return myJsonObj;
