@@ -44,6 +44,7 @@
 /Users/sait/Documents/lobby/platforms/android/assets/www/img/glyphicons-halflings.png \
 /Users/sait/Documents/lobby/platforms/android/assets/www/img/logo-ucla.png \
 /Users/sait/Documents/lobby/platforms/android/assets/www/img/logo.png \
+/Users/sait/Documents/lobby/platforms/android/assets/www/img/molecules-combined.png \
 /Users/sait/Documents/lobby/platforms/android/assets/www/img/molecules-left.png \
 /Users/sait/Documents/lobby/platforms/android/assets/www/img/molecules-right.png \
 /Users/sait/Documents/lobby/platforms/android/assets/www/js/blocks-ie.js \

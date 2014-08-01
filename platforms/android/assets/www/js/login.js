@@ -38,6 +38,7 @@ var app = {
         app.startCardReader(); //cfries- added
     },
     startCardReader: function() {
+        //alert("start cardreader");
         if(typeof cardreader != "undefined")
         {
             var success = function(uid) {
@@ -59,10 +60,11 @@ var app = {
         }
     },
     stopCardReader: function(){
+        //alert("stop cardreader");
         if(typeof cardreader != "undefined")
         {
             var success = function() { };
-            var error = function(message) { };
+            var error = function(message) { alert("Error: " + message);};
             cardreader.closeCardReader(success, error);
         }
     },
@@ -80,16 +82,18 @@ var app = {
 };
 
 function ClickBruincard(){
+    //debugger;
     $('#div_logon').css('display', 'none');
     $('#div_signin_method').css('display', 'block');
     $('#div_bruincard').css('display', 'block');
     $('#div_header').removeClass('invisible');
     $('#div_header_cancel').addClass('invisible');
     
-    app.startCardReader();
+    //app.startCardReader();
 }
 
 function ClickLogon(){
+    //debugger;
     $('#div_bruincard').css('display', 'none');
     $('#div_signin_method').css('display', 'none');
     $('#div_logon').css('display', 'block');
@@ -247,5 +251,12 @@ function OverrideHelp(e)
 {
     e.preventDefault();
     alert("Selecting 'Override' marks the attendee as having been admitted but failed to meet the criteria set for this event.");
+}
+
+function ClickRegistration()
+{
+    app.stopCardReader();
+    location.href='registration.html';
+    
 }
 

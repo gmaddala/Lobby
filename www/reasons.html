@@ -28,13 +28,13 @@
         
         <title>Lobby</title>
     </head>
-    <body>
+    <body class="scrollable">
         <div class="container">
             <div id="div_header" class="header-div">
                 <div><img src="img/logo-ucla.png" class="header-logo"/><span id="NameText" class="header-text"></span></div>
                 
             </div>
-            <div class="div-white-body">
+            <div class="div-white-body scrollable">
                 <div class="div-white-body-interior">
                     <form class="form">
                         <div class="control reasons-form" id="div_reason_list">
@@ -79,8 +79,24 @@
                 for(var i = 0; i < reason_array.length; i++) {
                     var obj = reason_array[i];
                     
-                    $('#div_reason_list').append('<label><input type="' + inputtype +'" aria-labelledby="i-4" id="' + obj.ReasonID + '" name="reasons">' + obj.ReasonText + '</label>');
+                    
+                    if(obj.OpensTextbox)
+                    {
+                        $('#div_reason_list').append('<label><input type="' + inputtype +'" aria-labelledby="i-4" id="' + obj.ReasonID + '" name="reasons" class="other">' + obj.ReasonText + '</label>');
+                        
+                        $('#div_reason_list').append('<input id="' + obj.ReasonID + '_txt" type="text" class="horizontal-center textbox small-textbox invisible" maxlength="1000"/>');
+                    }
+                    else
+                    {
+                        $('#div_reason_list').append('<label><input type="' + inputtype +'" aria-labelledby="i-4" id="' + obj.ReasonID + '" name="reasons">' + obj.ReasonText + '</label>');
+                    }
                 }
+                
+                $(".other").click(function (e) {
+                                        var id = $(this).attr('id');
+                                        $('#' + id + "_txt").removeClass("invisible");
+                                        
+                                        });
             }
         
         </script>

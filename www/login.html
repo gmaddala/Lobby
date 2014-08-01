@@ -73,7 +73,7 @@
                 
                 <div id="div_signin_method" class="panel-button-div">
                     <button class="button large panel-button horizontal-center" onclick="ClickLogon();" style="border-bottom:0;">Press here to use your UCLA Logon ID <span class="arrow">></span></button>
-                    <button class="button large panel-button horizontal-center" onclick="location.href='registration.html'">Press here to register <span class="arrow">></span></button>
+                    <button class="button large panel-button horizontal-center" onclick="ClickRegistration();">Press here to register <span class="arrow">></span></button>
                     <!--
                     <span style="margin-right:1%;">Check in with:</span>
                     <span class="group">
@@ -86,8 +86,8 @@
                 </div>-->
                 
             </div>
-            <div id="anon" class="invisible center-text">
-                <button class="button large horizontal-center long-button" style="margin: 0 auto; width:70%;" onclick="window.open('reasons.html', '_self');">Continue</button>
+            <div id="anon" class="invisible center-text white-button">
+                <button class="button large horizontal-center long-button absolute-center" style="margin:auto;" onclick="window.open('reasons.html', '_self');">Continue</button>
             </div>
             <div id="rsvp_eleg" class="invisible div-white-body">
                 <div class="center-text">
@@ -108,7 +108,7 @@
                                 <td id="">
                                     <span id="success" class="invisible">SUCCESS</span>
                                     <span id="failed" class="invisible">FAILED
-                                        <a id="btn_override" class="button large small-button" onclick="CheckIn(localStorage.getItem('uid'), true, localStorage.getItem("cardswiped"));">Override</a>
+                                        <a id="btn_override" class="button large small-button" onclick="CheckIn(localStorage.getItem('uid'), true, localStorage.getItem('cardswiped'));">Override</a>
                                             <span><a href="" class="link-blue text-right" onclick="OverrideHelp(event);"><small>What is this?</small></a></span>
                                             </span>
                                 </td>
@@ -138,9 +138,14 @@
         <script type="text/javascript" src="js/blocks.js"></script>
         <script type="text/javascript" src="js/global.js"></script>
         <script type="text/javascript">
-            app.initialize();
+            
             
             window.onload = function(){
+                //debugger;
+                if(localStorage.getItem("anon") != "true")
+                {
+                    app.initialize();
+                }
                 $("#DeptName").text(localStorage.getItem("deptname"));
                 $("#welcome_text").text("Welcome to " + localStorage.getItem("deptname"));
                 

@@ -3,11 +3,10 @@ function SubmitReasons()
     event.preventDefault();
     
     var type = "checkbox";
-    if(localStorage.getItem("responsetype") == "1")
+    if(localStorage.getItem("reasonstype") == "1")
     {
         type = "radio";
     }
-    
     if($('input[type=' + type + ']:checked').length == 0)
     {
         alert("Please select a response.");

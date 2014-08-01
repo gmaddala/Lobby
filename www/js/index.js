@@ -113,7 +113,12 @@ function LaunchKiosk()
                         //localStorage.setItem("hasreasons", jsonobj.Data.HasReasons);
                         localStorage.setItem("reasons", JSON.stringify(jsonobj.Data.Reasons));
                        localStorage.setItem("allowregistration", jsonobj.Data.AllowRegistration);
-                        localStorage.setItem("question", jsonobj.Data.PromptQuestion);
+                        if(jsonobj.Data.PromptQuestion != null)
+                        {
+                            localStorage.setItem("question", jsonobj.Data.PromptQuestion);
+                        }else{
+                            localStorage.setItem("question", "Please provide the reason for your visit.");
+                        }
                         localStorage.setItem("reasonstype", jsonobj.Data.ReasonsType);
                        
                        localStorage.setItem("eligibilitytype", jsonobj.Data.EligibilityType);

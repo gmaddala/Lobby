@@ -48,8 +48,12 @@ body {
 
 }
 
+.scrollable{
+    position:initial !important;
+}
+
 .molecules-bg{
-    background-image:url(../img/molecules-left.png) !important;
+    background-image:url(../img/molecules-combined.png) !important;
     background-repeat:no-repeat;
     background-position:center top;
 }
@@ -174,6 +178,17 @@ h1 {
     .div-white-body-interior{
         width:100%;
     }
+    
+    .header-text{
+        font-size:large !important;
+    }
+}
+
+@media screen and (max-height:601px)
+{
+    .center-text{
+        padding:2% !important;
+    }
 }
 
 .textbox{
@@ -189,6 +204,13 @@ h1 {
 
 div.div-white-body-interior .textbox{
     font-size:100% !important;
+}
+
+.small-textbox
+{
+    font-size:100% !important;
+    width:100% !important;
+    display: block;
 }
 
 .ajax-spinner{
@@ -269,7 +291,7 @@ div.div-white-body span,p,div{
 }
 
 .invisible{
-    display:none;
+    display:none !important;
 }
 
 .long-button{
@@ -309,6 +331,23 @@ div.div-white-body span,p,div{
 
 .link-button:hover, .link-button:active{
     box-shadow:none !important;
+}
+
+div.white-button button{
+    width:91.5%;
+    display:block;
+    margin-bottom:3%;
+    margin-top:5%;
+    height:3.5em;
+    background-color:#ffffff !important;
+    border:none !important;
+    color:#3284bf !important;
+    background-image: none !important;
+    font-size:150% !important;
+}
+
+div.white-button button:active, div.white-button button:hover{
+    background-color:#cccccc !important;
 }
 
 div.div-white-body-interior button, div.gray-div button{
