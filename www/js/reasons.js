@@ -9,7 +9,7 @@ function SubmitReasons()
     }
     if($('input[type=' + type + ']:checked').length == 0)
     {
-        alert("Please select a response.");
+        showDialog("Please select a response.");
         return;
     }
     

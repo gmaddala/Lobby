@@ -52,7 +52,7 @@ var app = {
                 }
             };
             var error = function(message) {
-                alert("Error: Please reswipe card");
+                showDialog("Error: Please reswipe card");
                 app.stopCardReader();
                 window.open("login.html", "_self");
             };
@@ -64,7 +64,7 @@ var app = {
         if(typeof cardreader != "undefined")
         {
             var success = function() { };
-            var error = function(message) { alert("Error: " + message);};
+            var error = function(message) { showDialog("Error: " + message);};
             cardreader.closeCardReader(success, error);
         }
     },
@@ -148,12 +148,12 @@ function SignIn(logon, isCardreader){
             }
             else
             {
-                alert("Error: Invalid logon");
+                showDialog("Error: Invalid logon");
             }
             //window.open("login.html?key=" + $('#txtAccessKey').val() + "&deptname=" + jsonobj.Data.DeptName ,"_self");
            },
            error: function (jqXHR, textStatus, errorThrown) {
-           alert("Invalid UCLA logon");
+           showDialog("Invalid UCLA logon");
            //alert(jqXHR + ";\n\n" + textStatus + ";\n\n" + errorThrown);
            },
            complete: function(){
@@ -188,7 +188,7 @@ function CheckIn(logon, isoverride, isCardreader){
                var jsonobj = JSON.parse(data);
                 if(jsonobj.Data.UserInfo.IsValidLogon == false)
                 {
-                    alert("Not valid logon");
+                    showDialog("Not valid logon");
                 }
                else
                {
@@ -217,7 +217,7 @@ function CheckIn(logon, isoverride, isCardreader){
                //window.open("login.html?key=" + $('#txtAccessKey').val() + "&deptname=" + jsonobj.Data.DeptName ,"_self");
            },
            error: function (jqXHR, textStatus, errorThrown) {
-                alert("Invalid UCLA logon");
+                showDialog("Invalid UCLA logon");
                 app.startCardReader();
            //alert(jqXHR + ";\n\n" + textStatus + ";\n\n" + errorThrown);
            },
@@ -230,6 +230,7 @@ function CheckIn(logon, isoverride, isCardreader){
 function CloseApp(e)
 {
     e.preventDefault();
+    /*
     var key = window.prompt("Please enter Application Key");
     if(key == null || key == "")
     {
@@ -245,6 +246,45 @@ function CloseApp(e)
     {
         alert("Incorrect key");
     }
+     */
+    $("#dialog-modal").dialog(
+                              {
+                              width: 300,
+                              open: function(event, ui)
+                              {
+                              //var textarea = $('<textarea style="height: 276px;">');
+                              
+                              },
+                              modal:true,
+                              dialogClass: "no-close",
+                              buttons: {
+                              "Cancel": function() {
+                                $(this).dialog("close");
+                              },
+                              "Submit": function(){
+                                  var key = $("#txt_app_key").val();
+                                  if(key == null || key == "")
+                                  {
+                                  //do nothing
+                                  }
+                                  else if(key == localStorage.getItem("key"))
+                                  {
+                                    app.stopCardReader();
+                                    window.open("index.html", "_self");
+                                    //window.location.href = "index.html";
+                                  }
+                                  else
+                                  {
+                                    $(this).dialog("close");
+                                    showDialog("Incorrect key");
+                                  }
+                              }
+                                  },
+                              open: function(event) {
+                              $('.ui-dialog-buttonpane').find('button:contains("Cancel")').addClass('modal-double-button-left');
+                              $('.ui-dialog-buttonpane').find('button:contains("Submit")').addClass('modal-double-button-right important');
+                              }
+                              });
 }
 
 function OverrideHelp(e)

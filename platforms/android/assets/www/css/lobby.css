@@ -48,6 +48,82 @@ body {
 
 }
 
+/*Override jquery ui*/
+.ui-corner-all{
+    border-radius:0 !important;
+}
+
+.ui-dialog{
+    padding:0 !important;
+    width:40% !important;
+    top:40% !important;
+    left:30% !important;
+    position: relative !important;
+}
+
+.ui-widget-header{
+    border:0 !important;
+    font-weight:normal !important;
+    display:none;
+}
+
+.ui-dialog-content{
+    min-height:initial !important;
+}
+
+div.ui-dialog-buttonpane button.modal-single-button{
+    margin:0;
+    padding:1em;
+    width:100%;
+    border:0;
+    /*border-top:0;
+    border-right:0;
+    border-bottom:0;*/
+    background:none;
+    color:#3284bf;
+
+}
+
+div.ui-dialog-buttonpane button:focus{
+    outline:0;
+}
+
+div.ui-dialog-buttonpane button.modal-double-button-left{
+    margin:0;
+    padding:1em;
+    width:50%;
+    border:0;
+    background:none;
+    color:#3284bf;
+
+}
+
+div.ui-dialog-buttonpane button.modal-double-button-right{
+    margin:0;
+    padding:1em;
+    width:50%;
+    border-top:0;
+    border-right:0;
+    border-bottom:0;
+    background:none;
+    color:#3284bf;
+
+}
+
+div.ui-dialog-buttonpane button.important{
+    font-weight:bold !important;
+}
+
+.ui-dialog-buttonpane{
+    padding:0 !important;
+}
+
+.ui-dialog-buttonset{
+    width:100%;
+}
+
+/*end jquery ui*/
+
 .scrollable{
     position:initial !important;
 }
@@ -141,7 +217,8 @@ h1 {
 }
 
 .splash-logo{
-    margin-bottom:4%;
+    margin-bottom:5% !important;
+    margin-top:-20% !important;
 }
 
 .gray-div{
@@ -182,6 +259,11 @@ h1 {
     .header-text{
         font-size:large !important;
     }
+    
+    .ui-dialog{
+        width:60% !important;
+        left:20% !important;
+    }
 }
 
 @media screen and (max-height:601px)
@@ -204,6 +286,13 @@ h1 {
 
 div.div-white-body-interior .textbox{
     font-size:100% !important;
+}
+
+.small-textbox
+{
+    font-size:100% !important;
+    width:100% !important;
+    display: block;
 }
 
 .ajax-spinner{
@@ -236,6 +325,7 @@ div.div-white-body-interior .textbox{
     padding-top:2%;
     margin-left:2%;
     margin-right:2%;
+    margin-bottom:2%;
     width:96%;
 }
 
@@ -284,7 +374,7 @@ div.div-white-body span,p,div{
 }
 
 .invisible{
-    display:none;
+    display:none !important;
 }
 
 .long-button{
@@ -458,7 +548,7 @@ div.gray-div + div.gray-div{
 
 .reasons-form{
     font-size:x-large;
-    line-height:150%;;
+    line-height:150%;
 }
 
 .small-button{
@@ -491,3 +581,15 @@ div.gray-div + div.gray-div{
     right: 0;
     height:7%;
 }
+
+div.dialog-modal-container .textbox{
+    font-size:100% !important;
+    margin-top:1em !important;
+    margin-right:0 !important;
+    margin-left:0 !important;
+}
+
+
+
+
+

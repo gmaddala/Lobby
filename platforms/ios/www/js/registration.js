@@ -60,7 +60,6 @@ function Register()
         $('#uid_error').text('');
     }
     
-    debugger;
     
     if(!hasError)
     {

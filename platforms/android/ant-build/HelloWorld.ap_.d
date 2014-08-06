@@ -30,6 +30,7 @@
 /Users/sait/Documents/lobby/platforms/android/assets/www/rsvp.html \
 /Users/sait/Documents/lobby/platforms/android/assets/www/spec \
 /Users/sait/Documents/lobby/platforms/android/assets/www/spec.html \
+/Users/sait/Documents/lobby/platforms/android/assets/www/test.html \
 /Users/sait/Documents/lobby/platforms/android/assets/www/thankyou.html \
 /Users/sait/Documents/lobby/platforms/android/assets/www/webfonts \
 /Users/sait/Documents/lobby/platforms/android/assets/www/css/blocks-ie.css \
@@ -108,6 +109,10 @@
 /Users/sait/Documents/lobby/platforms/android/assets/www/res/screen/bada-wac/screen-type4.png \
 /Users/sait/Documents/lobby/platforms/android/assets/www/res/screen/bada-wac/screen-type5.png \
 /Users/sait/Documents/lobby/platforms/android/assets/www/res/screen/blackberry/screen-225.png \
+/Users/sait/Documents/lobby/platforms/android/assets/www/res/screen/ios/Default-Landscape~ipad.png \
+/Users/sait/Documents/lobby/platforms/android/assets/www/res/screen/ios/Default-Portrait~ipad.png \
+/Users/sait/Documents/lobby/platforms/android/assets/www/res/screen/ios/Default@2x~iphone.png \
+/Users/sait/Documents/lobby/platforms/android/assets/www/res/screen/ios/Default~iphone.png \
 /Users/sait/Documents/lobby/platforms/android/assets/www/res/screen/ios/screen-ipad-landscape-2x.png \
 /Users/sait/Documents/lobby/platforms/android/assets/www/res/screen/ios/screen-ipad-landscape.png \
 /Users/sait/Documents/lobby/platforms/android/assets/www/res/screen/ios/screen-ipad-portrait-2x.png \

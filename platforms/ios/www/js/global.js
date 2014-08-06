@@ -59,3 +59,20 @@ function clearStudentInfo()
     localStorage.setItem("email", null);
     localStorage.setItem("cardswiped", null);
 }
+
+function showDialog(message) {
+    $('<div id="dialog">' + message + '</div>').dialog(
+                                                       {
+                                                           modal: true,
+                                                           buttons: {
+                                                               "OK": function () {
+                                                                $(this).dialog("close");
+                                                               }
+                                                           },
+                                                       open: function(event) {
+                                                       $('.ui-dialog-buttonpane').find('button:contains("OK")').addClass('modal-single-button');
+                                                       },
+                                                       dialogClass: "dialog-positioning"
+                                                       }
+                                                       );
+}

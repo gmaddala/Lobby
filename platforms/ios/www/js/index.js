@@ -55,27 +55,6 @@ var app = {
     }
 };
 
-function showBadKeyDialog()
-{
-    $("#dialog-modal").dialog(
-                              {
-                              width: 600,
-                              height: 400,
-                              open: function(event, ui)
-                              {
-                              var textarea = $('<textarea style="height: 276px;">');
-                              $(textarea).redactor({
-                                                   focus: true,
-                                                   autoresize: false,
-                                                   initCallback: function()
-                                                   {
-                                                   this.set('<p>Lorem...</p>');
-                                                   }
-                                                   });
-                              }
-                              });
-}
-
 function LaunchKiosk()
 {
     
@@ -113,7 +92,12 @@ function LaunchKiosk()
                         //localStorage.setItem("hasreasons", jsonobj.Data.HasReasons);
                         localStorage.setItem("reasons", JSON.stringify(jsonobj.Data.Reasons));
                        localStorage.setItem("allowregistration", jsonobj.Data.AllowRegistration);
-                        localStorage.setItem("question", jsonobj.Data.PromptQuestion);
+                        if(jsonobj.Data.PromptQuestion != null)
+                        {
+                            localStorage.setItem("question", jsonobj.Data.PromptQuestion);
+                        }else{
+                            localStorage.setItem("question", "Please provide the reason for your visit.");
+                        }
                         localStorage.setItem("reasonstype", jsonobj.Data.ReasonsType);
                        
                        localStorage.setItem("eligibilitytype", jsonobj.Data.EligibilityType);
@@ -142,11 +126,11 @@ function LaunchKiosk()
                     }
                 else
                 {
-                    alert("The access key you entered is incorrect. Please click 'Retry' to reenter your access key.");
+                    showDialog("The access key you entered is incorrect. Please reenter your access key.");
                 }
                },
                error: function (jqXHR, textStatus, errorThrown) {
-                alert("The access key you entered is incorrect. Please click 'Retry' to reenter your access key.");
+                alert('The access key you entered is incorrect. Please reenter your access key.');
                //alert(jqXHR + ";\n\n" + textStatus + ";\n\n" + errorThrown);
                },
                complete: function(){
@@ -173,7 +157,7 @@ function SetTestData()
 function AccessKeyHelp(e)
 {
     e.preventDefault();
-    alert('Access Key is a system-generated passkey assigned to your event. You can find the Access Key on the Event Kiosk page of the staff portal.');
+    showDialog('Access Key is a system-generated passkey assigned to your event. You can find the Access Key on the Event Kiosk page of the staff portal.');
 }
 
 

@@ -9,18 +9,20 @@ function SubmitReasons()
     }
     if($('input[type=' + type + ']:checked').length == 0)
     {
-        alert("Please select a response.");
+        showDialog("Please select a response.");
         return;
     }
     
     var myJsonObj = SetUpIntakeJSONObj();
     
     $('input[type=' + type + ']:checked').each(function () {
-                                   myJsonObj.Reasons.ReasonsList.push({"ReasonID": $(this).attr('id'), "ReasonDetails": ""});
+                                   myJsonObj.Reasons.ReasonsList.push({"ReasonID": $(this).attr('id'), "ReasonDetails": $("#" + $(this).attr('id') + "_txt").val()});
                                    });
     
     SubmitIntake(myJsonObj);
 }
+
+
 
 function SubmitNoReasons()
 {

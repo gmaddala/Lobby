@@ -27,11 +27,17 @@
         <link rel="stylesheet" type="text/css" href="css/lobby.css" />
         <!--<link rel="stylesheet" type="text/css" href="css/iwe.css" />-->
         <link rel="stylesheet" type="text/css" href="css/iwe_icon_fonts.css" />
-        
+        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" />
         <title>Login</title>
     </head>
     <body class="molecules-bg" id="body">
         <div class="container">
+            <div id="dialog-modal" title="Reconfiguring Lobby" style="display: none;">
+                <div class="dialog-modal-container">
+                    Please enter Application Key
+                    <input id="txt_app_key" type="text" class="horizontal-center textbox" style="display:block;"/>
+                </div>
+            </div>
             <!--<div class="app">
                 <h1>PhoneGap</h1>
                 <div id="deviceready" class="blink">
@@ -86,8 +92,8 @@
                 </div>-->
                 
             </div>
-            <div id="anon" class="invisible center-text">
-                <button class="button large horizontal-center long-button" style="margin: 0 auto; width:70%;" onclick="window.open('reasons.html', '_self');">Continue</button>
+            <div id="anon" class="invisible center-text white-button">
+                <button class="button large horizontal-center long-button absolute-center" style="margin:auto;" onclick="window.open('reasons.html', '_self');">Continue</button>
             </div>
             <div id="rsvp_eleg" class="invisible div-white-body">
                 <div class="center-text">
@@ -133,10 +139,13 @@
             </div>
         </div>
         <script type="text/javascript" src="phonegap.js"></script>
-        <script type="text/javascript" src="js/login.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         <script type="text/javascript" src="js/blocks.js"></script>
+        <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
+        
+        <script type="text/javascript" src="js/login.js"></script>
         <script type="text/javascript" src="js/global.js"></script>
+        
         <script type="text/javascript">
             
             
