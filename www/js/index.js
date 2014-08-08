@@ -90,15 +90,8 @@ function LaunchKiosk()
                         localStorage.setItem("enforcedeligibility", jsonobj.Data.IsEnforcedEligibility);
                         localStorage.setItem("initialintakestatus", jsonobj.Data.InitialIntakeStatus);
                         //localStorage.setItem("hasreasons", jsonobj.Data.HasReasons);
-                        localStorage.setItem("reasons", JSON.stringify(jsonobj.Data.Reasons));
+                        localStorage.setItem("questions", JSON.stringify(jsonobj.Data.Questions));
                        localStorage.setItem("allowregistration", jsonobj.Data.AllowRegistration);
-                        if(jsonobj.Data.PromptQuestion != null)
-                        {
-                            localStorage.setItem("question", jsonobj.Data.PromptQuestion);
-                        }else{
-                            localStorage.setItem("question", "Please provide the reason for your visit.");
-                        }
-                        localStorage.setItem("reasonstype", jsonobj.Data.ReasonsType);
                        
                        localStorage.setItem("eligibilitytype", jsonobj.Data.EligibilityType);
                        
@@ -112,12 +105,15 @@ function LaunchKiosk()
                         }
                         window.open("login.html", "_self");
                        }
-                        $('#div-locations').removeClass('invisible');
-                        //$('#div-locations').empty();
-                       for(var i = 0 ; i < location_array.length ; i++)
-                       {
-                            $('#ddl-locations').append($('<option></option>').val(location_array[i].ID).html(location_array[i].Name));
-                       }
+                        else
+                        {
+                            $('#div-locations').removeClass('invisible');
+                            //$('#div-locations').empty();
+                           for(var i = 0 ; i < location_array.length ; i++)
+                           {
+                                $('#ddl-locations').append($('<option></option>').val(location_array[i].ID).html(location_array[i].Name));
+                           }
+                        }
                
 
                        

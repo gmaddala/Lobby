@@ -112,8 +112,8 @@ function SignIn(logon, isCardreader){
     localStorage.setItem("cardswiped", isCardreader);
     
     var submitIntake = false; //if no reasons list, immediately submit intake
-    var reasonsjson = JSON.parse(localStorage.getItem("reasons"));
-    if(reasonsjson.HasReasons == false)
+    var qjson = JSON.parse(localStorage.getItem("questions"));
+    if(qjson.HasQuestions == false)
     {
         submitIntake = true;
     }

@@ -37,14 +37,17 @@
             </div>
             <div class="div-white-body scrollable">
                 <div class="div-white-body-interior">
-                    <form class="form">
+                    <div id="questions-body">
+                    <!--<form class="form">
                         <div class="control reasons-form" id="div_reason_list">
                             <label id="i-4" style="margin-bottom:3%;"><span id="prompt">Please provide the reason(s) for your visit.</span></label>
                         </div>
                         <div class="control">
-                            <button class="button large horizontal-center" style="width:90%;display:block;margin-bottom:40px;" onclick="SubmitReasons();">Continue</button>
+                     
                                 </div>
-                    </form>
+                    </form>-->
+                    </div>
+                    <button class="button large horizontal-center" style="width:90%;display:block;margin-bottom:40px;" onclick="SubmitReasons();">Continue</button>
                 </div>
                 
             </div>
@@ -64,32 +67,62 @@
                     $("#NameText").text("Welcome, " + localStorage.getItem("firstname") + " " + localStorage.getItem("lastname"));
                 }
                  */
-                var obj = JSON.parse(localStorage.getItem("reasons"));
-                var reason_array = obj.VisitReasonList;
+                var obj = JSON.parse(localStorage.getItem("questions"));
+                var q_array = obj.Questions;
                 /*
                  if(typeof reason_array == "undefined")
                  {
                  SubmitNoReasons();
                  }*/
-                var inputtype = "checkbox";
-                if(localStorage.getItem("reasonstype") == "1")
-                {
-                    inputtype = "radio";
-                }
                 
-                for(var i = 0; i < reason_array.length; i++) {
-                    var obj = reason_array[i];
+                for(var i = 0; i < q_array.length; i++) {
+                    var question = q_array[i];
+                    $('#questions-body').append('<form class="form"><div class="control reasons-form" id="div_reason_list_' + question.ID +'"><label id="i-4" style="margin-bottom:3%;"><span id="' + question.ID +'_prompt"></span></label></div><div class="control">');
+                    $('#' + question.ID + '_prompt').text(question.QuestionText);
+                    
+                    var inputtype = "checkbox";
                     
                     
-                    if(obj.OpensTextbox)
+                    if(question.ResponsesType == "1")
                     {
-                        $('#div_reason_list').append('<label><input type="' + inputtype +'" aria-labelledby="i-4" id="' + obj.ReasonID + '" name="reasons" class="other">' + obj.ReasonText + '</label>');
-                        
-                        $('#div_reason_list').append('<input id="' + obj.ReasonID + '_txt" type="text" class="horizontal-center textbox small-textbox invisible" maxlength="1000"/>');
+                        inputtype = "radio";
                     }
-                    else
+                    else if(question.ResponsesType == "2")
                     {
-                        $('#div_reason_list').append('<label><input type="' + inputtype +'" aria-labelledby="i-4" id="' + obj.ReasonID + '" name="reasons">' + obj.ReasonText + '</label>');
+                        inputtype = "checkbox";
+                    }
+                    else if(question.ResponsesType == "3")
+                    {
+                        inputtype = "selectbox";
+                        $('#div_reason_list_' + question.ID).append('<div class="ui-widget"><select id="combobox_' + question.ID + '"></select></div>');
+                    }
+                    else if (question.ResponsesType == "4")
+                    {
+                        inputtype = "textbox";
+                    }
+                    
+                    
+                    for(var j = 0 ; j < question.Responses.length ; j++)
+                    {
+                        var response = question.Responses[j];
+                        
+                        if(inputtype == "checkbox" || inputtype == "radio")
+                        {
+                            if(response.OpensTextbox)
+                            {
+                                $('#div_reason_list_' + question.ID).append('<label><input type="' + inputtype +'" aria-labelledby="i-4" id="' + response.ID + '" name="reasons" class="other">' + response.Text + '</label>');
+                                
+                                $('#div_reason_list_' + question.ID).append('<input id="' + response.ID + '_txt" type="text" class="horizontal-center textbox small-textbox invisible" maxlength="1000"/>');
+                            }
+                            else
+                            {
+                                $('#div_reason_list_' + question.ID).append('<label><input type="' + inputtype +'" aria-labelledby="i-4" id="' + response.ID  + '" name="reasons">' + response.Text + '</label>');
+                            }
+                        }
+                        else if(inputtype == "selectbox")
+                        {
+                            $('#combobox_' + question.ID).append('<option value="' + response.ID + '">' + response.Text + '</option>');
+                        }
                     }
                 }
                 
