@@ -49,6 +49,23 @@ body {
 }
 
 /*Override jquery ui*/
+.select-combo-box{
+    width:100% !important;
+    height:2.5em !important;
+}
+
+.select-combobox-button{
+    background-image:none !important;
+    border-left:0 !important;
+    height:2.47em !important;
+    width:10% !important;
+}
+
+.select-combobox-input{
+    height:2.5em !important;
+    width:88% !important;
+}
+
 .ui-corner-all{
     border-radius:0 !important;
 }
@@ -588,6 +605,8 @@ div.dialog-modal-container .textbox{
     margin-right:0 !important;
     margin-left:0 !important;
 }
+
+
 
 
 
