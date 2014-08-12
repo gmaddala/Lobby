@@ -112,8 +112,8 @@ function SignIn(logon, isCardreader){
     localStorage.setItem("cardswiped", isCardreader);
     
     var submitIntake = false; //if no reasons list, immediately submit intake
-    var reasonsjson = JSON.parse(localStorage.getItem("reasons"));
-    if(reasonsjson.HasReasons == false)
+    var qjson = JSON.parse(localStorage.getItem("questions"));
+    if(qjson.HasQuestions == false)
     {
         submitIntake = true;
     }
@@ -270,6 +270,8 @@ function CloseApp(e)
                                   else if(key == localStorage.getItem("key"))
                                   {
                                     app.stopCardReader();
+                              
+                                    localStorage.setItem("key", "null");
                                     window.open("index.html", "_self");
                                     //window.location.href = "index.html";
                                   }

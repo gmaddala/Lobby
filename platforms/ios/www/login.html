@@ -28,6 +28,44 @@
         <!--<link rel="stylesheet" type="text/css" href="css/iwe.css" />-->
         <link rel="stylesheet" type="text/css" href="css/iwe_icon_fonts.css" />
         <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" />
+        <script type="text/javascript">
+            
+            
+            window.onload = function(){
+                //debugger;
+                if(localStorage.getItem("anon") != "true")
+                {
+                    app.initialize();
+                }
+                $("#DeptName").text(localStorage.getItem("deptname"));
+                $("#welcome_text").text("Welcome to " + localStorage.getItem("deptname"));
+                
+                if(localStorage.getItem("allowregistration") == "false")
+                {
+                    $("#div_register").addClass("invisible");
+                }
+                if(localStorage.getItem("anon") == "true")
+                {
+                    $("#anon").removeClass("invisible");
+                    $("#not_anon").addClass("invisible");
+                }
+                else if(localStorage.getItem("rsvp") == "true" || localStorage.getItem("enforcedeligibility") == "true")
+                {
+                    $("#body").removeClass("molecules-bg");
+                    $("#rsvp_eleg").removeClass("invisible");
+                    $("#not_anon").addClass("invisible");
+                    $("#welcome_text_div").addClass("invisible");
+                    $("#event_name").text(localStorage.getItem("appdescription"));
+                }
+                else
+                {
+                    $("#not_anon").removeClass("invisible");
+                }
+            };
+        
+        
+            </script>
+        
         <title>Login</title>
     </head>
     <body class="molecules-bg" id="body">
@@ -146,42 +184,6 @@
         <script type="text/javascript" src="js/login.js"></script>
         <script type="text/javascript" src="js/global.js"></script>
         
-        <script type="text/javascript">
-            
-            
-            window.onload = function(){
-                //debugger;
-                if(localStorage.getItem("anon") != "true")
-                {
-                    app.initialize();
-                }
-                $("#DeptName").text(localStorage.getItem("deptname"));
-                $("#welcome_text").text("Welcome to " + localStorage.getItem("deptname"));
-                
-                if(localStorage.getItem("allowregistration") == "false")
-                {
-                    $("#div_register").addClass("invisible");
-                }
-                if(localStorage.getItem("anon") == "true")
-                {
-                    $("#anon").removeClass("invisible");
-                    $("#not_anon").addClass("invisible");
-                }
-                else if(localStorage.getItem("rsvp") == "true" || localStorage.getItem("enforcedeligibility") == "true")
-                {
-                    $("#body").removeClass("molecules-bg");
-                    $("#rsvp_eleg").removeClass("invisible");
-                    $("#not_anon").addClass("invisible");
-                    $("#welcome_text_div").addClass("invisible");
-                    $("#event_name").text(localStorage.getItem("appdescription"));
-                }
-                else
-                {
-                    $("#not_anon").removeClass("invisible");
-                }
-            };
         
-        
-        </script>
     </body>
 </html>

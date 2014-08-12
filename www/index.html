@@ -27,6 +27,7 @@
         <link rel="stylesheet" type="text/css" href="css/lobby.css" />
         <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" />
         
+        
         <title>Lobby</title>
     </head>
     <body class="molecules-bg">
@@ -64,11 +65,14 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
         <script type="text/javascript">
             app.initialize();
-            
+
             window.onload = function(){
-                /*window.setTimeout(splashAnimation, 2000);
-                document.addEventListener("offline", function(){ alert("You're offline") }, false);*/
-                };
+                if(localStorage.getItem("key") != "null" && localStorage.getItem("key") != null)
+                {
+                    window.open("login.html", "_self");
+                }
+            };
+            
         
             var splashAnimation = function(){
                 $('#splash_spinner').css('display', 'none');

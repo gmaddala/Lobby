@@ -49,6 +49,11 @@ body {
 }
 
 /*Override jquery ui*/
+li.ui-menu-item:hover, li.ui-menu-item:active{
+    background:none !important;
+    border:0 !important;
+}
+
 .select-combo-box{
     width:100% !important;
     height:2.5em !important;
@@ -57,13 +62,19 @@ body {
 .select-combobox-button{
     background-image:none !important;
     border-left:0 !important;
-    height:2.47em !important;
+    height:2.7em !important;
     width:10% !important;
 }
 
 .select-combobox-input{
     height:2.5em !important;
-    width:88% !important;
+    width:84% !important;
+    border-radius:0 !important;
+    border: 1px solid #d3d3d3 !important;
+}
+
+.ui-autocomplete{
+    font-size:1.7em !important;
 }
 
 .ui-corner-all{

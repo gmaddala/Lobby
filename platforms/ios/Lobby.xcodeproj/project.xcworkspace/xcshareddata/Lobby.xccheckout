@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>0B0B3E06-D8F3-4D45-AC21-5F5316F1B23B</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Lobby</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>B24FACB1-6A3C-41B5-8721-CDC68FF67F05</key>
+		<string>https://bitbucket.org/cjwfries/lobby-kiosk-app.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>platforms/ios/Lobby.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>B24FACB1-6A3C-41B5-8721-CDC68FF67F05</key>
+		<string>../../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://bitbucket.org/cjwfries/lobby-kiosk-app.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>B24FACB1-6A3C-41B5-8721-CDC68FF67F05</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>B24FACB1-6A3C-41B5-8721-CDC68FF67F05</string>
+			<key>IDESourceControlWCCName</key>
+			<string>lobby</string>
+		</dict>
+	</array>
+</dict>
+</plist>

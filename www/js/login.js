@@ -270,6 +270,8 @@ function CloseApp(e)
                                   else if(key == localStorage.getItem("key"))
                                   {
                                     app.stopCardReader();
+                              
+                                    localStorage.setItem("key", "null");
                                     window.open("index.html", "_self");
                                     //window.location.href = "index.html";
                                   }
