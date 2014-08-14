@@ -2,21 +2,41 @@ function SubmitReasons(e)
 {
     e.preventDefault();
     
-    var type = "checkbox";
-    if(localStorage.getItem("reasonstype") == "1")
+    var obj = JSON.parse(localStorage.getItem("questions"));
+    var q_array = obj.Questions;
+    
+    var errorText = "Please select a response for this question(s)- ";
+    var hasError = false;
+    for(var i = 0 ; i < q_array.length ; i++)
     {
-        type = "radio";
+        var question = q_array[i];
+        if(question.ResponsesType == "1" || question.ResponsesType == "2")
+        {
+            if($('input[name="input-' + question.ID + '"]:checked').val() != "on")
+            {
+                errorText = errorText + "\n " + question.QuestionText;
+                hasError = true;
+            }
+        }
+        else if(question.ResponsesType == "4")
+        {
+            if($('#' + question.Responses[0].ID).val().length == 0)
+            {
+                errorText = errorText + "\n " + question.QuestionText;
+                hasError = true;
+            }
+        }
     }
-    if($('input[type=' + type + ']:checked').length == 0)
+    
+    if(hasError)
     {
-        showDialog("Please select a response.");
+        showDialog(errorText);
         return;
     }
     
     var myJsonObj = SetUpIntakeJSONObj();
     
-    var obj = JSON.parse(localStorage.getItem("questions"));
-    var q_array = obj.Questions;
+    
     
     for(var i = 0; i < q_array.length; i++) {
         var question = q_array[i];

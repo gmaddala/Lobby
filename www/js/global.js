@@ -61,6 +61,7 @@ function clearStudentInfo()
 }
 
 function showDialog(message) {
+    /*
     $('<div id="dialog">' + message + '</div>').dialog(
                                                        {
                                                            modal: true,
@@ -75,4 +76,6 @@ function showDialog(message) {
                                                        dialogClass: "dialog-positioning"
                                                        }
                                                        );
+     */
+    alert(message);
 }
