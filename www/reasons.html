@@ -27,12 +27,15 @@
         <!-- <link rel="stylesheet" type="text/css" href="css/lobby.css" /> -->
         <!-- <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" /> -->
         
-		<link href="styles/kendo.common.min.css" rel="stylesheet" />
+        <link href="styles/kendo.common.min.css" rel="stylesheet" />
         <link href="styles/kendo.default.min.css" rel="stylesheet" />
         <link href="styles/kendo.dataviz.min.css" rel="stylesheet" />
         <link href="styles/kendo.dataviz.default.min.css" rel="stylesheet" />
         
         <link href="styles/kendo.mobile.all.min.css" rel="stylesheet" />
+        
+        <link href="css/lobby-kendoui.css" rel="stylesheet" />
+        
         <script src="js/jquery.min.js"></script>
         <script src="js/angular.min.js"></script>
         <script src="js/kendo.all.min.js"></script>
@@ -62,12 +65,12 @@
                 </div>
             </header>
             
-            <div data-role="footer">
+            <!--<div data-role="footer">
                 <div data-role="tabstrip">
                     <a href="#checks" data-icon="bookmarks">Shopping
                     </a><a href="#radios" data-icon="settings">Settings</a>
                 </div>
-            </div>
+            </div>-->
         </div>
         <!-- <script type="text/javascript" src="phonegap.js"></script> -->
         <script type="text/javascript" src="js/reasons.js"></script>
@@ -275,7 +278,8 @@
                     }
 				
 			}//for
-		
+        $("#ulResponses").append('<li><a data-role="button" id="continueBtn" class="button">Continue</a></li>');
+        e.view.element.find("#continueBtn").kendoMobileButton({click: SubmitReasons});
 		
 		}
         </script>

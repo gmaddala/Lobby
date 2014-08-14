@@ -1,6 +1,6 @@
-function SubmitReasons()
+function SubmitReasons(e)
 {
-    event.preventDefault();
+    e.preventDefault();
     
     var type = "checkbox";
     if(localStorage.getItem("reasonstype") == "1")
