@@ -134,10 +134,8 @@
 				//console.log('loading question');
 
 				//var questionTExt = '[{"QuestionText":"Q1 Entered by:","Responses":[{"ID":103,"Text":"Daisy","Description":"Daisy","OpensTextbox":false},{"ID":104,"Text":"Doris","Description":"Doris","OpensTextbox":false},{"ID":105,"Text":"Helen","Description":"Helen","OpensTextbox":false},{"ID":106,"Text":"Janis","Description":"Janis","OpensTextbox":false},{"ID":107,"Text":"Jake","Description":"Jake","OpensTextbox":false},{"ID":108,"Text":"Juan","Description":"Juan","OpensTextbox":false},{"ID":109,"Text":"Marshay ","Description":"Marshay ","OpensTextbox":false},{"ID":110,"Text":"Ruby","Description":"Ruby","OpensTextbox":false},{"ID":111,"Text":"Zoila","Description":"Zoila","OpensTextbox":false},{"ID":112,"Text":"Other","Description":"Other (please specify)","OpensTextbox":true}],"ResponsesType":1,"ID":7}]';
-				//console.log(questionTExt);
 				//var obj = JSON.parse(questionTExt);
-				//console.log(obj);
-                //var q_array = obj.Questions;
+				//var q_array = obj.Questions;
 				var q_array = obj;
                 /*
                  if(typeof reason_array == "undefined")
@@ -208,7 +206,12 @@
             }
         
 		function DisplayResponses(e){
-				var obj = JSON.parse(localStorage.getItem("questions"));
+				//var obj = JSON.parse(localStorage.getItem("questions"));
+				var obj;
+				
+				
+				obj = JSON.parse(localStorage.getItem("questions"));
+				
 				
                 var q_array = obj.Questions;
 		

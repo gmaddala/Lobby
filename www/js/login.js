@@ -118,6 +118,8 @@ function SignIn(logon, isCardreader){
         submitIntake = true;
     }
     
+	if ( !isOfflineMode() )
+	   {
     $.ajax({
            type: "GET",
            url: "http://sait-test.uclanet.ucla.edu/sawebnew2/api/validlogon",
@@ -129,7 +131,30 @@ function SignIn(logon, isCardreader){
            success: function(data){
             //alert(data);
             var jsonobj = JSON.parse(data);
-            if(jsonobj.Data.IsValidLogon == true)
+            SetStudentData(jsonobj, submitIntake);
+			
+            //window.open("login.html?key=" + $('#txtAccessKey').val() + "&deptname=" + jsonobj.Data.DeptName ,"_self");
+           },
+           error: function (jqXHR, textStatus, errorThrown) {
+           showDialog("Invalid UCLA logon");
+           //alert(jqXHR + ";\n\n" + textStatus + ";\n\n" + errorThrown);
+           },
+           complete: function(){
+           $('body').removeClass('ajax-spinner');
+           }
+           });
+		 }
+		 else{
+		 //get offline data
+		  var offlineData = GetOfflineStudentData();
+		  var jsonobj = JSON.parse(offlineData);
+		  SetStudentData(jsonobj, submitIntake);
+		 }
+}
+
+function SetStudentData(jsonobj, submitIntake)
+{
+if(jsonobj.Data.IsValidLogon == true)
             {
                 localStorage.setItem("uid", jsonobj.Data.DictionaryUserInfo.UID);
                 localStorage.setItem("firstname", jsonobj.Data.DictionaryUserInfo.FirstName)
@@ -150,16 +175,6 @@ function SignIn(logon, isCardreader){
             {
                 showDialog("Error: Invalid logon");
             }
-            //window.open("login.html?key=" + $('#txtAccessKey').val() + "&deptname=" + jsonobj.Data.DeptName ,"_self");
-           },
-           error: function (jqXHR, textStatus, errorThrown) {
-           showDialog("Invalid UCLA logon");
-           //alert(jqXHR + ";\n\n" + textStatus + ";\n\n" + errorThrown);
-           },
-           complete: function(){
-           $('body').removeClass('ajax-spinner');
-           }
-           });
 }
 
 //rsvp or eligibility check
