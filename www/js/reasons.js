@@ -42,31 +42,33 @@ function SubmitReasons(e)
         var question = q_array[i];
         var inputtype = "checkbox";
         
-        if(question.ResponsesType == "1")
+        if(question.ResponsesType == "1" || question.ResponsesType == "2")
         {
-            inputtype = "radio";
-            $('#div_reason_list_' + question.ID + ' input:radio:checked').each(function () {
-                                                       myJsonObj.Reasons.ReasonsList.push({"ReasonID": $(this).attr('id'), "ReasonDetails": $("#" + $(this).attr('id') + "_txt").val()});
-                                                       });
-        }
-        else if(question.ResponsesType == "2")
-        {
-            inputtype = "checkbox";
-            $('#div_reason_list_' + question.ID + ' input:checkbox:checked').each(function () {
-                                                                               myJsonObj.Reasons.ReasonsList.push({"ReasonID": $(this).attr('id'), "ReasonDetails": $("#" + $(this).attr('id') + "_txt").val()});
-                                                                               });
+            $('input[name="input-' + question.ID + '"]:checked').each(
+                                                     function(){
+                                                     myJsonObj.Reasons.ReasonsList.push({
+                                                        "ReasonID":$(this).attr('id'),
+                                                        "ReasonDetails": ""
+                                                     });
+                                                     }
+            );
+            
+            //TODO: add other textbox
         }
         else if(question.ResponsesType == "3")
         {
+            /*
             inputtype = "selectbox";
             var select = $("#combobox_" + question.ID);
             myJsonObj.Reasons.ReasonsList.push({"ReasonID": select.val(), "ReasonDetails": ""});
+             */
         }
         else if (question.ResponsesType == "4")
         {
             inputtype = "textbox";
-            var txt = $('[name="txt_' + question.ID + '"]');
-            myJsonObj.Reasons.ReasonsList.push({"ReasonID": txt.attr('id'), "ReasonDetails": txt.val()});
+            var txt = $('#' + question.Responses[0].ID);
+            myJsonObj.Reasons.ReasonsList.push({"ReasonID": question.Responses[0].ID, "ReasonDetails": txt.val()});
+             
 
         }
     }
