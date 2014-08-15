@@ -59,7 +59,7 @@
                     <span data-role="view-title"></span>
                     <!-- <a data-align="right" data-role="button" class="nav-button" href="#/">Index</a> -->
 					<div id="div_header" class="header-div">
-                <div><img src="img/logo-ucla.png" class="header-logo"/><span id="NameText" class="header-text"></span></div>
+                <div class="HeaderLogoContainer"><img src="img/logo-ucla.png" class="HeaderLogo"/><span id="NameText" class="header-text"></span></div>
                 
             </div>
                 </div>
@@ -77,7 +77,7 @@
         <script type="text/javascript" src="js/blocks.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
 		
-        <!-- <script type="text/javascript" src="js/global.js"></script> -->
+        <script type="text/javascript" src="js/global.js"></script>
 		<script>
 		function initForm() {
         var body = $(".km-pane");
@@ -134,10 +134,8 @@
 				//console.log('loading question');
 
 				//var questionTExt = '[{"QuestionText":"Q1 Entered by:","Responses":[{"ID":103,"Text":"Daisy","Description":"Daisy","OpensTextbox":false},{"ID":104,"Text":"Doris","Description":"Doris","OpensTextbox":false},{"ID":105,"Text":"Helen","Description":"Helen","OpensTextbox":false},{"ID":106,"Text":"Janis","Description":"Janis","OpensTextbox":false},{"ID":107,"Text":"Jake","Description":"Jake","OpensTextbox":false},{"ID":108,"Text":"Juan","Description":"Juan","OpensTextbox":false},{"ID":109,"Text":"Marshay ","Description":"Marshay ","OpensTextbox":false},{"ID":110,"Text":"Ruby","Description":"Ruby","OpensTextbox":false},{"ID":111,"Text":"Zoila","Description":"Zoila","OpensTextbox":false},{"ID":112,"Text":"Other","Description":"Other (please specify)","OpensTextbox":true}],"ResponsesType":1,"ID":7}]';
-				//console.log(questionTExt);
 				//var obj = JSON.parse(questionTExt);
-				//console.log(obj);
-                //var q_array = obj.Questions;
+				//var q_array = obj.Questions;
 				var q_array = obj;
                 /*
                  if(typeof reason_array == "undefined")
@@ -208,7 +206,12 @@
             }
         
 		function DisplayResponses(e){
-				var obj = JSON.parse(localStorage.getItem("questions"));
+				//var obj = JSON.parse(localStorage.getItem("questions"));
+				var obj;
+				
+				
+				obj = JSON.parse(localStorage.getItem("questions"));
+				
 				
                 var q_array = obj.Questions;
 		
@@ -219,7 +222,7 @@
                     $('#questions-body div[data-role="content"]').append('<div class="control reasons-form" id="div_reason_list_' + question.ID +'"><label id="i-4" style="margin-bottom:3%;"><span id="' + question.ID +'_prompt"></span></label></div><div class="control">');
 					//$('#' + question.ID + '_prompt').text(question.QuestionText);
                     
-                    $("#ulResponses").append("<li>" + question.QuestionText + "<ul id='ul_" + question.ID + "'></ul></li>");
+                    $("#ulResponses").append("<li>" + question.QuestionText + "<div><ul id='ul_" + question.ID + "'></ul></div></li>");
                     
                     var inputtype = "checkbox";
                     
@@ -270,11 +273,40 @@
                                                    suggest: true,
                                                    index: 0
                                                    });
+						/*e.view.element.find("#ul_" + question.ID + " > li").kendoMobileListView({
+									dataSource: responses,											
+									template: "<label>#: Text# <input type='radio' name='radio'  /></label>",
+									filterable: {
+													field: "Text",
+													operator: "contains"
+												},
+									virtualViewSize: 50,
+									selectable: "single",
+									click: function(e){
+									console.log(e.dataItem.Text);
+									}*/
+									/*change: function (e){ 
+									var data = dataSource.view(),
+									selected = $.map(this.select(), function(item) {				
+									return data[$(item).index()].Text;
+									});
+
+									}*/
+
+						//,		endlessScroll: true //for dynamic data fetch
+
+						//});
+						
+						$('#ul_8 li[data-role = "listview"]').addClass('ReasonsDropDown');
                     }
                     else if(inputtype == "textbox")
                     {
                         //$("#ul_" + question.ID).append("<li></li>");
-                        $("#ul_" + question.ID).append('<input type="text" value="Text" name="' + question.ID + '" id="' + responses[0].ID + '" />');
+						var txtId = responses[0].ID;
+                        $("#ul_" + question.ID).append('<input type="text" value="" name="' + question.ID + '" id="' +  txtId + '" />');						
+						//TODO: make the textbox look native
+						//e.view.element.find('#' + txtId).kendoTextBox();
+						
                     }
 				
 			}//for

@@ -6,3 +6,25 @@
     width:90%;
     display:block;
 }
+
+.ReasonsDropDown{
+height: 50vh;
+overflow-y: scroll !important;
+}
+
+#ulResponses>li{
+   padding-bottom:15px;
+}
+
+.HeaderLogo{
+width: 6%;
+height: auto;
+padding-left: 1%;
+padding-right: 1%;
+padding-top: 1%;
+}
+
+.HeaderLogoContainer{
+background-color: #3284bf;
+text-align: left;
+}

@@ -265,15 +265,15 @@
                     else if(inputtype == "selectbox")
                     {
                         $("#ul_" + question.ID).append("<li></li>");
-                        /*e.view.element.find("#ul_" + question.ID + " > li").kendoComboBox({
+                        e.view.element.find("#ul_" + question.ID + " > li").kendoComboBox({
                                                    dataTextField: "Text",
                                                    dataValueField: "ID",
                                                    dataSource: responses,
                                                    filter: "contains",
                                                    suggest: true,
                                                    index: 0
-                                                   });*/
-						e.view.element.find("#ul_" + question.ID + " > li").kendoMobileListView({
+                                                   });
+						/*e.view.element.find("#ul_" + question.ID + " > li").kendoMobileListView({
 									dataSource: responses,											
 									template: "<label>#: Text# <input type='radio' name='radio'  /></label>",
 									filterable: {
@@ -284,7 +284,7 @@
 									selectable: "single",
 									click: function(e){
 									console.log(e.dataItem.Text);
-									}
+									}*/
 									/*change: function (e){ 
 									var data = dataSource.view(),
 									selected = $.map(this.select(), function(item) {				
@@ -295,7 +295,7 @@
 
 						//,		endlessScroll: true //for dynamic data fetch
 
-						});
+						//});
 						
 						$('#ul_8 li[data-role = "listview"]').addClass('ReasonsDropDown');
                     }
