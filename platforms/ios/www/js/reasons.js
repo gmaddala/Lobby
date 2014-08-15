@@ -62,6 +62,8 @@ function SubmitReasons(e)
             var select = $("#combobox_" + question.ID);
             myJsonObj.Reasons.ReasonsList.push({"ReasonID": select.val(), "ReasonDetails": ""});
              */
+            var select = $("#ul_" + question.ID + " li[data-role=combobox]");
+            myJsonObj.Reasons.ReasonsList.push({"ReasonID": select.attr('value'), "ReasonDetails": ""});
         }
         else if (question.ResponsesType == "4")
         {

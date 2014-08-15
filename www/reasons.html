@@ -221,8 +221,7 @@
                     //$('#questions-body div[data-role="content"]').append('<form class="form"><div class="control reasons-form" id="div_reason_list_' + question.ID +'"><label id="i-4" style="margin-bottom:3%;"><span id="' + question.ID +'_prompt"></span></label></div><div class="control">');
                     $('#questions-body div[data-role="content"]').append('<div class="control reasons-form" id="div_reason_list_' + question.ID +'"><label id="i-4" style="margin-bottom:3%;"><span id="' + question.ID +'_prompt"></span></label></div><div class="control">');
 					//$('#' + question.ID + '_prompt').text(question.QuestionText);
-                    
-                    $("#ulResponses").append("<li>" + question.QuestionText + "<div><ul id='ul_" + question.ID + "'></ul></div></li>");
+                    $("#ulResponses").append("<li><span class='span-question-text'>" + question.QuestionText + "</span><div><ul id='ul_" + question.ID + "'></ul></div></li>");
                     
                     var inputtype = "checkbox";
                     
