@@ -87,3 +87,15 @@ color: #3284bf !important;
 .SubmitButton{
   font-weight: bold !important;
 }
+
+.SignInFix{
+  padding-top: 3%;
+}
+.SignInFix1{
+  padding-top: 2%;
+}
+
+.WhiteBodyFix{
+  z-Index: 0;
+  margin-top:2%;
+}
