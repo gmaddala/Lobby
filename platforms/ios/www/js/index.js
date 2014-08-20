@@ -57,7 +57,7 @@ var app = {
 
 function LaunchKiosk()
 {
-    debugger;
+    
     //SetTestData();
     //window.open("login.html", "_self");
     if($('#ddl-locations > option').length > 0)

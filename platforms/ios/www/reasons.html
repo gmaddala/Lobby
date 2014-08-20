@@ -122,8 +122,7 @@
         <script type="text/javascript">
             window.onload = function(){
             $('.textbox-true').click(function(){
-                                     //debugger;
-                                        $(this).parent().parent().append("<div><input type='text' class='temp'/></div>")
+                                        $(this).parent().parent().append("<div><input type='text' id='" + $(this).attr('id') + "-txtother' class='temp'/></div>")
                                      });
             };
             

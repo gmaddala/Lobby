@@ -48,7 +48,7 @@ function SubmitReasons(e)
                                                      function(){
                                                      myJsonObj.Reasons.ReasonsList.push({
                                                         "ReasonID":$(this).attr('id'),
-                                                        "ReasonDetails": ""
+                                                        "ReasonDetails": $("#" + $(this).attr('id') + "-txtother").val()
                                                      });
                                                      }
             );
