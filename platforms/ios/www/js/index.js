@@ -57,7 +57,7 @@ var app = {
 
 function LaunchKiosk()
 {
-    
+    debugger;
     //SetTestData();
     //window.open("login.html", "_self");
     if($('#ddl-locations > option').length > 0)
@@ -90,7 +90,8 @@ function LaunchKiosk()
                 }
                },
                error: function (jqXHR, textStatus, errorThrown) {
-                alert('The access key you entered is incorrect. Please reenter your access key.');
+                //alert('The access key you entered is incorrect. Please reenter your access key.');
+				showNativeDialog('The access key you entered is incorrect. Please reenter your access key.');
                //alert(jqXHR + ";\n\n" + textStatus + ";\n\n" + errorThrown);
                },
                complete: function(){
@@ -168,7 +169,8 @@ function SetTestData()
 function AccessKeyHelp(e)
 {
     e.preventDefault();
-    showDialog('Access Key is a system-generated passkey assigned to your event. You can find the Access Key on the Event Kiosk page of the staff portal.');
+    //showDialog('Access Key is a system-generated passkey assigned to your event. You can find the Access Key on the Event Kiosk page of the staff portal.');
+	showNativeDialog('Access Key is a system-generated passkey assigned to your event. You can find the Access Key on the Event Kiosk page of the staff portal.');
 }
 
 
