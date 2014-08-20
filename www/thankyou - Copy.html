@@ -26,47 +26,32 @@
         <link rel="stylesheet" type="text/css" href="css/blocks.css" />
         <link rel="stylesheet" type="text/css" href="css/lobby.css" />
         
-		<link href="styles/kendo.mobile.all.min.css" rel="stylesheet" />
-		<link href="css/stylefix.css" rel="stylesheet" />
-        <script src="js/jquery.min.js"></script>
-        <!-- <script src="js/angular.min.js"></script> -->
-        <script src="js/kendo.all.min.js"></script>
-        <title>Thank You</title>
+        <title>Reasons</title>
     </head>
-    <body>        
-        <div data-role="view" data-layout="LayoutWithUclaLogo">
-            <div class="div-white-body center-text WhiteBodyFix">
-                <span class="clear-margin-padding header-text">Thank you...</span>
+    <body>
+        <div id="div_header" class="header-div">
+            <div><img src="img/logo-ucla.png" class="header-logo"/><span id="DeptName" class="header-text"></span></div>
+            
+        </div>
+        <div class="div-white-body">
+            <div class="center-text">
+                <span class="clear-margin-padding header-text">Thank you</span>
             </div>
             
         </div>
-		<!-- Layout with Ucla logo -->
-		<div data-role="layout" data-id="LayoutWithUclaLogo">
-			<div data-role="header">
-			   <div id="div_header" class="header-div" >
-					<div>
-						<img src="img/logo-ucla.png" class="header-logo HeaderLogoFix" />
-						<span id="DeptName" class="header-text"></span>						
-					</div>					
-				</div>
-			</div>
-		</div>
         <script type="text/javascript" src="phonegap.js"></script>
         <script type="text/javascript" src="js/thankyou.js"></script>
-        <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         <script type="text/javascript" src="js/blocks.js"></script>
         <script type="text/javascript" src="js/global.js"></script>
         <script type="text/javascript">
             //app.initialize();
-            var app1;
-			
+            
             window.onload = function(){
-                app1 = new kendo.mobile.Application(document.body, {useNativeScrolling: true}); //, transition: 'overlay:up'
-				clearStudentInfo();
+                clearStudentInfo();
                 
                 var url = "";
-                $("#DeptName").text(localStorage.getItem("deptname"));
-				
+                
                 if(localStorage.getItem("rsvp") == "false")
                 {
                     url = "login.html";
