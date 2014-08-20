@@ -95,7 +95,15 @@
         
         <script>
 			var app = new kendo.mobile.Application(document.body, {useNativeScrolling: true, transition: 'overlay:up'});
-		   
+            
+            window.onload = function(){
+                app = new kendo.mobile.Application(document.body, {useNativeScrolling: true, transition: 'overlay:up'});
+			    if(localStorage.getItem("key") != "null" && localStorage.getItem("key") != null)
+                {
+                    window.open("login.html", "_self");
+                }
+            };
+        
 		   if (kendo.ui.DropDownList) {
             $("#ddl-locations").kendoDropDownList({
                 // The options are needed only for the desktop demo, remove them for mobile.
@@ -104,14 +112,7 @@
             });
         }
 		   
-			window.onload = function(){
-			app = new kendo.mobile.Application(document.body, {useNativeScrolling: true, transition: 'overlay:up'});
 			
-			    if(localStorage.getItem("key") != "null" && localStorage.getItem("key") != null)
-                {
-                    window.open("login.html", "_self");
-                }
-            };
         
             var splashAnimation = function(){
                 $('#splash_spinner').css('display', 'none');

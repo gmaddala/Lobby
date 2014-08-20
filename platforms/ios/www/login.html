@@ -57,19 +57,21 @@
 				$("#DeptName").text(localStorage.getItem("deptname"));
                 $("#welcome_text").text("Welcome to " + localStorage.getItem("deptname"));
 				$("#welcome_text1").text("Welcome to " + localStorage.getItem("deptname"));
-				
+				console.log('anon flag..' + localStorage.getItem("anon"));
 				if(localStorage.getItem("anon") == "true")
                 {
-                    $("#anon").removeClass("invisible");
-                    $("#not_anon").addClass("invisible");
+                    //$("#anon").removeClass("invisible");
+                    //$("#not_anon").addClass("invisible");
+					app1.navigate("#anon");
                 }
                 else if(localStorage.getItem("rsvp") == "true" || localStorage.getItem("enforcedeligibility") == "true")
                 {
                     $("#body").removeClass("molecules-bg");
-                    $("#rsvp_eleg").removeClass("invisible");
-                    $("#not_anon").addClass("invisible");
-                    $("#welcome_text_div").addClass("invisible");					
+                    //$("#rsvp_eleg").removeClass("invisible");
+                    //$("#not_anon").addClass("invisible"); 
+                    //$("#welcome_text_div").addClass("invisible");
                     $("#event_name").text(localStorage.getItem("appdescription"));
+					app1.navigate("#rsvp_eleg");
                 }
                 else
                 {
@@ -103,9 +105,9 @@
                  -->
                 <div id="div_signin_method" class="panel-button-div">
                     <!-- <button class="button large panel-button horizontal-center" onclick="ClickLogon();" style="border-bottom:0;">Press here to use your UCLA Logon ID <span class="arrow arrowFix">></span></button> -->
-					<a data-role="button" class="button large panel-button horizontal-center" href="#viewSigninWithUclaLogon" style="border-bottom:0;" data-transition="overlay:up">Press here to use your UCLA Logon ID <span class="arrow arrowFix">></span></a>
+					<a data-role="button" class="button large panel-button horizontal-center" href="#viewSigninWithUclaLogon" style="border-bottom:0;margin-bottom:-1px;"><span class="SignInFix">Press here to use your UCLA Logon ID</span> <span class="arrow arrowFix SignInFix">></span></a>
                     <!-- <button class="button large panel-button horizontal-center" onclick="ClickRegistration();">Press here to register <span class="arrow arrowFix">></span></button> -->
-					<a data-role="button" class="button large panel-button horizontal-center" onclick="ClickRegistration();">Press here to register <span class="arrow arrowFix">></span></a>
+					<a data-role="button" class="button large panel-button horizontal-center" onclick="ClickRegistration();"><span class="SignInFix">Press here to register</span> <span class="arrow arrowFix SignInFix1">></span></a>
                     <!--
                     <span style="margin-right:1%;">Check in with:</span>
                     <span class="group">
@@ -124,6 +126,44 @@
 							<button class="button large horizontal-center long-button" style="" onclick="SignIn($('#txt_logon').val());">Sign In</button>
                 </div>
 		</div>
+		<!-- Anonymous view -->
+		<div data-role="view" id="anon" class="white-button" data-layout="LayoutWithUclaLogo">
+                <button class="button large horizontal-center long-button absolute-center" style="margin:auto;" onclick="window.open('reasons.html', '_self');">Continue</button>
+				<!-- <a data-role="button" class="button large horizontal-center long-button absolute-center" style="margin:auto;">Continue</a> -->
+        </div>
+		
+		<!-- RSVP -->
+		<div data-role="view" id="rsvp_eleg" data-layout="LayoutWithoutWelcomeMessage">
+                <div class="div-white-body WhiteBodyFix">
+				<div class="center-text">
+                    <span class="clear-margin-padding header-text">Swipe Bruincard or enter UID to check in</span>
+                </div>
+                <div class="gray-div horizontal-center">
+                    <table id="event_table" class="form-table">
+                            <tr>
+                                <td class="form-table-label">Event:</td>
+                                <td id="event_name"></td>
+                            </tr>
+                            <tr>
+                                <td class="form-table-label">Name:</td>
+                                <td id="student_name"></td>
+                            </tr>
+                            <tr>
+                                <td class="form-table-label">Status:</td>
+                                <td id="">
+                                    <span id="success" class="invisible">SUCCESS</span>
+                                    <span id="failed" class="invisible">FAILED
+                                        <a id="btn_override" class="button large small-button" onclick="CheckIn(localStorage.getItem('uid'), true, localStorage.getItem('cardswiped'));">Override</a>
+                                            <span><a href="" class="link-blue text-right" onclick="OverrideHelp(event);"><small>What is this?</small></a></span>
+                                            </span>
+                                </td>
+                            </tr>
+                    </table>                    
+                    <input id="txt_rsvp_eleg_uid" type="text" class="horizontal-center textbox" placeholder="Enter UID" style="display:block;"/>
+                    <button class="button large horizontal-center long-button" style="" onclick="CheckIn($('#txt_rsvp_eleg_uid').val(), false);">Check In</button>
+                </div>
+				</div>
+            </div>
 		<!-- Layout with Ucla logo -->
 		<div data-role="layout" data-id="LayoutWithUclaLogo">
 			<div data-role="header">
@@ -153,6 +193,22 @@
 				<div id="welcome_text_div1" class="center-text WelcomeText">
 					<span id="welcome_text1" class="clear-margin-padding header-text"></span>
 				</div>
+			</div>
+		</div>
+		<!-- Layout with Welcome message; -->
+		<!-- When trying to hide the welcome message from LayoutWithUclaLogo layout, the padding is maintained to the top of content. So, creating new layout. -->
+		<div data-role="layout" data-id="LayoutWithoutWelcomeMessage">
+			<div data-role="header">
+			   <div id="div_header" class="header-div" >
+					<div>
+						<img src="img/logo-ucla.png" class="header-logo HeaderLogoFix" />
+						<span id="DeptName" class="header-text"></span>
+						<!--<a href="" id="close-link" onclick="CloseApp(event);">Close</a>-->
+						<!-- <button class="button large link-button" onclick="CloseApp(event);">Close</button> -->
+						<a data-role="button" class="button large link-button" data-rel="modalview" href="#dialog-modal">Close</a>
+					</div>
+					
+				</div>				
 			</div>
 		</div>
 		
