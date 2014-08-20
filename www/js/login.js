@@ -184,6 +184,7 @@ if(jsonobj.Data.IsValidLogon == true)
             {
                 //showDialog("Error: Invalid logon");
 				showNativeDialog("Error: Invalid logon");
+
             }
 }
 
