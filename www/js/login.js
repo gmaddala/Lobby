@@ -85,6 +85,7 @@ var app = {
 
 function ClickBruincard(){
     //debugger;
+	console.log('Cancel click..');
     $('#div_logon').css('display', 'none');
     $('#div_signin_method').css('display', 'block');
     $('#div_bruincard').css('display', 'block');
@@ -107,6 +108,8 @@ function ClickLogon(){
     app.stopCardReader();
 }
 
+
+
 //self logging in
 function SignIn(logon, isCardreader){
     //alert(logon);
@@ -128,6 +131,7 @@ function SignIn(logon, isCardreader){
            data: {"logon": logon, "submitIntake": submitIntake, "appkey": localStorage.getItem("key"), "initialintakestatus": localStorage.getItem("initialintakestatus"), "locationID": localStorage.getItem("selLocationID"), "cardSwiped": localStorage.getItem("cardswiped")},
            beforeSend: function(){
            app.stopCardReader();
+		   console.log('before send..');
            $('body').addClass('ajax-spinner');
            },
            success: function(data){
@@ -138,7 +142,8 @@ function SignIn(logon, isCardreader){
             //window.open("login.html?key=" + $('#txtAccessKey').val() + "&deptname=" + jsonobj.Data.DeptName ,"_self");
            },
            error: function (jqXHR, textStatus, errorThrown) {
-           showDialog("Invalid UCLA logon");
+           //showDialog("Invalid UCLA logon");
+		   showNativeDialog("Invalid UCLA logon");
            //alert(jqXHR + ";\n\n" + textStatus + ";\n\n" + errorThrown);
            },
            complete: function(){
@@ -278,26 +283,7 @@ function CloseApp(e)
                               "Cancel": function() {
                                 $(this).dialog("close");
                               },
-                              "Submit": function(){
-                                  var key = $("#txt_app_key").val();
-                                  if(key == null || key == "")
-                                  {
-                                  //do nothing
-                                  }
-                                  else if(key == localStorage.getItem("key"))
-                                  {
-                                    app.stopCardReader();
-                              
-                                    localStorage.setItem("key", "null");
-                                    window.open("index.html", "_self");
-                                    //window.location.href = "index.html";
-                                  }
-                                  else
-                                  {
-                                    $(this).dialog("close");
-                                    showDialog("Incorrect key");
-                                  }
-                              }
+                              "Submit": ValidateAppKey()
                                   },
                               open: function(event) {
                               $('.ui-dialog-buttonpane').find('button:contains("Cancel")').addClass('modal-double-button-left');
@@ -319,3 +305,27 @@ function ClickRegistration()
     
 }
 
+function ValidateAppKey(){
+	  var key = $("#txt_app_key").val();
+	  if(key == null || key == "")
+	  {
+	  //do nothing
+	  }
+	  else if(key == localStorage.getItem("key"))
+	  {
+	  console.log('checking..');
+		app.stopCardReader();
+
+		localStorage.setItem("key", "null");
+		console.log('opening..');
+		window.open("index.html", "_self");
+		//window.location.href = "index.html";
+	  }
+	  else
+	  {
+		//$(this).dialog("close");
+		HideReconfigureLobbyDialog();
+		//showDialog("Incorrect key");
+		showNativeDialog("Incorrect key");
+	  }
+}

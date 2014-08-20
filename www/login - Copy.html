@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <link rel="stylesheet" type="text/css" href="css/blocks.css" />
+        <link rel="stylesheet" type="text/css" href="css/lobby.css" />
+        <!--<link rel="stylesheet" type="text/css" href="css/iwe.css" />-->
+        <link rel="stylesheet" type="text/css" href="css/iwe_icon_fonts.css" />
+        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" />
+        <script type="text/javascript">
+            
+            
+            window.onload = function(){
+                //debugger;
+                if(localStorage.getItem("anon") != "true")
+                {
+                    app.initialize();
+                }
+                $("#DeptName").text(localStorage.getItem("deptname"));
+                $("#welcome_text").text("Welcome to " + localStorage.getItem("deptname"));
+                
+                if(localStorage.getItem("allowregistration") == "false")
+                {
+                    $("#div_register").addClass("invisible");
+                }
+                if(localStorage.getItem("anon") == "true")
+                {
+                    $("#anon").removeClass("invisible");
+                    $("#not_anon").addClass("invisible");
+                }
+                else if(localStorage.getItem("rsvp") == "true" || localStorage.getItem("enforcedeligibility") == "true")
+                {
+                    $("#body").removeClass("molecules-bg");
+                    $("#rsvp_eleg").removeClass("invisible");
+                    $("#not_anon").addClass("invisible");
+                    $("#welcome_text_div").addClass("invisible");
+                    $("#event_name").text(localStorage.getItem("appdescription"));
+                }
+                else
+                {
+                    $("#not_anon").removeClass("invisible");
+                }
+            };
+        
+        
+            </script>
+        
+        <title>Login</title>
+    </head>
+    <body class="molecules-bg" id="body">
+        <div class="container">
+            <div id="dialog-modal" title="Reconfiguring Lobby" style="display: none;">
+                <div class="dialog-modal-container">
+                    Please enter Application Key
+                    <input id="txt_app_key" type="text" class="horizontal-center textbox" style="display:block;"/>
+                </div>
+            </div>
+            <!--<div class="app">
+                <h1>PhoneGap</h1>
+                <div id="deviceready" class="blink">
+                    <p class="event listening">Connecting to Device</p>
+                    <p class="event received">Device is Ready</p>
+                </div>
+            </div>-->
+            <div id="div_header" class="header-div">
+                <div>
+                    <img src="img/logo-ucla.png" class="header-logo"/>
+                    <span id="DeptName" class="header-text"></span>
+                    <!--<a href="" id="close-link" onclick="CloseApp(event);">Close</a>-->
+                    <button class="button large link-button" onclick="CloseApp(event);">Close</button>
+                </div>
+                
+            </div>
+            <div id="div_header_cancel" class="header-div invisible">
+                <div>
+                    <a href="" class="cancel-link" onclick="ClickBruincard();">Cancel</a>
+                </div>
+                
+            </div>
+            <div id="welcome_text_div" class="center-text">
+                <span id="welcome_text" class="clear-margin-padding header-text"></span>
+            </div>
+            <div id="not_anon" class="login-textbox invisible">
+                <div id="div_bruincard" class="absolute-center">
+                    <p class="bold-instruction"><i class="icon-credit"></i> <span style="margin-left:2%;">Swipe your Bruincard</span></p>
+                </div>
+                <!--
+                <div>
+                    <img src="img/DAY2_SHOT1_SCULPTUREGARDEN_login.jpg" class="login-image" />
+                </div>
+                 -->
+                <div id="div_logon" class="gray-div horizontal-center" style="display:none;">
+                    <input id="txt_logon" type="text" class="horizontal-center textbox" placeholder="Enter your UCLA Logon ID" style="display:block;"/>
+                    <button class="button large horizontal-center long-button" style="" onclick="SignIn($('#txt_logon').val());">Sign In</button>
+                </div>
+                
+                <div id="div_signin_method" class="panel-button-div">
+                    <button class="button large panel-button horizontal-center" onclick="ClickLogon();" style="border-bottom:0;">Press here to use your UCLA Logon ID <span class="arrow">></span></button>
+                    <button class="button large panel-button horizontal-center" onclick="ClickRegistration();">Press here to register <span class="arrow">></span></button>
+                    <!--
+                    <span style="margin-right:1%;">Check in with:</span>
+                    <span class="group">
+                        <a id="btn_bruincard" class="button primary active" onclick="ClickBruincard();">Bruincard</a>
+                        <a id="btn_logon" class="button" onclick="ClickLogon();">UCLA Logon ID</a>
+                    </span>-->
+                </div>
+                <!--<div style="margin-top:20px;" id="div_register">
+                    Don't have a UCLA Logon? <a href="registration.html" class="link-gold">Register</a>
+                </div>-->
+                
+            </div>
+            <div id="anon" class="invisible center-text white-button">
+                <button class="button large horizontal-center long-button absolute-center" style="margin:auto;" onclick="window.open('reasons.html', '_self');">Continue</button>
+            </div>
+            <div id="rsvp_eleg" class="invisible div-white-body">
+                <div class="center-text">
+                    <span class="clear-margin-padding header-text">Swipe Bruincard or enter UID to check in</span>
+                </div>
+                <div class="gray-div horizontal-center">
+                    <table id="event_table" class="form-table">
+                            <tr>
+                                <td class="form-table-label">Event:</td>
+                                <td id="event_name"></td>
+                            </tr>
+                            <tr>
+                                <td class="form-table-label">Name:</td>
+                                <td id="student_name"></td>
+                            </tr>
+                            <tr>
+                                <td class="form-table-label">Status:</td>
+                                <td id="">
+                                    <span id="success" class="invisible">SUCCESS</span>
+                                    <span id="failed" class="invisible">FAILED
+                                        <a id="btn_override" class="button large small-button" onclick="CheckIn(localStorage.getItem('uid'), true, localStorage.getItem('cardswiped'));">Override</a>
+                                            <span><a href="" class="link-blue text-right" onclick="OverrideHelp(event);"><small>What is this?</small></a></span>
+                                            </span>
+                                </td>
+                            </tr>
+                    </table>
+                    <!--
+                    <p><span class="rsvp-label">Event:</span><span id="event_name"/></p>
+                    <p><span class="rsvp-label">Name:</span><span id="student_name"/></p>
+                    <p>
+                        <span class="rsvp-label">Status:</span>
+                        <span id="success" class="invisible">SUCCESS</span>
+                        <span id="failed" class="invisible">FAILED
+                            <a id="btn_override" class="button small">Override</button>
+                            <span><a href="http://wwww.ucla.edu" class="link-blue text-right"><small>What is this?</small></a></span>
+                        </span>
+                        
+                    </p>
+                    -->
+                    <input id="txt_rsvp_eleg_uid" type="text" class="horizontal-center textbox" placeholder="Enter UID" style="display:block;"/>
+                    <button class="button large horizontal-center long-button" style="" onclick="CheckIn($('#txt_rsvp_eleg_uid').val(), false);">Check In</button>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript" src="phonegap.js"></script>
+        <script type="text/javascript" src="js/blocks.js"></script>
+        <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
+        
+        <script type="text/javascript" src="js/login.js"></script>
+        <script type="text/javascript" src="js/global.js"></script>
+        
+        
+    </body>
+</html>
