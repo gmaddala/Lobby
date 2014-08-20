@@ -53,8 +53,10 @@ var app = {
             };
             var error = function(message) {
                 showDialog("Error: Please reswipe card");
-                app.stopCardReader();
-                window.open("login.html", "_self");
+                $( "#dialog" ).on( "dialogclose", function( event, ui ) {
+                                  app.stopCardReader();
+                                  window.open("login.html", "_self");} );
+                
             };
             cardreader.startCardReader(success, error);
         }

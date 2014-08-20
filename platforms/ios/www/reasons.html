@@ -72,6 +72,7 @@
                 </div>
             </div>-->
         </div>
+        
         <!-- <script type="text/javascript" src="phonegap.js"></script> -->
         <script type="text/javascript" src="js/reasons.js"></script>
         <script type="text/javascript" src="js/blocks.js"></script>
@@ -119,7 +120,14 @@
             app.initialize();
         </script>
         <script type="text/javascript">
-            //window.onload = function(){
+            window.onload = function(){
+            $('.textbox-true').click(function(){
+                                     //debugger;
+                                        $(this).parent().parent().append("<div><input type='text' class='temp'/></div>")
+                                     });
+            };
+            
+            
 			function DisplayResponses1(e){
                 
                 //$('#prompt').text(localStorage.getItem("question"));
@@ -212,7 +220,7 @@
 				
 				obj = JSON.parse(localStorage.getItem("questions"));
 				
-				
+                    
                 var q_array = obj.Questions;
 		
 		for(var i = 0; i < q_array.length; i++) {
@@ -256,7 +264,7 @@
                         e.view.element.find("#ul_" + question.ID).kendoMobileListView({
                             //dataSource: responses,
                             //template: "id: #: id# with text: #: text#",
-                            template: "<label>#: Text# <input type='" + inputtype + "' name='input-" + question.ID + "' id='#:ID#' /></label>",
+                            template: "<label>#: Text# <input type='" + inputtype + "' name='input-" + question.ID + "' id='#:ID#' class='textbox-#:OpensTextbox#'/></label>",
                         });
 
                         e.view.element.find("#ul_" + question.ID).data("kendoMobileListView").append(responses);

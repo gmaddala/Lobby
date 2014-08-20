@@ -255,7 +255,7 @@ h1 {
     border-width:1px;
     border-color:#bfbfbf;
     margin:auto;
-    width:40%;
+    width:80%;
     padding:3%;
     display:block;
 }
@@ -273,7 +273,7 @@ h1 {
 @media screen and (max-width: 768px)
 {
     .gray-div{
-        width:400px;
+        /*width:400px;*/
     }
     
     .div-white-body{
@@ -615,6 +615,11 @@ div.dialog-modal-container .textbox{
     margin-top:1em !important;
     margin-right:0 !important;
     margin-left:0 !important;
+}
+
+table#event_table.form-table
+{
+    font-size:1.5em;
 }
 
 
