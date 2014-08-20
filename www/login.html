@@ -36,7 +36,7 @@
 			}
             
             window.onload = function(){
-				app1 = new kendo.mobile.Application(document.body, {useNativeScrolling: true, transition: 'overlay:up'});
+				app1 = new kendo.mobile.Application(document.body, {useNativeScrolling: true}); //, transition: 'overlay:up'
 				
 				//debugger;
                 if(localStorage.getItem("anon") != "true")
@@ -57,12 +57,13 @@
 				$("#DeptName").text(localStorage.getItem("deptname"));
                 $("#welcome_text").text("Welcome to " + localStorage.getItem("deptname"));
 				$("#welcome_text1").text("Welcome to " + localStorage.getItem("deptname"));
-				console.log('anon flag..' + localStorage.getItem("anon"));
+				
 				if(localStorage.getItem("anon") == "true")
                 {
                     //$("#anon").removeClass("invisible");
                     //$("#not_anon").addClass("invisible");
 					app1.navigate("#anon");
+					$("#body").addClass("molecules-bg");
                 }
                 else if(localStorage.getItem("rsvp") == "true" || localStorage.getItem("enforcedeligibility") == "true")
                 {
@@ -76,6 +77,7 @@
                 else
                 {
                     $("#not_anon").removeClass("invisible");
+					$("#body").addClass("molecules-bg");
                 }
 		}
         

@@ -99,3 +99,29 @@ color: #3284bf !important;
   z-Index: 0;
   margin-top:2%;
 }
+
+/* Registration page style fix */
+.Error{
+	background: #EEB4B4 !important;
+	border-color: #C75D4D !important;
+}
+
+.div-white-body-interior a[data-role="button"]{
+width: 87%;
+display: block;
+margin-bottom: 3%;
+margin-top: 5%;
+/* height: 3.5em; */
+background-color: #3284bf !important;
+border: none !important;
+color: #fff !important;
+background-image: none !important;
+font-size: 150% !important;
+margin-right: 8%;
+padding: 3%;
+font-size:large !important;
+}
+
+#divRegistration span{
+  color: #fff !important;
+}
