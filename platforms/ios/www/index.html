@@ -23,7 +23,7 @@
         <meta name="format-detection" content="telephone=no" />
         <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
-        <link rel="stylesheet" type="text/css" href="css/blocks.css" />
+
         <link rel="stylesheet" type="text/css" href="css/lobby.css" />
         <link rel="stylesheet" type="text/css" href="css/stylefix.css" />
         <!-- <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" /> -->
@@ -32,7 +32,7 @@
         <!-- <link href="styles/kendo.default.min.css" rel="stylesheet" /> -->
         <!-- <link href="styles/kendo.dataviz.min.css" rel="stylesheet" /> -->
         <!-- <link href="styles/kendo.dataviz.default.min.css" rel="stylesheet" /> -->
-        
+        <link rel="stylesheet" type="text/css" href="css/iwe_icon_fonts.css" />
         <link href="styles/kendo.mobile.all.min.css" rel="stylesheet" />
 		<link href="css/stylefix.css" rel="stylesheet" />
         <script src="js/jquery.min.js"></script>
@@ -51,6 +51,7 @@
 				<p><img src="img/logo-ucla.png" class="horizontal-center" /></p>
 			</div>
 			<div id="div_access_key" class="gray-div horizontal-center">
+                <div class="upperRightIcon"><a href="" style="" onclick="AccessKeyHelp(event);" class=""><i class="icon-question-sign"></i></a></div>
                     <div>
                         <input id="txtAccessKey" type="text" class="horizontal-center textbox" placeholder="Enter your kiosk access key" style="display:block;"/>
                     </div>
@@ -75,19 +76,20 @@
                     <!-- <button class="button large horizontal-center" onclick="LaunchKiosk();" >Continue</button> -->
 					<a data-role="button" class="largeButton" data-click="LaunchKiosk">Continue</a>
 					<!-- <a data-role="button" class="LoginButton" data-click="showNativeDialog">Continue</a> -->
-                    <a href="" style="margin:4.5%;" onclick="AccessKeyHelp(event);" class="HelpText">Need Help?</a>
+                    
+                    
                 </div>
 			
 			
         </div>
-		<div data-role="modalview" id="modalviewAlert" style="width: 50%;">
+		<div data-role="modalview" id="modalviewAlert">
 				<div data-role="header">
 					<div data-role="navbar">
 						<span>Alert</span>
-						<a data-click="HideNativeDialog" data-role="button" data-align="right" style="background:none;color:#3284bf;">Close</a>
+						<a data-click="HideNativeDialog" data-role="button" data-align="right" class="closeModal">Close</a>
 					</div>
 				</div>					   
-			   <div style="background-color:#fff; color:#3284bf">
+			   <div class="modalContent">
 					<span id="spanAlertMessage" class="AlertText" ></span> 
 			   </div>
 				   <!--Style to change styling of display message: style="background:#fff;color:#3284bf;" -->
@@ -105,6 +107,7 @@
                 {
                     window.open("login.html", "_self");
                 }
+                $("#txtAccessKey").focus();
             };
         
 		   if (kendo.ui.DropDownList) {

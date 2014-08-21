@@ -8,6 +8,19 @@
 	background-clip: border-box;
 }
 
+a{
+    text-decoration: none;
+}
+
+.upperRightIcon{
+    text-align:right;
+    padding-bottom:10px;
+    color:#bfbfbf !important;
+    font-size:1.4em;
+    width:100%;
+    padding-right:3%;
+}
+
 .textbox{
 	font-size: 130% !important;
 }
@@ -18,6 +31,24 @@ div.div-white-body-interior button, div.gray-div button{
   height: 2.9em;
 }
 
+div#modalviewAlert.km-widget.km-modalview.km-view{
+    position:fixed;
+    width:50% !important;
+    left:25%;
+    top:40%;
+}
+
+.modalContent{
+    background-color: #fff;
+    padding:15px;
+    text-align:center;
+}
+
+.closeModal{
+    background:none;
+    color:#3284bf;
+    font-size:0.9em;
+}
 
 .HelpText{
   color: #073198 !important;
@@ -26,11 +57,12 @@ div.div-white-body-interior button, div.gray-div button{
 
 /* can be moved to local style class within index.html to prevent these styles interfering with other pages */
 .largeButton{
-    width:88%;
+    width:90%;
     font-size:1.1em !important;
     margin-left:auto;
     margin-right:auto;
-    margin-top:18px;
+    margin-bottom:15px;
+margin-top:35px;
     display:block;
 }
 
@@ -126,11 +158,12 @@ div.gray-div{
 }
 
 #splash{
-    top:30%;
+    top:25%;
     position:fixed;
     left:0;
     right:0;
 }
+
 /* Registration page style fix */
 .Error{
 	background-color: #EEB4B4 !important;
@@ -157,7 +190,7 @@ font-size:large !important;
   color: #fff !important;
 }
 
-.ButtonFix1{
+.ButtonFix{
   color: #2f2f2f !important;
 }
 
@@ -193,7 +226,5 @@ font-size:large !important;
 	width: 40% !important;
 	margin-top: 4%;
 }
-.ReconfigureDialog{
-  display:inline-block;
-  vertical-align:middle;
-}
+
+
