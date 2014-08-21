@@ -33,7 +33,9 @@ height: 20px;
 background-image: none;
 padding: 2.5% !important;
 border-radius:6px !important;
-font-weight:bold;
+/*font-weight:bold;*/
+padding-top: 1% !important;
+padding-bottom: 4% !important;
 }
 
 .km-ios7 .k-list, .km-ios7 .k-slider, .km-ios7 .km-widget{
@@ -98,4 +100,37 @@ color: #3284bf !important;
 .WhiteBodyFix{
   z-Index: 0;
   margin-top:2%;
+}
+
+#ddl-locations{
+    padding:0;
+}
+
+#lbl-locations{
+    width:95%;
+    display:block;
+    margin-left:auto;
+    margin-right:auto;
+    font-size:1em;
+}
+
+.LoginButton > span.km-text
+{
+    font-size:2em;
+    font-weight:normal;
+}
+
+div.gray-div{
+    width:80%;
+    top:40%;
+    left:7%;
+    position: fixed;
+    margin:0;
+}
+
+#splash{
+    top:30%;
+    position:fixed;
+    left:0;
+    right:0;
 }

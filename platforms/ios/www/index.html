@@ -25,6 +25,7 @@
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
         <link rel="stylesheet" type="text/css" href="css/blocks.css" />
         <link rel="stylesheet" type="text/css" href="css/lobby.css" />
+        <link rel="stylesheet" type="text/css" href="css/stylefix.css" />
         <!-- <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" /> -->
         
 		<!-- <link href="styles/kendo.common.min.css" rel="stylesheet" /> -->
@@ -46,10 +47,10 @@
         
 		<div id="questions-body" data-role="view" data-title="Lobby">
 			
-			<div id="splash" style="width:100%;display:block;justify:center" class="absolute-center" >
-				<p><img src="img/logo-ucla.png" class="horizontal-center splash-logo" /></p>
+			<div id="splash">
+				<p><img src="img/logo-ucla.png" class="horizontal-center" /></p>
 			</div>
-			<div id="div_access_key" class="gray-div horizontal-center" style="margin-top:22%">
+			<div id="div_access_key" class="gray-div horizontal-center">
                     <div>
                         <input id="txtAccessKey" type="text" class="horizontal-center textbox" placeholder="Enter your kiosk access key" style="display:block;"/>
                     </div>
@@ -61,7 +62,7 @@
                     </div> -->
 					<ul data-role="listview" data-style="inset" id="div-locations" class="invisible">
             <li>
-                <label>Select a Location
+                <label id="lbl-locations">Select a Location
                     <select id="ddl-locations">
                         <!-- <option value="First Option">First Option</option>
                         <option value="Second Option">Second Option</option>
@@ -95,7 +96,15 @@
         
         <script>
 			var app = new kendo.mobile.Application(document.body, {useNativeScrolling: true, transition: 'overlay:up'});
-		   
+            
+            window.onload = function(){
+                app = new kendo.mobile.Application(document.body, {useNativeScrolling: true, transition: 'overlay:up'});
+			    if(localStorage.getItem("key") != "null" && localStorage.getItem("key") != null)
+                {
+                    window.open("login.html", "_self");
+                }
+            };
+        
 		   if (kendo.ui.DropDownList) {
             $("#ddl-locations").kendoDropDownList({
                 // The options are needed only for the desktop demo, remove them for mobile.
@@ -104,14 +113,7 @@
             });
         }
 		   
-			window.onload = function(){
-			app = new kendo.mobile.Application(document.body, {useNativeScrolling: true, transition: 'overlay:up'});
 			
-			    if(localStorage.getItem("key") != "null" && localStorage.getItem("key") != null)
-                {
-                    window.open("login.html", "_self");
-                }
-            };
         
             var splashAnimation = function(){
                 $('#splash_spinner').css('display', 'none');
