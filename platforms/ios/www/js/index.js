@@ -86,7 +86,7 @@ function LaunchKiosk()
 				   }
                 else
                 {
-                    showDialog("The access key you entered is incorrect. Please reenter your access key.");
+                    showNativeDialog("The access key you entered is incorrect. Please reenter your access key.");
                 }
                },
                error: function (jqXHR, textStatus, errorThrown) {
