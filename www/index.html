@@ -42,7 +42,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
         <title>Lobby</title>
     </head>
-    <body class="molecules-bg">
+    <body class="molecules-bg" id="body">
         
 		<div id="questions-body" data-role="view" data-title="Lobby">
 			
@@ -59,7 +59,7 @@
                         <!-- <select id="ddl-locations">
                         </select> 
                     </div> -->
-					<ul data-role="listview" data-style="inset" id="div-locations" class="invisible">
+					<ul data-role="listview" data-style="inset" id="div-locations" class="invisible" style="width: 94%;padding-left: 3%;">
             <li>
                 <label>Select a Location
                     <select id="ddl-locations">
@@ -86,7 +86,9 @@
 						<a data-click="HideNativeDialog" data-role="button" data-align="right" style="background:none;color:#3284bf;">Close</a>
 					</div>
 				</div>					   
-				   <span id="spanAlertMessage" class="AlertText" ></span> 
+			   <div style="background-color:#fff; color:#3284bf">
+					<span id="spanAlertMessage" class="AlertText" ></span> 
+			   </div>
 				   <!--Style to change styling of display message: style="background:#fff;color:#3284bf;" -->
 		</div>
 
@@ -94,7 +96,7 @@
         <script type="text/javascript" src="js/global.js"></script>
         
         <script>
-			var app = new kendo.mobile.Application(document.body, {useNativeScrolling: true, transition: 'overlay:up'});
+			var app = new kendo.mobile.Application(document.body, {useNativeScrolling: true, transition: 'fade'});
 		   
 		   if (kendo.ui.DropDownList) {
             $("#ddl-locations").kendoDropDownList({
