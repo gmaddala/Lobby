@@ -26,6 +26,11 @@
         <link rel="stylesheet" type="text/css" href="css/blocks.css" />
         <link rel="stylesheet" type="text/css" href="css/lobby.css" />
         
+		<link href="styles/kendo.mobile.all.min.css" rel="stylesheet" />
+		<link href="css/stylefix.css" rel="stylesheet" />
+        <script src="js/jquery.min.js"></script>
+        <!-- <script src="js/angular.min.js"></script> -->
+        <script src="js/kendo.all.min.js"></script>
         <title>Login</title>
     </head>
     <body>
@@ -40,98 +45,63 @@
             <div><img src="img/logo-ucla.png" class="header-logo"/><span id="DeptName" class="header-text"></span></div>
             
         </div>-->
-        <div id="div_header_cancel" class="header-div">
-            <div>
-                <a href="login.html" class="cancel-link">Cancel</a>
+        
+		<!-- Layout with Cancel button -->
+		<div data-role="layout" data-id="div_header_cancel">
+            <div data-role="header">
+                <div id="div_header" class="header-div" >
+					<a data-role="button" href="login.html" data-rel="external" class="cancel-link cancelLinkFix">Cancel</a>
+				</div>
             </div>
-            
         </div>
-        <div class="div-white-body" style="height:75%;">
-            <div class="div-white-body-interior">
-                <div class="form-table-label" style="padding-top:0;">Name</div>
-                <table style="width:95%;">
-                    <tr>
-                        <td><input id="txt_firstname" type="text" class="textbox" placeholder="First" style="display:block;"/></td>
-                        <Td><input id="txt_lastname" type="text" class="textbox" placeholder="Last" style="display:block;"/></td>
-                    </tr>
-                    
-                </table>
-                <div class="form-table-label">Email Address</div>
-                <input id="txt_email" type="text" class="textbox" placeholder="Example: yourname@domain.com" style="display:block;"/>
-                <div class="form-table-label">Mobile Phone</div>
-                <input id="txt_phone" type="text" class="textbox" placeholder="Example: (310)123-4567" style="display:block;"/>
-                <div class="form-table-label">Student UID</div>
-                <input id="txt_uid" type="text" class="textbox" placeholder="Example: 123456789" style="display:block;" maxlength="9"/>
-                
-                <button class="button large horizontal-center big-blue-button" onclick="Register();" style="">Register</button>
-            </div>
-            <!--
-            <div class="center-text">
-                <span class="clear-margin-padding header-text">Register to check in</span>
-            </div>
-                <table class="form-table">
-                        <tr>
-                            <td></td>
-                            <td><span id="firstname_error" class="error-text"></span></td>
-                        </tr>
-                        <tr>
-                            <td class="form-table-label">First Name:</td>
-                            <td><input id="txt_firstname" type="text" class="textbox" placeholder="" style="display:block;"/></td>
-                        </tr>
-                        
-                        <tr>
-                            <td></td>
-                            <td><span id="lastname_error" class="error-text"></span></td>
-                        </tr>
-                        <tr>
-                            <td class="form-table-label">Last Name:</td>
-                            <td><input id="txt_lastname" type="text" class="textbox" placeholder="" style="display:block;"/></td>
-                        </tr>
-                        
-                        <tr>
-                            <td></td>
-                            <td><span id="phone_error" class="error-text"></span></td>
-                        </tr>
-                        <tr>
-                            <td class="form-table-label">Mobile Phone:</td>
-                            <td><input id="txt_phone" type="text" class="textbox" placeholder="Example: (310)111-9898" style="display:block;"/></td>
-                        </tr>
-                        
-                        <tr>
-                            <td></td>
-                            <td><span id="email_error" class="error-text"></span></td>
-                        </tr>
-                        <tr>
-                            <td class="form-table-label">Email Address:</td>
-                            <td><input id="txt_email" type="text" class="textbox" placeholder="Example: yourname@yahoo.com" style="display:block;"/></td>
-                        </tr>
-                        
-                        <tr>
-                            <td></td>
-                            <td><span id="uid_error" class="error-text"></span></td>
-                        </tr>
-                        <tr>
-                        <tr>
-                            <td class="form-table-label">Student UID:</td>
-                            <td><input id="txt_uid" type="text" class="textbox" placeholder="Example: 123456789" style="display:block;" maxlength="9"/></td>
-                        </tr>
-                </table>
-                <div class="center-text">
-                    <a class="button large primary" style="margin:1%;" onclick="Register()">Register</a><a class="button large" style="margin:1%;" onclick="" href="login.html">Cancel</a>
-                </div>
-             -->
-            
+		
+        <div data-role="view" data-layout="div_header_cancel" style="height:75%;"> <!--  class="div-white-body" -->
+            <div class="div-white-body WhiteBodyFix" id="divRegistration">
+				<div class="div-white-body-interior">
+					<div class="form-table-label" style="padding-top:0;">Name</div>
+					<table style="width:95%;">
+						<tr>
+							<td><input id="txt_firstname" type="text" class="textbox" placeholder="First" style="display:block;"/></td>
+							<Td><input id="txt_lastname" type="text" class="textbox" placeholder="Last" style="display:block;"/></td>
+						</tr>
+						
+					</table>
+					<div class="form-table-label">Email Address</div>
+					<input id="txt_email" type="text" class="textbox" placeholder="Example: yourname@domain.com" style="display:block;"/>
+					<div class="form-table-label">Mobile Phone</div>
+					<input id="txt_phone" type="text" class="textbox" placeholder="Example: (310)123-4567" style="display:block;"/>
+					<div class="form-table-label">Student UID</div>
+					<input id="txt_uid" type="text" class="textbox" placeholder="Example: 123456789" style="display:block;" maxlength="9"/>
+					
+					<!-- <button class="button large horizontal-center big-blue-button" onclick="Register();" style="">Register</button> -->
+					<a data-role="button" class="button large horizontal-center big-blue-button" data-click="Register" style="">Register</a>
+				</div>
+			</div>
         </div>
+		
+		<!-- modal to display alert messages -->
+		<div data-role="modalview" id="modalviewAlert" style="width: 50%;">
+				<div data-role="header">
+					<div data-role="navbar">
+						<span>Alert</span>
+						<a data-click="HideNativeDialog" data-role="button" data-align="right" style="background:none;color:#3284bf;">Close</a>
+					</div>
+				</div>					   
+				   <span id="spanAlertMessage" class="AlertText" ></span> 
+				   <!--Style to change styling of display message: style="background:#fff;color:#3284bf;" -->
+		</div>
+		
         <!--<script type="text/javascript" src="phonegap.js"></script>-->
         <script type="text/javascript" src="js/reasons.js"></script>
         <script type="text/javascript" src="js/registration.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> -->
         <script type="text/javascript" src="js/blocks.js"></script>
         <script type="text/javascript" src="js/global.js"></script>
         <script type="text/javascript">
             //app.initialize();
-            
+            var app1;
             window.onload = function(){
+				app1 = new kendo.mobile.Application(document.body, {useNativeScrolling: true}); //, transition: 'overlay:up'
                 //$("#DeptName").text(localStorage.getItem("deptname"));
             };
         
