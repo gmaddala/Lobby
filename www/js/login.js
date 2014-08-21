@@ -339,3 +339,17 @@ function ValidateAppKey(){
 function NavigateToReasonsPage(){
   window.open('reasons.html', '_self');
 }
+
+function HideReconfigureLobbyDialog() {
+	$("#dialog-modal").kendoMobileModalView("close");  	
+}
+
+function ShowFlashMessage(message){
+	$('#spanFlashMessage').text(message);
+	$("#modalviewFlash").kendoMobileModalView("open");
+	//auto close the message after 1s
+	window.setTimeout(function(){
+                                  $("#modalviewFlash").kendoMobileModalView("close");
+                                  }, 1000
+					  );
+}

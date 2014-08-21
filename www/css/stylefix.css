@@ -1,5 +1,5 @@
 .km-ios7, .km-ios7.km-pane .km-content{
-background-color: #3284bf;
+	background-color: #3284bf;
 }
 .km-ios7, .km-ios7 *{
 box-sizing : content-box;
@@ -37,7 +37,7 @@ font-weight:bold;
 }
 
 .km-ios7 .k-list, .km-ios7 .k-slider, .km-ios7 .km-widget{
-color:white;
+  /* color:white; */
 }
 
 .AlertText{
@@ -66,6 +66,7 @@ color:white;
 .cancelLinkFix{
   border: none !important;
   font-size: large !important;
+  color: #fff !important;
 }
 
 .ReconfigureLobby{
@@ -124,4 +125,19 @@ font-size:large !important;
 
 #divRegistration span{
   color: #fff !important;
+}
+
+.ButtonFix{
+  color: #2f2f2f !important;
+}
+
+.CheckInButtonFix{
+  margin-left: 3.5%;  
+  padding:1.5% !important;
+}
+
+.CenterAlignModal{
+	width: 200%;
+	vertical-align:middle;
+	display:inline-block !important;
 }

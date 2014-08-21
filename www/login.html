@@ -23,20 +23,22 @@
         <meta name="format-detection" content="telephone=no" />
         <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
-        <link rel="stylesheet" type="text/css" href="css/blocks.css" />
+        <!-- <link rel="stylesheet" type="text/css" href="css/blocks.css" /> -->
         <link rel="stylesheet" type="text/css" href="css/lobby.css" />
         <!--<link rel="stylesheet" type="text/css" href="css/iwe.css" />-->
         <link rel="stylesheet" type="text/css" href="css/iwe_icon_fonts.css" />
-        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" />
+        <!-- <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" /> -->
         <script type="text/javascript">
-            var app1;
+            var app1, initialView;
 			
 			function ClickLogon(){
 				app1.Navigate('#viewSigninWithUclaLogon');
 			}
             
             window.onload = function(){
-				app1 = new kendo.mobile.Application(document.body, {useNativeScrolling: true}); //, transition: 'overlay:up'
+			    
+				//app1 = new kendo.mobile.Application(document.body, {useNativeScrolling: true}); //, transition: 'overlay:up'
+				
 				//debugger;
                 if(localStorage.getItem("anon") != "true")
                 {
@@ -50,6 +52,7 @@
                     $("#div_register").addClass("invisible");
                 }
                 
+				app1 = new kendo.mobile.Application(document.body, {useNativeScrolling: true, initial: initialView}); //, transition: 'overlay:up'
             };
         
 		function InitForm(){		
@@ -59,22 +62,27 @@
 				
 				if(localStorage.getItem("anon") == "true")
                 {
+					initialView = "anon";
                     //$("#anon").removeClass("invisible");
                     //$("#not_anon").addClass("invisible");
-					app1.navigate("#anon");
+					//app1.navigate("#anon");
 					$("#body").addClass("molecules-bg");
                 }
                 else if(localStorage.getItem("rsvp") == "true" || localStorage.getItem("enforcedeligibility") == "true")
                 {
+				
+					initialView = "rsvp_eleg";				
+					
                     $("#body").removeClass("molecules-bg");
                     //$("#rsvp_eleg").removeClass("invisible");
                     //$("#not_anon").addClass("invisible"); 
                     //$("#welcome_text_div").addClass("invisible");
                     $("#event_name").text(localStorage.getItem("appdescription"));
-					app1.navigate("#rsvp_eleg");
+					//app1.navigate("#rsvp_eleg");
                 }
                 else
                 {
+				initialView = "not_anon";
                     $("#not_anon").removeClass("invisible");
 					$("#body").addClass("molecules-bg");
                 }
@@ -104,11 +112,11 @@
                     <img src="img/DAY2_SHOT1_SCULPTUREGARDEN_login.jpg" class="login-image" />
                 </div>
                  -->
-                <div id="div_signin_method" class="panel-button-div">
+                <div id="div_signin_method" class="panel-button-div ButtonFix">
                     <!-- <button class="button large panel-button horizontal-center" onclick="ClickLogon();" style="border-bottom:0;">Press here to use your UCLA Logon ID <span class="arrow arrowFix">></span></button> -->
-					<a data-role="button" class="button large panel-button horizontal-center" href="#viewSigninWithUclaLogon" style="border-bottom:0;margin-bottom:-1px;"><span class="SignInFix">Press here to use your UCLA Logon ID</span> <span class="arrow arrowFix SignInFix">></span></a>
+					<a data-role="button" class="button large panel-button horizontal-center ButtonFix" href="#viewSigninWithUclaLogon" style="border-bottom:0;margin-bottom:-1px;"><span><br/>Press here to use your UCLA Logon ID</span> <span class="arrow arrowFix">></span></a>
                     <!-- <button class="button large panel-button horizontal-center" onclick="ClickRegistration();">Press here to register <span class="arrow arrowFix">></span></button> -->
-					<a data-role="button" class="button large panel-button horizontal-center" onclick="ClickRegistration();"><span class="SignInFix">Press here to register</span> <span class="arrow arrowFix SignInFix1">></span></a>
+					<a data-role="button" class="button large panel-button horizontal-center ButtonFix" onclick="ClickRegistration();"><span><br/>Press here to register</span> <span class="arrow arrowFix">></span></a>
                     <!--
                     <span style="margin-right:1%;">Check in with:</span>
                     <span class="group">
@@ -161,7 +169,8 @@
                             </tr>
                     </table>                    
                     <input id="txt_rsvp_eleg_uid" type="text" class="horizontal-center textbox" placeholder="Enter UID" style="display:block;"/>
-                    <button class="button large horizontal-center long-button" style="" onclick="CheckIn($('#txt_rsvp_eleg_uid').val(), false);">Check In</button>
+                    <!-- <button class="button large horizontal-center long-button" style="" onclick="CheckIn($('#txt_rsvp_eleg_uid').val(), false);">Check In</button> -->
+					<a data-role="button" class="button large horizontal-center long-button CheckInButtonFix" style="" onclick="CheckIn($('#txt_rsvp_eleg_uid').val(), false);">Check In</a>
                 </div>
 				</div>
             </div>
@@ -187,8 +196,8 @@
 		<div data-role="layout" data-id="LayoutWithoutUclaLogo">
 			<div data-role="header">
 			   <div id="div_header_cancel" class="header-div">
-                <div>
                     <a href="#not_anon" class="cancel-link cancelLinkFix" data-role="button">Cancel</a>
+                <div>
                 </div>
             </div>
 				<div id="welcome_text_div1" class="center-text WelcomeText">
@@ -214,11 +223,11 @@
 		</div>
 		
 		<!-- modal dialog to reconfigure lobby -->
-		<div data-role="modalview" id="dialog-modal" style="width: 50%;">
+		<div data-role="modalview" id="dialog-modal" style="width: 50%;" >  <!-- class="CenterAlignModal" -->
 			<div data-role="header">
 				<div data-role="navbar">
-					<span>Reconfigure Lobby</span>
-					<a data-click="HideReconfigureLobbyDialog" data-role="button" data-align="right" style="background:none;color:#3284bf;">Cancel</a>
+					<span data-title="view-title">Reconfigure Lobby</span>
+					<!-- <a data-click="HideReconfigureLobbyDialog" data-role="button" data-align="right" style="background:none;color:#3284bf;">Cancel</a> -->
 				</div>
 			</div>
 		   <div class="horizontal-center ReconfigureLobby">
@@ -226,8 +235,8 @@
 				<input id="txt_app_key" type="text" class="textbox"/>
 			</div>
 			<div class="ReconfigureLobby">
-				<a data-role="button" href="#" class="modal-double-button-left ReconfigureLobbyButton" data-click="HideReconfigureLobbyDialog"> Cancel</a>				
-				<a data-role="button" href="#" class="modal-double-button-right important ReconfigureLobbyButton SubmitButton" data-click="ValidateAppKey"> Submit</a>
+				<a data-role="button" class="modal-double-button-left ReconfigureLobbyButton" data-click="HideReconfigureLobbyDialog"> Cancel</a>				
+				<a data-role="button" class="modal-double-button-right important ReconfigureLobbyButton SubmitButton" data-click="ValidateAppKey"> Submit</a>
 			</div>
 		</div>
 		
@@ -241,6 +250,16 @@
 				</div>					   
 				   <span id="spanAlertMessage" class="AlertText" ></span> 
 				   <!--Style to change styling of display message: style="background:#fff;color:#3284bf;" -->
+		</div>
+		<!-- modal to display flash message -->
+		<!-- TODO: Flash message styling -->
+		<div data-role="modalview" id="modalviewFlash" style="width: 50%;">
+				<div data-role="header">
+					<div data-role="navbar">
+						<span>Error</span>						
+					</div>
+				</div>					   
+				<span id="spanFlashMessage" class="AlertText"></span> 				   
 		</div>
 		
         <script type="text/javascript" src="phonegap.js"></script>
