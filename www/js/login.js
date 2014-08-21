@@ -54,9 +54,10 @@ var app = {
             var error = function(message) {
                 //showDialog("Error: Please reswipe card");
 				showNativeDialog("Error: Please reswipe card");
+                /*
                 $( "#dialog" ).on( "dialogclose", function( event, ui ) {
                                   app.stopCardReader();
-                                  window.open("login.html", "_self");} );
+                                  window.open("login.html", "_self");} );*/
                 
             };
             cardreader.startCardReader(success, error);
@@ -353,3 +354,10 @@ function ShowFlashMessage(message){
                                   }, 1000
 					  );
 }
+
+function FailedCardSwipe(){
+    $("#modalviewAlert").kendoMobileModalView("close");
+    app.stopCardReader();
+    window.open("login.html", "_self");
+}
+

@@ -112,11 +112,11 @@
                     <img src="img/DAY2_SHOT1_SCULPTUREGARDEN_login.jpg" class="login-image" />
                 </div>
                  -->
-                <div id="div_signin_method" class="panel-button-div ButtonFix">
+                <div id="div_signin_method" class="panel-button-div">
                     <!-- <button class="button large panel-button horizontal-center" onclick="ClickLogon();" style="border-bottom:0;">Press here to use your UCLA Logon ID <span class="arrow arrowFix">></span></button> -->
-					<a data-role="button" class="button large panel-button horizontal-center ButtonFix" href="#viewSigninWithUclaLogon" style="border-bottom:0;margin-bottom:-1px;"><span><br/>Press here to use your UCLA Logon ID</span> <span class="arrow arrowFix">></span></a>
+					<a data-role="button" class="button large panel-button horizontal-center UseUclaLogonButton ButtonFix" href="#viewSigninWithUclaLogon" style="margin-bottom:-1%;color:#2f2f2f"><span><br/>Press here to use your UCLA Logon ID</span> <span class="arrow arrowFix">></span></a>
                     <!-- <button class="button large panel-button horizontal-center" onclick="ClickRegistration();">Press here to register <span class="arrow arrowFix">></span></button> -->
-					<a data-role="button" class="button large panel-button horizontal-center ButtonFix" onclick="ClickRegistration();"><span><br/>Press here to register</span> <span class="arrow arrowFix">></span></a>
+					<a data-role="button" class="button large panel-button horizontal-center ButtonFix" onclick="ClickRegistration();" style="color:#2f2f2f"><span><br/>Press here to register</span> <span class="arrow arrowFix">></span></a>
                     <!--
                     <span style="margin-right:1%;">Check in with:</span>
                     <span class="group">
@@ -137,8 +137,10 @@
 		</div>
 		<!-- Anonymous view -->
 		<div data-role="view" id="anon" class="white-button" data-layout="LayoutWithUclaLogo">
-                <button class="button large horizontal-center long-button absolute-center" style="margin:auto;" onclick="window.open('reasons.html', '_self');">Continue</button>
-				<!-- <a data-role="button" class="button large horizontal-center long-button absolute-center" style="margin:auto;">Continue</a> -->
+                <!-- <button class="button large horizontal-center long-button absolute-center" style="margin:auto;" onclick="window.open('reasons.html', '_self');">Continue</button> -->
+				<div class="DivAnonymousContinueButton">
+					<a data-role="button" class="button large horizontal-center long-button absolute-center AnonymousContinueButton">Continue</a>
+				</div>
         </div>
 		
 		<!-- RSVP -->
@@ -223,7 +225,7 @@
 		</div>
 		
 		<!-- modal dialog to reconfigure lobby -->
-		<div data-role="modalview" id="dialog-modal" style="width: 50%;" >  <!-- class="CenterAlignModal" -->
+		<div data-role="modalview" id="dialog-modal" class="CenterAlignModal">  <!--  -->
 			<div data-role="header">
 				<div data-role="navbar">
 					<span data-title="view-title">Reconfigure Lobby</span>
@@ -245,7 +247,7 @@
 				<div data-role="header">
 					<div data-role="navbar">
 						<span>Alert</span>
-						<a data-click="HideNativeDialog" data-role="button" data-align="right" style="background:none;color:#3284bf;">Close</a>
+						<a data-click="FailedCardSwipe" data-role="button" data-align="right" style="background:none;color:#3284bf;">Close</a>
 					</div>
 				</div>					   
 				   <span id="spanAlertMessage" class="AlertText" ></span> 

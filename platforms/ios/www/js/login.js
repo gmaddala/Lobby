@@ -52,10 +52,12 @@ var app = {
                 }
             };
             var error = function(message) {
-                showDialog("Error: Please reswipe card");
+                //showDialog("Error: Please reswipe card");
+				showNativeDialog("Error: Please reswipe card");
+                /*
                 $( "#dialog" ).on( "dialogclose", function( event, ui ) {
                                   app.stopCardReader();
-                                  window.open("login.html", "_self");} );
+                                  window.open("login.html", "_self");} );*/
                 
             };
             cardreader.startCardReader(success, error);
@@ -66,7 +68,8 @@ var app = {
         if(typeof cardreader != "undefined")
         {
             var success = function() { };
-            var error = function(message) { showDialog("Error: " + message);};
+            var error = function(message) { //showDialog("Error: " + message);
+			showNativeDialog("Error: " + message);};
             cardreader.closeCardReader(success, error);
         }
     },
@@ -180,7 +183,9 @@ if(jsonobj.Data.IsValidLogon == true)
             }
             else
             {
-                showNativeDialog("Error: Invalid logon");
+                //showDialog("Error: Invalid logon");
+				showNativeDialog("Error: Invalid logon");
+
             }
 }
 
@@ -210,7 +215,8 @@ function CheckIn(logon, isoverride, isCardreader){
                var jsonobj = JSON.parse(data);
                 if(jsonobj.Data.UserInfo.IsValidLogon == false)
                 {
-                    showDialog("Not valid logon");
+                    //showDialog("Not valid logon");
+					showNativeDialog("Not valid logon");
                 }
                else
                {
@@ -239,7 +245,8 @@ function CheckIn(logon, isoverride, isCardreader){
                //window.open("login.html?key=" + $('#txtAccessKey').val() + "&deptname=" + jsonobj.Data.DeptName ,"_self");
            },
            error: function (jqXHR, textStatus, errorThrown) {
-                showDialog("Invalid UCLA logon");
+                //showDialog("Invalid UCLA logon");
+				showNativeDialog("Invalid UCLA logon");
                 app.startCardReader();
            //alert(jqXHR + ";\n\n" + textStatus + ";\n\n" + errorThrown);
            },
@@ -328,4 +335,14 @@ function ValidateAppKey(){
 		//showDialog("Incorrect key");
 		showNativeDialog("Incorrect key");
 	  }
+}
+
+function NavigateToReasonsPage(){
+  window.open('reasons.html', '_self');
+}
+
+function FailedCardSwipe(){
+    $("#modalviewAlert").kendoMobileModalView("close");
+    app.stopCardReader();
+    window.open("login.html", "_self");
 }

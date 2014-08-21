@@ -1,14 +1,15 @@
-.km-ios7, .km-ios7.km-pane .km-content{
+.km-ios5, .km-ios5.km-pane .km-content, .km-ios7, .km-ios7.km-pane .km-content{
 	background-color: #3284bf;
 }
-.km-ios7, .km-ios7 *{
-box-sizing : content-box;
--webkit-background-clip: border-box;
-background-clip: border-box;
+
+.km-ios5, .km-ios5 *, .km-ios7, .km-ios7 *{
+	box-sizing : content-box;
+	-webkit-background-clip: border-box;
+	background-clip: border-box;
 }
 
 .textbox{
-font-size: 130% !important;
+	font-size: 130% !important;
 }
 
 div.div-white-body-interior button, div.gray-div button{
@@ -24,16 +25,13 @@ div.div-white-body-interior button, div.gray-div button{
 }
 
 /* can be moved to local style class within index.html to prevent these styles interfering with other pages */
-.LoginButton{
-width: 87%;
-margin-left: 4.0%;
-background-color: #3284bf !important;
-color: white;
-height: 20px;
-background-image: none;
-padding: 2.5% !important;
-border-radius:6px !important;
-font-weight:bold;
+.largeButton{
+    width:88%;
+    font-size:1.1em !important;
+    margin-left:auto;
+    margin-right:auto;
+    margin-top:18px;
+    display:block;
 }
 
 .km-ios7 .k-list, .km-ios7 .k-slider, .km-ios7 .km-widget{
@@ -101,9 +99,41 @@ color: #3284bf !important;
   margin-top:2%;
 }
 
+#ddl-locations{
+    padding:0;
+}
+
+#lbl-locations{
+    width:95%;
+    display:block;
+    margin-left:auto;
+    margin-right:auto;
+    font-size:1em;
+}
+
+.LoginButton > span.km-text
+{
+    font-size:2em;
+    font-weight:normal;
+}
+
+div.gray-div{
+    width:80%;
+    top:40%;
+    left:7%;
+    position: fixed;
+    margin:0;
+}
+
+#splash{
+    top:30%;
+    position:fixed;
+    left:0;
+    right:0;
+}
 /* Registration page style fix */
 .Error{
-	background: #EEB4B4 !important;
+	background-color: #EEB4B4 !important;
 	border-color: #C75D4D !important;
 }
 
@@ -127,8 +157,13 @@ font-size:large !important;
   color: #fff !important;
 }
 
-.ButtonFix{
+.ButtonFix1{
   color: #2f2f2f !important;
+}
+
+.UseUclaLogonButton{
+	border-bottom:0;
+	margin-bottom:-1%;
 }
 
 .CheckInButtonFix{
@@ -137,7 +172,28 @@ font-size:large !important;
 }
 
 .CenterAlignModal{
-	width: 200%;
-	vertical-align:middle;
+	width: 200%;	
+	/* vertical-align:middle; */
 	display:inline-block !important;
+}
+
+.DivAnonymousContinueButton{
+	background-color: #fff;
+	/* padding-left: 4.5%;	 */
+	height:70vh;	
+	/* padding-top: 2%; */
+	/* padding-bottom: 2%; */
+	/* margin-top:5%; */
+}
+
+.AnonymousContinueButton
+{
+	margin-left: 30%;
+	padding-top: 2% !important;	
+	width: 40% !important;
+	margin-top: 4%;
+}
+.ReconfigureDialog{
+  display:inline-block;
+  vertical-align:middle;
 }

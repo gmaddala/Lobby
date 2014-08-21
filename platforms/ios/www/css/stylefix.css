@@ -1,7 +1,7 @@
-.km-ios7, .km-ios7.km-pane .km-content{
+.km-ios5, .km-ios5.km-pane .km-content, .km-ios7, .km-ios7.km-pane .km-content{
 background-color: #3284bf;
 }
-.km-ios7, .km-ios7 *{
+.km-ios5, .km-ios5 *, .km-ios7, .km-ios7 *{
 box-sizing : content-box;
 -webkit-background-clip: border-box;
 background-clip: border-box;
@@ -24,20 +24,17 @@ div.div-white-body-interior button, div.gray-div button{
 }
 
 /* can be moved to local style class within index.html to prevent these styles interfering with other pages */
-.LoginButton{
-width: 87%;
-margin-left: 4.0%;
-background-color: #3284bf !important;
-color: white;
-height: 20px;
-background-image: none;
-padding: 2.5% !important;
-border-radius:6px !important;
-font-weight:bold;
+.largeButton{
+    width:88%;
+    font-size:1.1em !important;
+    margin-left:auto;
+    margin-right:auto;
+    margin-top:18px;
+    display:block;
 }
 
 .km-ios7 .k-list, .km-ios7 .k-slider, .km-ios7 .km-widget{
-color:white;
+
 }
 
 .AlertText{
@@ -86,4 +83,74 @@ color: #3284bf !important;
 
 .SubmitButton{
   font-weight: bold !important;
+}
+
+.SignInFix{
+  padding-top: 3%;
+}
+.SignInFix1{
+  padding-top: 2%;
+}
+
+.WhiteBodyFix{
+  z-Index: 0;
+  margin-top:2%;
+}
+
+#ddl-locations{
+    padding:0;
+}
+
+#lbl-locations{
+    width:95%;
+    display:block;
+    margin-left:auto;
+    margin-right:auto;
+    font-size:1em;
+}
+
+.LoginButton > span.km-text
+{
+    font-size:2em;
+    font-weight:normal;
+}
+
+div.gray-div{
+    width:80%;
+    top:40%;
+    left:7%;
+    position: fixed;
+    margin:0;
+}
+
+#splash{
+    top:30%;
+    position:fixed;
+    left:0;
+    right:0;
+
+/* Registration page style fix */
+.Error{
+	background: #EEB4B4 !important;
+	border-color: #C75D4D !important;
+}
+
+.div-white-body-interior a[data-role="button"]{
+width: 87%;
+display: block;
+margin-bottom: 3%;
+margin-top: 5%;
+/* height: 3.5em; */
+background-color: #3284bf !important;
+border: none !important;
+color: #fff !important;
+background-image: none !important;
+font-size: 150% !important;
+margin-right: 8%;
+padding: 3%;
+font-size:large !important;
+}
+
+#divRegistration span{
+  color: #fff !important;
 }
