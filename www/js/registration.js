@@ -78,6 +78,7 @@ function Register()
     {
         var submitIntake = false; //if no reasons list, immediately submit intake
         if(typeof localStorage.getItem("reasons").VisitReasonList == "undefined")
+        //object undefined - getItem("reasons")
         {
             submitIntake = true;
         }
