@@ -120,7 +120,7 @@ function SubmitIntake(myJsonObj)
                                 myJsonObj
                                 ),
            beforeSend: function(){
-           $('body').addClass('ajax-spinner');
+           loading();
            },
            success: function(data){
            //alert(data);
@@ -131,7 +131,7 @@ function SubmitIntake(myJsonObj)
            alert(jqXHR + ";\n\n" + textStatus + ";\n\n" + errorThrown);
            },
            complete: function(){
-           $('body').removeClass('ajax-spinner');
+           endLoading();
            }
            
            });

@@ -1,4 +1,4 @@
-var offlineMode = true;
+var offlineMode = false;
 
 function getUrlParameter(sParam)
 {
@@ -128,4 +128,13 @@ function GetOfflineStudentData(){
   }
   
   return retData;
+}
+
+function loading(){
+    //$('body').addClass('ajax-spinner');
+    $('body').append('<div class="k-loading-mask ajax-spinner" style="width:100%;height:100%"></div>');
+}
+
+function endLoading(){
+    $('.ajax-spinner').remove();
 }

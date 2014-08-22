@@ -135,7 +135,7 @@ function SignIn(logon, isCardreader){
            beforeSend: function(){
            app.stopCardReader();
 		   console.log('before send..');
-           $('body').addClass('ajax-spinner');
+           loading();
            },
            success: function(data){
             //alert(data);
@@ -146,7 +146,7 @@ function SignIn(logon, isCardreader){
            },
            error: function (jqXHR, textStatus, errorThrown) {
            //showDialog("Invalid UCLA logon");
-		   showNativeDialog("Invalid UCLA logon");
+		   ShowFlashMessage("Invalid UCLA logon");
            //alert(jqXHR + ";\n\n" + textStatus + ";\n\n" + errorThrown);
            },
            complete: function(){
@@ -184,7 +184,7 @@ if(jsonobj.Data.IsValidLogon == true)
             else
             {
                 //showDialog("Error: Invalid logon");
-				showNativeDialog("Error: Invalid logon");
+				ShowFlashMessage("Error: Invalid logon");
 
             }
 }
@@ -208,7 +208,7 @@ function CheckIn(logon, isoverride, isCardreader){
            data: {"appid": localStorage.getItem("appid"), "uid": logon, "overrideRegistration": isoverride, "type": type, "initialintakestatus": localStorage.getItem("initialintakestatus"), "locationID": localStorage.getItem("selLocationID"), "appKey": localStorage.getItem("key"), "cardswiped": localStorage.getItem("cardswiped")},
            beforeSend: function(){
                 app.stopCardReader();
-                $('body').addClass('ajax-spinner');
+           loading();
            },
            success: function(data){
                //alert(data);
@@ -216,7 +216,7 @@ function CheckIn(logon, isoverride, isCardreader){
                 if(jsonobj.Data.UserInfo.IsValidLogon == false)
                 {
                     //showDialog("Not valid logon");
-					showNativeDialog("Not valid logon");
+					ShowFlashMessage("Not valid logon");
                 }
                else
                {
@@ -246,12 +246,13 @@ function CheckIn(logon, isoverride, isCardreader){
            },
            error: function (jqXHR, textStatus, errorThrown) {
                 //showDialog("Invalid UCLA logon");
-				showNativeDialog("Invalid UCLA logon");
+				ShowFlashMessage("Invalid UCLA logon");
                 app.startCardReader();
            //alert(jqXHR + ";\n\n" + textStatus + ";\n\n" + errorThrown);
            },
            complete: function(){
-           $('body').removeClass('ajax-spinner');
+           //$('body').removeClass('ajax-spinner');
+           endLoading();
            }
            });
 }
@@ -333,7 +334,7 @@ function ValidateAppKey(){
 		//$(this).dialog("close");
 		HideReconfigureLobbyDialog();
 		//showDialog("Incorrect key");
-		showNativeDialog("Incorrect key");
+		ShowFlashMessage("Incorrect key");
 	  }
 }
 

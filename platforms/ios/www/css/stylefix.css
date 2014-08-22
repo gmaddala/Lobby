@@ -1,10 +1,11 @@
 .km-ios5, .km-ios5.km-pane .km-content, .km-ios7, .km-ios7.km-pane .km-content{
-background-color: #3284bf;
+	background-color: #3284bf;
 }
+
 .km-ios5, .km-ios5 *, .km-ios7, .km-ios7 *{
-box-sizing : content-box;
--webkit-background-clip: border-box;
-background-clip: border-box;
+	box-sizing : content-box;
+	-webkit-background-clip: border-box;
+	background-clip: border-box;
 }
 
 a{
@@ -21,7 +22,7 @@ a{
 }
 
 .textbox{
-font-size: 130% !important;
+	font-size: 130% !important;
 }
 
 div.div-white-body-interior button, div.gray-div button{
@@ -66,7 +67,7 @@ margin-top:35px;
 }
 
 .km-ios7 .k-list, .km-ios7 .k-slider, .km-ios7 .km-widget{
-
+  /* color:white; */
 }
 
 .AlertText{
@@ -95,6 +96,7 @@ margin-top:35px;
 .cancelLinkFix{
   border: none !important;
   font-size: large !important;
+  color: #fff !important;
 }
 
 .ReconfigureLobby{
@@ -160,10 +162,11 @@ div.gray-div{
     position:fixed;
     left:0;
     right:0;
+}
 
 /* Registration page style fix */
 .Error{
-	background: #EEB4B4 !important;
+	background-color: #EEB4B4 !important;
 	border-color: #C75D4D !important;
 }
 
@@ -186,4 +189,42 @@ font-size:large !important;
 #divRegistration span{
   color: #fff !important;
 }
+
+.ButtonFix{
+  color: #2f2f2f !important;
+}
+
+.UseUclaLogonButton{
+	border-bottom:0;
+	margin-bottom:-1%;
+}
+
+.CheckInButtonFix{
+  margin-left: 3.5%;  
+  padding:1.5% !important;
+}
+
+.CenterAlignModal{
+	width: 200%;	
+	/* vertical-align:middle; */
+	display:inline-block !important;
+}
+
+.DivAnonymousContinueButton{
+	background-color: #fff;
+	/* padding-left: 4.5%;	 */
+	height:70vh;	
+	/* padding-top: 2%; */
+	/* padding-bottom: 2%; */
+	/* margin-top:5%; */
+}
+
+.AnonymousContinueButton
+{
+	margin-left: 30%;
+	padding-top: 2% !important;	
+	width: 40% !important;
+	margin-top: 4%;
+}
+
 
