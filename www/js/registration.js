@@ -77,11 +77,11 @@ function Register()
     if(!hasError)
     {
         var submitIntake = false; //if no reasons list, immediately submit intake
-        if(typeof localStorage.getItem("reasons").VisitReasonList == "undefined")
-        //object undefined - getItem("reasons")
-        {
-            submitIntake = true;
-        }
+        // if(typeof localStorage.getItem("reasons").VisitReasonList == "undefined")
+        // {
+            // submitIntake = true;
+        // }
+
         
         localStorage.setItem("uid", $('#txt_uid').val());
         localStorage.setItem("firstname", $('#txt_firstname').val())
