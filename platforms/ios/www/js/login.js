@@ -53,7 +53,7 @@ var app = {
             };
             var error = function(message) {
                 //showDialog("Error: Please reswipe card");
-				showNativeDialog("Error: Please reswipe card");
+				showCardReaderErrorAlert("Error: Please reswipe card");
                 /*
                 $( "#dialog" ).on( "dialogclose", function( event, ui ) {
                                   app.stopCardReader();
@@ -69,7 +69,7 @@ var app = {
         {
             var success = function() { };
             var error = function(message) { //showDialog("Error: " + message);
-			showNativeDialog("Error: " + message);};
+			showCardReaderErrorAlert("Error: " + message);};
             cardreader.closeCardReader(success, error);
         }
     },
@@ -189,6 +189,10 @@ if(jsonobj.Data.IsValidLogon == true)
             }
 }
 
+function OverrideCheckIn(){
+  CheckIn(localStorage.getItem('uid'), true, localStorage.getItem('cardswiped'));
+}
+
 //rsvp or eligibility check
 function CheckIn(logon, isoverride, isCardreader){
     isCardreader = typeof isCardreader != 'undefined' ? isCardreader : false;
@@ -303,7 +307,8 @@ function CloseApp(e)
 function OverrideHelp(e)
 {
     e.preventDefault();
-    alert("Selecting 'Override' marks the attendee as having been admitted but failed to meet the criteria set for this event.");
+    //alert("Selecting 'Override' marks the attendee as having been admitted but failed to meet the criteria set for this event.");
+	showNativeDialog("Selecting 'Override' marks the attendee as having been admitted but failed to meet the criteria set for this event.");
 }
 
 function ClickRegistration()
@@ -360,5 +365,17 @@ function FailedCardSwipe(){
     $("#modalviewAlert").kendoMobileModalView("close");
     app.stopCardReader();
     window.open("login.html", "_self");
+}
+
+function showCardReaderErrorAlert(msg) {
+    console.log(msg.toString);
+    $('#spanAlertMessageCardReader').text(msg);
+    $("#modalviewAlertCardReader").kendoMobileModalView("open");
+    
+    //$("#modalviewAlert").data("kendoMobileModalView").open();
+    //openModal();
+    
+    //$("#modalviewAlert").data("kendoMobileModalView").kendoMobileModalView("open");
+    //e.view.element.find("#modalviewAlert").kendoMobileModalView("open");
 }
 

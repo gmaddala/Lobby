@@ -15,10 +15,13 @@ a{
 .upperRightIcon{
     text-align:right;
     padding-bottom:10px;
-    color:#bfbfbf !important;
-    font-size:1.4em;
     width:100%;
     padding-right:3%;
+}
+
+.helpIcon{
+	font-size:1.5em;
+	color: #bfbfbf !important;
 }
 
 .textbox{
@@ -31,11 +34,15 @@ div.div-white-body-interior button, div.gray-div button{
   height: 2.9em;
 }
 
-div#modalviewAlert.km-widget.km-modalview.km-view{
+div#modalviewAlert.km-widget.km-modalview.km-view  , #dialog-modal.km-widget.km-modalview.km-view, #modalviewFlash.km-widget.km-modalview.km-view{ 
     position:fixed;
     width:50% !important;
     left:25%;
     top:40%;
+}
+
+#dialog-modal:before{
+  vertical-align:top;
 }
 
 .modalContent{
@@ -127,7 +134,7 @@ color: #3284bf !important;
 }
 
 .WhiteBodyFix{
-  z-Index: 0;
+  z-Index: 0 !important;
   margin-top:2%;
 }
 
@@ -147,6 +154,12 @@ color: #3284bf !important;
 {
     font-size:2em;
     font-weight:normal;
+}
+
+/* re-position RSVP event info box */
+div.gray-div.eventInfo{
+  margin-top:-7%;
+  /* top:30%; */
 }
 
 div.gray-div{
@@ -221,10 +234,38 @@ font-size:large !important;
 
 .AnonymousContinueButton
 {
-	margin-left: 30%;
-	padding-top: 2% !important;	
-	width: 40% !important;
+	margin-left: 22%;	
+	padding:1% !important;
+	width: 55% !important;
 	margin-top: 4%;
 }
+
+.overrideButtonFix{
+	height: 80% !important;
+	padding-top: 1% !important;
+}
+
+
+
+/* Proposed fix from Telerik Form to make a modal center aligned. Didn't work as expected. Have to try it again */
+/* http://www.telerik.com/forums/can't-get-modal-view-to-appear-at-top#iMEmd0SZ_0KH6H7SBhLtuw */
+/* *** start *** */
+#xdialog-modal .km-modalview-root:before {
+    vertical-align: middle;
+	display:inline-block;
+}
+
+.MiddleModalView:before {
+      vertical-align: middle;
+    }
+.MiddleModalView1, .MiddleModalView1:before	{
+  display: inline-block !important;
+  vertical-align: middle !important;
+}
+
+.MiddleModalView1:before{
+  height: 100% !important;
+}
+/* *** End *** */
 
 
