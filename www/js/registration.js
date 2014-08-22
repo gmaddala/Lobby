@@ -82,7 +82,7 @@ function Register()
             submitIntake = true;
         }
 
-        
+        localStorage.setItem("cardswiped", false);
         localStorage.setItem("uid", $('#txt_uid').val());
         localStorage.setItem("firstname", $('#txt_firstname').val())
         localStorage.setItem("lastname", $('#txt_lastname').val());

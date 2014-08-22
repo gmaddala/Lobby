@@ -128,7 +128,7 @@ function SubmitIntake(myJsonObj)
            },
            error: function (jqXHR, textStatus, errorThrown) {
            //alert("The access key you entered is incorrect. Please click 'Retry' to reenter your access key.");
-           alert(jqXHR + ";\n\n" + textStatus + ";\n\n" + errorThrown);
+           alert(jqXHR.responseText + ";\n\n" + textStatus + ";\n\n" + errorThrown);
            },
            complete: function(){
            endLoading();

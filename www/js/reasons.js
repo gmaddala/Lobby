@@ -127,8 +127,9 @@ function SubmitIntake(myJsonObj)
            window.open("thankyou.html", "_self");
            },
            error: function (jqXHR, textStatus, errorThrown) {
+           showNativeDialog("An error has occurred. Please try again.");
            //alert("The access key you entered is incorrect. Please click 'Retry' to reenter your access key.");
-           alert(jqXHR.responseText + ";\n\n" + textStatus + ";\n\n" + errorThrown);
+           //alert(jqXHR.responseText + ";\n\n" + textStatus + ";\n\n" + errorThrown);
            },
            complete: function(){
            endLoading();
