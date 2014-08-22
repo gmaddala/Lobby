@@ -112,10 +112,12 @@ function ClickLogon(){
 }
 
 
+function SignInWithUclaLogon(){
+	SignIn($('#txt_logon').val());
+}
 
 //self logging in
 function SignIn(logon, isCardreader){
-    //alert(logon);
     isCardreader = typeof isCardreader != 'undefined' ? isCardreader : false;
     localStorage.setItem("cardswiped", isCardreader);
     
@@ -128,43 +130,43 @@ function SignIn(logon, isCardreader){
     
 	if ( !isOfflineMode() )
 	   {
-    $.ajax({
-           type: "GET",
-           url: "http://sait-test.uclanet.ucla.edu/sawebnew2/api/validlogon",
-           data: {"logon": logon, "submitIntake": submitIntake, "appkey": localStorage.getItem("key"), "initialintakestatus": localStorage.getItem("initialintakestatus"), "locationID": localStorage.getItem("selLocationID"), "cardSwiped": localStorage.getItem("cardswiped")},
-           beforeSend: function(){
-           app.stopCardReader();
-		   console.log('before send..');
-           loading();
-           },
-           success: function(data){
-            //alert(data);
-            var jsonobj = JSON.parse(data);
-            SetStudentData(jsonobj, submitIntake);
-			
-            //window.open("login.html?key=" + $('#txtAccessKey').val() + "&deptname=" + jsonobj.Data.DeptName ,"_self");
-           },
-           error: function (jqXHR, textStatus, errorThrown) {
-           //showDialog("Invalid UCLA logon");
-		   ShowFlashMessage("Invalid UCLA logon");
-           //alert(jqXHR + ";\n\n" + textStatus + ";\n\n" + errorThrown);
-           },
-           complete: function(){
-           $('body').removeClass('ajax-spinner');
-           }
-           });
+			$.ajax({
+				   type: "GET",
+				   url: "http://sait-test.uclanet.ucla.edu/sawebnew2/api/validlogon",
+				   data: {"logon": logon, "submitIntake": submitIntake, "appkey": localStorage.getItem("key"), "initialintakestatus": localStorage.getItem("initialintakestatus"), "locationID": localStorage.getItem("selLocationID"), "cardSwiped": localStorage.getItem("cardswiped")},
+				   beforeSend: function(){
+				   app.stopCardReader();
+				   console.log('before send..');
+				   loading();
+				   },
+				   success: function(data){
+					//alert(data);
+					var jsonobj = JSON.parse(data);
+					SetStudentData(jsonobj, submitIntake);
+					
+					//window.open("login.html?key=" + $('#txtAccessKey').val() + "&deptname=" + jsonobj.Data.DeptName ,"_self");
+				   },
+				   error: function (jqXHR, textStatus, errorThrown) {
+				   //showDialog("Invalid UCLA logon");
+				   ShowFlashMessage("Invalid UCLA logon");
+				   //alert(jqXHR + ";\n\n" + textStatus + ";\n\n" + errorThrown);
+				   },
+				   complete: function(){
+				   $('body').removeClass('ajax-spinner');
+				   }
+				   });
 		 }
 		 else{
-		 //get offline data
-		  var offlineData = GetOfflineStudentData();
-		  var jsonobj = JSON.parse(offlineData);
-		  SetStudentData(jsonobj, submitIntake);
+				 //get offline data
+				  var offlineData = GetOfflineStudentData();
+				  var jsonobj = JSON.parse(offlineData);
+				  SetStudentData(jsonobj, submitIntake);
 		 }
 }
 
 function SetStudentData(jsonobj, submitIntake)
 {
-if(jsonobj.Data.IsValidLogon == true)
+		if(jsonobj.Data.IsValidLogon == true)
             {
                 localStorage.setItem("uid", jsonobj.Data.DictionaryUserInfo.UID);
                 localStorage.setItem("firstname", jsonobj.Data.DictionaryUserInfo.FirstName)
@@ -181,7 +183,7 @@ if(jsonobj.Data.IsValidLogon == true)
                 }
                 //window.open("reasons.html?key=" + getUrlParameter('key') + "&uid=" + jsonobj.Data.UID + "&rsvp=" + getUrlParameter("rsvp") + "&anon=" + getUrlParameter("anon") + "&firstname=" + jsonobj.Data.DictionaryUserInfo.FirstName + "&lastname=" + jsonobj.Data.DictionaryUserInfo.LastName + "&phone=" + jsonobj.Data.DictionaryUserInfo.Phone + "&email=" + jsonobj.Data.DictionaryUserInfo.Email + "&initialintakestatus=" + getUrlParameter("initialintakestatus"), "_self");
             }
-            else
+		else
             {
                 //showDialog("Error: Invalid logon");
 				ShowFlashMessage("Error: Invalid logon");
@@ -190,7 +192,7 @@ if(jsonobj.Data.IsValidLogon == true)
 }
 
 function OverrideCheckIn(){
-  CheckIn(localStorage.getItem('uid'), true, localStorage.getItem('cardswiped'));
+	CheckIn(localStorage.getItem('uid'), true, localStorage.getItem('cardswiped'));
 }
 
 //rsvp or eligibility check
@@ -357,7 +359,7 @@ function ShowFlashMessage(message){
 	//auto close the message after 1s
 	window.setTimeout(function(){
                                   $("#modalviewFlash").kendoMobileModalView("close");
-                                  }, 1000
+                                  }, 1500
 					  );
 }
 
@@ -371,11 +373,5 @@ function showCardReaderErrorAlert(msg) {
     console.log(msg.toString);
     $('#spanAlertMessageCardReader').text(msg);
     $("#modalviewAlertCardReader").kendoMobileModalView("open");
-    
-    //$("#modalviewAlert").data("kendoMobileModalView").open();
-    //openModal();
-    
-    //$("#modalviewAlert").data("kendoMobileModalView").kendoMobileModalView("open");
-    //e.view.element.find("#modalviewAlert").kendoMobileModalView("open");
 }
 
