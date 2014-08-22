@@ -117,6 +117,15 @@ function GetOfflineStudentData(){
   return retData;
 }
 
+function loading(){
+    //$('body').addClass('ajax-spinner');
+    $('body').append('<div class="k-loading-mask ajax-spinner" style="width:100%;height:100%"></div>');
+}
+
+function endLoading(){
+    $('.ajax-spinner').remove();
+}
+
 /* Proposed fix from Telerik Form to make a modal center aligned. Didn't work as expected. Have to try it again */
 /* http://www.telerik.com/forums/can't-get-modal-view-to-appear-at-top#iMEmd0SZ_0KH6H7SBhLtuw */
 function AddMiddleClass() {

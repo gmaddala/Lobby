@@ -15,10 +15,13 @@ a{
 .upperRightIcon{
     text-align:right;
     padding-bottom:10px;
-    color:#bfbfbf !important;
-    font-size:1.4em;
     width:100%;
     padding-right:3%;
+}
+
+.helpIcon{
+	font-size:1.5em;
+	color: #bfbfbf !important;
 }
 
 .textbox{
@@ -223,11 +226,10 @@ div.gray-div{
 
 .DivAnonymousContinueButton{
 	background-color: #fff;
-	/* padding-left: 4.5%;	 */
-	height:70vh;	
-	/* padding-top: 2%; */
-	/* padding-bottom: 2%; */
-	/* margin-top:5%; */
+	height:50%;
+    position:fixed;
+    width:100%;
+    bottom:0;
 }
 
 .AnonymousContinueButton
@@ -235,7 +237,7 @@ div.gray-div{
 	margin-left: 22%;	
 	padding:1% !important;
 	width: 55% !important;
-	margin-top: 4%;
+	margin-top: 15%;
 }
 
 .overrideButtonFix{
@@ -243,10 +245,7 @@ div.gray-div{
 	padding-top: 1% !important;
 }
 
-.helpIcon{
-	zoom: 150%;
-	color: #bfbfbf !important;
-}
+
 
 /* Proposed fix from Telerik Form to make a modal center aligned. Didn't work as expected. Have to try it again */
 /* http://www.telerik.com/forums/can't-get-modal-view-to-appear-at-top#iMEmd0SZ_0KH6H7SBhLtuw */

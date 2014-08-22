@@ -1,10 +1,11 @@
 .km-ios5, .km-ios5.km-pane .km-content, .km-ios7, .km-ios7.km-pane .km-content{
-background-color: #3284bf;
+	background-color: #3284bf;
 }
+
 .km-ios5, .km-ios5 *, .km-ios7, .km-ios7 *{
-box-sizing : content-box;
--webkit-background-clip: border-box;
-background-clip: border-box;
+	box-sizing : content-box;
+	-webkit-background-clip: border-box;
+	background-clip: border-box;
 }
 
 a{
@@ -14,14 +15,17 @@ a{
 .upperRightIcon{
     text-align:right;
     padding-bottom:10px;
-    color:#bfbfbf !important;
-    font-size:1.4em;
     width:100%;
     padding-right:3%;
 }
 
+.helpIcon{
+	font-size:1.5em;
+	color: #bfbfbf !important;
+}
+
 .textbox{
-font-size: 130% !important;
+	font-size: 130% !important;
 }
 
 div.div-white-body-interior button, div.gray-div button{
@@ -30,11 +34,15 @@ div.div-white-body-interior button, div.gray-div button{
   height: 2.9em;
 }
 
-div#modalviewAlert.km-widget.km-modalview.km-view{
+div#modalviewAlert.km-widget.km-modalview.km-view  , #dialog-modal.km-widget.km-modalview.km-view, #modalviewFlash.km-widget.km-modalview.km-view{ 
     position:fixed;
     width:50% !important;
     left:25%;
     top:40%;
+}
+
+#dialog-modal:before{
+  vertical-align:top;
 }
 
 .modalContent{
@@ -66,7 +74,7 @@ margin-top:35px;
 }
 
 .km-ios7 .k-list, .km-ios7 .k-slider, .km-ios7 .km-widget{
-
+  /* color:white; */
 }
 
 .AlertText{
@@ -95,6 +103,7 @@ margin-top:35px;
 .cancelLinkFix{
   border: none !important;
   font-size: large !important;
+  color: #fff !important;
 }
 
 .ReconfigureLobby{
@@ -125,7 +134,7 @@ color: #3284bf !important;
 }
 
 .WhiteBodyFix{
-  z-Index: 0;
+  z-Index: 0 !important;
   margin-top:2%;
 }
 
@@ -147,6 +156,12 @@ color: #3284bf !important;
     font-weight:normal;
 }
 
+/* re-position RSVP event info box */
+div.gray-div.eventInfo{
+  margin-top:-7%;
+  /* top:30%; */
+}
+
 div.gray-div{
     width:80%;
     top:40%;
@@ -160,10 +175,11 @@ div.gray-div{
     position:fixed;
     left:0;
     right:0;
+}
 
 /* Registration page style fix */
 .Error{
-	background: #EEB4B4 !important;
+	background-color: #EEB4B4 !important;
 	border-color: #C75D4D !important;
 }
 
@@ -186,4 +202,69 @@ font-size:large !important;
 #divRegistration span{
   color: #fff !important;
 }
+
+.ButtonFix{
+  color: #2f2f2f !important;
+}
+
+.UseUclaLogonButton{
+	border-bottom:0;
+	margin-bottom:-1%;
+}
+
+.CheckInButtonFix{
+  margin-left: 3.5%;  
+  padding:1.5% !important;
+}
+
+.CenterAlignModal{
+	width: 200%;	
+	/* vertical-align:middle; */
+	display:inline-block !important;
+}
+
+.DivAnonymousContinueButton{
+	background-color: #fff;
+	height:50%;
+    position:fixed;
+    width:100%;
+    bottom:0;
+}
+
+.AnonymousContinueButton
+{
+	margin-left: 22%;	
+	padding:1% !important;
+	width: 55% !important;
+	margin-top: 4%;
+}
+
+.overrideButtonFix{
+	height: 80% !important;
+	padding-top: 1% !important;
+}
+
+
+
+/* Proposed fix from Telerik Form to make a modal center aligned. Didn't work as expected. Have to try it again */
+/* http://www.telerik.com/forums/can't-get-modal-view-to-appear-at-top#iMEmd0SZ_0KH6H7SBhLtuw */
+/* *** start *** */
+#xdialog-modal .km-modalview-root:before {
+    vertical-align: middle;
+	display:inline-block;
+}
+
+.MiddleModalView:before {
+      vertical-align: middle;
+    }
+.MiddleModalView1, .MiddleModalView1:before	{
+  display: inline-block !important;
+  vertical-align: middle !important;
+}
+
+.MiddleModalView1:before{
+  height: 100% !important;
+}
+/* *** End *** */
+
 

@@ -114,9 +114,9 @@
                  -->
                 <div id="div_signin_method" class="panel-button-div">
                     <!-- <button class="button large panel-button horizontal-center" onclick="ClickLogon();" style="border-bottom:0;">Press here to use your UCLA Logon ID <span class="arrow arrowFix">></span></button> -->
-					<a data-role="button" class="button large panel-button horizontal-center UseUclaLogonButton ButtonFix" href="#viewSigninWithUclaLogon"><span><br/>Press here to use your UCLA Logon ID</span> <span class="arrow arrowFix">></span></a>
+					<a data-role="button" class="button large panel-button horizontal-center UseUclaLogonButton ButtonFix" href="#viewSigninWithUclaLogon"><span><br/>Press here to use your UCLA Logon ID</span> <span class="arrow arrowFix"><i class="icon-chevron-right"></i></span></a>
                     <!-- <button class="button large panel-button horizontal-center" onclick="ClickRegistration();">Press here to register <span class="arrow arrowFix">></span></button> -->
-					<a data-role="button" class="button large panel-button horizontal-center ButtonFix" onclick="ClickRegistration();"><span><br/>Press here to register</span> <span class="arrow arrowFix">></span></a>
+					<a data-role="button" class="button large panel-button horizontal-center ButtonFix" onclick="ClickRegistration();"><span><br/>Press here to register</span> <span class="arrow arrowFix"><i class="icon-chevron-right"></i></span></a>
                     <!--
                     <span style="margin-right:1%;">Check in with:</span>
                     <span class="group">
@@ -250,12 +250,24 @@
 				<div data-role="header">
 					<div data-role="navbar">
 						<span>Alert</span>
-						<a data-click="FailedCardSwipe" data-role="button" data-align="right" style="background:none;color:#3284bf;">Close</a>
+						<a data-click="HideNativeDialog" data-role="button" data-align="right" style="background:none;color:#3284bf;">Close</a>
 					</div>
 				</div>					   
 				<div class="modalContent">
 					<span id="spanAlertMessage" class="AlertText"></span> 
 			   </div>
+		</div>
+        <!-- modal to display alert messages -->
+		<div data-role="modalview" id="modalviewAlertCardReader" style="width: 50%;">
+            <div data-role="header">
+                <div data-role="navbar">
+                    <span>Alert</span>
+                    <a data-click="FailedCardSwipe" data-role="button" data-align="right" style="background:none;color:#3284bf;">Close</a>
+                </div>
+            </div>
+            <div class="modalContent">
+                <span id="spanAlertMessageCardReader" class="AlertText"></span>
+            </div>
 		</div>
 		<!-- modal to display flash message -->
 		<!-- TODO: Flash message styling -->

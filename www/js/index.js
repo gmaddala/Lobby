@@ -75,7 +75,7 @@ function LaunchKiosk()
                url: "http://sait-test.uclanet.ucla.edu/sawebnew2/api/ApplicationConfiguration",
                data: {"id": $('#txtAccessKey').val()},
                beforeSend: function(){
-                $('body').addClass('ajax-spinner');
+               loading();
                },
                success: function(data){
                 //alert(data);
@@ -95,7 +95,7 @@ function LaunchKiosk()
                //alert(jqXHR + ";\n\n" + textStatus + ";\n\n" + errorThrown);
                },
                complete: function(){
-                $('body').removeClass('ajax-spinner');
+               endLoading();
                }
         });
 		}

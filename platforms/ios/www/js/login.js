@@ -53,7 +53,7 @@ var app = {
             };
             var error = function(message) {
                 //showDialog("Error: Please reswipe card");
-				showNativeDialog("Error: Please reswipe card");
+				showCardReaderErrorAlert("Error: Please reswipe card");
                 /*
                 $( "#dialog" ).on( "dialogclose", function( event, ui ) {
                                   app.stopCardReader();
@@ -69,7 +69,7 @@ var app = {
         {
             var success = function() { };
             var error = function(message) { //showDialog("Error: " + message);
-			showNativeDialog("Error: " + message);};
+			showCardReaderErrorAlert("Error: " + message);};
             cardreader.closeCardReader(success, error);
         }
     },
@@ -135,7 +135,7 @@ function SignIn(logon, isCardreader){
            beforeSend: function(){
            app.stopCardReader();
 		   console.log('before send..');
-           $('body').addClass('ajax-spinner');
+           loading();
            },
            success: function(data){
             //alert(data);
@@ -146,7 +146,7 @@ function SignIn(logon, isCardreader){
            },
            error: function (jqXHR, textStatus, errorThrown) {
            //showDialog("Invalid UCLA logon");
-		   showNativeDialog("Invalid UCLA logon");
+		   ShowFlashMessage("Invalid UCLA logon");
            //alert(jqXHR + ";\n\n" + textStatus + ";\n\n" + errorThrown);
            },
            complete: function(){
@@ -184,9 +184,13 @@ if(jsonobj.Data.IsValidLogon == true)
             else
             {
                 //showDialog("Error: Invalid logon");
-				showNativeDialog("Error: Invalid logon");
+				ShowFlashMessage("Error: Invalid logon");
 
             }
+}
+
+function OverrideCheckIn(){
+  CheckIn(localStorage.getItem('uid'), true, localStorage.getItem('cardswiped'));
 }
 
 //rsvp or eligibility check
@@ -208,7 +212,7 @@ function CheckIn(logon, isoverride, isCardreader){
            data: {"appid": localStorage.getItem("appid"), "uid": logon, "overrideRegistration": isoverride, "type": type, "initialintakestatus": localStorage.getItem("initialintakestatus"), "locationID": localStorage.getItem("selLocationID"), "appKey": localStorage.getItem("key"), "cardswiped": localStorage.getItem("cardswiped")},
            beforeSend: function(){
                 app.stopCardReader();
-                $('body').addClass('ajax-spinner');
+           loading();
            },
            success: function(data){
                //alert(data);
@@ -216,7 +220,7 @@ function CheckIn(logon, isoverride, isCardreader){
                 if(jsonobj.Data.UserInfo.IsValidLogon == false)
                 {
                     //showDialog("Not valid logon");
-					showNativeDialog("Not valid logon");
+					ShowFlashMessage("Not valid logon");
                 }
                else
                {
@@ -246,12 +250,13 @@ function CheckIn(logon, isoverride, isCardreader){
            },
            error: function (jqXHR, textStatus, errorThrown) {
                 //showDialog("Invalid UCLA logon");
-				showNativeDialog("Invalid UCLA logon");
+				ShowFlashMessage("Invalid UCLA logon");
                 app.startCardReader();
            //alert(jqXHR + ";\n\n" + textStatus + ";\n\n" + errorThrown);
            },
            complete: function(){
-           $('body').removeClass('ajax-spinner');
+           //$('body').removeClass('ajax-spinner');
+           endLoading();
            }
            });
 }
@@ -302,7 +307,8 @@ function CloseApp(e)
 function OverrideHelp(e)
 {
     e.preventDefault();
-    alert("Selecting 'Override' marks the attendee as having been admitted but failed to meet the criteria set for this event.");
+    //alert("Selecting 'Override' marks the attendee as having been admitted but failed to meet the criteria set for this event.");
+	showNativeDialog("Selecting 'Override' marks the attendee as having been admitted but failed to meet the criteria set for this event.");
 }
 
 function ClickRegistration()
@@ -333,7 +339,7 @@ function ValidateAppKey(){
 		//$(this).dialog("close");
 		HideReconfigureLobbyDialog();
 		//showDialog("Incorrect key");
-		showNativeDialog("Incorrect key");
+		ShowFlashMessage("Incorrect key");
 	  }
 }
 
@@ -341,8 +347,35 @@ function NavigateToReasonsPage(){
   window.open('reasons.html', '_self');
 }
 
+function HideReconfigureLobbyDialog() {
+	$("#dialog-modal").kendoMobileModalView("close");  	
+}
+
+function ShowFlashMessage(message){
+	$('#spanFlashMessage').text(message);
+	$("#modalviewFlash").kendoMobileModalView("open");
+	//auto close the message after 1s
+	window.setTimeout(function(){
+                                  $("#modalviewFlash").kendoMobileModalView("close");
+                                  }, 1000
+					  );
+}
+
 function FailedCardSwipe(){
     $("#modalviewAlert").kendoMobileModalView("close");
     app.stopCardReader();
     window.open("login.html", "_self");
 }
+
+function showCardReaderErrorAlert(msg) {
+    console.log(msg.toString);
+    $('#spanAlertMessageCardReader').text(msg);
+    $("#modalviewAlertCardReader").kendoMobileModalView("open");
+    
+    //$("#modalviewAlert").data("kendoMobileModalView").open();
+    //openModal();
+    
+    //$("#modalviewAlert").data("kendoMobileModalView").kendoMobileModalView("open");
+    //e.view.element.find("#modalviewAlert").kendoMobileModalView("open");
+}
+
