@@ -11,6 +11,10 @@
 a{
     text-decoration: none;
 }
+[data-role="modalview"]
+{
+    display:none;
+}
 
 .upperRightIcon{
     text-align:right;

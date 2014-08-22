@@ -90,6 +90,13 @@
         
             </script>
         
+        <style>
+            
+            div.km-content{
+                padding-top:0 !important;
+            }
+        </style>
+        
 		<!-- <link href="styles/kendo.common.min.css" rel="stylesheet" /> -->
         <!-- <link href="styles/kendo.default.min.css" rel="stylesheet" /> -->
         <!-- <link href="styles/kendo.dataviz.min.css" rel="stylesheet" /> -->
@@ -132,7 +139,8 @@
 		<div data-role="view" id="viewSigninWithUclaLogon" data-layout="LayoutWithoutUclaLogo" data-show="InitForm">
 				<div id="div_logon" class="gray-div horizontal-center">
 							<input id="txt_logon" type="text" class="horizontal-center textbox" placeholder="Enter your UCLA Logon ID" style="display:block;"/>
-							<button class="button large horizontal-center long-button" style="" onclick="SignIn($('#txt_logon').val());">Sign In</button>
+							<!-- <button class="button large horizontal-center long-button" style="" onclick="SignIn($('#txt_logon').val());">Sign In</button> -->
+							<a data-role="button" class="LongButton SignInButton" data-click="SignInWithUclaLogon">Sign In</a>
                 </div>
 		</div>
 		<!-- Anonymous view -->
