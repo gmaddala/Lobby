@@ -24,7 +24,7 @@
         <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
         <!-- <link rel="stylesheet" type="text/css" href="css/blocks.css" /> -->
-        <!-- <link rel="stylesheet" type="text/css" href="css/lobby.css" /> -->
+        <link rel="stylesheet" type="text/css" href="css/lobby.css" />
         <!-- <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" /> -->
         
         <link href="styles/kendo.common.min.css" rel="stylesheet" />
@@ -55,14 +55,21 @@
 		
 		<div data-role="layout" data-id="checklayout">
             <header data-role="header">
-                <div data-role="navbar">
+                <!-- <div data-role="navbar">
                     <span data-role="view-title"></span>
-                    <!-- <a data-align="right" data-role="button" class="nav-button" href="#/">Index</a> -->
+                    <!-- <a data-align="right" data-role="button" class="nav-button" href="#/">Index</a> 
 					<div id="div_header" class="header-div">
-                <div class="HeaderLogoContainer"><img src="img/logo-ucla.png" class="HeaderLogo"/><span id="NameText" class="header-text"></span></div>
-                
-            </div>
-                </div>
+						<div class="HeaderLogoContainer"><img src="img/logo-ucla.png" class="HeaderLogo"/><span id="NameText" class="header-text"></span></div>
+					</div>
+                </div> -->
+				<div id="div_header" class="header-div1" style="background-color:#3284bf" >
+					<div>
+						<img src="img/logo-ucla.png" class="header-logo HeaderLogoFix" />
+						<span id="DeptName" class="header-text"></span>
+						<!--<a href="" id="close-link" onclick="CloseApp(event);">Close</a>-->
+						<!-- <button class="button large link-button" onclick="CloseApp(event);">Close</button> -->						
+					</div>					
+				</div>
             </header>
             
             <!--<div data-role="footer">
@@ -121,6 +128,7 @@
         </script>
         <script type="text/javascript">
             window.onload = function(){
+			$("#DeptName").text(localStorage.getItem("deptname"));
             $('.textbox-true').click(function(){
                                         $(this).parent().parent().append("<div><input type='text' id='" + $(this).attr('id') + "-txtother' class='temp'/></div>")
                                      });
