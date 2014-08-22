@@ -225,11 +225,10 @@ font-size:large !important;
 
 .DivAnonymousContinueButton{
 	background-color: #fff;
-	/* padding-left: 4.5%;	 */
-	height:70vh;	
-	/* padding-top: 2%; */
-	/* padding-bottom: 2%; */
-	/* margin-top:5%; */
+	height:50%;
+    position:fixed;
+    width:100%;
+    bottom:0;
 }
 
 .AnonymousContinueButton
