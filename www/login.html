@@ -139,7 +139,7 @@
 		<div data-role="view" id="anon" class="white-button" data-layout="LayoutWithUclaLogo">
                 <!-- <button class="button large horizontal-center long-button absolute-center" style="margin:auto;" onclick="window.open('reasons.html', '_self');">Continue</button> -->
 				<div class="DivAnonymousContinueButton">
-					<a data-role="button" class="button large horizontal-center long-button absolute-center AnonymousContinueButton">Continue</a>
+					<a data-role="button" class="AnonymousContinueButton" data-click="NavigateToReasonsPage">Continue</a>
 				</div>
         </div>
 		
@@ -149,7 +149,7 @@
 				<div class="center-text">
                     <span class="clear-margin-padding header-text">Swipe Bruincard or enter UID to check in</span>
                 </div>
-                <div class="gray-div horizontal-center">
+                <div class="gray-div horizontal-center eventInfo">
                     <table id="event_table" class="form-table">
                             <tr>
                                 <td class="form-table-label">Event:</td>
@@ -164,8 +164,10 @@
                                 <td id="">
                                     <span id="success" class="invisible">SUCCESS</span>
                                     <span id="failed" class="invisible">FAILED
-                                        <a id="btn_override" class="button large small-button" onclick="CheckIn(localStorage.getItem('uid'), true, localStorage.getItem('cardswiped'));">Override</a>
-                                            <span><a href="" class="link-blue text-right" onclick="OverrideHelp(event);"><small>What is this?</small></a></span>
+                                        <!-- <a id="btn_override" class="button large small-button" onclick="CheckIn(localStorage.getItem('uid'), true, localStorage.getItem('cardswiped'));">Override</a> -->
+										<a data-role="button" id="btn_override" class="button large small-button overrideButtonFix" data-click="OverrideCheckIn">Override</a>
+                                            <!-- <span><a href="" lass="link-blue text-right" onclick="OverrideHelp(event);"><small>What is this?</small></a></span> -->
+											<span><a href="" style="" onclick="OverrideHelp(event);" class="helpIcon"><i class="icon-question-sign"></i></a></span>
                                             </span>
                                 </td>
                             </tr>
@@ -225,7 +227,7 @@
 		</div>
 		
 		<!-- modal dialog to reconfigure lobby -->
-		<div data-role="modalview" id="dialog-modal" class="CenterAlignModal">  <!--  -->
+		<div data-role="modalview" id="dialog-modal">
 			<div data-role="header">
 				<div data-role="navbar">
 					<span data-title="view-title">Reconfigure Lobby</span>
@@ -250,8 +252,9 @@
 						<a data-click="FailedCardSwipe" data-role="button" data-align="right" style="background:none;color:#3284bf;">Close</a>
 					</div>
 				</div>					   
-				   <span id="spanAlertMessage" class="AlertText" ></span> 
-				   <!--Style to change styling of display message: style="background:#fff;color:#3284bf;" -->
+				<div class="modalContent">
+					<span id="spanAlertMessage" class="AlertText"></span> 
+			   </div>
 		</div>
 		<!-- modal to display flash message -->
 		<!-- TODO: Flash message styling -->

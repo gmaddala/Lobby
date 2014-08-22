@@ -189,6 +189,10 @@ if(jsonobj.Data.IsValidLogon == true)
             }
 }
 
+function OverrideCheckIn(){
+  CheckIn(localStorage.getItem('uid'), true, localStorage.getItem('cardswiped'));
+}
+
 //rsvp or eligibility check
 function CheckIn(logon, isoverride, isCardreader){
     isCardreader = typeof isCardreader != 'undefined' ? isCardreader : false;
@@ -302,7 +306,8 @@ function CloseApp(e)
 function OverrideHelp(e)
 {
     e.preventDefault();
-    alert("Selecting 'Override' marks the attendee as having been admitted but failed to meet the criteria set for this event.");
+    //alert("Selecting 'Override' marks the attendee as having been admitted but failed to meet the criteria set for this event.");
+	showNativeDialog("Selecting 'Override' marks the attendee as having been admitted but failed to meet the criteria set for this event.");
 }
 
 function ClickRegistration()
