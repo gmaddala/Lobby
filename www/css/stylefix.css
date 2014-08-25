@@ -183,7 +183,7 @@ div.gray-div{
 
 /* Registration page style fix */
 .Error{
-	background-color: #EEB4B4 !important;
+	background: #EEB4B4 !important;
 	border-color: #C75D4D !important;
 }
 
