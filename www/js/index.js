@@ -122,6 +122,8 @@ function RedirectToLoginPage(jsonobj)
 		//localStorage.setItem("hasreasons", jsonobj.Data.HasReasons);
 		localStorage.setItem("questions", JSON.stringify(jsonobj.Data.Questions));
 	   localStorage.setItem("allowregistration", jsonobj.Data.AllowRegistration);
+    localStorage.setItem("confirmation", jsonobj.Data.ConfirmationMessage);
+    localStorage.setItem("welcome", jsonobj.Data.WelcomeMessage);
 	   
 	   localStorage.setItem("eligibilitytype", jsonobj.Data.EligibilityType);
 	   
