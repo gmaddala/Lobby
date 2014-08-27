@@ -113,7 +113,14 @@ function ClickLogon(){
 
 
 function SignInWithUclaLogon(){
-	SignIn($('#txt_logon').val());
+	var logon = $('#txt_logon').val();
+    if ($.trim(logon) == ''){
+        ShowFlashMessage("Invalid UCLA logon");
+    }
+    else{
+       // SignIn($('#txt_logon').val());
+        SignIn(logon);
+    }
 }
 
 //self logging in
@@ -186,8 +193,8 @@ function SetStudentData(jsonobj, submitIntake)
 		else
             {
                 //showDialog("Error: Invalid logon");
+                $('body').removeClass('ajax-spinner');
 				ShowFlashMessage("Error: Invalid logon");
-
             }
 }
 

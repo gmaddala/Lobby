@@ -30,7 +30,12 @@
 		<link href="css/stylefix.css" rel="stylesheet" />
         <script src="js/jquery.min.js"></script>
         <!-- <script src="js/angular.min.js"></script> -->
-        <script src="js/kendo.all.min.js"></script>
+
+         <script src="js/kendo.all.min.js"></script>
+        <!-- <script src="js/kendo.core.min.js"></script>
+        <script src="js/kendo.maskedtextbox.min.js"></script>
+         -->
+
         <title>Login</title>
     </head>
     <body>
@@ -54,15 +59,15 @@
 				</div>
             </div>
         </div>
-		
-        <div data-role="view" data-layout="div_header_cancel" style="height:75%;"> <!--  class="div-white-body" -->
+		 
+        <div data-role="view" data-layout="div_header_cancel" style="height:75%;" data-init="InitControls"> <!--  class="div-white-body" -->
             <div class="div-white-body WhiteBodyFix" id="divRegistration">
 				<div class="div-white-body-interior">
 					<div class="form-table-label" style="padding-top:0;">Name</div>
 					<table class="NameTable">
 						<tr>
-							<td><input id="txt_firstname" type="text" class="textbox" placeholder="First" style="display:block;"/></td>
-							<Td><input id="txt_lastname" type="text" class="textbox" placeholder="Last" style="display:block;"/></td>
+							<td><input id="txt_firstname" type="text" class="textbox" placeholder="First (Required)" style="display:block;"/></td>
+							<Td><input id="txt_lastname" type="text" class="textbox" placeholder="Last (Required)" style="display:block;"/></td>
 						</tr>
 						
 					</table>
@@ -71,7 +76,7 @@
 					<div class="form-table-label">Mobile Phone</div>
 					<input id="txt_phone" type="text" class="textbox" placeholder="Example: (310)123-4567" style="display:block;"/>
 					<div class="form-table-label">Student UID</div>
-					<input id="txt_uid" type="text" class="textbox" placeholder="Example: 123456789" style="display:block;" maxlength="9"/>
+					<input id="txt_uid" type="number" class="textbox" placeholder="Enter 9 digit UID" style="display:block;" maxlength="9"/>
 					
 					<!-- <button class="button large horizontal-center big-blue-button" onclick="Register();" style="">Register</button> -->
 					<!-- <a data-role="button" class="button large horizontal-center big-blue-button" data-click="Register" style="">Register</a> -->
@@ -98,15 +103,27 @@
         <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> -->
         <script type="text/javascript" src="js/blocks.js"></script>
         <script type="text/javascript" src="js/global.js"></script>
+        <!--jQuery masked input plugin -->
+        <!-- <script type="text/javascript" src="js/jquery.maskedinput.min.js" ></script> -->
         <script type="text/javascript">
             //app.initialize();
             var app1;
             window.onload = function(){
 				app1 = new kendo.mobile.Application(document.body, {useNativeScrolling: true}); //, transition: 'overlay:up'
                 //$("#DeptName").text(localStorage.getItem("deptname"));
+
+                //Mask UID to accept 9 digits; all 9 digits are required
+                //$('#txt_uid').mask("999999999");
+                // $('#txt_uid').kendoMaskedTextBox({
+                  //          mask: "999"
+                  //});
             };
-        
-        
+        /*jQuery(function($){
+               $("#txt_uid").mask("99/99/9999");
+               });*/
+        function InitControls(){
+           // $('#txt_uid').mask("999999999");
+        }
         </script>
     </body>
 </html>

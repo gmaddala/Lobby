@@ -49,6 +49,34 @@ body {
 }
 
 /*Override jquery ui*/
+li.ui-menu-item:hover, li.ui-menu-item:active{
+    background:none !important;
+    border:0 !important;
+}
+
+.select-combo-box{
+    width:100% !important;
+    height:2.5em !important;
+}
+
+.select-combobox-button{
+    background-image:none !important;
+    border-left:0 !important;
+    height:2.7em !important;
+    width:10% !important;
+}
+
+.select-combobox-input{
+    height:2.5em !important;
+    width:84% !important;
+    border-radius:0 !important;
+    border: 1px solid #d3d3d3 !important;
+}
+
+.ui-autocomplete{
+    font-size:1.7em !important;
+}
+
 .ui-corner-all{
     border-radius:0 !important;
 }
@@ -227,7 +255,7 @@ h1 {
     border-width:1px;
     border-color:#bfbfbf;
     margin:auto;
-    width:40%;
+    width:80%;
     padding:3%;
     display:block;
 }
@@ -245,7 +273,7 @@ h1 {
 @media screen and (max-width: 768px)
 {
     .gray-div{
-        width:400px;
+        /*width:400px;*/
     }
     
     .div-white-body{
@@ -369,7 +397,7 @@ div.div-white-body-interior .textbox{
     background-color: #f2f2f2 !important;
 }
 
-div.div-white-body span,p,div{
+div.div-white-body span,p,div, ^span.km-text{
     color:#000;
 }
 
@@ -588,6 +616,14 @@ div.dialog-modal-container .textbox{
     margin-right:0 !important;
     margin-left:0 !important;
 }
+
+table#event_table.form-table
+{
+    font-size:1.5em;
+}
+
+
+
 
 
 

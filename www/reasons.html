@@ -177,6 +177,7 @@
 						
 						var defaultEntry = JSON.parse('{"ID":-1,"Text":"","Description":"Select","OpensTextbox":false}');
 						responses.unshift(defaultEntry);
+                        
                         $("#ul_" + question.ID).append("<li></li>");
                         e.view.element.find("#ul_" + question.ID + " > li").kendoComboBox({
                                                    dataTextField: "Text",
@@ -188,15 +189,21 @@
                                                    });
 												   
 						$('#ul_8 input').attr('placeholder', 'Please select/start typing an organization...');
+                        
+                        //define the DataSource
+                        
+                        //Test code for filterable list view
+                        //var data = new kendo.data.DataSource({ data: getData() });
 						/*e.view.element.find("#ul_" + question.ID + " > li").kendoMobileListView({
-									dataSource: responses,											
-									template: "<label>#: Text# <input type='radio' name='radio'  /></label>",
-									filterable: {
+									//dataSource: responses,
+                                    dataSource: data,
+                                                                                                pageSize: 10,
+									template: "<label>#: Text# <input type='radio' name='radio'  /></label>",*/
+									/*filterable: {
 													field: "Text",
 													operator: "contains"
-												},
-									virtualViewSize: 50,
-									selectable: "single",
+												},*/
+						/*			selectable: "single",
 									click: function(e){
 									console.log(e.dataItem.Text);
 									}*/
@@ -208,11 +215,13 @@
 
 									}*/
 
-						//,		endlessScroll: true //for dynamic data fetch
+						/*,		endlessScroll: true //for dynamic data fetch
+                        ,  virtualViewSize: 50
+                                                                                                , scrollTreshold: 30
 
-						//});
+						});
 						
-						$('#ul_8 li[data-role = "listview"]').addClass('ReasonsDropDown');
+						$('#ul_8 li[data-role = "listview"]').addClass('ReasonsDropDown');*/
                     }
                     else if(inputtype == "textbox")
                     {
@@ -231,6 +240,17 @@
 			e.view.element.find("#continueBtn").kendoMobileButton({click: SubmitReasons});
 		
 		}
+        
+        function getData(){
+            var data = [], idx = 0;
+            for (; idx < 10; idx) {
+                data.push({
+                          name: "Name" + idx
+                          });
+            }
+            
+            return data;
+        }
         </script>
     </body>
 </html>

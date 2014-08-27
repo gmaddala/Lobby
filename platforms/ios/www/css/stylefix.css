@@ -11,6 +11,11 @@
 a{
     text-decoration: none;
 }
+
+.invisible{
+    display:none;
+}
+
 [data-role="modalview"]
 {
     display:none;
@@ -38,14 +43,14 @@ div.div-white-body-interior button, div.gray-div button{
   height: 2.9em;
 }
 
-div#modalviewAlert.km-widget.km-modalview.km-view  , #dialog-modal.km-widget.km-modalview.km-view, #modalviewFlash.km-widget.km-modalview.km-view{ 
-    position:fixed;
+div#modalviewAlert.km-widget.km-modalview.km-view  , #xdialog-modal.km-widget.km-modalview.km-view, #modalviewFlash.km-widget.km-modalview.km-view{
+    /*position:fixed;*/
     width:50% !important;
     left:25%;
     top:40%;
 }
 
-#dialog-modal:before{
+dialog-modal:before{
   vertical-align:top;
 }
 
@@ -108,6 +113,10 @@ margin-top:35px;
   border: none !important;
   font-size: large !important;
   color: #fff !important;
+}
+
+.closeButtonFix{
+  border: none !important;
 }
 
 .ReconfigureLobby{
@@ -183,7 +192,7 @@ div.gray-div{
 
 /* Registration page style fix */
 .Error{
-	background-color: #EEB4B4 !important;
+	background: #EEB4B4 !important;
 	border-color: #C75D4D !important;
 }
 
@@ -272,7 +281,7 @@ div.gray-div{
 }
 /* *** End *** */
 
-input[type="text"]{
+input[type="text"], input[type="number"]{
 	display: inline-block; 
 	height: 20px;
 	padding: 4px 6px;

@@ -158,8 +158,9 @@ div.ui-dialog-buttonpane button.important{
 
 .molecules-bg{
     background-image:url(../img/molecules-combined.png) !important;
-    background-repeat:no-repeat;
-    background-position:center top;
+    /*ios 5.1 fix - !important*/
+    background-repeat:no-repeat !important;
+    background-position:center top !important;
 }
 
 /* Portrait layout (default) */
@@ -185,6 +186,7 @@ div.ui-dialog-buttonpane button.important{
                                       /* offset horizontal: half of image width and text area width */
     }
 }
+
 
 h1 {
     font-size:24px;

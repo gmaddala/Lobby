@@ -36,7 +36,7 @@
     <body>        
         <div data-role="view" data-layout="LayoutWithUclaLogo">
             <div class="div-white-body center-text WhiteBodyFix">
-                <span class="clear-margin-padding header-text" style="color:#000">Thank you</span>
+                <span class="clear-margin-padding header-text" style="color:#000" id="thankyoumsg"></span>
             </div>
             
         </div>
@@ -63,6 +63,11 @@
             window.onload = function(){
                 app1 = new kendo.mobile.Application(document.body, {useNativeScrolling: true}); //, transition: 'overlay:up'
 				clearStudentInfo();
+                
+                if(localStorage.getItem("confirmation") != null && localStorage.getItem("confirmation") != "null")
+                {
+                    $("#thankyoumsg").text(localStorage.getItem("confirmation"));
+                }
                 
                 var url = "";
                 $("#DeptName").text(localStorage.getItem("deptname"));

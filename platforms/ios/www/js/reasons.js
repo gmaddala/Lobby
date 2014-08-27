@@ -5,32 +5,77 @@ function SubmitReasons(e)
     var obj = JSON.parse(localStorage.getItem("questions"));
     var q_array = obj.Questions;
     
-    var errorText = "Please select a response for this question(s)- ";
+    //var errorText = "Please select a response for this question(s)- ";
+	var errorText = "Please answer all the required questions";
     var hasError = false;
+	var ctl;
+	var firstErrCtl;
+	
     for(var i = 0 ; i < q_array.length ; i++)
-    {
+    {		
         var question = q_array[i];
+		
         if(question.ResponsesType == "1" || question.ResponsesType == "2")
-        {
+        {//Checkbox/Radio
+		   ctl = $('input[name="input-' + question.ID + '"]');
             if($('input[name="input-' + question.ID + '"]:checked').val() != "on")
+			//if($(ctl+':checked').val() != "on")
             {
-                errorText = errorText + "\n " + question.QuestionText;
+			   //$('input[name="input-' + question.ID + '"]').closest('div').addClass("Error");
+			   $(ctl).closest('div').addClass("Error");
+                //errorText = errorText + "\n " + question.QuestionText;
                 hasError = true;
             }
+			else{
+				//$('input[name="input-' + question.ID + '"]').closest('div').removeClass("Error");
+				$(ctl).closest('div').removeClass("Error");
+			}
         }
         else if(question.ResponsesType == "4")
-        {
-            if($('#' + question.Responses[0].ID).val().length == 0)
+        {//Textbox
+			ctl = $('#' + question.Responses[0].ID);
+            //if($('#' + question.Responses[0].ID).val().length == 0)
+			if($(ctl).val().length == 0)
             {
-                errorText = errorText + "\n " + question.QuestionText;
+				//$('#' + question.Responses[0].ID).addClass("Error");
+				$(ctl).addClass("Error");
+                //errorText = errorText + "\n " + question.QuestionText;
                 hasError = true;
             }
+			else{
+				//$('#' + question.Responses[0].ID).closest('div').removeClass("Error");
+				$(ctl).removeClass("Error");
+			}
         }
+		else if(question.ResponseType = "3")
+		{//combo box
+			var select = $("#ul_" + question.ID + " li[data-role=combobox]");
+			if ($(select).attr('value') == -1)
+			{
+				$("#ul_" + question.ID + " input").addClass('Error');
+			}
+			else
+			{
+				$("#ul_" + question.ID + " input").removeClass('Error');
+			}
+		}
+		
+		if (firstErrCtl == undefined){
+		   firstErrCtl = ctl;
+		   //**scrollTop and focus both does the same; commented scrollTop
+		    // $('html, body').animate({				 
+				 // scrollTop:$(firstErrCtl).offset().top
+			// }, 1000);
+			
+			//focus on first control that erred out
+			$(firstErrCtl).focus();
+		}
     }
     
     if(hasError)
     {
-        showDialog(errorText);
+        //showDialog(errorText);
+		showNativeDialog(errorText);
         return;
     }
     
@@ -127,8 +172,10 @@ function SubmitIntake(myJsonObj)
            window.open("thankyou.html", "_self");
            },
            error: function (jqXHR, textStatus, errorThrown) {
-           //alert("The access key you entered is incorrect. Please click 'Retry' to reenter your access key.");
-           alert(jqXHR.responseText + ";\n\n" + textStatus + ";\n\n" + errorThrown);
+           showNativeDialog("An error has occurred. Please try again.");
+           //alert("The access key you entered is incorrect. Please click 'Retry' to reenter your access key.");		   
+           //alert(jqXHR.responseText + ";\n\n" + textStatus + ";\n\n" + errorThrown);
+			showNativeDialog("Error while checking in. Please contact the administrator");
            },
            complete: function(){
            endLoading();

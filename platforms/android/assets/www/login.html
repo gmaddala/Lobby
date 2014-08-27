@@ -23,47 +23,97 @@
         <meta name="format-detection" content="telephone=no" />
         <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
-        <link rel="stylesheet" type="text/css" href="css/blocks.css" />
+        <!-- <link rel="stylesheet" type="text/css" href="css/blocks.css" /> -->
         <link rel="stylesheet" type="text/css" href="css/lobby.css" />
         <!--<link rel="stylesheet" type="text/css" href="css/iwe.css" />-->
         <link rel="stylesheet" type="text/css" href="css/iwe_icon_fonts.css" />
-        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" />
+        <!-- <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" /> -->
+        <script type="text/javascript">
+            var app1, initialView;
+			
+			function ClickLogon(){
+				app1.Navigate('#viewSigninWithUclaLogon');
+			}
+            
+            window.onload = function(){
+			    
+				//app1 = new kendo.mobile.Application(document.body, {useNativeScrolling: true}); //, transition: 'overlay:up'
+				
+				//debugger;
+                if(localStorage.getItem("anon") != "true")
+                {
+                    app.initialize();
+                }
+                
+				//$("#welcome_text1").text("Welcome to " + localStorage.getItem("deptname"));
+                InitForm();
+                if(localStorage.getItem("allowregistration") == "false")
+                {
+                    $("#btn-register").addClass("invisible");
+                }
+                
+				app1 = new kendo.mobile.Application(document.body, {useNativeScrolling: true, initial: initialView}); //, transition: 'overlay:up'
+            };
+        
+		function InitForm(){		
+				$("#DeptName").text(localStorage.getItem("deptname"));
+                if(localStorage.getItem("welcome") != null && localStorage.getItem("welcome") != "null")
+                {
+                    $("#welcome_text").text(localStorage.getItem("welcome"));
+                    $("#welcome_text1").text(localStorage.getItem("welcome"));
+                }
+				
+				if(localStorage.getItem("anon") == "true")
+                {
+					initialView = "anon";
+                    //$("#anon").removeClass("invisible");
+                    //$("#not_anon").addClass("invisible");
+					//app1.navigate("#anon");
+					$("#body").addClass("molecules-bg");
+                }
+                else if(localStorage.getItem("rsvp") == "true" || localStorage.getItem("enforcedeligibility") == "true")
+                {
+				
+					initialView = "rsvp_eleg";				
+					
+                    $("#body").removeClass("molecules-bg");
+                    //$("#rsvp_eleg").removeClass("invisible");
+                    //$("#not_anon").addClass("invisible"); 
+                    //$("#welcome_text_div").addClass("invisible");
+                    $("#event_name").text(localStorage.getItem("appdescription"));
+					//app1.navigate("#rsvp_eleg");
+                }
+                else
+                {
+				initialView = "not_anon";
+                    $("#not_anon").removeClass("invisible");
+					$("#body").addClass("molecules-bg");
+                }
+		}
+        
+            </script>
+        
+        <style>
+            
+            div.km-content{
+                padding-top:0 !important;
+            }
+        </style>
+        
+		<!-- <link href="styles/kendo.common.min.css" rel="stylesheet" /> -->
+        <!-- <link href="styles/kendo.default.min.css" rel="stylesheet" /> -->
+        <!-- <link href="styles/kendo.dataviz.min.css" rel="stylesheet" /> -->
+        <!-- <link href="styles/kendo.dataviz.default.min.css" rel="stylesheet" /> -->
+        
+        <link href="styles/kendo.mobile.all.min.css" rel="stylesheet" />
+		<link href="css/stylefix.css" rel="stylesheet" />
+        <script src="js/jquery.min.js"></script>
+        <!-- <script src="js/angular.min.js"></script> -->
+        <script src="js/kendo.all.min.js"></script>
         <title>Login</title>
     </head>
     <body class="molecules-bg" id="body">
-        <div class="container">
-            <div id="dialog-modal" title="Reconfiguring Lobby" style="display: none;">
-                <div class="dialog-modal-container">
-                    Please enter Application Key
-                    <input id="txt_app_key" type="text" class="horizontal-center textbox" style="display:block;"/>
-                </div>
-            </div>
-            <!--<div class="app">
-                <h1>PhoneGap</h1>
-                <div id="deviceready" class="blink">
-                    <p class="event listening">Connecting to Device</p>
-                    <p class="event received">Device is Ready</p>
-                </div>
-            </div>-->
-            <div id="div_header" class="header-div">
-                <div>
-                    <img src="img/logo-ucla.png" class="header-logo"/>
-                    <span id="DeptName" class="header-text"></span>
-                    <!--<a href="" id="close-link" onclick="CloseApp(event);">Close</a>-->
-                    <button class="button large link-button" onclick="CloseApp(event);">Close</button>
-                </div>
-                
-            </div>
-            <div id="div_header_cancel" class="header-div invisible">
-                <div>
-                    <a href="" class="cancel-link" onclick="ClickBruincard();">Cancel</a>
-                </div>
-                
-            </div>
-            <div id="welcome_text_div" class="center-text">
-                <span id="welcome_text" class="clear-margin-padding header-text"></span>
-            </div>
-            <div id="not_anon" class="login-textbox invisible">
+		<div id="not_anon" class="login-textbox invisible" data-role="view" data-layout="LayoutWithUclaLogo">
                 <div id="div_bruincard" class="absolute-center">
                     <p class="bold-instruction"><i class="icon-credit"></i> <span style="margin-left:2%;">Swipe your Bruincard</span></p>
                 </div>
@@ -72,14 +122,11 @@
                     <img src="img/DAY2_SHOT1_SCULPTUREGARDEN_login.jpg" class="login-image" />
                 </div>
                  -->
-                <div id="div_logon" class="gray-div horizontal-center" style="display:none;">
-                    <input id="txt_logon" type="text" class="horizontal-center textbox" placeholder="Enter your UCLA Logon ID" style="display:block;"/>
-                    <button class="button large horizontal-center long-button" style="" onclick="SignIn($('#txt_logon').val());">Sign In</button>
-                </div>
-                
                 <div id="div_signin_method" class="panel-button-div">
-                    <button class="button large panel-button horizontal-center" onclick="ClickLogon();" style="border-bottom:0;">Press here to use your UCLA Logon ID <span class="arrow">></span></button>
-                    <button class="button large panel-button horizontal-center" onclick="ClickRegistration();">Press here to register <span class="arrow">></span></button>
+                    <!-- <button class="button large panel-button horizontal-center" onclick="ClickLogon();" style="border-bottom:0;">Press here to use your UCLA Logon ID <span class="arrow arrowFix">></span></button> -->
+					<a data-role="button" class="button large panel-button horizontal-center UseUclaLogonButton ButtonFix" href="#viewSigninWithUclaLogon"><span><br/>Press here to use your UCLA Logon ID</span> <span class="arrow arrowFix"><i class="icon-chevron-right"></i></span></a>
+                    <!-- <button class="button large panel-button horizontal-center" onclick="ClickRegistration();">Press here to register <span class="arrow arrowFix">></span></button> -->
+					<a data-role="button" class="button large panel-button horizontal-center ButtonFix" onclick="ClickRegistration();" id="btn-register"><span><br/>Press here to register</span> <span class="arrow arrowFix"><i class="icon-chevron-right"></i></span></a>
                     <!--
                     <span style="margin-right:1%;">Check in with:</span>
                     <span class="group">
@@ -92,14 +139,28 @@
                 </div>-->
                 
             </div>
-            <div id="anon" class="invisible center-text white-button">
-                <button class="button large horizontal-center long-button absolute-center" style="margin:auto;" onclick="window.open('reasons.html', '_self');">Continue</button>
-            </div>
-            <div id="rsvp_eleg" class="invisible div-white-body">
-                <div class="center-text">
-                    <span class="clear-margin-padding header-text">Swipe Bruincard or enter UID to check in</span>
+		<div data-role="view" id="viewSigninWithUclaLogon" data-layout="LayoutWithoutUclaLogo" data-show="InitForm">
+				<div id="div_logon" class="gray-div horizontal-center">
+							<input id="txt_logon" type="text" class="horizontal-center textbox" placeholder="Enter your UCLA Logon ID" style="display:block;"/>
+							<!-- <button class="button large horizontal-center long-button" style="" onclick="SignIn($('#txt_logon').val());">Sign In</button> -->
+							<a data-role="button" class="LongButton SignInButton" data-click="SignInWithUclaLogon">Sign In</a>
                 </div>
-                <div class="gray-div horizontal-center">
+		</div>
+		<!-- Anonymous view -->
+		<div data-role="view" id="anon" class="white-button" data-layout="LayoutWithUclaLogo">
+                <!-- <button class="button large horizontal-center long-button absolute-center" style="margin:auto;" onclick="window.open('reasons.html', '_self');">Continue</button> -->
+				<div class="DivAnonymousContinueButton">
+					<a data-role="button" class="AnonymousContinueButton" data-click="NavigateToReasonsPage">Continue</a>
+				</div>
+        </div>
+		
+		<!-- RSVP -->
+		<div data-role="view" id="rsvp_eleg" data-layout="LayoutWithoutWelcomeMessage">
+                <div class="div-white-body WhiteBodyFix">
+				<div class="center-text">
+                    <span class="clear-margin-padding header-text" style="color:#000">Swipe Bruincard or enter UID to check in</span>
+                </div>
+                <div class="gray-div horizontal-center eventInfo">
                     <table id="event_table" class="form-table">
                             <tr>
                                 <td class="form-table-label">Event:</td>
@@ -114,74 +175,130 @@
                                 <td id="">
                                     <span id="success" class="invisible">SUCCESS</span>
                                     <span id="failed" class="invisible">FAILED
-                                        <a id="btn_override" class="button large small-button" onclick="CheckIn(localStorage.getItem('uid'), true, localStorage.getItem('cardswiped'));">Override</a>
-                                            <span><a href="" class="link-blue text-right" onclick="OverrideHelp(event);"><small>What is this?</small></a></span>
+                                        <!-- <a id="btn_override" class="button large small-button" onclick="CheckIn(localStorage.getItem('uid'), true, localStorage.getItem('cardswiped'));">Override</a> -->
+										<a data-role="button" id="btn_override" class="button large small-button overrideButtonFix" data-click="OverrideCheckIn">Override</a>
+                                            <!-- <span><a href="" lass="link-blue text-right" onclick="OverrideHelp(event);"><small>What is this?</small></a></span> -->
+											<span><a href="" style="" onclick="OverrideHelp(event);" class="helpIcon"><i class="icon-question-sign"></i></a></span>
                                             </span>
                                 </td>
                             </tr>
-                    </table>
-                    <!--
-                    <p><span class="rsvp-label">Event:</span><span id="event_name"/></p>
-                    <p><span class="rsvp-label">Name:</span><span id="student_name"/></p>
-                    <p>
-                        <span class="rsvp-label">Status:</span>
-                        <span id="success" class="invisible">SUCCESS</span>
-                        <span id="failed" class="invisible">FAILED
-                            <a id="btn_override" class="button small">Override</button>
-                            <span><a href="http://wwww.ucla.edu" class="link-blue text-right"><small>What is this?</small></a></span>
-                        </span>
-                        
-                    </p>
-                    -->
+                    </table>                    
                     <input id="txt_rsvp_eleg_uid" type="text" class="horizontal-center textbox" placeholder="Enter UID" style="display:block;"/>
-                    <button class="button large horizontal-center long-button" style="" onclick="CheckIn($('#txt_rsvp_eleg_uid').val(), false);">Check In</button>
+                    <!-- <button class="button large horizontal-center long-button" style="" onclick="CheckIn($('#txt_rsvp_eleg_uid').val(), false);">Check In</button> -->
+					<a data-role="button" class="button large horizontal-center long-button CheckInButtonFix" style="" onclick="CheckIn($('#txt_rsvp_eleg_uid').val(), false);">Check In</a>
+                </div>
+				</div>
+            </div>
+		<!-- Layout with Ucla logo -->
+		<div data-role="layout" data-id="LayoutWithUclaLogo">
+			<div data-role="header">
+			   <div id="div_header" class="header-div" >
+					<div>
+						<img src="img/logo-ucla.png" class="header-logo HeaderLogoFix" />
+						<span id="DeptName" class="header-text"></span>
+						<!--<a href="" id="close-link" onclick="CloseApp(event);">Close</a>-->
+						<!-- <button class="button large link-button" onclick="CloseApp(event);">Close</button> -->
+						<a data-role="button" class="button large link-button" data-rel="modalview" href="#dialog-modal">Close</a>
+					</div>
+					
+				</div>
+				<div id="welcome_text_div" class="center-text WelcomeText">
+					<span id="welcome_text" class="clear-margin-padding header-text"></span>
+				</div>
+			</div>
+		</div>
+		<!-- Layout without Ucla logo; just 'cancel' link in the header -->
+		<div data-role="layout" data-id="LayoutWithoutUclaLogo">
+			<div data-role="header">
+			   <div id="div_header_cancel" class="header-div">
+                    <a href="#not_anon" class="cancel-link cancelLinkFix" data-role="button">Cancel</a>
+                <div>
                 </div>
             </div>
-        </div>
+				<div id="welcome_text_div1" class="center-text WelcomeText">
+					<span id="welcome_text1" class="clear-margin-padding header-text"></span>
+				</div>
+			</div>
+		</div>
+		<!-- Layout with Welcome message; -->
+		<!-- When trying to hide the welcome message from LayoutWithUclaLogo layout, the padding is maintained to the top of content. So, creating new layout. -->
+		<div data-role="layout" data-id="LayoutWithoutWelcomeMessage">
+			<div data-role="header">
+			   <div id="div_header" class="header-div" >
+					<div>
+						<img src="img/logo-ucla.png" class="header-logo HeaderLogoFix" />
+						<span id="DeptName" class="header-text"></span>
+						<!--<a href="" id="close-link" onclick="CloseApp(event);">Close</a>-->
+						<!-- <button class="button large link-button" onclick="CloseApp(event);">Close</button> -->
+						<a data-role="button" class="button large link-button" data-rel="modalview" href="#dialog-modal">Close</a>
+					</div>
+					
+				</div>				
+			</div>
+		</div>
+		
+		<!-- modal dialog to reconfigure lobby -->
+		<div data-role="modalview" id="dialog-modal">
+			<div data-role="header">
+				<div data-role="navbar">
+					<span data-title="view-title">Reconfigure Lobby</span>
+					<!-- <a data-click="HideReconfigureLobbyDialog" data-role="button" data-align="right" style="background:none;color:#3284bf;">Cancel</a> -->
+				</div>
+			</div>
+		   <div class="horizontal-center ReconfigureLobby">
+				<span>Please enter Application Key</span>
+				<input id="txt_app_key" type="text" class="textbox"/>
+			</div>
+			<div class="ReconfigureLobby">
+				<a data-role="button" class="modal-double-button-left ReconfigureLobbyButton" data-click="HideReconfigureLobbyDialog"> Cancel</a>				
+				<a data-role="button" class="modal-double-button-right important ReconfigureLobbyButton SubmitButton" data-click="ValidateAppKey"> Submit</a>
+			</div>
+		</div>
+		
+		<!-- modal to display alert messages -->
+		<div data-role="modalview" id="modalviewAlert" style="width: 50%;">
+				<div data-role="header">
+					<div data-role="navbar">
+						<span>Alert</span>
+						<a data-click="HideNativeDialog" data-role="button" data-align="right" style="background:none;color:#3284bf;">Close</a>
+					</div>
+				</div>					   
+				<div class="modalContent">
+					<span id="spanAlertMessage" class="AlertText"></span> 
+			   </div>
+		</div>
+        <!-- modal to display alert messages -->
+		<div data-role="modalview" id="modalviewAlertCardReader" style="width: 50%;">
+            <div data-role="header">
+                <div data-role="navbar">
+                    <span>Alert</span>
+                    <a data-click="FailedCardSwipe" data-role="button" data-align="right" style="background:none;color:#3284bf;">Close</a>
+                </div>
+            </div>
+            <div class="modalContent">
+                <span id="spanAlertMessageCardReader" class="AlertText"></span>
+            </div>
+		</div>
+		<!-- modal to display flash message -->
+		<!-- TODO: Flash message styling -->
+		<div data-role="modalview" id="modalviewFlash" style="width: 50%;">
+				<div data-role="header">
+					<div data-role="navbar">
+						<span>Error</span>						
+					</div>
+				</div>					   
+				<span id="spanFlashMessage" class="AlertText"></span> 				   
+		</div>
+		
         <script type="text/javascript" src="phonegap.js"></script>
-        <script type="text/javascript" src="js/blocks.js"></script>
+		
+        <!-- <script type="text/javascript" src="js/blocks.js"></script> -->
         <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>-->
-        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
+        <!-- <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script> -->
         
         <script type="text/javascript" src="js/login.js"></script>
         <script type="text/javascript" src="js/global.js"></script>
         
-        <script type="text/javascript">
-            
-            
-            window.onload = function(){
-                //debugger;
-                if(localStorage.getItem("anon") != "true")
-                {
-                    app.initialize();
-                }
-                $("#DeptName").text(localStorage.getItem("deptname"));
-                $("#welcome_text").text("Welcome to " + localStorage.getItem("deptname"));
-                
-                if(localStorage.getItem("allowregistration") == "false")
-                {
-                    $("#div_register").addClass("invisible");
-                }
-                if(localStorage.getItem("anon") == "true")
-                {
-                    $("#anon").removeClass("invisible");
-                    $("#not_anon").addClass("invisible");
-                }
-                else if(localStorage.getItem("rsvp") == "true" || localStorage.getItem("enforcedeligibility") == "true")
-                {
-                    $("#body").removeClass("molecules-bg");
-                    $("#rsvp_eleg").removeClass("invisible");
-                    $("#not_anon").addClass("invisible");
-                    $("#welcome_text_div").addClass("invisible");
-                    $("#event_name").text(localStorage.getItem("appdescription"));
-                }
-                else
-                {
-                    $("#not_anon").removeClass("invisible");
-                }
-            };
         
-        
-        </script>
     </body>
 </html>
