@@ -178,7 +178,7 @@
 						var defaultEntry = JSON.parse('{"ID":-1,"Text":"","Description":"Select","OpensTextbox":false}');
 						responses.unshift(defaultEntry);
                         $("#ul_" + question.ID).append("<li></li>");
-                        e.view.element.find("#ul_" + question.ID + " > li").kendoComboBox({
+                        /*e.view.element.find("#ul_" + question.ID + " > li").kendoComboBox({
                                                    dataTextField: "Text",
                                                    dataValueField: "ID",
                                                    dataSource: responses,
@@ -187,9 +187,10 @@
                                                    index: 0
                                                    });
 												   
-						$('#ul_8 input').attr('placeholder', 'Please select/start typing an organization...');
-						/*e.view.element.find("#ul_" + question.ID + " > li").kendoMobileListView({
-									dataSource: responses,											
+						$('#ul_8 input').attr('placeholder', 'Please select/start typing an organization...');*/
+						e.view.element.find("#ul_" + question.ID + " > li").kendoMobileListView({
+									//dataSource: responses,											
+									dataSource: getResponses(),
 									template: "<label>#: Text# <input type='radio' name='radio'  /></label>",
 									filterable: {
 													field: "Text",
@@ -199,7 +200,7 @@
 									selectable: "single",
 									click: function(e){
 									console.log(e.dataItem.Text);
-									}*/
+									}
 									/*change: function (e){ 
 									var data = dataSource.view(),
 									selected = $.map(this.select(), function(item) {				
@@ -208,9 +209,9 @@
 
 									}*/
 
-						//,		endlessScroll: true //for dynamic data fetch
+						,		endlessScroll: true //for dynamic data fetch
 
-						//});
+						});
 						
 						$('#ul_8 li[data-role = "listview"]').addClass('ReasonsDropDown');
                     }
@@ -230,6 +231,17 @@
 			$("#ulResponses").append('<li><a data-role="button" id="continueBtn" class="button">Continue</a></li>');
 			e.view.element.find("#continueBtn").kendoMobileButton({click: SubmitReasons});
 		
+		}
+		
+		function getResponses() {
+			var data = [], idx = 0;
+			for (; idx < 1000; idx) {
+				data.push({
+					name: "Name" + idx
+				});
+			}
+
+			return data;
 		}
         </script>
     </body>
