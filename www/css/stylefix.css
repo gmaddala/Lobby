@@ -379,7 +379,7 @@ input[type="text"]{
 .ResponseContainer{
 	padding-top: 0.7% !important;
 }
-input[type="text"] {
+#questions-body input[type="text"], #divCompleteResponseView input[type="text"]{
 	height: initial !important;	
 }
 .TextBox{
