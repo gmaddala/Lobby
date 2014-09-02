@@ -331,6 +331,7 @@
 
 					divQuestionAndResponse = divQuestionText + divResponse;
                     $('#divQuestions').append(divContainer.replace('{0}', divQuestionAndResponse));
+					$('#divResponse'+ question.ID).click(ShowResponsePage);
 					
 					var responses = question.Responses;					
 					var responsePlaceHolder = "<span>response text</span> <span style='float:right'>&gt;</span>";
@@ -468,9 +469,17 @@
 		//Display view where response for the question will be displayed
 		function ShowResponsePage(e){
 			//Get QuestionId for which responses need to be displayed			
-			var params = e.button.data();
-			//Passing parameter to listview/view is not supported. So, param value is stored in a global variable
-			paramQuestionId = params.questionid;
+			var params = "";
+			if(e.button == 0){
+				paramQuestionId = $(this).attr('id');
+				paramQuestionId = paramQuestionId.replace("divResponse", "");
+			}
+			else{
+				params = e.button.data();
+				//Passing parameter to listview/view is not supported. So, param value is stored in a global variable
+				paramQuestionId = params.questionid;
+			}
+			
 			app1.navigate("#divCompleteResponseView");
 		}
 		
@@ -524,16 +533,19 @@
 				var canCreateOtherTextBox = false;
 				var responseIdArr = responseIdColl.split(",");
 				var doesQuestionHaveResponse = false;
+				console.log('Question:' + paramQuestionId);
 				
 				for (var idx = 0; idx < responseForQuestion.length; idx++)
 				{
 						//if(responseId != undefined && responseId != "" && responseForQuestion[idx].ID == responseId){
 						doesQuestionHaveResponse = CanCheckResponseId(responseForQuestion[idx].ID, responseIdArr);
 						if(doesQuestionHaveResponse){
+							console.log('checking checkbox with reasonId:' + responseForQuestion[idx].ID);
 							liText = "<li><label> " + responseForQuestion[idx].Text + "<input type='" + responseControlType + "' name='input-" + paramQuestionId + "' id='"+ responseForQuestion[idx].ID+ "' checked='checked' class='textbox-"+ responseForQuestion[idx].OpensTextbox+ "'/></label></li>";						
 						}
 						else
 						{
+							console.log('checkbox not checked..' + responseForQuestion[idx].Text +' with reasonid:'+ responseForQuestion[idx].ID);
 							liText = "<li><label> " + responseForQuestion[idx].Text + "<input type='" + responseControlType + "' name='input-" + paramQuestionId + "' id='"+ responseForQuestion[idx].ID+ "' class='textbox-"+ responseForQuestion[idx].OpensTextbox+ "'/></label></li>";						
 						}
 						
