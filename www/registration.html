@@ -31,10 +31,11 @@
         <script src="js/jquery.min.js"></script>
         <!-- <script src="js/angular.min.js"></script> -->
 
+
          <script src="js/kendo.all.min.js"></script>
-        <!-- <script src="js/kendo.core.min.js"></script>
-        <script src="js/kendo.maskedtextbox.min.js"></script>
-         -->
+
+        
+
 
         <title>Login</title>
     </head>
@@ -59,11 +60,11 @@
 				</div>
             </div>
         </div>
-		 
+
         <div data-role="view" data-layout="div_header_cancel" style="height:75%;" data-init="InitControls"> <!--  class="div-white-body" -->
             <div class="div-white-body WhiteBodyFix" id="divRegistration">
 				<div class="div-white-body-interior">
-					<div class="form-table-label" style="padding-top:0;">Name</div>
+					<div class="form-table-label" style="padding-top:0;">Name<span class="RequiredField">*</span></div>
 					<table class="NameTable">
 						<tr>
 							<td><input id="txt_firstname" type="text" class="textbox" placeholder="First (Required)" style="display:block;"/></td>
@@ -72,11 +73,12 @@
 						
 					</table>
 					<div class="form-table-label">Email Address</div>
-					<input id="txt_email" type="text" class="textbox" placeholder="Example: yourname@domain.com" style="display:block;"/>
+					<input id="txt_email" type="text" class="textbox" placeholder="yourname@domain.com" style="display:block;"/>
 					<div class="form-table-label">Mobile Phone</div>
-					<input id="txt_phone" type="text" class="textbox" placeholder="Example: (310)123-4567" style="display:block;"/>
+					<input id="txt_phone" type="number" class="textbox" placeholder="(999)999-9999" style="display:block;"/>
 					<div class="form-table-label">Student UID</div>
 					<input id="txt_uid" type="number" class="textbox" placeholder="Enter 9 digit UID" style="display:block;" maxlength="9"/>
+
 					
 					<!-- <button class="button large horizontal-center big-blue-button" onclick="Register();" style="">Register</button> -->
 					<!-- <a data-role="button" class="button large horizontal-center big-blue-button" data-click="Register" style="">Register</a> -->
@@ -103,8 +105,10 @@
         <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> -->
         <script type="text/javascript" src="js/blocks.js"></script>
         <script type="text/javascript" src="js/global.js"></script>
+
         <!--jQuery masked input plugin -->
         <script type="text/javascript" src="js/jquery.maskedinput.min.js" ></script> 
+
         <script type="text/javascript">
             //app.initialize();
             var app1;
@@ -118,12 +122,16 @@
                   //          mask: "999"
                   //});
             };
-        /*jQuery(function($){
-               $("#txt_uid").mask("99/99/9999");
-               });*/
-        function InitControls(){
-           // $('#txt_uid').mask("999999999");
-        }
+
+        
+		function InitControls(){
+			//9 digit UID
+			$('#txt_uid').mask("999999999");
+			//Phone number format : (999)999-9999 where all the digits are required
+			$('#txt_phone').mask('(999)999-9999');
+		}
+        
+
         </script>
     </body>
 </html>
