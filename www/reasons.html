@@ -30,9 +30,6 @@
         
         <link href="styles/kendo.common.min.css" rel="stylesheet" />
         <link href="styles/kendo.default.min.css" rel="stylesheet" />
-        <!-- <link href="styles/kendo.dataviz.min.css" rel="stylesheet" />
-        <link href="styles/kendo.dataviz.default.min.css" rel="stylesheet" />
-         -->
         <link href="styles/kendo.mobile.all.min.css" rel="stylesheet" />
         
         <link href="css/lobby-kendoui.css" rel="stylesheet" />        
@@ -266,7 +263,7 @@
                     {
                         //$("#ul_" + question.ID).append("<li></li>");
 						var txtId = responses[0].ID;
-                        $("#ul_" + question.ID).append('<input type="text" value="" name="' + question.ID + '" id="' +  txtId + '" />');						
+                        $("#ul_" + question.ID).append('<input type="text" value="" name="' + question.ID + '" id="' +  txtId + '" class="TextBox" />');
 						//TODO: make the textbox look native
 						//e.view.element.find('#' + txtId).kendoTextBox();
 						
@@ -299,13 +296,14 @@
 					collectedResponses.push({QuestionId: question.ID, ReasonId: "", ReasonDetails: "", OtherReasonId: ""});
 					
 					var divContainer = '<div id="div'+ question.ID + '" class="QuestionAndResponseContainer">{0}</div>';
-					var divQuestionText = '<div class="span4"> <span class="QuestionText"><br/>' + question.QuestionText + '</span> </div>';
+					var divQuestionText = '<div class="span8"> <span class="QuestionText"><br/>' + question.QuestionText + '</span> </div>';
 					//add ul view here and append here..
-					var divResponse = '<div class="span8" id="divResponse'+ question.ID + '"><ul id="ul_' + question.ID + '"></ul></div>';
+					var divResponse = '<div class="span4" id="divResponse'+ question.ID + '"><ul id="ul_' + question.ID + '"></ul></div>';
 					//divResponse = '<div class="span8" id="divResponse'+ question.ID + '"><ul id="ul_' + question.ID + '" data-role="listview" data-style="inset" class="ListViewContainer"><li><span id="spanResponseText' + question.ID + '">Response Text..</span></li></ul> <a data-role="button"  id="btnResponseDetail_' + question.ID + '" data-questionid="' + question.ID + '"><span style="float:right">&gt;</span></a></div>';
-					var responseText = GetResponseText(question.ID);
+					//var responseText = GetResponseText(question.ID);
+					var responseText = "Required";
 					if(responseText == undefined) responseText = "";
-					divResponse = '<div class="span8 ResponseContainer" id="divResponse'+ question.ID + '"><span id="spanResponseText' + question.ID + '" class="Response">' + responseText + '</span> <a data-role="button"  id="btnResponseDetail_' + question.ID + '" data-questionid="' + question.ID + '" class="ResponseDetailButton"><span>&gt;</span></a></div>';
+					divResponse = '<div class="span4 ResponseContainer" id="divResponse'+ question.ID + '"><span id="spanResponseText' + question.ID + '" class="Response Required">' + responseText + '</span> <a data-role="button"  id="btnResponseDetail_' + question.ID + '" data-questionid="' + question.ID + '" class="ResponseDetailButton"><span>&gt;</span></a></div>';
 					
 					var divQuestionAndResponse = "";
                     var inputtype = "checkbox";
@@ -327,7 +325,7 @@
                     {
                         inputtype = "textbox";
 						//divResponse = '<div class="span8" id="divResponse'+ question.ID + '" style="padding-top:0.9%"><ul id="ul_' + question.ID + '" data-role="listview" data-style="inset" class="ListViewContainer"><li><input type="text" id="txt_' + question.ID + '"></input></li></ul></div>';
-						divResponse = '<div class="span8" id="divResponse'+ question.ID + '" style="padding-top:0.9%"><input type="text" id="txt_' + question.ID + '"></input></div>';
+						divResponse = '<div class="span4" id="divResponse'+ question.ID + '" style="padding-top:0.9%;"><input type="text" id="txt_' + question.ID + '"  class="TextBox FloatRight" placeholder="Required"></input></div>';
                         //$('#div_reason_list_' + question.ID).append('<label><input type="' + inputtype +'" aria-labelledby="i-4" id="' + question.Responses[0].ID  + '" name="txt_' + question.ID + '" class="horizontal-center textbox small-textbox" style="width:93% !important;"></label>');
                     }
 
@@ -368,20 +366,26 @@
 				if(responseType != "textbox" && responseType != "checkbox")
 				{
 					//get response text for the question, if made
-					responseText = GetResponseText(question.ID);
-					//populate in the readonly control
-					$('#spanResponseText'+ question.ID).text(responseText);
+					responseText = GetResponseText(question.ID);					
 					if(responseText != ""){//if user provided a response, remove error highlight
 						$('#divResponse'+ question.ID).removeClass("Error");
+						//populate in the readonly control
+						$('#spanResponseText'+ question.ID).text(responseText).removeClass("Required");
+					}
+					else
+					{
+						$('#spanResponseText'+ question.ID).text("Required").addClass("Required");
 					}
 				}
 				else if(responseType == "checkbox"){
 					//console.log('collecting for checkbox..' + question.ID);
 					//display number of responses selected
 					var collResponses = JSON.parse(localStorage.getItem("CollectedResponses"));
+
                     if (collResponses != undefined){
                         responseId = GetUserResponseId(collResponses, question.ID);
                     }
+
 					var responseCount = 0;
 					
 					if (responseId != ""){
@@ -389,8 +393,12 @@
 					}
 					
 					if (responseCount > 0){//if user provided a response, remove error highlight
-						$('#spanResponseText'+ question.ID).text(responseCount + " selected");
+						$('#spanResponseText'+ question.ID).text(responseCount + " selected").removeClass("Required");
 						$('#divResponse'+ question.ID).removeClass("Error");
+					}
+					else
+					{
+						$('#spanResponseText'+ question.ID).text("Required").addClass("Required");
 					}
 				}
 				else if(responseType == "textbox")
@@ -414,6 +422,7 @@
 			}
 		  
 			allQuestions = eventQuestions.Questions;
+
             if (collResponses != undefined){
                 responseId = GetUserResponseId(collResponses, questionId);
             }

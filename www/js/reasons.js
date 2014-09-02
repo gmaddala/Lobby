@@ -182,6 +182,7 @@ function ValidateReasons2(q_array){
 		{
 			//span control and caret
 			response = $('#divResponse'+ question.ID).find('span.Response').text();
+			response = response.replace("Required", "");
 			
 			if (response == ""){
 				responseContainer.addClass("Error");
