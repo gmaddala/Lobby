@@ -6,14 +6,93 @@ function SubmitReasons(e)
     var q_array = obj.Questions;
     
     //var errorText = "Please select a response for this question(s)- ";
-	var errorText = "Please answer all the required questions";
+	var errorText = "Please answer all the required questions highlighted";
     var hasError = false;
 	var ctl;
 	var firstErrCtl;
+	if (q_array.length < 3)
+	{//validate reasons for less than 3 questions
+		hasError = ValidateReasons1(q_array);
+	}
+	else{//validate reasons for 3 or more questions
+		hasError = ValidateReasons2(q_array);
+	}
+    
+    if(hasError)
+    {
+        //showDialog(errorText);
+		showNativeDialog(errorText);
+        return;
+    }
+    
+    var myJsonObj = SetUpIntakeJSONObj();
+    
+    
+    if (q_array.length < 3){//collect response for lobby which has 2 or less questions
+		for(var i = 0; i < q_array.length; i++) {
+			var question = q_array[i];
+			var inputtype = "checkbox";
+			
+			if(question.ResponsesType == "1" || question.ResponsesType == "2")
+			{
+				$('input[name="input-' + question.ID + '"]:checked').each(
+														 function(){
+														 myJsonObj.Reasons.ReasonsList.push({
+															"ReasonID":$(this).attr('id'),
+															"ReasonDetails": $("#" + $(this).attr('id') + "-txtother").val()
+														 });
+														 }
+				);
+				
+				//TODO: add other textbox
+			}
+			else if(question.ResponsesType == "3")
+			{
+				/*
+				inputtype = "selectbox";
+				var select = $("#combobox_" + question.ID);
+				myJsonObj.Reasons.ReasonsList.push({"ReasonID": select.val(), "ReasonDetails": ""});
+				 */
+				var select = $("#ul_" + question.ID + " li[data-role=combobox]");
+				myJsonObj.Reasons.ReasonsList.push({"ReasonID": select.attr('value'), "ReasonDetails": ""});
+			}
+			else if (question.ResponsesType == "4")
+			{
+				inputtype = "textbox";
+				var txt = $('#' + question.Responses[0].ID);
+				myJsonObj.Reasons.ReasonsList.push({"ReasonID": question.Responses[0].ID, "ReasonDetails": txt.val()});
+				 
+
+			}
+		}
+    }
+	else
+	{
+		var collectedResponses = JSON.parse(localStorage.getItem("CollectedResponses"));
+		var reasonId, otherReason;
+		
+		for(var idx = 0; idx < collectedResponses.length; idx++) {
+			reasonId = collectedResponses[idx].ReasonId;
+			otherReason = collectedResponses[idx].ReasonDetails;
+			if (otherReason == undefined) { otherReason = "";}
+
+			//collect responses
+			myJsonObj.Reasons.ReasonsList.push({
+												"ReasonID":reasonId,
+												"ReasonDetails": otherReason
+											 });
+		}
+	}
 	
-    for(var i = 0 ; i < q_array.length ; i++)
-    {		
-        var question = q_array[i];
+	SubmitIntake(myJsonObj);
+}
+
+function ValidateReasons1(q_array){
+	var question, hasError = false;
+	
+	for(var i = 0 ; i < q_array.length ; i++)
+    {
+        question = q_array[i];
 		
         if(question.ResponsesType == "1" || question.ResponsesType == "2")
         {//Checkbox/Radio
@@ -71,58 +150,66 @@ function SubmitReasons(e)
 			$(firstErrCtl).focus();
 		}
     }
-    
-    if(hasError)
-    {
-        //showDialog(errorText);
-		showNativeDialog(errorText);
-        return;
-    }
-    
-    var myJsonObj = SetUpIntakeJSONObj();
-    
-    
-    
-    for(var i = 0; i < q_array.length; i++) {
-        var question = q_array[i];
-        var inputtype = "checkbox";
-        
-        if(question.ResponsesType == "1" || question.ResponsesType == "2")
-        {
-            $('input[name="input-' + question.ID + '"]:checked').each(
-                                                     function(){
-                                                     myJsonObj.Reasons.ReasonsList.push({
-                                                        "ReasonID":$(this).attr('id'),
-                                                        "ReasonDetails": $("#" + $(this).attr('id') + "-txtother").val()
-                                                     });
-                                                     }
-            );
-            
-            //TODO: add other textbox
-        }
-        else if(question.ResponsesType == "3")
-        {
-            /*
-            inputtype = "selectbox";
-            var select = $("#combobox_" + question.ID);
-            myJsonObj.Reasons.ReasonsList.push({"ReasonID": select.val(), "ReasonDetails": ""});
-             */
-            var select = $("#ul_" + question.ID + " li[data-role=combobox]");
-            myJsonObj.Reasons.ReasonsList.push({"ReasonID": select.attr('value'), "ReasonDetails": ""});
-        }
-        else if (question.ResponsesType == "4")
-        {
-            inputtype = "textbox";
-            var txt = $('#' + question.Responses[0].ID);
-            myJsonObj.Reasons.ReasonsList.push({"ReasonID": question.Responses[0].ID, "ReasonDetails": txt.val()});
-             
-
-        }
-    }
-    SubmitIntake(myJsonObj);
+	
+	return hasError
 }
 
+function ValidateReasons2(q_array){
+ 
+	var question, questionId, responseContainer, response, hasError = false;
+	
+	for(var i = 0 ; i < q_array.length ; i++)
+    {
+        question = q_array[i];
+		responseContainer = $('#divResponse'+ question.ID);
+		
+		if (responseContainer.children().length == 1)
+		{
+			//input control
+			response = responseContainer.find('input').val();
+			if ($.trim(response) == ""){
+				responseContainer.find('input').addClass("Error");
+				SetUserResponseForQuestionId(question.ID, "");
+				hasError = true;
+			}
+			else
+			{
+				responseContainer.find('input').removeClass("Error");
+				SetUserResponseForQuestionId(question.ID, responseContainer.find('input').val());
+			}
+		}
+		else if ($('#divResponse'+ question.ID).children().length == 2)
+		{
+			//span control and caret
+			response = $('#divResponse'+ question.ID).find('span.Response').text();
+			
+			if (response == ""){
+				responseContainer.addClass("Error");
+				hasError = true;
+			}
+			else
+			{
+				responseContainer.removeClass("Error");
+			}
+		}
+	}
+	console.log('has error..'+ hasError);
+		return hasError;
+}
 
+function SetUserResponseForQuestionId(questionId, value)
+{
+	var collResponses = JSON.parse(localStorage.getItem("CollectedResponses"));
+	for (var idx = 0; idx < collResponses.length; idx++)
+	{
+		if(collResponses[idx].QuestionId == questionId)
+		{
+			collResponses[idx].ReasonId = "";
+			collResponses[idx].ReasonDetails = value;
+		}
+	}
+	localStorage.setItem("CollectedResponses", JSON.stringify(collResponses));
+}
 
 function SubmitNoReasons()
 {
@@ -168,17 +255,18 @@ function SubmitIntake(myJsonObj)
            loading();
            },
            success: function(data){
-           //alert(data);
-           window.open("thankyou.html", "_self");
+				//Reset CollectedResponses on successful submission
+				localStorage.setItem("CollectedResponses", JSON.stringify(""));
+				window.open("thankyou.html", "_self");
            },
            error: function (jqXHR, textStatus, errorThrown) {
            showNativeDialog("An error has occurred. Please try again.");
            //alert("The access key you entered is incorrect. Please click 'Retry' to reenter your access key.");		   
            //alert(jqXHR.responseText + ";\n\n" + textStatus + ";\n\n" + errorThrown);
-			showNativeDialog("Error while checking in. Please contact the administrator");
+			//showNativeDialog("Error while checking in. Please contact the administrator");
            },
            complete: function(){
-           endLoading();
+				endLoading();
            }
            
            });
