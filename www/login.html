@@ -36,7 +36,8 @@
 			}
             
             window.onload = function(){
-			    
+				//Reset CollectedResponses
+			    localStorage.setItem("CollectedResponses", JSON.stringify(""));
 				//app1 = new kendo.mobile.Application(document.body, {useNativeScrolling: true}); //, transition: 'overlay:up'
 				
 				//debugger;
