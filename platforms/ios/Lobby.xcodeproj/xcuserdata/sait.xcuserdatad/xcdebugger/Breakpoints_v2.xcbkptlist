@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Lobby/Plugins/edu.ucla.sait.lobby.plugins.CardReader/CardReader.m"
-            timestampString = "427764947.729951"
+            timestampString = "431386243.781205"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "30"
-            endingLineNumber = "30"
+            startingLineNumber = "36"
+            endingLineNumber = "36"
             landmarkName = "-StopCardReaderListener:"
             landmarkType = "5">
          </BreakpointContent>
@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Lobby/Plugins/edu.ucla.sait.lobby.plugins.CardReader/CardReader.m"
-            timestampString = "427765157.13139"
+            timestampString = "431386243.781205"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "58"
-            endingLineNumber = "58"
+            startingLineNumber = "64"
+            endingLineNumber = "64"
             landmarkName = "-onDataEvent:"
             landmarkType = "5">
          </BreakpointContent>

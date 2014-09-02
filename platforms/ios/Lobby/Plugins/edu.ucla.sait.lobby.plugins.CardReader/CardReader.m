@@ -17,7 +17,12 @@
     self.cordovaCommand = command;
     self.mtSCRALib = [[MTSCRA alloc] init];
     [self.mtSCRALib listenForEvents:(TRANS_EVENT_OK|TRANS_EVENT_START|TRANS_EVENT_ERROR)];
-    [self.mtSCRALib setDeviceType:(MAGTEKAUDIOREADER)];
+    
+    [self.mtSCRALib setDeviceType:(MAGTEKIDYNAMO)];
+    [self.mtSCRALib setDeviceProtocolString:(@"com.magtek.idynamo")];
+    //[self.mtSCRALib setDeviceType:(MAGTEKIDYNAMO)];
+    
+    //[self.mtSCRALib setDeviceType:(MAGTEKAUDIOREADER)];
     [self openDevice];
     
     [[NSNotificationCenter defaultCenter] addObserver:self

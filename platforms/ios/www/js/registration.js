@@ -1,3 +1,4 @@
+var phoneNumber, phoneNumberFormatted;
 function Register()
 {
     var hasError = false;
@@ -58,9 +59,12 @@ function Register()
 		$('#txt_uid').removeClass('Error');
     }
     
-	if($('#txt_phone').val().length > 0)
+	phoneNumberFormatted = $('#txt_phone').val();
+	if(phoneNumberFormatted.length > 0)
 	{
-		if($('#txt_phone').val().length != 10 || !$('#txt_phone').val().match(numbers))
+		phoneNumber = phoneNumberFormatted.replace("(", "").replace(")", "").replace("-","");
+		//if($('#txt_phone').val().length != 10 || !$('#txt_phone').val().match(numbers))
+		if(phoneNumber.length != 10 || !phoneNumber.match(numbers))
 		{
 			hasError = true;
 			//$('#phone_error').text('Please enter valid Phone Number');
@@ -86,7 +90,8 @@ function Register()
         localStorage.setItem("uid", $('#txt_uid').val());
         localStorage.setItem("firstname", $('#txt_firstname').val())
         localStorage.setItem("lastname", $('#txt_lastname').val());
-        localStorage.setItem("phone", $('#txt_phone').val());
+        //localStorage.setItem("phone", $('#txt_phone').val());
+		localStorage.setItem("phone", phoneNumber);
         localStorage.setItem("email", $('#txt_email').val());
         
         if(submitIntake)

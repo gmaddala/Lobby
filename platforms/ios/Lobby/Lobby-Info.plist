@@ -79,5 +79,7 @@
       <string>UIInterfaceOrientationPortraitUpsideDown</string>
       <string>UIInterfaceOrientationLandscapeRight</string>
     </array>
+    <key>UIApplicationExitsOnSuspend</key>
+    <true/>
   </dict>
 </plist>

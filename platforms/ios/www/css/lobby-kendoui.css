@@ -78,8 +78,8 @@ span.k-icon.k-i-arrow-s
 }
 
 span.km-text
-{
-    font-size:1.4em !important;
+{ /* Commenting since it interferes with default kendo font size */
+    /* font-size:1.4em !important; */
 }
 
 ul>input[type=text]
