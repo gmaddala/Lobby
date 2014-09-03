@@ -47,12 +47,15 @@
     </head>
     <body class="scrollable">
 	
-	<div id="questions-body" data-role="view" data-title=" " data-layout="checklayout" data-show="DisplayResponses">
+	<div id="questions-body" data-role="view" data-title=" " data-layout="checklayout" data-show="DisplayResponses" >
+        <div style="padding-left:10px;">
+        <span class="span-question-text" style="margin:0;">Please answer the following questions:</span>
 	        <ul data-role="listview" data-style="inset" id="ulResponses" data-type="group">
 			</ul>
-            <div class="row-fluid FormIndentation" id="divQuestions">
+            <div class="row-fluid FormIndentation" id="divQuestions" style="padding-left:15px;">
 			  
 			</div>
+            </div>
         </div>
         <div id="divCompleteResponseView" data-role="view" data-title="" data-layout="ResponseDetailsLayout" data-show="DisplayQuestionResponses" data-init="InitQuestionResponses">
 			<div class="ResponseDetailContainer">
