@@ -54,7 +54,7 @@
 			  
 			</div>
         </div>
-        <div id="divCompleteResponseView" data-role="view" data-title="" data-layout="ResponseDetailsLayout" data-show="DisplayQuestionResponses">
+        <div id="divCompleteResponseView" data-role="view" data-title="" data-layout="ResponseDetailsLayout" data-show="DisplayQuestionResponses" data-init="InitQuestionResponses">
 			<div class="ResponseDetailContainer">
 				<span id="spanQuestionText"></span>
 			</div>
@@ -154,6 +154,15 @@
 			//$('input[type="text"].TextBox').mask('9999');
 		};
 
+		function InitQuestionResponses()
+		{
+			console.log('init..');
+			$('#divCompleteResponseView').addClass('DisplayNone');
+			window.setTimeout(function(){
+				$('#divCompleteResponseView').removeClass('DisplayNone')
+			}, 100);
+		}
+		
 		function DisplayResponses(e){
 				eventQuestions = JSON.parse(localStorage.getItem("questions"));
                 var q_array = eventQuestions.Questions;

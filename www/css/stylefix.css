@@ -402,3 +402,6 @@ input[type="radio"]:focus, input[type="checkbox"]:focus{
 	/* color:#aaa; */
 	color: #666;
 }
+.DisplayNone{
+	display: none !important;
+}
