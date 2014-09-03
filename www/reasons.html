@@ -150,7 +150,7 @@
 										$(this).parent().parent().append("<div><input type='text' id='" + $(this).attr('id') + "-txtother' class='temp'/></div>")
 									 });
 			//apply mask for number field
-			$('input[type="number"].TextBox').mask('9999');
+			//$('input[type="number"].TextBox').mask('9999');
 			//$('input[type="text"].TextBox').mask('9999');
 		};
 
@@ -359,8 +359,12 @@
 					}
 					//console.log("question.ResponsesType " + question.ResponsesType);
 					if(question.ResponsesType == "5"){
-						//console.log("apply mask");
-						//$('#txt_'+ question.ID).mask("9999");
+						//allow only numbers on keypress event
+						$('#txt_'+ question.ID).bind('keypress',PopulateNumbers);						
+						//disable paste
+						$('#txt_'+ question.ID).bind("paste",function(e) {  
+							 e.preventDefault();  
+						}); 
 					}
 					
 					
@@ -442,6 +446,16 @@
 				}
 			}
 		  }
+		}
+		
+		//Function to allow only numbers into the text field
+		function PopulateNumbers(e)
+		{
+			var code = e.keyCode || e.which;
+			if(code < 48 || code > 57){
+			
+				e.preventDefault();
+			}			
 		}
 		
 		function GetResponseText(questionId)
