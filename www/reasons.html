@@ -404,10 +404,11 @@
 					//console.log('collecting for checkbox..' + question.ID);
 					//display number of responses selected
 					var collResponses = JSON.parse(localStorage.getItem("CollectedResponses"));
-					if(collResponses != undefined){
-						responseId = GetUserResponseId(collResponses, question.ID);
-					}
-						
+
+                    if (collResponses != undefined){
+                        responseId = GetUserResponseId(collResponses, question.ID);
+                    }
+
 					var responseCount = 0;
 					
 					if (responseId != ""){
@@ -444,8 +445,10 @@
 			}
 		  
 			allQuestions = eventQuestions.Questions;
-			if (collResponses != undefined)
-				responseId = GetUserResponseId(collResponses, questionId);
+
+            if (collResponses != undefined){
+                responseId = GetUserResponseId(collResponses, questionId);
+            }
 			
 			//loop through all the questions to find the response text for the input questionId
 			for (var idx = 0; idx < allQuestions.length; idx++)

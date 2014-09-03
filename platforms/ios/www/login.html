@@ -36,7 +36,8 @@
 			}
             
             window.onload = function(){
-			    
+				//Reset CollectedResponses
+			    localStorage.setItem("CollectedResponses", JSON.stringify(""));
 				//app1 = new kendo.mobile.Application(document.body, {useNativeScrolling: true}); //, transition: 'overlay:up'
 				
 				//debugger;
@@ -49,7 +50,7 @@
                 InitForm();
                 if(localStorage.getItem("allowregistration") == "false")
                 {
-                    $("#div_register").addClass("invisible");
+                    $("#btn-register").addClass("invisible");
                 }
                 
 				app1 = new kendo.mobile.Application(document.body, {useNativeScrolling: true, initial: initialView}); //, transition: 'overlay:up'
@@ -57,8 +58,11 @@
         
 		function InitForm(){		
 				$("#DeptName").text(localStorage.getItem("deptname"));
-                $("#welcome_text").text("Welcome to " + localStorage.getItem("deptname"));
-				$("#welcome_text1").text("Welcome to " + localStorage.getItem("deptname"));
+                if(localStorage.getItem("welcome") != null && localStorage.getItem("welcome") != "null")
+                {
+                    $("#welcome_text").text(localStorage.getItem("welcome"));
+                    $("#welcome_text1").text(localStorage.getItem("welcome"));
+                }
 				
 				if(localStorage.getItem("anon") == "true")
                 {
@@ -123,7 +127,7 @@
                     <!-- <button class="button large panel-button horizontal-center" onclick="ClickLogon();" style="border-bottom:0;">Press here to use your UCLA Logon ID <span class="arrow arrowFix">></span></button> -->
 					<a data-role="button" class="button large panel-button horizontal-center UseUclaLogonButton ButtonFix" href="#viewSigninWithUclaLogon"><span><br/>Press here to use your UCLA Logon ID</span> <span class="arrow arrowFix"><i class="icon-chevron-right"></i></span></a>
                     <!-- <button class="button large panel-button horizontal-center" onclick="ClickRegistration();">Press here to register <span class="arrow arrowFix">></span></button> -->
-					<a data-role="button" class="button large panel-button horizontal-center ButtonFix" onclick="ClickRegistration();"><span><br/>Press here to register</span> <span class="arrow arrowFix"><i class="icon-chevron-right"></i></span></a>
+					<a data-role="button" class="button large panel-button horizontal-center ButtonFix" onclick="ClickRegistration();" id="btn-register"><span><br/>Press here to register</span> <span class="arrow arrowFix"><i class="icon-chevron-right"></i></span></a>
                     <!--
                     <span style="margin-right:1%;">Check in with:</span>
                     <span class="group">
@@ -284,7 +288,9 @@
 						<span>Error</span>						
 					</div>
 				</div>					   
+			<div class="modalContent">	
 				<span id="spanFlashMessage" class="AlertText"></span> 				   
+			</div>
 		</div>
 		
         <script type="text/javascript" src="phonegap.js"></script>

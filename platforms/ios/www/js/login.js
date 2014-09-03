@@ -52,7 +52,7 @@ var app = {
                 }
             };
             var error = function(message) {
-                //showDialog("Error: Please reswipe card");
+                alert(message);
 				showCardReaderErrorAlert("Error: Please reswipe card");
                 /*
                 $( "#dialog" ).on( "dialogclose", function( event, ui ) {

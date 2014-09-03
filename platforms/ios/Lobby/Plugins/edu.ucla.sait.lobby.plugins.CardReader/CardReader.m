@@ -11,12 +11,17 @@
 #import "MediaPlayer/MPMusicPlayerController.h"
 
 #define _DGBPRNT
+#define PROTOCOLSTRING @"com.magtek.idynamo"
 
 @implementation CardReader
 -(void) RunCardReaderListener:(CDVInvokedUrlCommand *)command{
     self.cordovaCommand = command;
     self.mtSCRALib = [[MTSCRA alloc] init];
     [self.mtSCRALib listenForEvents:(TRANS_EVENT_OK|TRANS_EVENT_START|TRANS_EVENT_ERROR)];
+    
+    //[self.mtSCRALib setDeviceType:(MAGTEKIDYNAMO)];
+    //[self.mtSCRALib setDeviceProtocolString:(@"com.magtek.idynamo")];
+    
     [self.mtSCRALib setDeviceType:(MAGTEKAUDIOREADER)];
     [self openDevice];
     
@@ -253,10 +258,23 @@
 
 - (void)openDevice
 {
+    
+    
     if(![self.mtSCRALib isDeviceOpened])
     {
         [self.mtSCRALib openDevice];
     }
+    /*
+    if(![self.mtSCRALib isDeviceConnected])
+    {
+        CDVPluginResult *pluginResult = [CDVPluginResult
+                                         resultWithStatus: CDVCommandStatus_ERROR
+                                         messageAsString: @"Device not connected"];
+        
+        [self.mtSCRALib clearBuffers];
+        
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:self.cordovaCommand.callbackId];
+    }*/
 }
 
 - (void)closeDevice

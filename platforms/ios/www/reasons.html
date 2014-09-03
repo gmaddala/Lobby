@@ -25,32 +25,53 @@
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
         <!-- <link rel="stylesheet" type="text/css" href="css/blocks.css" /> -->
         <link rel="stylesheet" type="text/css" href="css/lobby.css" />
+		<link href="css/stylefix.css" rel="stylesheet" />
         <!-- <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" /> -->
         
         <link href="styles/kendo.common.min.css" rel="stylesheet" />
         <link href="styles/kendo.default.min.css" rel="stylesheet" />
-        <link href="styles/kendo.dataviz.min.css" rel="stylesheet" />
-        <link href="styles/kendo.dataviz.default.min.css" rel="stylesheet" />
-        
         <link href="styles/kendo.mobile.all.min.css" rel="stylesheet" />
         
-        <link href="css/lobby-kendoui.css" rel="stylesheet" />
-        
+        <link href="css/lobby-kendoui.css" rel="stylesheet" />        
         <script src="js/jquery.min.js"></script>
-        <script src="js/angular.min.js"></script>
+        <!-- <script src="js/angular.min.js"></script> -->
         <script src="js/kendo.all.min.js"></script>
+		<!-- Bootstrap -->
+		<link href="css/bootstrap.min.css" rel="stylesheet"> <!-- media="screen" -->
 		
         <title>Lobby</title>
     </head>
     <body class="scrollable">
 	
 	<div id="questions-body" data-role="view" data-title=" " data-layout="checklayout" data-show="DisplayResponses">
-	
-            <ul data-role="listview" data-style="inset" id="ulResponses" data-type="group">
+	        <ul data-role="listview" data-style="inset" id="ulResponses" data-type="group">
 			</ul>
-            
+            <div class="row-fluid FormIndentation" id="divQuestions">
+			  <!-- <div>
+				  <div class="span4">
+					 1. Entered By
+				  </div>
+				  <div class ="span8">
+					<ul data-role="listview" data-style="inset">
+						<li><span>selected response</span><span style="float:right">&gt;</span></li>
+					</ul>
+				  </div>
+			  </div>
+			  <div>
+				<div class="span4">
+					 col 1
+				  </div>
+				  <div class ="span8">
+					col2
+				  </div>
+			  </div> -->
+			</div>
         </div>
-        
+        <div id="divCompleteResponseView" data-role="view" data-title="" data-layout="ResponseDetailsLayout" data-show="DisplayQuestionResponses">
+			<div class="ResponseDetailContainer">
+				<span id="spanQuestionText"></span>
+			</div>
+		</div>
         
 		
 		<div data-role="layout" data-id="checklayout">
@@ -72,166 +93,83 @@
 					</div>				
 				</div>
             </header>
-            
-            <!--<div data-role="footer">
-                <div data-role="tabstrip">
-                    <a href="#checks" data-icon="bookmarks">Shopping
-                    </a><a href="#radios" data-icon="settings">Settings</a>
-                </div>
-            </div>-->
         </div>
         
-        <!-- <script type="text/javascript" src="phonegap.js"></script> -->
-        <script type="text/javascript" src="js/reasons.js"></script>
-        <script type="text/javascript" src="js/blocks.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
+		<div data-role="layout" data-id="ResponseDetailsLayout">
+            <!-- <header data-role="header" style="background-color:#3284bf"> -->
+			<div data-role="header" style="background-color:#3284bf">               
+				<!-- <div id="div_header" class="header-div" >
+					<div>
+						<a data-role="button" data-align="left" class="link-button" href="#">Cancel</a>
+						<span id="DeptName" class="header-text"></span>						
+						<a data-role="button" class="link-button">Close</a>
+					</div>
+					
+				</div> -->
+			<div data-role="header">
+			   <div id="div_header_cancel" class="header-div">
+                    <div style="text-align:left;position:relative;float:left;width:7%">
+					<a href="#" class="cancel-link cancelLinkFix" data-role="button">Cancel</a>                					
+					</div>
+					<div style="text-align:center;position:relative;float:left;width:86%"><span id="DeptNameResponseDetail" class="header-text"></span></div>
+					<div style="text-align:right;position:relative;float:left;width:7%">
+					<a class="cancel-link cancelLinkFix" data-role="button" data-click="CollectResponse">Done</a>
+				</div>
+				</div>
+				
+			</div>
+            <!-- </header> -->
+        </div>
 		
+		<!-- modal to display alert messages -->
+		<div data-role="modalview" id="modalviewAlert" style="width: 50%;font-size:1em !important">
+				<div data-role="header">
+					<div data-role="navbar">
+						<span>Alert</span>
+						<a data-click="HideNativeDialog" data-role="button" data-align="right" style="background:none;color:#3284bf;">Close</a>
+					</div>
+				</div>
+				<div class="modalContent">
+					<span id="spanAlertMessage" class="AlertText"></span> 
+			    </div>
+		</div>
+		
+        
+        <!-- ** blocks.js interfering when trying to use app variable of kendo ui after the page load **-->
+		<!-- <script type="text/javascript" src="js/blocks.js"></script> -->        
+		
+		<script type="text/javascript" src="js/reasons.js"></script>
         <script type="text/javascript" src="js/global.js"></script>
-		<script>
-		function initForm() {
-        var body = $(".km-pane");
-		if (kendo.ui.DropDownList) {
-            $("#dropdown").kendoDropDownList({
-                
-            });
-        }
+		<script type="text/javascript" src="phonegap.js"></script>
+        <!-- TODO: Remove index.js reference, if not needed -->
+		<script type="text/javascript" src="js/index.js"></script>
 		
-        if (kendo.ui.Slider) {
-            $("#slider").kendoSlider({ tooltip: { enabled: false } });
-        }
-    }
-		</script>
-        <script>
-            var app = new kendo.mobile.Application(document.body, {useNativeScrolling: true});
-
-		$(document).ready(function () {
-                  //$("#btnContinue").kendoButton();
-                  });
-                  
-        function LoadIndex(){
-            setTimeout(function(){ app.pane.navigate("Welcome");}, 2000);
-        }
-        
-        function onShow(){
-		    
-            //app.pane.changeLoadingMessage("Please wait...");
-            //app.pane.loader.show();
-            //setTimeout(function() { app1.pane.loader.hide()}, 2000);
-			
-        }
-            </script>
-        
-        <script type="text/javascript" src="phonegap.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
-
+		<!--Bootstrap-->
+		<script src="js/bootstrap.min.js"></script>
+		
         <script type="text/javascript">
             app.initialize();
         </script>
-        <script type="text/javascript">
-            window.onload = function(){
-			$("#DeptName").text(localStorage.getItem("deptname"));
-            $('.textbox-true').click(function(){
-                                        $(this).parent().parent().append("<div><input type='text' id='" + $(this).attr('id') + "-txtother' class='temp'/></div>")
-                                     });
-            };
-            
-            
-			function DisplayResponses1(e){
-                
-                //$('#prompt').text(localStorage.getItem("question"));
-				//$('#prompt').text("Q123");
-                /*
-                if(typeof localStorage.getItem("firstname") != "undefined" && typeof localStorage.getItem("lastname") != "undefined" && typeof localStorage.getItem("firstname") != "object" && typeof localStorage.getItem("lastname") != "object" )
-                {
-                    $("#NameText").text("Welcome, " + localStorage.getItem("firstname") + " " + localStorage.getItem("lastname"));
-                }
-                 */
-                var obj = JSON.parse(localStorage.getItem("questions"));
-				//console.log('loading question');
-
-				//var questionTExt = '[{"QuestionText":"Q1 Entered by:","Responses":[{"ID":103,"Text":"Daisy","Description":"Daisy","OpensTextbox":false},{"ID":104,"Text":"Doris","Description":"Doris","OpensTextbox":false},{"ID":105,"Text":"Helen","Description":"Helen","OpensTextbox":false},{"ID":106,"Text":"Janis","Description":"Janis","OpensTextbox":false},{"ID":107,"Text":"Jake","Description":"Jake","OpensTextbox":false},{"ID":108,"Text":"Juan","Description":"Juan","OpensTextbox":false},{"ID":109,"Text":"Marshay ","Description":"Marshay ","OpensTextbox":false},{"ID":110,"Text":"Ruby","Description":"Ruby","OpensTextbox":false},{"ID":111,"Text":"Zoila","Description":"Zoila","OpensTextbox":false},{"ID":112,"Text":"Other","Description":"Other (please specify)","OpensTextbox":true}],"ResponsesType":1,"ID":7}]';
-				//var obj = JSON.parse(questionTExt);
-				//var q_array = obj.Questions;
-				var q_array = obj;
-                /*
-                 if(typeof reason_array == "undefined")
-                 {
-                 SubmitNoReasons();
-                 }*/
-                if (false){
-				
-                for(var i = 0; i < q_array.length; i++) {
-				
-                    var question = q_array[i];
-                    //$('#questions-body div[data-role="content"]').append('<form class="form"><div class="control reasons-form" id="div_reason_list_' + question.ID +'"><label id="i-4" style="margin-bottom:3%;"><span id="' + question.ID +'_prompt"></span></label></div><div class="control">');
-                    $('#questions-body div[data-role="content"]').append('<div class="control reasons-form" id="div_reason_list_' + question.ID +'"><label id="i-4" style="margin-bottom:3%;"><span id="' + question.ID +'_prompt"></span></label></div><div class="control">');
-					$('#' + question.ID + '_prompt').text(question.QuestionText);
-                    
-                    var inputtype = "checkbox";
-                    
-                    
-                    if(question.ResponsesType == "1")
-                    {
-                        inputtype = "radio";
-                    }
-                    else if(question.ResponsesType == "2")
-                    {
-                        inputtype = "checkbox";
-                    }
-                    else if(question.ResponsesType == "3")
-                    {
-                        inputtype = "selectbox";
-                        SetUpComboBox(question.ID);
-                    }
-                    else if (question.ResponsesType == "4")
-                    {
-                        inputtype = "textbox";
-                        $('#div_reason_list_' + question.ID).append('<label><input type="' + inputtype +'" aria-labelledby="i-4" id="' + question.Responses[0].ID  + '" name="txt_' + question.ID + '" class="horizontal-center textbox small-textbox" style="width:93% !important;"></label>');
-                    }
-                    
-                    
-                    for(var j = 0 ; j < question.Responses.length ; j++)
-                    {
-                        var response = question.Responses[j];
-                        
-                        if(inputtype == "checkbox" || inputtype == "radio")
-                        {
-                            if(response.OpensTextbox)
-                            {
-                                $('#div_reason_list_' + question.ID).append('<label><input type="' + inputtype +'" aria-labelledby="i-4" id="' + response.ID + '" name="reasons" class="other">' + response.Text + '</label>');
-                                
-                                $('#div_reason_list_' + question.ID).append('<input id="' + response.ID + '_txt" type="text" class="horizontal-center textbox small-textbox invisible" maxlength="1000"/>');
-                            }
-                            else
-                            {
-                                $('#div_reason_list_' + question.ID).append('<label><input type="' + inputtype +'" aria-labelledby="i-4" id="' + response.ID  + '" name="reasons">' + response.Text + '</label>');
-                            }
-                        }
-                        else if(inputtype == "selectbox")
-                        {
-                            $('#combobox_' + question.ID).append('<option value="' + response.ID + '">' + response.Text + '</option>');
-                        }
-                    }
-                }
-                }
-                $(".other").click(function (e) {
-                                        var id = $(this).attr('id');
-                                        $('#' + id + "_txt").removeClass("invisible");
-                                        
-                                        });
-            }
-        
-		function DisplayResponses(e){
-				//var obj = JSON.parse(localStorage.getItem("questions"));
-				var obj;
-				
-				
-				obj = JSON.parse(localStorage.getItem("questions"));
-				
-                    
-                var q_array = obj.Questions;
 		
-		for(var i = 0; i < q_array.length; i++) {
+        <script type="text/javascript">
+		var app1, paramQuestionId, eventQuestions;
+			
+		window.onload = function(){				
+			app1 = new kendo.mobile.Application(document.body, {useNativeScrolling: true});			
+
+			$("#DeptName").text(localStorage.getItem("deptname"));
+			
+			$('.textbox-true').click(function(){
+										$(this).parent().parent().append("<div><input type='text' id='" + $(this).attr('id') + "-txtother' class='temp'/></div>")
+									 });
+		};
+            
+		function DisplayResponses(e){
+				eventQuestions = JSON.parse(localStorage.getItem("questions"));
+                var q_array = eventQuestions.Questions;
+		if (q_array.length < 3)
+		{ //Display one-column layout like display if there're only 2 questions or less. This will be needed for most of the lobby which has single question
+				for(var i = 0; i < q_array.length; i++) {
 				
                     var question = q_array[i];
                     //$('#questions-body div[data-role="content"]').append('<form class="form"><div class="control reasons-form" id="div_reason_list_' + question.ID +'"><label id="i-4" style="margin-bottom:3%;"><span id="' + question.ID +'_prompt"></span></label></div><div class="control">');
@@ -261,12 +199,11 @@
                         //$('#div_reason_list_' + question.ID).append('<label><input type="' + inputtype +'" aria-labelledby="i-4" id="' + question.Responses[0].ID  + '" name="txt_' + question.ID + '" class="horizontal-center textbox small-textbox" style="width:93% !important;"></label>');
                     }
 
-					var responses = question.Responses;
-					console.log('responses..' + question.Responses);
+					var responses = question.Responses;					
+					
 					e.view.content.append($('<ul ></ul>'));
-                    var viewID = e.view.id;
-                    console.log('view id: ' + viewID);
-                    console.log('qarray: ' + q_array);
+
+                    var viewID = e.view.id;                    
                     if(inputtype == "radio" || inputtype == "checkbox")
                     {
                         e.view.element.find("#ul_" + question.ID).kendoMobileListView({
@@ -279,6 +216,11 @@
                     }
                     else if(inputtype == "selectbox")
                     {
+						//console.log('responses..'+ responses);
+						//Please select/start typing...
+						
+						var defaultEntry = JSON.parse('{"ID":-1,"Text":"","Description":"Select","OpensTextbox":false}');
+						responses.unshift(defaultEntry);
                         $("#ul_" + question.ID).append("<li></li>");
                         e.view.element.find("#ul_" + question.ID + " > li").kendoComboBox({
                                                    dataTextField: "Text",
@@ -288,8 +230,11 @@
                                                    suggest: true,
                                                    index: 0
                                                    });
+												   
+						$('#ul_8 input').attr('placeholder', 'Please select/start typing an organization...');
 						/*e.view.element.find("#ul_" + question.ID + " > li").kendoMobileListView({
-									dataSource: responses,											
+									//dataSource: responses,											
+									dataSource: getResponses(),
 									template: "<label>#: Text# <input type='radio' name='radio'  /></label>",
 									filterable: {
 													field: "Text",
@@ -308,26 +253,540 @@
 
 									}*/
 
-						//,		endlessScroll: true //for dynamic data fetch
+						/*,		endlessScroll: true //for dynamic data fetch
 
-						//});
+						});
 						
-						$('#ul_8 li[data-role = "listview"]').addClass('ReasonsDropDown');
+						$('#ul_8 li[data-role = "listview"]').addClass('ReasonsDropDown');*/
                     }
                     else if(inputtype == "textbox")
                     {
                         //$("#ul_" + question.ID).append("<li></li>");
 						var txtId = responses[0].ID;
-                        $("#ul_" + question.ID).append('<input type="text" value="" name="' + question.ID + '" id="' +  txtId + '" />');						
+                        $("#ul_" + question.ID).append('<input type="text" value="" name="' + question.ID + '" id="' +  txtId + '" class="TextBox" />');
 						//TODO: make the textbox look native
 						//e.view.element.find('#' + txtId).kendoTextBox();
 						
                     }
 				
 			}//for
-        $("#ulResponses").append('<li><a data-role="button" id="continueBtn" class="button">Continue</a></li>');
-        e.view.element.find("#continueBtn").kendoMobileButton({click: SubmitReasons});
+			
+			//Continue button
+			$("#ulResponses").append('<li><a data-role="button" id="continueBtn" class="button">Continue</a></li>');
+			e.view.element.find("#continueBtn").kendoMobileButton({click: SubmitReasons});
+		}	
+		else{
+			BuildQuestionsAndResponses(q_array, e);
+		}
+			
 		
+		}
+
+		function BuildQuestionsAndResponses(q_array, e){
+		var canConstructQuestions = $("#divQuestions").children().length == 0;
+		
+		if (canConstructQuestions){
+		    var collectedResponses = [];
+		    //localStorage.setItem("CollectedResponses", responsesObj);
+			for(var i = 0; i < q_array.length; i++) {
+                    var question = q_array[i];                    
+                    //$('#questions-body div[data-role="content"]').append('<div class="control reasons-form" id="div_reason_list_' + question.ID +'"><label id="i-4" style="margin-bottom:3%;"><span id="' + question.ID +'_prompt"></span></label></div><div class="control">');					
+                    //$("#ulResponses").append("<li><span class='span-question-text'>" + question.QuestionText + "</span><div><ul id='ul_" + question.ID + "'></ul></div></li>");
+                    
+					collectedResponses.push({QuestionId: question.ID, ReasonId: "", ReasonDetails: "", OtherReasonId: ""});
+					
+					var divContainer = '<div id="div'+ question.ID + '" class="QuestionAndResponseContainer">{0}</div>';
+					var divQuestionText = '<div class="span8"> <span class="QuestionText"><br/>' + question.QuestionText + '</span> </div>';
+					//add ul view here and append here..
+					var divResponse = '<div class="span4" id="divResponse'+ question.ID + '"><ul id="ul_' + question.ID + '"></ul></div>';
+					//divResponse = '<div class="span8" id="divResponse'+ question.ID + '"><ul id="ul_' + question.ID + '" data-role="listview" data-style="inset" class="ListViewContainer"><li><span id="spanResponseText' + question.ID + '">Response Text..</span></li></ul> <a data-role="button"  id="btnResponseDetail_' + question.ID + '" data-questionid="' + question.ID + '"><span style="float:right">&gt;</span></a></div>';
+					//var responseText = GetResponseText(question.ID);
+					var responseText = "Required";
+					if(responseText == undefined) responseText = "";
+					divResponse = '<div class="span4 ResponseContainer" id="divResponse'+ question.ID + '"><span id="spanResponseText' + question.ID + '" class="Response Required">' + responseText + '</span> <a data-role="button"  id="btnResponseDetail_' + question.ID + '" data-questionid="' + question.ID + '" class="ResponseDetailButton"><span>&gt;</span></a></div>';
+					
+					var divQuestionAndResponse = "";
+                    var inputtype = "checkbox";
+                    
+                    if(question.ResponsesType == "1")
+                    {
+                        inputtype = "radio";
+                    }
+                    else if(question.ResponsesType == "2")
+                    {
+                        inputtype = "checkbox";
+                    }
+                    else if(question.ResponsesType == "3")
+                    {
+                        inputtype = "selectbox";
+                        //SetUpComboBox(question.ID);
+                    }
+                    else if (question.ResponsesType == "4")
+                    {
+                        inputtype = "textbox";
+						//divResponse = '<div class="span8" id="divResponse'+ question.ID + '" style="padding-top:0.9%"><ul id="ul_' + question.ID + '" data-role="listview" data-style="inset" class="ListViewContainer"><li><input type="text" id="txt_' + question.ID + '"></input></li></ul></div>';
+						divResponse = '<div class="span4" id="divResponse'+ question.ID + '" style="padding-top:0.9%;"><input type="text" id="txt_' + question.ID + '"  class="TextBox FloatRight" placeholder="Required"></input></div>';
+                        //$('#div_reason_list_' + question.ID).append('<label><input type="' + inputtype +'" aria-labelledby="i-4" id="' + question.Responses[0].ID  + '" name="txt_' + question.ID + '" class="horizontal-center textbox small-textbox" style="width:93% !important;"></label>');
+                    }
+
+					divQuestionAndResponse = divQuestionText + divResponse;
+                    $('#divQuestions').append(divContainer.replace('{0}', divQuestionAndResponse));
+					$('#divResponse'+ question.ID).click(ShowResponsePage);
+					
+					var responses = question.Responses;					
+					var responsePlaceHolder = "<span>response text</span> <span style='float:right'>&gt;</span>";
+					e.view.content.append($('<ul ></ul>'));
+
+                    var viewID = e.view.id;                    
+					
+                    if(inputtype == "radio" || inputtype == "checkbox" || inputtype == "selectbox")
+                    {
+						e.view.element.find("#btnResponseDetail_" + question.ID).kendoMobileButton({click: ShowResponsePage}); //, question:12
+						$("#btnResponseDetail_" + question.ID).addClass('ResponseDetailButton');
+                    }
+					else if(inputtype == "textbox")
+					{
+						e.view.element.find("#ul_" + question.ID).kendoMobileListView();
+					}
+			}//for
+			
+			localStorage.setItem("CollectedResponses", JSON.stringify(collectedResponses));
+			//Continue button
+			$("#divQuestions").append('<div id="divContinueButton" class="ContinueButtonPadding"><a data-role="button" id="continueBtn" class="button">Continue</a></div>');
+			e.view.element.find("#continueBtn").kendoMobileButton({click: SubmitReasons});
+		  }
+		  else{
+			//reset controls
+			//$('div.QuestionAndResponseContainer span.Response').empty()
+			//load responses for the questions
+			var question, responseType, responseText;
+			for(var i = 0; i < q_array.length; i++) {
+				question = q_array[i];
+				responseType = GetResponseControlType(question.ResponsesType);
+				
+				if(responseType != "textbox" && responseType != "checkbox")
+				{
+					//get response text for the question, if made
+					responseText = GetResponseText(question.ID);					
+					if(responseText != ""){//if user provided a response, remove error highlight
+						$('#divResponse'+ question.ID).removeClass("Error");
+						//populate in the readonly control
+						$('#spanResponseText'+ question.ID).text(responseText).removeClass("Required");
+					}
+					else
+					{
+						$('#spanResponseText'+ question.ID).text("Required").addClass("Required");
+					}
+				}
+				else if(responseType == "checkbox"){
+					//console.log('collecting for checkbox..' + question.ID);
+					//display number of responses selected
+					var collResponses = JSON.parse(localStorage.getItem("CollectedResponses"));
+
+                    if (collResponses != undefined){
+                        responseId = GetUserResponseId(collResponses, question.ID);
+                    }
+
+					var responseCount = 0;
+					
+					if (responseId != ""){
+						responseCount = responseId.split(",").length;
+					}
+					
+					if (responseCount > 0){//if user provided a response, remove error highlight
+						$('#spanResponseText'+ question.ID).text(responseCount + " selected").removeClass("Required");
+						$('#divResponse'+ question.ID).removeClass("Error");
+					}
+					else
+					{
+						$('#spanResponseText'+ question.ID).text("Required").addClass("Required");
+					}
+				}
+				else if(responseType == "textbox")
+				{
+					responseText = $('#txt_' +question.ID).val();
+					if(responseText != ""){//if user provided a response, remove error highlight
+						$('#txt_' +question.ID).removeClass("Error");
+					}
+				}
+			}
+		  }
+		}
+		
+		function GetResponseText(questionId)
+		{
+			var allQuestions, responseId, question, responses, retResponseText;
+			responseText = "";
+			var collResponses = JSON.parse(localStorage.getItem("CollectedResponses"));
+			if(eventQuestions == undefined){ //if eventQuestions does not exist, parse it. eventQuestions should have been initialized in DisplayResponses methods			
+				eventQuestions = JSON.parse(localStorage.getItem("questions"));
+			}
+		  
+			allQuestions = eventQuestions.Questions;
+
+            if (collResponses != undefined){
+                responseId = GetUserResponseId(collResponses, questionId);
+            }
+			
+			//loop through all the questions to find the response text for the input questionId
+			for (var idx = 0; idx < allQuestions.length; idx++)
+			{//loop through all the questions
+				question = allQuestions[idx];
+				if(question.ID == questionId){
+					responses = question.Responses;
+					for (var idx1 = 0 ; idx1 < responses.length; idx1++)
+					{//loop through all the responses for the passed in question id
+						if(responses[idx1].ID == responseId)
+						{//if response id matches, get the reponse text
+							retResponseText = responses[idx1].Text;
+							break;
+						}
+					}
+				}
+			}
+			
+			if (retResponseText == undefined) retResponseText = "";
+			//console.log("ret text.." + responseText);
+			return retResponseText;
+		}
+		
+		//Get the user response id(s) fors the question
+		function GetUserResponseId(collResponses, questionId){
+			var retResponseId;
+			
+			//loop through all the responses that were collected to find the response id that was made
+			for(var idx = 0; idx < collResponses.length; idx++)
+			{
+				if(collResponses[idx].QuestionId == questionId){
+					retResponseId = collResponses[idx].ReasonId;
+					break;
+				}
+			}
+			
+			return retResponseId;
+		}
+		
+		//Display view where response for the question will be displayed
+		function ShowResponsePage(e){
+			//Get QuestionId for which responses need to be displayed			
+			var params = "";
+			if(e.button == 0){
+				paramQuestionId = $(this).attr('id');
+				paramQuestionId = paramQuestionId.replace("divResponse", "");
+			}
+			else{
+				params = e.button.data();
+				//Passing parameter to listview/view is not supported. So, param value is stored in a global variable
+				paramQuestionId = params.questionid;
+			}
+			
+			app1.navigate("#divCompleteResponseView");
+		}
+		
+		//Display responses associated with the question
+		//This function is used to display responses for a question where response count is more than 2
+		function DisplayQuestionResponses(e){		  
+		  var responseForQuestion, allQuestions, question, questionText, responseControlTypeId, responseControlType;
+		  
+		  $("#DeptNameResponseDetail").text(localStorage.getItem("deptname"));
+		  if(eventQuestions == undefined){ //if eventQuestions does not exist, parse it. eventQuestions should have been initialized in DisplayResponses methods			
+			eventQuestions = JSON.parse(localStorage.getItem("questions"));
+		  }
+		  
+		  allQuestions = eventQuestions.Questions;
+		  //console.log(eventQuestions.Questions.length);
+		  for (var idx = 0; idx < allQuestions.length; idx++){
+				question = allQuestions[idx];
+			   if(question.ID == paramQuestionId)
+			   {
+				 //get responses
+				 responseForQuestion	= question.Responses;
+				 responseControlTypeId 	= question.ResponsesType;
+				 questionText 			= question.QuestionText;
+				 break;
+			   }
+		  }
+		  
+		  //Clear the responses that were already loaded
+		  $('#divCompleteResponseView div.km-listview-wrapper').remove();
+		  //Remove kendo combobox control alone
+		  $('ul[id*="_"]').remove();
+		  //Clear Other reasons control
+		  $('div.OtherDiv').remove();
+		  $('#spanQuestionText').text(questionText);
+		  e.view.content.append('<ul id="ul_' + paramQuestionId + '"></ul>')
+		  //$('#ResponseDetailContainer').append('<ul id="ul_' + paramQuestionId + '"></ul>');
+		  
+		  responseControlType = GetResponseControlType(responseControlTypeId);
+		  var collResponses = JSON.parse(localStorage.getItem("CollectedResponses"));
+		  var responseId, responseIdColl, responseText;
+				
+		  switch(responseControlType)
+		  {
+			case "radio": 
+			case "checkbox": 
+				//if a response is already made, mark it
+				responseIdColl = GetUserResponse(paramQuestionId, "Id");
+				responseText = GetUserResponse(paramQuestionId, "OtherText");
+				
+				var liText = "";
+				var canCreateOtherTextBox = false;
+				var responseIdArr = responseIdColl.split(",");
+				var doesQuestionHaveResponse = false;
+				console.log('Question:' + paramQuestionId);
+				
+				for (var idx = 0; idx < responseForQuestion.length; idx++)
+				{
+						//if(responseId != undefined && responseId != "" && responseForQuestion[idx].ID == responseId){
+						doesQuestionHaveResponse = CanCheckResponseId(responseForQuestion[idx].ID, responseIdArr);
+						if(doesQuestionHaveResponse){
+							console.log('checking checkbox with reasonId:' + responseForQuestion[idx].ID);
+							liText = "<li><label> " + responseForQuestion[idx].Text + "<input type='" + responseControlType + "' name='input-" + paramQuestionId + "' id='"+ responseForQuestion[idx].ID+ "' checked='checked' class='textbox-"+ responseForQuestion[idx].OpensTextbox+ "'/></label></li>";						
+						}
+						else
+						{
+							console.log('checkbox not checked..' + responseForQuestion[idx].Text +' with reasonid:'+ responseForQuestion[idx].ID);
+							liText = "<li><label> " + responseForQuestion[idx].Text + "<input type='" + responseControlType + "' name='input-" + paramQuestionId + "' id='"+ responseForQuestion[idx].ID+ "' class='textbox-"+ responseForQuestion[idx].OpensTextbox+ "'/></label></li>";						
+						}
+						
+						if (!canCreateOtherTextBox){
+							canCreateOtherTextBox = responseForQuestion[idx].OpensTextbox == true;
+						}
+						
+						$("#ul_" + paramQuestionId).append(liText);
+						//if(canCreateOtherTextBox && responseForQuestion[idx].ID == responseId){
+						if(canCreateOtherTextBox && doesQuestionHaveResponse){ 
+							$("#ul_" + paramQuestionId).after("<div class='OtherDiv'><input type='text' id='" + responseForQuestion[idx].ID + "-txtother'/></div>");
+							//console.log('populating text..' + responseText);
+							$('div.OtherDiv input').val(responseText);
+						}
+				}
+				e.view.element.find("#ul_" + paramQuestionId).kendoMobileListView();
+				
+				break;
+			case "select":
+				var defaultEntry = JSON.parse('{"ID":-1,"Text":"","Description":"Select","OpensTextbox":false}');
+				responseForQuestion.unshift(defaultEntry);
+                $("#ul_" + question.ID).append("<li></li>");
+                e.view.element.find("#ul_" + paramQuestionId + " > li").kendoComboBox({
+                                                   dataTextField: "Text",
+                                                   dataValueField: "ID",
+                                                   dataSource: responseForQuestion,
+                                                   filter: "contains",
+                                                   suggest: true,
+                                                   index: 0
+                                                   });
+												   
+				$('#ul_' + paramQuestionId +' input').attr('placeholder', 'Please select/start typing an organization...');
+				
+				var combo = $("#ul_" + paramQuestionId +" li[data-role=combobox]").data("kendoComboBox");
+				responseIdColl = GetUserResponse(paramQuestionId, "Id");
+				combo.value(responseIdColl);
+				break;
+		  }
+		  
+		  
+		  if($('.textbox-true').attr("type") == "radio"){
+			  //event to add textbox when 'Other' is clicked
+			  $('.textbox-true').click(function(){							
+					if($('div.OtherDiv input').attr('id') == undefined)
+					{
+						$(this).closest('ul').after("<div class='OtherDiv'><input type='text' id='" + $(this).attr('id') + "-txtother'/></div>")
+						$('div.OtherDiv input').focus();
+					}
+				});
+				$('.textbox-false').click(function(){										
+											$('div.OtherDiv').remove();
+				});
+			}
+		else if($('.textbox-true').attr("type") == "checkbox"){
+			$('.textbox-true').click(function(){							
+					if($('div.OtherDiv input').attr('id') == undefined)
+					{
+						if ($('.textbox-true').is(":checked")){
+							//console.log('checked..');
+							$(this).closest('ul').after("<div class='OtherDiv'><input type='text' id='" + $(this).attr('id') + "-txtother'/></div>")
+							$('div.OtherDiv input').focus();
+						}
+					}
+					else
+					{
+						//console.log('else..');
+						$('div.OtherDiv').remove();
+					}
+				});
+			}
+			
+		}
+		
+		function GetUserResponse(paramQuestionId, prop){
+			var collResponses = JSON.parse(localStorage.getItem("CollectedResponses"));
+			var retPropValue = "";
+			
+			if(collResponses.length > 0)
+				{
+					for (var idx = 0; idx < collResponses.length; idx ++){
+						if (paramQuestionId == collResponses[idx].QuestionId)
+						{
+							switch(prop)
+							{
+								case "Id":
+									retPropValue = collResponses[idx].ReasonId;
+									break;
+								case "OtherText":
+									retPropValue = collResponses[idx].ReasonDetails;
+									break;
+							}
+							//responseIdColl = collResponses[idx].ReasonId;
+							//responseText = collResponses[idx].ReasonDetails;
+						}
+					}
+				}
+				
+				return retPropValue;
+		}
+		
+		function CanCheckResponseId(responseId, responseIdArr){
+			var didResponseIdMatch = false;
+			//console.log('to check..' + responseId);
+			for (var idx = 0; idx < responseIdArr.length; idx++)
+			{
+				if(responseId == responseIdArr[idx]){
+					didResponseIdMatch = true;
+					break;
+				}
+			}
+			
+			return didResponseIdMatch;
+		}
+		
+		function GetResponseControlType(responseControlTypeId)
+		{
+			var responseControlType = "";
+			
+			switch(responseControlTypeId)
+			  {
+				case 1:
+					responseControlType = "radio"
+					break;
+				case 2:
+					responseControlType = "checkbox"
+					break;
+				case 3:
+					responseControlType = "select"
+					break;
+				case 4:
+					responseControlType = "textbox"
+					break;
+			  }
+			
+			return responseControlType;
+		}
+		
+		function GetResponseType(questionId)
+		{
+			var retResponseType = "";
+			//Get the questions that are loaded
+			var questionsObj = JSON.parse(localStorage.getItem("questions"));
+			var questions = questionsObj.Questions;
+			for (var idx = 0; idx < questions.length; idx++)
+			{
+				if(questions[idx].ID == questionId){
+					//console.log('questions[idx].ResponsesType = ' + questions[idx].ResponsesType);
+					retResponseType = GetResponseControlType(questions[idx].ResponsesType);
+					break;
+				}
+			}
+			
+			return retResponseType;
+		}
+		
+		function CollectResponse(e)
+		{
+			var canSaveResponse = true;
+			var responseType = GetResponseType(paramQuestionId);
+			//var responseId = $('input[name="input-'+ paramQuestionId + '"]:checked').attr('id');			
+			var responseId = "";
+			//Other checkbox
+			var isOther = $('input.textbox-true:checked').attr('id') != undefined;			
+			//var otherText = $("#" + responseId + "-txtother").val();			
+			var otherText = $("div.OtherDiv input").val();
+			//console.log('other text..' + otherText);
+			var collResponses = JSON.parse(localStorage.getItem("CollectedResponses"));
+			var response;
+			
+			for (var idx = 0; idx < collResponses.length; idx++)
+			{
+				response = collResponses[idx];				
+				if (response.QuestionId == paramQuestionId)
+				{
+					switch(responseType)
+					{
+						case "radio":
+						case "checkbox":
+							//collect all the responses for checkbox/radio control
+							$('input[name="input-'+ paramQuestionId + '"]:checked').each(function(){
+							  
+								responseId = responseId + $(this).attr('id') + ",";
+							});
+							
+							if (responseId != "")
+							{
+								responseId = responseId.substring(0, responseId.length - 1);
+							}
+						break;
+						case "select":
+							//console.log('collecting response for select box..');
+							var select = $("#ul_" + paramQuestionId + " li[data-role=combobox]");
+							responseId = select.attr('value')
+							otherText = "";
+						break;
+					}
+					collResponses[idx].ReasonId = responseId;
+					collResponses[idx].ReasonDetails = otherText;
+					var otherReasonId = "";
+					if(otherText != "" && otherText != undefined){
+						//OtherReasonId
+						var otherReasonId = $("div.OtherDiv input").attr('id');
+						otherReasonId = otherReasonId.replace("-txtother", "");
+						collResponses[idx].OtherReasonId = otherReasonId;
+					}
+					else{
+					  collResponses[idx].OtherReasonId = otherReasonId;
+					}
+					
+					break;
+				}
+			}
+			
+			
+			
+			localStorage.setItem("CollectedResponses", JSON.stringify(collResponses));
+			
+			if (isOther) //if other checkbox is enabled
+			{
+				if($.trim(otherText) == '')
+				{
+					//$("#" + responseId + "-txtother").addClass('Error').focus();
+					$('div.OtherDiv input').addClass('Error').focus();
+					canSaveResponse = false;
+				}				
+			}			
+			
+			if (canSaveResponse){
+				app1.navigate('#');
+			}
+		}
+		
+		function getResponses() {
+			var data = [], idx = 0;
+			for (; idx < 1000; idx) {
+				data.push({
+					name: "Name" + idx
+				});
+			}
+
+			return data;
 		}
         </script>
     </body>
