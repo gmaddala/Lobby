@@ -345,7 +345,7 @@ input[type="text"], input[type="number"]{
 }
 
 .Response{
-	width: 90%;
+	width: 88%;
 	display: inline-block;
 	font-style: italic;
 	text-align: right;
@@ -401,4 +401,7 @@ input[type="radio"]:focus, input[type="checkbox"]:focus{
 	zoom:1.2;
 	/* color:#aaa; */
 	color: #666;
+}
+.DisplayNone{
+	display: none !important;
 }
