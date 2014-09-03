@@ -69,18 +69,40 @@ function SubmitReasons(e)
 	else
 	{
 		var collectedResponses = JSON.parse(localStorage.getItem("CollectedResponses"));
-		var reasonId, otherReason;
+		var reasonId, otherReason, reasonIdArr, otherReasonId, otherReasonForCheckbox;
 		
 		for(var idx = 0; idx < collectedResponses.length; idx++) {
 			reasonId = collectedResponses[idx].ReasonId;
 			otherReason = collectedResponses[idx].ReasonDetails;
+			otherReasonId = collectedResponses[idx].OtherReasonId;
+			
 			if (otherReason == undefined) { otherReason = "";}
 
-			//collect responses
-			myJsonObj.Reasons.ReasonsList.push({
+			//check if reasonId contains comma separated reasons (checkbox responses)
+			if (reasonId.indexOf(",") != -1){
+				//if yes, push them separate; check if the reasonid is other reasonId. if yes, push reasondetail assoicated
+				reasonIdArr = reasonId.split(",");
+				for (var idx1 = 0; idx1 < reasonIdArr.length; idx1++)
+				{
+					otherReasonForCheckbox = "";
+					if(otherReasonId != undefined && otherReasonId == reasonIdArr[idx1]) 
+					{
+						otherReasonForCheckbox = otherReason;
+					}
+					
+					myJsonObj.Reasons.ReasonsList.push({
+												"ReasonID":reasonIdArr[idx1],
+												"ReasonDetails": otherReasonForCheckbox
+											 });
+				}
+			}
+			else{
+					//collect responses
+					myJsonObj.Reasons.ReasonsList.push({
 												"ReasonID":reasonId,
 												"ReasonDetails": otherReason
 											 });
+				}
 		}
 	}
 	
