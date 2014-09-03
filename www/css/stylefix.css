@@ -277,10 +277,10 @@ div.gray-div{
 }
 /* *** End *** */
 
-input[type="text"]{
+input[type="text"], input[type="number"]{
 	display: inline-block; 
 	/* height: 20px; */
-	padding: 4px 6px;
+	/* padding: 4px 6px; */
 	margin-bottom: 10px;
 	/* font-size: 14px; */
 	line-height: 20px;
@@ -379,7 +379,7 @@ input[type="text"]{
 .ResponseContainer{
 	padding-top: 0.7% !important;
 }
-#questions-body input[type="text"], #divCompleteResponseView input[type="text"]{
+#questions-body input[type="text"], #questions-body input[type="number"], #divCompleteResponseView input[type="text"]{
 	height: initial !important;	
 }
 .TextBox{
@@ -394,4 +394,11 @@ input[type="text"]{
 
 input[type="radio"]:focus, input[type="checkbox"]:focus{
 	outline:inherit !important;
+}
+
+.ResponseDetailButton>span>i
+{
+	zoom:1.2;
+	/* color:#aaa; */
+	color: #666;
 }

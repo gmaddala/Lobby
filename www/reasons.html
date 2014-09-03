@@ -22,7 +22,9 @@
         <meta charset="utf-8" />
         <meta name="format-detection" content="telephone=no" />
         <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <!-- <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" /> -->
+		<!-- Removed device-width and device-height for iOS 7-->
+		<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, target-densitydpi=device-dpi" />
         <!-- <link rel="stylesheet" type="text/css" href="css/blocks.css" /> -->
         <link rel="stylesheet" type="text/css" href="css/lobby.css" />
 		<link href="css/stylefix.css" rel="stylesheet" />
@@ -32,10 +34,12 @@
         <link href="styles/kendo.default.min.css" rel="stylesheet" />
         <link href="styles/kendo.mobile.all.min.css" rel="stylesheet" />
         
-        <link href="css/lobby-kendoui.css" rel="stylesheet" />        
+        <link href="css/lobby-kendoui.css" rel="stylesheet" />
+		<link href="css/iwe_icon_fonts.css" rel="stylesheet" />		
         <script src="js/jquery.min.js"></script>
         <!-- <script src="js/angular.min.js"></script> -->
         <script src="js/kendo.all.min.js"></script>
+		<script src="js/jquery.maksedinput.min.js"></script>
 		<!-- Bootstrap -->
 		<link href="css/bootstrap.min.css" rel="stylesheet"> <!-- media="screen" -->
 		
@@ -47,24 +51,7 @@
 	        <ul data-role="listview" data-style="inset" id="ulResponses" data-type="group">
 			</ul>
             <div class="row-fluid FormIndentation" id="divQuestions">
-			  <!-- <div>
-				  <div class="span4">
-					 1. Entered By
-				  </div>
-				  <div class ="span8">
-					<ul data-role="listview" data-style="inset">
-						<li><span>selected response</span><span style="float:right">&gt;</span></li>
-					</ul>
-				  </div>
-			  </div>
-			  <div>
-				<div class="span4">
-					 col 1
-				  </div>
-				  <div class ="span8">
-					col2
-				  </div>
-			  </div> -->
+			  
 			</div>
         </div>
         <div id="divCompleteResponseView" data-role="view" data-title="" data-layout="ResponseDetailsLayout" data-show="DisplayQuestionResponses">
@@ -146,7 +133,7 @@
 		
 		<!--Bootstrap-->
 		<script src="js/bootstrap.min.js"></script>
-		
+		<script src="js/jquery.maksedinput.min.js"></script>
         <script type="text/javascript">
             app.initialize();
         </script>
@@ -162,8 +149,11 @@
 			$('.textbox-true').click(function(){
 										$(this).parent().parent().append("<div><input type='text' id='" + $(this).attr('id') + "-txtother' class='temp'/></div>")
 									 });
+			//apply mask for number field
+			$('input[type="number"].TextBox').mask('9999');
+			//$('input[type="text"].TextBox').mask('9999');
 		};
-            
+
 		function DisplayResponses(e){
 				eventQuestions = JSON.parse(localStorage.getItem("questions"));
                 var q_array = eventQuestions.Questions;
@@ -196,6 +186,11 @@
                     else if (question.ResponsesType == "4")
                     {
                         inputtype = "textbox";
+                        //$('#div_reason_list_' + question.ID).append('<label><input type="' + inputtype +'" aria-labelledby="i-4" id="' + question.Responses[0].ID  + '" name="txt_' + question.ID + '" class="horizontal-center textbox small-textbox" style="width:93% !important;"></label>');
+                    }
+					else if (question.ResponsesType == "5")
+                    {
+                        inputtype = "numerictextbox";
                         //$('#div_reason_list_' + question.ID).append('<label><input type="' + inputtype +'" aria-labelledby="i-4" id="' + question.Responses[0].ID  + '" name="txt_' + question.ID + '" class="horizontal-center textbox small-textbox" style="width:93% !important;"></label>');
                     }
 
@@ -268,6 +263,11 @@
 						//e.view.element.find('#' + txtId).kendoTextBox();
 						
                     }
+					else if(inputtype == "numerictextbox")
+                    {
+						var txtId = responses[0].ID;
+                        $("#ul_" + question.ID).append('<input type="number" value="" name="' + question.ID + '" id="' +  txtId + '" class="TextBox" />');
+                    }
 				
 			}//for
 			
@@ -303,7 +303,7 @@
 					//var responseText = GetResponseText(question.ID);
 					var responseText = "Required";
 					if(responseText == undefined) responseText = "";
-					divResponse = '<div class="span4 ResponseContainer" id="divResponse'+ question.ID + '"><span id="spanResponseText' + question.ID + '" class="Response Required">' + responseText + '</span> <a data-role="button"  id="btnResponseDetail_' + question.ID + '" data-questionid="' + question.ID + '" class="ResponseDetailButton"><span>&gt;</span></a></div>';
+					divResponse = '<div class="span4 ResponseContainer" id="divResponse'+ question.ID + '"><span id="spanResponseText' + question.ID + '" class="Response Required">' + responseText + '</span> <a data-role="button"  id="btnResponseDetail_' + question.ID + '" data-questionid="' + question.ID + '" class="ResponseDetailButton"><span><i class="icon-chevron-sign-right"></i></span></a></div>';
 					
 					var divQuestionAndResponse = "";
                     var inputtype = "checkbox";
@@ -328,10 +328,32 @@
 						divResponse = '<div class="span4" id="divResponse'+ question.ID + '" style="padding-top:0.9%;"><input type="text" id="txt_' + question.ID + '"  class="TextBox FloatRight" placeholder="Required"></input></div>';
                         //$('#div_reason_list_' + question.ID).append('<label><input type="' + inputtype +'" aria-labelledby="i-4" id="' + question.Responses[0].ID  + '" name="txt_' + question.ID + '" class="horizontal-center textbox small-textbox" style="width:93% !important;"></label>');
                     }
+					else if (question.ResponsesType == "5")
+                    {
+						//console.log("numeric textbox..");
+                        inputtype = "textbox";
+						//divResponse = '<div class="span8" id="divResponse'+ question.ID + '" style="padding-top:0.9%"><ul id="ul_' + question.ID + '" data-role="listview" data-style="inset" class="ListViewContainer"><li><input type="text" id="txt_' + question.ID + '"></input></li></ul></div>';
+						
+						//divResponse = '<div class="span4" id="divResponse'+ question.ID + '" style="padding-top:0.9%;"><input type="text" id="txt_' + question.ID + '"  class="TextBox FloatRight" placeholder="Required"></input></div>';
+						//type number
+						divResponse = '<div class="span4" id="divResponse'+ question.ID + '" style="padding-top:0.9%;"><input type="number" id="txt_' + question.ID + '"  class="TextBox FloatRight" placeholder="Required"></input></div>';
+                        
+						//$('#div_reason_list_' + question.ID).append('<label><input type="' + inputtype +'" aria-labelledby="i-4" id="' + question.Responses[0].ID  + '" name="txt_' + question.ID + '" class="horizontal-center textbox small-textbox" style="width:93% !important;"></label>');
+                    }
 
 					divQuestionAndResponse = divQuestionText + divResponse;
                     $('#divQuestions').append(divContainer.replace('{0}', divQuestionAndResponse));
-					$('#divResponse'+ question.ID).click(ShowResponsePage);
+					
+					if(question.ResponsesType != "4" && question.ResponsesType != "5")
+					{
+						$('#divResponse'+ question.ID).click(ShowResponsePage);
+					}
+					//console.log("question.ResponsesType " + question.ResponsesType);
+					if(question.ResponsesType == "5"){
+						//console.log("apply mask");
+						//$('#txt_'+ question.ID).mask("9999");
+					}
+					
 					
 					var responses = question.Responses;					
 					var responsePlaceHolder = "<span>response text</span> <span style='float:right'>&gt;</span>";
@@ -530,19 +552,19 @@
 				var canCreateOtherTextBox = false;
 				var responseIdArr = responseIdColl.split(",");
 				var doesQuestionHaveResponse = false;
-				console.log('Question:' + paramQuestionId);
+				//console.log('Question:' + paramQuestionId);
 				
 				for (var idx = 0; idx < responseForQuestion.length; idx++)
 				{
 						//if(responseId != undefined && responseId != "" && responseForQuestion[idx].ID == responseId){
 						doesQuestionHaveResponse = CanCheckResponseId(responseForQuestion[idx].ID, responseIdArr);
 						if(doesQuestionHaveResponse){
-							console.log('checking checkbox with reasonId:' + responseForQuestion[idx].ID);
+							//console.log('checking checkbox with reasonId:' + responseForQuestion[idx].ID);
 							liText = "<li><label> " + responseForQuestion[idx].Text + "<input type='" + responseControlType + "' name='input-" + paramQuestionId + "' id='"+ responseForQuestion[idx].ID+ "' checked='checked' class='textbox-"+ responseForQuestion[idx].OpensTextbox+ "'/></label></li>";						
 						}
 						else
 						{
-							console.log('checkbox not checked..' + responseForQuestion[idx].Text +' with reasonid:'+ responseForQuestion[idx].ID);
+							//console.log('checkbox not checked..' + responseForQuestion[idx].Text +' with reasonid:'+ responseForQuestion[idx].ID);
 							liText = "<li><label> " + responseForQuestion[idx].Text + "<input type='" + responseControlType + "' name='input-" + paramQuestionId + "' id='"+ responseForQuestion[idx].ID+ "' class='textbox-"+ responseForQuestion[idx].OpensTextbox+ "'/></label></li>";						
 						}
 						
