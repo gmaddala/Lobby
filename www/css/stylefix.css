@@ -379,8 +379,11 @@ input[type="text"], input[type="number"]{
 .ResponseContainer{
 	padding-top: 0.7% !important;
 }
-#questions-body input[type="text"], #questions-body input[type="number"], #divCompleteResponseView input[type="text"]{
+#questions-body input[type="text"], #questions-body input[type="number"], #divCompleteResponseView input[type="text"]:not(.k-input){
 	height: initial !important;	
+}
+#divCompleteResponseView input[type="text"].k-input{
+	border-bottom: solid 1px #c5c5c5;
 }
 .TextBox{
 	font-style: italic;
