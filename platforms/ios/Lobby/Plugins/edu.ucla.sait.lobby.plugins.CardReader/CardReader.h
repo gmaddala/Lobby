@@ -34,5 +34,6 @@
 
 - (void)openDevice;
 - (void)closeDevice;
+- (BOOL)isHeadsetPluggedIn;
 
 @end

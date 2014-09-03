@@ -19,10 +19,18 @@
     self.mtSCRALib = [[MTSCRA alloc] init];
     [self.mtSCRALib listenForEvents:(TRANS_EVENT_OK|TRANS_EVENT_START|TRANS_EVENT_ERROR)];
     
-    //[self.mtSCRALib setDeviceType:(MAGTEKIDYNAMO)];
-    //[self.mtSCRALib setDeviceProtocolString:(@"com.magtek.idynamo")];
     
-    [self.mtSCRALib setDeviceType:(MAGTEKAUDIOREADER)];
+    
+    if([self isHeadsetPluggedIn])
+    {
+        [self.mtSCRALib setDeviceType:(MAGTEKAUDIOREADER)];
+    }
+    else{
+        [self.mtSCRALib setDeviceType:(MAGTEKIDYNAMO)];
+        [self.mtSCRALib setDeviceProtocolString:(@"com.magtek.idynamo")];
+    }
+    
+    
     [self openDevice];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -286,6 +294,38 @@
     
     [self.mtSCRALib clearBuffers];
     
+}
+
+- (BOOL)isHeadsetPluggedIn {
+    UInt32 routeSize = sizeof (CFStringRef);
+    CFStringRef route;
+    
+    OSStatus error = AudioSessionGetProperty (kAudioSessionProperty_AudioRoute,
+                                              &routeSize,
+                                              &route);
+    
+    /* Known values of route:
+     * "Headset"
+     * "Headphone"
+     * "Speaker"
+     * "SpeakerAndMicrophone"
+     * "HeadphonesAndMicrophone"
+     * "HeadsetInOut"
+     * "ReceiverAndMicrophone"
+     * "Lineout"
+     */
+    
+    if (!error && (route != NULL)) {
+        
+        NSString* routeStr = (NSString*)CFBridgingRelease(route);
+        
+        NSRange headphoneRange = [routeStr rangeOfString : @"Head"];
+        
+        if (headphoneRange.location != NSNotFound) return YES;
+        
+    }
+    
+    return NO;
 }
 
 

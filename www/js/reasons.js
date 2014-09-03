@@ -111,7 +111,7 @@ function SubmitReasons(e)
 
 function ValidateReasons1(q_array){
 	var question, hasError = false;
-	var firstErrCtl;
+    var firstErrCtl;
 	
 	for(var i = 0 ; i < q_array.length ; i++)
     {

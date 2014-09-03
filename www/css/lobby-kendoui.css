@@ -45,13 +45,19 @@ span.k-icon.k-i-arrow-s
     margin-top:1vh;
 }
 
-.span-question-text
+.span-question-text, #spanQuestionText
 {
     color:#3284bf;
     font-size:1.5em;
     margin-bottom:10px;
     padding:5px;
     display:block;
+    float:none !important;
+}
+
+.km-listview-wrapper
+{
+    padding-left:10px;
 }
 
 .km-ios7 .k-list, .km-ios7 .k-slider, .km-ios7 .km-widget
