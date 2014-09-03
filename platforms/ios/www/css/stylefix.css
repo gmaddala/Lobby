@@ -347,6 +347,8 @@ input[type="text"]{
 .Response{
 	width: 90%;
 	display: inline-block;
+	font-style: italic;
+	text-align: right;
 }
 
 .ResponseDetailContainer{
@@ -376,4 +378,20 @@ input[type="text"]{
 }
 .ResponseContainer{
 	padding-top: 0.7% !important;
+}
+#questions-body input[type="text"], #divCompleteResponseView input[type="text"]{
+	height: initial !important;	
+}
+.TextBox{
+	font-style: italic;
+}
+.FloatRight{
+	float:right;
+}
+.Required{
+	color:#aaa;	
+}
+
+input[type="radio"]:focus, input[type="checkbox"]:focus{
+	outline:inherit !important;
 }
