@@ -109,12 +109,13 @@
 				</div> -->
 			<div data-role="header">
 			   <div id="div_header_cancel" class="header-div">
-                    <div style="text-align:left;position:relative;float:left;width:7%">
+                    <div class="cancel-btn-div">
 					<a href="#" class="cancel-link cancelLinkFix" data-role="button">Cancel</a>                					
 					</div>
-					<div style="text-align:center;position:relative;float:left;width:86%"><span id="DeptNameResponseDetail" class="header-text"></span></div>
+					<!--<div style="text-align:center;position:relative;float:left;width:86%"><span id="DeptNameResponseDetail" class="header-text"></span></div>-->
 					<div style="text-align:right;position:relative;float:left;width:7%">
 					<a class="cancel-link cancelLinkFix" data-role="button" data-click="CollectResponse">Done</a>
+                    <div style="clear:both;"></div>
 				</div>
 				</div>
 				
@@ -173,9 +174,10 @@
 		var dataSource = new kendo.data.DataSource({ data: getResponses() });
         $("#local-filterable-listview").kendoMobileListView({
             dataSource: dataSource,
-            template: "#: name #",						
+            template: "#:name #",						
             filterable: {
-                field: "name"                
+                field: "name",
+				operator: "contains"
             },
             virtualViewSize: 100, // this configuration is needed to determine the items displayed, since the datasource does not (and should not) have paging set.
             endlessScroll: true
@@ -611,7 +613,7 @@
 		  //Clear Other reasons control
 		  $('div.OtherDiv').remove();
 		  $('#spanQuestionText').text(questionText);
-		  e.view.content.append('<div style="overflow:scroll;height:400px"><ul id="ul_' + paramQuestionId + '"></ul></div>')
+		  e.view.content.append('<ul id="ul_' + paramQuestionId + '"></ul>')
 		  //$('#ResponseDetailContainer').append('<ul id="ul_' + paramQuestionId + '"></ul>');
 		  
 		  responseControlType = GetResponseControlType(responseControlTypeId);
@@ -662,7 +664,7 @@
 				var defaultEntry = JSON.parse('{"ID":-1,"Text":"","Description":"Select","OpensTextbox":false}');
 				responseForQuestion.unshift(defaultEntry);
                 $("#ul_" + question.ID).append("<li></li>");
-                if(false){
+                if(true){
 					e.view.element.find("#ul_" + paramQuestionId + " > li").kendoComboBox({
 													   dataTextField: "Text",
 													   dataValueField: "ID",
