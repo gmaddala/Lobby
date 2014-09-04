@@ -57,6 +57,7 @@
         <div id="divCompleteResponseView" data-role="view" data-title="" data-layout="ResponseDetailsLayout" data-show="DisplayQuestionResponses" data-init="InitQuestionResponses">
 			<div class="ResponseDetailContainer">
 				<span id="spanQuestionText"></span>
+				
 			</div>
 		</div>
         
@@ -142,7 +143,8 @@
 		var app1, paramQuestionId, eventQuestions;
 			
 		window.onload = function(){				
-			app1 = new kendo.mobile.Application(document.body, {useNativeScrolling: true});			
+			//app1 = new kendo.mobile.Application(document.body, {useNativeScrolling: true});			
+			app1 = new kendo.mobile.Application(document.body);
 
 			$("#DeptName").text(localStorage.getItem("deptname"));
 			
@@ -157,7 +159,16 @@
 		function InitQuestionResponses()
 		{
 			console.log('init..');
-			/*$('#divCompleteResponseView').addClass('DisplayNone');
+			var dataSource = new kendo.data.DataSource({ data: getResponses() });
+			/*console.log('listview..');
+					$("ul").kendoMobileListView({
+					//$("#ul_" + question.ID).kendoMobileListView({
+						dataSource: dataSource,
+						template: "#: name #",						
+						virtualViewSize: 50, // needed setting, since local data virtualization does not use paging
+						endlessScroll: true
+					});		*/
+		/*$('#divCompleteResponseView').addClass('DisplayNone');
 			window.setTimeout(function(){
 				console.log("removed..");
 				$('#divCompleteResponseView').removeClass('DisplayNone')
@@ -543,7 +554,6 @@
 			//add delay before displaying all the response controls to prevent accidental touch on controls
 			$('#divCompleteResponseView').addClass('DisplayNone');
 			window.setTimeout(function(){
-				console.log("removed..");
 				$('#divCompleteResponseView').removeClass('DisplayNone')
 			}, 300);
 		 
@@ -575,7 +585,7 @@
 		  //Clear Other reasons control
 		  $('div.OtherDiv').remove();
 		  $('#spanQuestionText').text(questionText);
-		  e.view.content.append('<ul id="ul_' + paramQuestionId + '"></ul>')
+		  e.view.content.append('<div style="overflow:scroll;height:400px"><ul id="ul_' + paramQuestionId + '"></ul></div>')
 		  //$('#ResponseDetailContainer').append('<ul id="ul_' + paramQuestionId + '"></ul>');
 		  
 		  responseControlType = GetResponseControlType(responseControlTypeId);
@@ -594,7 +604,6 @@
 				var canCreateOtherTextBox = false;
 				var responseIdArr = responseIdColl.split(",");
 				var doesQuestionHaveResponse = false;
-				//console.log('Question:' + paramQuestionId);
 				
 				for (var idx = 0; idx < responseForQuestion.length; idx++)
 				{
@@ -623,23 +632,38 @@
 				
 				break;
 			case "select":
+			//ananth
 				var defaultEntry = JSON.parse('{"ID":-1,"Text":"","Description":"Select","OpensTextbox":false}');
 				responseForQuestion.unshift(defaultEntry);
                 $("#ul_" + question.ID).append("<li></li>");
-                e.view.element.find("#ul_" + paramQuestionId + " > li").kendoComboBox({
-                                                   dataTextField: "Text",
-                                                   dataValueField: "ID",
-                                                   dataSource: responseForQuestion,
-                                                   filter: "contains",
-                                                   suggest: true,
-                                                   index: 0
-                                                   });
-												   
-				$('#ul_' + paramQuestionId +' input').attr('placeholder', 'Please select/start typing an organization...');
-				
-				var combo = $("#ul_" + paramQuestionId +" li[data-role=combobox]").data("kendoComboBox");
-				responseIdColl = GetUserResponse(paramQuestionId, "Id");
-				combo.value(responseIdColl);
+                if(false){
+					e.view.element.find("#ul_" + paramQuestionId + " > li").kendoComboBox({
+													   dataTextField: "Text",
+													   dataValueField: "ID",
+													   dataSource: responseForQuestion,
+													   filter: "contains",
+													   suggest: true,
+													   index: 0
+													   });
+													   
+					$('#ul_' + paramQuestionId +' input').attr('placeholder', 'Please select/start typing an organization...');
+					
+					var combo = $("#ul_" + paramQuestionId +" li[data-role=combobox]").data("kendoComboBox");
+					responseIdColl = GetUserResponse(paramQuestionId, "Id");
+					combo.value(responseIdColl);
+				}
+				else{
+					//listview
+					var dataSource = new kendo.data.DataSource({ data: getResponses() });
+					//$("#localListView").kendoMobileListView({
+					//$("ul").kendoMobileListView({
+					$("#ul_8").kendoMobileListView({
+						dataSource: dataSource,
+						template: "#: name #",
+						virtualViewSize: 40, // needed setting, since local data virtualization does not use paging
+						endlessScroll: true
+					});
+				}
 				break;
 		  }
 		  
@@ -662,14 +686,12 @@
 					if($('div.OtherDiv input').attr('id') == undefined)
 					{
 						if ($('.textbox-true').is(":checked")){
-							//console.log('checked..');
 							$(this).closest('ul').after("<div class='OtherDiv'><input type='text' id='" + $(this).attr('id') + "-txtother'/></div>")
 							$('div.OtherDiv input').focus();
 						}
 					}
 					else
 					{
-						//console.log('else..');
 						$('div.OtherDiv').remove();
 					}
 				});
@@ -838,7 +860,8 @@
 		
 		function getResponses() {
 			var data = [], idx = 0;
-			for (; idx < 1000; idx) {
+			for (; idx < 100; idx++) {
+			console.log('idx..' + idx);
 				data.push({
 					name: "Name" + idx
 				});
