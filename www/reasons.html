@@ -612,7 +612,7 @@
 		  //Clear Other reasons control
 		  $('div.OtherDiv').remove();
 		  $('#spanQuestionText').text(questionText);
-		  e.view.content.append('<div style="overflow:scroll;height:400px"><ul id="ul_' + paramQuestionId + '"></ul></div>')
+		  e.view.content.append('<ul id="ul_' + paramQuestionId + '"></ul>')
 		  //$('#ResponseDetailContainer').append('<ul id="ul_' + paramQuestionId + '"></ul>');
 		  
 		  responseControlType = GetResponseControlType(responseControlTypeId);
@@ -663,7 +663,7 @@
 				var defaultEntry = JSON.parse('{"ID":-1,"Text":"","Description":"Select","OpensTextbox":false}');
 				responseForQuestion.unshift(defaultEntry);
                 $("#ul_" + question.ID).append("<li></li>");
-                if(false){
+                if(true){
 					e.view.element.find("#ul_" + paramQuestionId + " > li").kendoComboBox({
 													   dataTextField: "Text",
 													   dataValueField: "ID",

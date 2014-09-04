@@ -345,7 +345,7 @@ input[type="text"], input[type="number"]{
 }
 
 .Response{
-	width: 88%;
+	width: 85%;
 	display: inline-block;
 	font-style: italic;
 	text-align: right;
