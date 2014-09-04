@@ -64,6 +64,16 @@
 			</div>
 		</div>
         
+		<div id="Products" data-role="view" data-init="mobileListViewLocalFiltering" data-title="Products">
+			<header data-role="header">
+				<div data-role="navbar">
+					<span data-role="view-title"></span>
+					<a data-align="right" data-role="button" class="nav-button" href="#/">Index</a>
+				</div>
+			</header>
+
+			<ul id="local-filterable-listview"></ul>
+		</div>
 		
 		<div data-role="layout" data-id="checklayout">
             <header data-role="header">
@@ -159,6 +169,19 @@
 			//$('input[type="text"].TextBox').mask('9999');
 		};
 
+		function mobileListViewLocalFiltering() {        
+		var dataSource = new kendo.data.DataSource({ data: getResponses() });
+        $("#local-filterable-listview").kendoMobileListView({
+            dataSource: dataSource,
+            template: "#: name #",						
+            filterable: {
+                field: "name"                
+            },
+            virtualViewSize: 100, // this configuration is needed to determine the items displayed, since the datasource does not (and should not) have paging set.
+            endlessScroll: true
+        });
+    }
+		
 		function InitQuestionResponses()
 		{
 			console.log('init..');
@@ -863,7 +886,7 @@
 		
 		function getResponses() {
 			var data = [], idx = 0;
-			for (; idx < 100; idx++) {
+			for (; idx < 1000; idx++) {
 			console.log('idx..' + idx);
 				data.push({
 					name: "Name" + idx
