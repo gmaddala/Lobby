@@ -72,16 +72,16 @@
 					<div id="div_header" class="header-div">
 						<div class="HeaderLogoContainer"><img src="img/logo-ucla.png" class="HeaderLogo"/><span id="NameText" class="header-text"></span></div>
 					</div>
-                </div> -->				
-				<div data-role="header" style="background-color:#3284bf" >
-				   <div id="div_header" class="header-div" >
-						<div>
-							<img src="img/logo-ucla.png" class="header-logo HeaderLogoFix" />
-							<span id="DeptName" class="header-text"></span>
-						</div>
-						
-					</div>				
-				</div>
+                </div> -->
+                <div data-role="header" style="background-color:#3284bf">
+                    <div id="div_header_cancel" class="header-div">
+                        <div style="text-align:left;position:relative;float:left;width:7%">
+                            <a href="#" class="cancel-link cancelLinkFix" data-role="button">Cancel</a>
+                        </div>
+                        <div style="text-align:center;position:relative;float:left;width:86%"><span id="DeptNameResponseDetail" class="header-text"></span></div>
+                    </div>
+                    
+                </div>
             </header>
         </div>
         
@@ -160,10 +160,11 @@
 		function InitQuestionResponses()
 		{
 			console.log('init..');
-			$('#divCompleteResponseView').addClass('DisplayNone');
+			/*$('#divCompleteResponseView').addClass('DisplayNone');
 			window.setTimeout(function(){
+				console.log("removed..");
 				$('#divCompleteResponseView').removeClass('DisplayNone')
-			}, 100);
+			}, 500);*/
 		}
 		
 		function DisplayResponses(e){
@@ -541,7 +542,14 @@
 		
 		//Display responses associated with the question
 		//This function is used to display responses for a question where response count is more than 2
-		function DisplayQuestionResponses(e){		  
+		function DisplayQuestionResponses(e){
+			//add delay before displaying all the response controls to prevent accidental touch on controls
+			$('#divCompleteResponseView').addClass('DisplayNone');
+			window.setTimeout(function(){
+				console.log("removed..");
+				$('#divCompleteResponseView').removeClass('DisplayNone')
+			}, 300);
+		 
 		  var responseForQuestion, allQuestions, question, questionText, responseControlTypeId, responseControlType;
 		  
 		  $("#DeptNameResponseDetail").text(localStorage.getItem("deptname"));
@@ -550,7 +558,7 @@
 		  }
 		  
 		  allQuestions = eventQuestions.Questions;
-		  //console.log(eventQuestions.Questions.length);
+		  
 		  for (var idx = 0; idx < allQuestions.length; idx++){
 				question = allQuestions[idx];
 			   if(question.ID == paramQuestionId)
@@ -596,12 +604,10 @@
 						//if(responseId != undefined && responseId != "" && responseForQuestion[idx].ID == responseId){
 						doesQuestionHaveResponse = CanCheckResponseId(responseForQuestion[idx].ID, responseIdArr);
 						if(doesQuestionHaveResponse){
-							//console.log('checking checkbox with reasonId:' + responseForQuestion[idx].ID);
 							liText = "<li><label> " + responseForQuestion[idx].Text + "<input type='" + responseControlType + "' name='input-" + paramQuestionId + "' id='"+ responseForQuestion[idx].ID+ "' checked='checked' class='textbox-"+ responseForQuestion[idx].OpensTextbox+ "'/></label></li>";						
 						}
 						else
 						{
-							//console.log('checkbox not checked..' + responseForQuestion[idx].Text +' with reasonid:'+ responseForQuestion[idx].ID);
 							liText = "<li><label> " + responseForQuestion[idx].Text + "<input type='" + responseControlType + "' name='input-" + paramQuestionId + "' id='"+ responseForQuestion[idx].ID+ "' class='textbox-"+ responseForQuestion[idx].OpensTextbox+ "'/></label></li>";						
 						}
 						
@@ -612,8 +618,7 @@
 						$("#ul_" + paramQuestionId).append(liText);
 						//if(canCreateOtherTextBox && responseForQuestion[idx].ID == responseId){
 						if(canCreateOtherTextBox && doesQuestionHaveResponse){ 
-							$("#ul_" + paramQuestionId).after("<div class='OtherDiv'><input type='text' id='" + responseForQuestion[idx].ID + "-txtother'/></div>");
-							//console.log('populating text..' + responseText);
+							$("#ul_" + paramQuestionId).after("<div class='OtherDiv'><input type='text' id='" + responseForQuestion[idx].ID + "-txtother'/></div>");							
 							$('div.OtherDiv input').val(responseText);
 						}
 				}
