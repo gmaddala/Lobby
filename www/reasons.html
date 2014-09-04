@@ -76,10 +76,10 @@
                 </div> -->
                 <div data-role="header" style="background-color:#3284bf">
                     <div id="div_header_cancel" class="header-div">
-                        <div style="text-align:left;position:relative;float:left;width:7%">
-                            <a href="#" class="cancel-link cancelLinkFix" data-role="button">Cancel</a>
+                        <div class="cancel-btn-div">
+                            <a class="cancel-link cancelLinkFix" data-role="button" data-click="CancelResponses">Cancel</a>
                         </div>
-                        <div style="text-align:center;position:relative;float:left;width:86%"><span id="DeptNameResponseDetail" class="header-text"></span></div>
+                        <div style="clear:both;"></div>
                     </div>
                     
                 </div>
@@ -783,6 +783,11 @@
 			
 			return retResponseType;
 		}
+        
+        function CancelResponses(e)
+        {
+            
+        }
 		
 		function CollectResponse(e)
 		{
