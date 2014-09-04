@@ -173,9 +173,10 @@
 		var dataSource = new kendo.data.DataSource({ data: getResponses() });
         $("#local-filterable-listview").kendoMobileListView({
             dataSource: dataSource,
-            template: "#: name #",						
+            template: "#:name #",						
             filterable: {
-                field: "name"                
+                field: "name",
+				operator: "contains"
             },
             virtualViewSize: 100, // this configuration is needed to determine the items displayed, since the datasource does not (and should not) have paging set.
             endlessScroll: true
