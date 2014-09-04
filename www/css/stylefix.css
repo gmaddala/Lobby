@@ -379,7 +379,7 @@ input[type="text"], input[type="number"]{
 .ResponseContainer{
 	padding-top: 0.7% !important;
 }
-#questions-body input[type="text"], #questions-body input[type="number"], #divCompleteResponseView input[type="text"]:not(.k-input){
+#questions-body input[type="text"], #questions-body input[type="number"], #divCompleteResponseView input[type="text"]:not(.k-input), div.km-listview-wrapper input[type="search"]{
 	height: initial !important;	
 }
 
@@ -405,4 +405,15 @@ input[type="radio"]:focus, input[type="checkbox"]:focus{
 }
 .DisplayNone{
 	display: none !important;
+}
+
+div.km-listview-wrapper input[type="search"]
+{
+	webkit-box-sizing: border-box !important;
+	-moz-box-sizing: border-box !important;
+	box-sizing: border-box !important;
+	margin-bottom: auto !important;
+	-webkit-box-shadow: none !important;
+	box-shadow: none !important;
+	border: none !important;
 }
