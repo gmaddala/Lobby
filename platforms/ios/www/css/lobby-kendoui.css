@@ -109,3 +109,12 @@ ul>input[type=text]
   background-position:center center;
 }
 
+.cancel-btn-div
+{
+    text-align:left;
+    position:relative;
+    float:left;
+    width:7%; 
+    margin-left:-14px;
+}
+

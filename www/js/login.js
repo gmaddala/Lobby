@@ -113,6 +113,7 @@ function ClickLogon(){
 
 
 function SignInWithUclaLogon(){
+    app.stopCardReader();
 	SignIn($('#txt_logon').val());
 }
 
