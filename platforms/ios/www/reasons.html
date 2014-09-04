@@ -60,9 +60,20 @@
         <div id="divCompleteResponseView" data-role="view" data-title="" data-layout="ResponseDetailsLayout" data-show="DisplayQuestionResponses" data-init="InitQuestionResponses">
 			<div class="ResponseDetailContainer">
 				<span id="spanQuestionText"></span>
+				
 			</div>
 		</div>
         
+		<div id="Products" data-role="view" data-init="mobileListViewLocalFiltering" data-title="Products">
+			<header data-role="header">
+				<div data-role="navbar">
+					<span data-role="view-title"></span>
+					<a data-align="right" data-role="button" class="nav-button" href="#/">Index</a>
+				</div>
+			</header>
+
+			<ul id="local-filterable-listview"></ul>
+		</div>
 		
 		<div data-role="layout" data-id="checklayout">
             <header data-role="header">
@@ -72,16 +83,16 @@
 					<div id="div_header" class="header-div">
 						<div class="HeaderLogoContainer"><img src="img/logo-ucla.png" class="HeaderLogo"/><span id="NameText" class="header-text"></span></div>
 					</div>
-                </div> -->				
-				<div data-role="header" style="background-color:#3284bf" >
-				   <div id="div_header" class="header-div" >
-						<div>
-							<img src="img/logo-ucla.png" class="header-logo HeaderLogoFix" />
-							<span id="DeptName" class="header-text"></span>
-						</div>
-						
-					</div>				
-				</div>
+                </div> -->
+                <div data-role="header" style="background-color:#3284bf">
+                    <div id="div_header_cancel" class="header-div">
+                        <div class="cancel-btn-div">
+                            <a class="cancel-link cancelLinkFix" data-role="button" data-click="CancelResponses">Cancel</a>
+                        </div>
+                        <div style="clear:both;"></div>
+                    </div>
+                    
+                </div>
             </header>
         </div>
         
@@ -145,7 +156,8 @@
 		var app1, paramQuestionId, eventQuestions;
 			
 		window.onload = function(){				
-			app1 = new kendo.mobile.Application(document.body, {useNativeScrolling: true});			
+			//app1 = new kendo.mobile.Application(document.body, {useNativeScrolling: true});			
+			app1 = new kendo.mobile.Application(document.body);
 
 			$("#DeptName").text(localStorage.getItem("deptname"));
 			
@@ -157,13 +169,36 @@
 			//$('input[type="text"].TextBox').mask('9999');
 		};
 
+		function mobileListViewLocalFiltering() {        
+		var dataSource = new kendo.data.DataSource({ data: getResponses() });
+        $("#local-filterable-listview").kendoMobileListView({
+            dataSource: dataSource,
+            template: "#: name #",						
+            filterable: {
+                field: "name"                
+            },
+            virtualViewSize: 100, // this configuration is needed to determine the items displayed, since the datasource does not (and should not) have paging set.
+            endlessScroll: true
+        });
+    }
+		
 		function InitQuestionResponses()
 		{
 			console.log('init..');
-			$('#divCompleteResponseView').addClass('DisplayNone');
+			var dataSource = new kendo.data.DataSource({ data: getResponses() });
+			/*console.log('listview..');
+					$("ul").kendoMobileListView({
+					//$("#ul_" + question.ID).kendoMobileListView({
+						dataSource: dataSource,
+						template: "#: name #",						
+						virtualViewSize: 50, // needed setting, since local data virtualization does not use paging
+						endlessScroll: true
+					});		*/
+		/*$('#divCompleteResponseView').addClass('DisplayNone');
 			window.setTimeout(function(){
+				console.log("removed..");
 				$('#divCompleteResponseView').removeClass('DisplayNone')
-			}, 100);
+			}, 500);*/
 		}
 		
 		function DisplayResponses(e){
@@ -541,7 +576,13 @@
 		
 		//Display responses associated with the question
 		//This function is used to display responses for a question where response count is more than 2
-		function DisplayQuestionResponses(e){		  
+		function DisplayQuestionResponses(e){
+			//add delay before displaying all the response controls to prevent accidental touch on controls
+			$('#divCompleteResponseView').addClass('DisplayNone');
+			window.setTimeout(function(){
+				$('#divCompleteResponseView').removeClass('DisplayNone')
+			}, 300);
+		 
 		  var responseForQuestion, allQuestions, question, questionText, responseControlTypeId, responseControlType;
 		  
 		  $("#DeptNameResponseDetail").text(localStorage.getItem("deptname"));
@@ -550,7 +591,7 @@
 		  }
 		  
 		  allQuestions = eventQuestions.Questions;
-		  //console.log(eventQuestions.Questions.length);
+		  
 		  for (var idx = 0; idx < allQuestions.length; idx++){
 				question = allQuestions[idx];
 			   if(question.ID == paramQuestionId)
@@ -570,7 +611,7 @@
 		  //Clear Other reasons control
 		  $('div.OtherDiv').remove();
 		  $('#spanQuestionText').text(questionText);
-		  e.view.content.append('<ul id="ul_' + paramQuestionId + '"></ul>')
+		  e.view.content.append('<div style="overflow:scroll;height:400px"><ul id="ul_' + paramQuestionId + '"></ul></div>')
 		  //$('#ResponseDetailContainer').append('<ul id="ul_' + paramQuestionId + '"></ul>');
 		  
 		  responseControlType = GetResponseControlType(responseControlTypeId);
@@ -589,19 +630,16 @@
 				var canCreateOtherTextBox = false;
 				var responseIdArr = responseIdColl.split(",");
 				var doesQuestionHaveResponse = false;
-				//console.log('Question:' + paramQuestionId);
 				
 				for (var idx = 0; idx < responseForQuestion.length; idx++)
 				{
 						//if(responseId != undefined && responseId != "" && responseForQuestion[idx].ID == responseId){
 						doesQuestionHaveResponse = CanCheckResponseId(responseForQuestion[idx].ID, responseIdArr);
 						if(doesQuestionHaveResponse){
-							//console.log('checking checkbox with reasonId:' + responseForQuestion[idx].ID);
 							liText = "<li><label> " + responseForQuestion[idx].Text + "<input type='" + responseControlType + "' name='input-" + paramQuestionId + "' id='"+ responseForQuestion[idx].ID+ "' checked='checked' class='textbox-"+ responseForQuestion[idx].OpensTextbox+ "'/></label></li>";						
 						}
 						else
 						{
-							//console.log('checkbox not checked..' + responseForQuestion[idx].Text +' with reasonid:'+ responseForQuestion[idx].ID);
 							liText = "<li><label> " + responseForQuestion[idx].Text + "<input type='" + responseControlType + "' name='input-" + paramQuestionId + "' id='"+ responseForQuestion[idx].ID+ "' class='textbox-"+ responseForQuestion[idx].OpensTextbox+ "'/></label></li>";						
 						}
 						
@@ -612,8 +650,7 @@
 						$("#ul_" + paramQuestionId).append(liText);
 						//if(canCreateOtherTextBox && responseForQuestion[idx].ID == responseId){
 						if(canCreateOtherTextBox && doesQuestionHaveResponse){ 
-							$("#ul_" + paramQuestionId).after("<div class='OtherDiv'><input type='text' id='" + responseForQuestion[idx].ID + "-txtother'/></div>");
-							//console.log('populating text..' + responseText);
+							$("#ul_" + paramQuestionId).after("<div class='OtherDiv'><input type='text' id='" + responseForQuestion[idx].ID + "-txtother'/></div>");							
 							$('div.OtherDiv input').val(responseText);
 						}
 				}
@@ -621,23 +658,38 @@
 				
 				break;
 			case "select":
+			//ananth
 				var defaultEntry = JSON.parse('{"ID":-1,"Text":"","Description":"Select","OpensTextbox":false}');
 				responseForQuestion.unshift(defaultEntry);
                 $("#ul_" + question.ID).append("<li></li>");
-                e.view.element.find("#ul_" + paramQuestionId + " > li").kendoComboBox({
-                                                   dataTextField: "Text",
-                                                   dataValueField: "ID",
-                                                   dataSource: responseForQuestion,
-                                                   filter: "contains",
-                                                   suggest: true,
-                                                   index: 0
-                                                   });
-												   
-				$('#ul_' + paramQuestionId +' input').attr('placeholder', 'Please select/start typing an organization...');
-				
-				var combo = $("#ul_" + paramQuestionId +" li[data-role=combobox]").data("kendoComboBox");
-				responseIdColl = GetUserResponse(paramQuestionId, "Id");
-				combo.value(responseIdColl);
+                if(false){
+					e.view.element.find("#ul_" + paramQuestionId + " > li").kendoComboBox({
+													   dataTextField: "Text",
+													   dataValueField: "ID",
+													   dataSource: responseForQuestion,
+													   filter: "contains",
+													   suggest: true,
+													   index: 0
+													   });
+													   
+					$('#ul_' + paramQuestionId +' input').attr('placeholder', 'Please select/start typing an organization...');
+					
+					var combo = $("#ul_" + paramQuestionId +" li[data-role=combobox]").data("kendoComboBox");
+					responseIdColl = GetUserResponse(paramQuestionId, "Id");
+					combo.value(responseIdColl);
+				}
+				else{
+					//listview
+					var dataSource = new kendo.data.DataSource({ data: getResponses() });
+					//$("#localListView").kendoMobileListView({
+					//$("ul").kendoMobileListView({
+					$("#ul_8").kendoMobileListView({
+						dataSource: dataSource,
+						template: "#: name #",
+						virtualViewSize: 40, // needed setting, since local data virtualization does not use paging
+						endlessScroll: true
+					});
+				}
 				break;
 		  }
 		  
@@ -660,14 +712,12 @@
 					if($('div.OtherDiv input').attr('id') == undefined)
 					{
 						if ($('.textbox-true').is(":checked")){
-							//console.log('checked..');
 							$(this).closest('ul').after("<div class='OtherDiv'><input type='text' id='" + $(this).attr('id') + "-txtother'/></div>")
 							$('div.OtherDiv input').focus();
 						}
 					}
 					else
 					{
-						//console.log('else..');
 						$('div.OtherDiv').remove();
 					}
 				});
@@ -756,6 +806,11 @@
 			
 			return retResponseType;
 		}
+        
+        function CancelResponses(e)
+        {
+            window.location.href = "login.html";
+        }
 		
 		function CollectResponse(e)
 		{
@@ -836,7 +891,8 @@
 		
 		function getResponses() {
 			var data = [], idx = 0;
-			for (; idx < 1000; idx) {
+			for (; idx < 1000; idx++) {
+			console.log('idx..' + idx);
 				data.push({
 					name: "Name" + idx
 				});
