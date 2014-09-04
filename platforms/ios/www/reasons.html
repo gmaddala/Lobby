@@ -75,6 +75,12 @@
 			<ul id="local-filterable-listview"></ul>
 		</div>
 		
+		<div id="LocalListView" data-role="view" data-init="mobileListViewLocal" data-layout="ResponseDetailsLayout">
+			<!-- <ul id="listView"></ul> -->
+			<span id="spanQuestionText1"></span>
+			<ul id="local-filterable-listview1"></ul>
+		</div>
+		
 		<div data-role="layout" data-id="checklayout">
             <header data-role="header">
                 <!-- <div data-role="navbar">
@@ -113,7 +119,7 @@
 					<a href="#" class="cancel-link cancelLinkFix" data-role="button">Cancel</a>                					
 					</div>
 					<!--<div style="text-align:center;position:relative;float:left;width:86%"><span id="DeptNameResponseDetail" class="header-text"></span></div>-->
-					<div style="text-align:right;position:relative;float:left;width:7%">
+					<div style="text-align:right;position:relative;float:right;width:7%">
 					<a class="cancel-link cancelLinkFix" data-role="button" data-click="CollectResponse">Done</a>
                     <div style="clear:both;"></div>
 				</div>
@@ -170,7 +176,7 @@
 			//$('input[type="text"].TextBox').mask('9999');
 		};
 
-		function mobileListViewLocalFiltering() {        
+		function mobileListViewLocalFiltering() {   console.log('local list..');     
 		var dataSource = new kendo.data.DataSource({ data: getResponses() });
         $("#local-filterable-listview").kendoMobileListView({
             dataSource: dataSource,
@@ -184,10 +190,26 @@
         });
     }
 		
+		function mobileListViewLocal() {        
+		var dataSource = new kendo.data.DataSource({ data: getOrganizations() });
+		console.log('populating org..');
+        $("#local-filterable-listview1").kendoMobileListView({
+				dataSource: dataSource,
+				//template: "#:name #",						
+				template: "<label>#: Text# <input type='radio' name='input-" + paramQuestionId + "' id='#:ID#' class='textbox-#:OpensTextbox#'/></label>",
+				filterable: {
+					field: "Text",
+					operator: "contains"
+				},
+				virtualViewSize: 100, // this configuration is needed to determine the items displayed, since the datasource does not (and should not) have paging set.
+				endlessScroll: true
+			});
+		}
+		
 		function InitQuestionResponses()
 		{
-			console.log('init..');
-			var dataSource = new kendo.data.DataSource({ data: getResponses() });
+			//console.log('init..');
+			//var dataSource = new kendo.data.DataSource({ data: getResponses() });
 			/*console.log('listview..');
 					$("ul").kendoMobileListView({
 					//$("#ul_" + question.ID).kendoMobileListView({
@@ -352,7 +374,7 @@
 					//var responseText = GetResponseText(question.ID);
 					var responseText = "Required";
 					if(responseText == undefined) responseText = "";
-					divResponse = '<div class="span4 ResponseContainer" id="divResponse'+ question.ID + '"><span id="spanResponseText' + question.ID + '" class="Response Required">' + responseText + '</span> <a data-role="button"  id="btnResponseDetail_' + question.ID + '" data-questionid="' + question.ID + '" class="ResponseDetailButton"><span><i class="icon-chevron-sign-right"></i></span></a></div>';
+					divResponse = '<div class="span4 ResponseContainer" id="divResponse'+ question.ID + '" displayListView="false"><span id="spanResponseText' + question.ID + '" class="Response Required">' + responseText + '</span> <a data-role="button"  id="btnResponseDetail_' + question.ID + '" data-questionid="' + question.ID + '" class="ResponseDetailButton"><span><i class="icon-chevron-sign-right"></i></span></a></div>';
 					
 					var divQuestionAndResponse = "";
                     var inputtype = "checkbox";
@@ -360,15 +382,18 @@
                     if(question.ResponsesType == "1")
                     {
                         inputtype = "radio";
+						divResponse = '<div class="span4 ResponseContainer" id="divResponse'+ question.ID + '" displayListView="false"><span id="spanResponseText' + question.ID + '" class="Response Required">' + responseText + '</span> <a data-role="button"  id="btnResponseDetail_' + question.ID + '" data-questionid="' + question.ID + '" class="ResponseDetailButton"><span><i class="icon-chevron-sign-right"></i></span></a></div>';
                     }
                     else if(question.ResponsesType == "2")
                     {
                         inputtype = "checkbox";
+						divResponse = '<div class="span4 ResponseContainer" id="divResponse'+ question.ID + '" displayListView="false"><span id="spanResponseText' + question.ID + '" class="Response Required">' + responseText + '</span> <a data-role="button"  id="btnResponseDetail_' + question.ID + '" data-questionid="' + question.ID + '" class="ResponseDetailButton"><span><i class="icon-chevron-sign-right"></i></span></a></div>';
                     }
                     else if(question.ResponsesType == "3")
                     {
                         inputtype = "selectbox";
                         //SetUpComboBox(question.ID);
+						divResponse = '<div class="span4 ResponseContainer" id="divResponse'+ question.ID + '" displayListView="true"><span id="spanResponseText' + question.ID + '" class="Response Required">' + responseText + '</span> <a data-role="button"  id="btnResponseDetail_' + question.ID + '" data-questionid="' + question.ID + '" class="ResponseDetailButton"><span><i class="icon-chevron-sign-right"></i></span></a></div>';
                     }
                     else if (question.ResponsesType == "4")
                     {
@@ -385,7 +410,7 @@
 						
 						//divResponse = '<div class="span4" id="divResponse'+ question.ID + '" style="padding-top:0.9%;"><input type="text" id="txt_' + question.ID + '"  class="TextBox FloatRight" placeholder="Required"></input></div>';
 						//type number
-						divResponse = '<div class="span4" id="divResponse'+ question.ID + '" style="padding-top:0.9%;"><input type="number" id="txt_' + question.ID + '" min="1" max="9999" oninput="MaxLengthCheck(this)" class="TextBox FloatRight" placeholder="Required"></input></div>';
+						divResponse = '<div class="span4" id="divResponse'+ question.ID + '" style="padding-top:0.9%;"><input type="number" id="txt_' + question.ID + '" min="1" max="9999" oninput="MaxLengthCheck(this)" class="TextBox FloatRight FormTextBox" placeholder="Required"></input></div>';
                         
 						//$('#div_reason_list_' + question.ID).append('<label><input type="' + inputtype +'" aria-labelledby="i-4" id="' + question.Responses[0].ID  + '" name="txt_' + question.ID + '" class="horizontal-center textbox small-textbox" style="width:93% !important;"></label>');
                     }
@@ -417,7 +442,7 @@
 					
                     if(inputtype == "radio" || inputtype == "checkbox" || inputtype == "selectbox")
                     {
-						e.view.element.find("#btnResponseDetail_" + question.ID).kendoMobileButton({click: ShowResponsePage}); //, question:12
+						e.view.element.find("#btnResponseDetail_" + question.ID).kendoMobileButton(); //, question:12 | {click: ShowResponsePage}
 						$("#btnResponseDetail_" + question.ID).addClass('ResponseDetailButton');
                     }
 					else if(inputtype == "textbox")
@@ -562,18 +587,27 @@
 		//Display view where response for the question will be displayed
 		function ShowResponsePage(e){
 			//Get QuestionId for which responses need to be displayed			
-			var params = "";
+			var params = "", canDisplayListView = false;
+			
 			if(e.button == 0){
 				paramQuestionId = $(this).attr('id');
 				paramQuestionId = paramQuestionId.replace("divResponse", "");
+				canDisplayListView = $(this).attr('displayListView');
 			}
 			else{
 				params = e.button.data();
 				//Passing parameter to listview/view is not supported. So, param value is stored in a global variable
 				paramQuestionId = params.questionid;
+				//console.log("btn click.."+params.displaylistview);
 			}
-			
-			app1.navigate("#divCompleteResponseView");
+			//console.log('displaylistview..'+ canDisplayListView + ' ..'+ paramQuestionId)
+			if (canDisplayListView == "true"){
+				app1.navigate("#LocalListView");
+			}
+			else
+			{
+				app1.navigate("#divCompleteResponseView");
+			}
 		}
 		
 		//Display responses associated with the question
@@ -618,7 +652,7 @@
 		  
 		  responseControlType = GetResponseControlType(responseControlTypeId);
 		  var collResponses = JSON.parse(localStorage.getItem("CollectedResponses"));
-		  var responseId, responseIdColl, responseText;
+		  var responseId, responseIdColl, responseText, canDisplayListView = false;
 				
 		  switch(responseControlType)
 		  {
@@ -660,11 +694,13 @@
 				
 				break;
 			case "select":
-			//ananth
+			//ananth				
+                if(false){
 				var defaultEntry = JSON.parse('{"ID":-1,"Text":"","Description":"Select","OpensTextbox":false}');
 				responseForQuestion.unshift(defaultEntry);
                 $("#ul_" + question.ID).append("<li></li>");
-                if(true){
+				
+				console.log("combo box..");
 					e.view.element.find("#ul_" + paramQuestionId + " > li").kendoComboBox({
 													   dataTextField: "Text",
 													   dataValueField: "ID",
@@ -681,6 +717,9 @@
 					combo.value(responseIdColl);
 				}
 				else{
+				console.log('listview...');
+				canDisplayListView = true;
+					/*
 					//listview
 					var dataSource = new kendo.data.DataSource({ data: getResponses() });
 					//$("#localListView").kendoMobileListView({
@@ -691,6 +730,8 @@
 						virtualViewSize: 40, // needed setting, since local data virtualization does not use paging
 						endlessScroll: true
 					});
+					*/
+					
 				}
 				break;
 		  }
@@ -723,6 +764,10 @@
 						$('div.OtherDiv').remove();
 					}
 				});
+			}
+			
+			if(canDisplayListView){
+				app1.navigate("#LocalListView");
 			}
 			
 		}
@@ -850,8 +895,10 @@
 						break;
 						case "select":
 							//console.log('collecting response for select box..');
-							var select = $("#ul_" + paramQuestionId + " li[data-role=combobox]");
-							responseId = select.attr('value')
+							//var select = $("#ul_" + paramQuestionId + " li[data-role=combobox]");
+							//responseId = select.attr('value')
+							responseId = $('input[name="input-' + paramQuestionId + '"]:checked').attr('id');
+							console.log('responseId..' + responseId)
 							otherText = "";
 						break;
 					}
@@ -893,14 +940,40 @@
 		
 		function getResponses() {
 			var data = [], idx = 0;
+			console.log('getResponses..');
 			for (; idx < 1000; idx++) {
-			console.log('idx..' + idx);
+			
 				data.push({
 					name: "Name" + idx
 				});
 			}
 
 			return data;
+		}
+		
+		function getOrganizations(){
+			console.log('question Id ' + paramQuestionId);
+			var question, responseForQuestion, questionText;
+		if(eventQuestions == undefined){ //if eventQuestions does not exist, parse it. eventQuestions should have been initialized in DisplayResponses methods			
+			eventQuestions = JSON.parse(localStorage.getItem("questions"));
+		  }
+		  
+		  var allQuestions = eventQuestions.Questions;
+		  
+		  for (var idx = 0; idx < allQuestions.length; idx++){
+				question = allQuestions[idx];
+			   if(question.ID == paramQuestionId)
+			   {
+				 //get responses
+				 responseForQuestion	= question.Responses;
+				 //responseControlTypeId 	= question.ResponsesType;
+				 questionText 			= question.QuestionText;
+				 break;
+			   }
+		  }
+		  $('#spanQuestionText1').text(questionText);
+		  
+		  return responseForQuestion;
 		}
         </script>
     </body>
