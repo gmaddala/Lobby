@@ -47,12 +47,15 @@
     </head>
     <body class="scrollable">
 	
-	<div id="questions-body" data-role="view" data-title=" " data-layout="checklayout" data-show="DisplayResponses">
+	<div id="questions-body" data-role="view" data-title=" " data-layout="checklayout" data-show="DisplayResponses" >
+        <div style="padding-left:10px;">
+        <span class="span-question-text" style="margin:0;">Please answer the following questions:</span>
 	        <ul data-role="listview" data-style="inset" id="ulResponses" data-type="group">
 			</ul>
-            <div class="row-fluid FormIndentation" id="divQuestions">
+            <div class="row-fluid FormIndentation" id="divQuestions" style="padding-left:15px;">
 			  
 			</div>
+            </div>
         </div>
         <div id="divCompleteResponseView" data-role="view" data-title="" data-layout="ResponseDetailsLayout" data-show="DisplayQuestionResponses" data-init="InitQuestionResponses">
 			<div class="ResponseDetailContainer">
@@ -345,7 +348,7 @@
 						
 						//divResponse = '<div class="span4" id="divResponse'+ question.ID + '" style="padding-top:0.9%;"><input type="text" id="txt_' + question.ID + '"  class="TextBox FloatRight" placeholder="Required"></input></div>';
 						//type number
-						divResponse = '<div class="span4" id="divResponse'+ question.ID + '" style="padding-top:0.9%;"><input type="number" id="txt_' + question.ID + '"  class="TextBox FloatRight" placeholder="Required"></input></div>';
+						divResponse = '<div class="span4" id="divResponse'+ question.ID + '" style="padding-top:0.9%;"><input type="number" id="txt_' + question.ID + '" min="1" max="9999" oninput="MaxLengthCheck(this)" class="TextBox FloatRight" placeholder="Required"></input></div>';
                         
 						//$('#div_reason_list_' + question.ID).append('<label><input type="' + inputtype +'" aria-labelledby="i-4" id="' + question.Responses[0].ID  + '" name="txt_' + question.ID + '" class="horizontal-center textbox small-textbox" style="width:93% !important;"></label>');
                     }
@@ -361,6 +364,7 @@
 					if(question.ResponsesType == "5"){
 						//allow only numbers on keypress event
 						$('#txt_'+ question.ID).bind('keypress',PopulateNumbers);						
+						//$('#txt_' + question.ID).oninput= MaxLengthCheck(this);
 						//disable paste
 						$('#txt_'+ question.ID).bind("paste",function(e) {  
 							 e.preventDefault();  
@@ -448,6 +452,13 @@
 		  }
 		}
 		
+		//function to check length of input. If greater than 4, first 4 chars are retained
+		//TODO: To make length check for number textbox generic, maxlength need to be configured in DB
+		function MaxLengthCheck(ctl){
+							if (ctl.value.length > 4)
+								{ctl.value = ctl.value.slice(0,4); }
+						}
+		
 		//Function to allow only numbers into the text field
 		function PopulateNumbers(e)
 		{
@@ -455,7 +466,7 @@
 			if(code < 48 || code > 57){
 			
 				e.preventDefault();
-			}			
+			}
 		}
 		
 		function GetResponseText(questionId)
