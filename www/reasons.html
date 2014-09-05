@@ -357,10 +357,11 @@
 		var canConstructQuestions = $("#divQuestions").children().length == 0;
 		
 		if (canConstructQuestions){
-		    var collectedResponses = [];
+		    var collectedResponses = [], response;
 		    //localStorage.setItem("CollectedResponses", responsesObj);
 			for(var i = 0; i < q_array.length; i++) {
-                    var question = q_array[i];                    
+                    var question = q_array[i];   
+					var responses = question.Responses;
                     //$('#questions-body div[data-role="content"]').append('<div class="control reasons-form" id="div_reason_list_' + question.ID +'"><label id="i-4" style="margin-bottom:3%;"><span id="' + question.ID +'_prompt"></span></label></div><div class="control">');					
                     //$("#ulResponses").append("<li><span class='span-question-text'>" + question.QuestionText + "</span><div><ul id='ul_" + question.ID + "'></ul></div></li>");
                     
@@ -399,7 +400,11 @@
                     {
                         inputtype = "textbox";
 						//divResponse = '<div class="span8" id="divResponse'+ question.ID + '" style="padding-top:0.9%"><ul id="ul_' + question.ID + '" data-role="listview" data-style="inset" class="ListViewContainer"><li><input type="text" id="txt_' + question.ID + '"></input></li></ul></div>';
-						divResponse = '<div class="span4" id="divResponse'+ question.ID + '" style="padding-top:0.9%;"><input type="text" id="txt_' + question.ID + '"  class="TextBox FloatRight" placeholder="Required"></input></div>';
+						//divResponse = '<div class="span4" id="divResponse'+ question.ID + '" style="padding-top:0.9%;"><input type="text" id="txt_' + question.ID + '"  class="TextBox FloatRight" placeholder="Required"></input></div>';
+						var txtId = responses[0].ID;
+						divResponse = '<div class="span4" id="divResponse'+ question.ID + '" style="padding-top:0.9%;"><input type="text" name="' + question.ID + '" id="' +  txtId + '"  class="TextBox FloatRight" placeholder="Required"></input></div>';
+						//name="' + question.ID + '" id="' +  txtId + '"
+						
                         //$('#div_reason_list_' + question.ID).append('<label><input type="' + inputtype +'" aria-labelledby="i-4" id="' + question.Responses[0].ID  + '" name="txt_' + question.ID + '" class="horizontal-center textbox small-textbox" style="width:93% !important;"></label>');
                     }
 					else if (question.ResponsesType == "5")
@@ -409,8 +414,11 @@
 						//divResponse = '<div class="span8" id="divResponse'+ question.ID + '" style="padding-top:0.9%"><ul id="ul_' + question.ID + '" data-role="listview" data-style="inset" class="ListViewContainer"><li><input type="text" id="txt_' + question.ID + '"></input></li></ul></div>';
 						
 						//divResponse = '<div class="span4" id="divResponse'+ question.ID + '" style="padding-top:0.9%;"><input type="text" id="txt_' + question.ID + '"  class="TextBox FloatRight" placeholder="Required"></input></div>';
-						//type number
-						divResponse = '<div class="span4" id="divResponse'+ question.ID + '" style="padding-top:0.9%;"><input type="number" id="txt_' + question.ID + '" min="1" max="9999" oninput="MaxLengthCheck(this)" class="TextBox FloatRight FormTextBox" placeholder="Required"></input></div>';
+
+						var txtId = responses[0].ID;
+						//console.log('questionid ..' + question.ID + ' responseId: '+ txtId);
+						//type number						
+						divResponse = '<div class="span4" id="divResponse'+ question.ID + '" style="padding-top:0.9%;"><input type="number" name="' + question.ID + '" id="' +  txtId + '" min="1" max="9999" oninput="MaxLengthCheck(this)" class="TextBox FloatRight" placeholder="Required"></input></div>';
                         
 						//$('#div_reason_list_' + question.ID).append('<label><input type="' + inputtype +'" aria-labelledby="i-4" id="' + question.Responses[0].ID  + '" name="txt_' + question.ID + '" class="horizontal-center textbox small-textbox" style="width:93% !important;"></label>');
                     }
