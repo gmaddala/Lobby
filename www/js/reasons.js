@@ -1,3 +1,5 @@
+var otherPrefix = "[Other] - ";
+
 function SubmitReasons(e)
 {
     e.preventDefault();
@@ -75,6 +77,8 @@ function SubmitReasons(e)
 			reasonId = collectedResponses[idx].ReasonId;
 			otherReason = collectedResponses[idx].ReasonDetails;
 			otherReasonId = collectedResponses[idx].OtherReasonId;
+			
+			otherReason = otherReason.replace(otherPrefix, "");
 			
 			if (otherReason == undefined) { otherReason = "";}
 
