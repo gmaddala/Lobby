@@ -37,17 +37,27 @@ a{
 	font-size: 130% !important;
 }
 
+.ReasonsAlert{
+	width: 50%;font-size:1em !important;
+}
+
 div.div-white-body-interior button, div.gray-div button{
   width: 85%;
   font-size: 120% !important;
   height: 2.9em;
 }
 
-div#modalviewAlert.km-widget.km-modalview.km-view  , #dialog-modal.km-widget.km-modalview.km-view, #modalviewFlash.km-widget.km-modalview.km-view{ 
+div#modalviewAlert.km-widget.km-modalview.km-view,div#modalviewAlert.ReasonsAlert.km-widget.km-modalview.km-view  , #dialog-modal.km-widget.km-modalview.km-view, #modalviewFlash.km-widget.km-modalview.km-view{ 
     position:fixed;
     width:50% !important;
     left:25%;
     top:40%;
+}
+
+/* Alert modal box fix. Since useNativeScrolling is off for Reasons page, this fix is needed */
+div#modalviewAlert.ReasonsAlert.km-widget.km-modalview.km-view
+{
+	height:12%;
 }
 
 #dialog-modal:before{
@@ -78,7 +88,7 @@ div#modalviewAlert.km-widget.km-modalview.km-view  , #dialog-modal.km-widget.km-
     margin-left:auto;
     margin-right:auto;
     margin-bottom:15px;
-margin-top:35px;
+	margin-top:35px;
     display:block;
 }
 
@@ -385,6 +395,7 @@ input[type="text"], input[type="number"]{
 
 .TextBox{
 	font-style: italic;
+	margin-right: 9%;
 }
 .FloatRight{
 	float:right;

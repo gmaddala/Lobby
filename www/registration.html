@@ -56,7 +56,7 @@
             </div>
         </div>
 		
-        <div data-role="view" data-layout="div_header_cancel" style="height:75%;" data-init="InitControls"> <!--  class="div-white-body" -->
+        <div data-role="view" data-layout="div_header_cancel" style="height:75%;" data-init="InitControls" data-show="SetDefaultFocus"> <!--  class="div-white-body" -->
             <div class="div-white-body WhiteBodyFix" id="divRegistration">
 				<div class="div-white-body-interior">
 					<div class="form-table-label" style="padding-top:0;">Name<span class="RequiredField">*</span></div>
@@ -115,6 +115,9 @@
 			$('#txt_phone').mask('(999)999-9999');
 		}
         
+        function SetDefaultFocus(){//set default focus on first name control
+            $('#txt_firstname').focus();
+        }
         </script>
     </body>
 </html>
