@@ -1,3 +1,5 @@
+var otherPrefix = "[Other] - ";
+
 function SubmitReasons(e)
 {
     e.preventDefault();
@@ -75,6 +77,8 @@ function SubmitReasons(e)
 			reasonId = collectedResponses[idx].ReasonId;
 			otherReason = collectedResponses[idx].ReasonDetails;
 			otherReasonId = collectedResponses[idx].OtherReasonId;
+			
+			otherReason = otherReason.replace(otherPrefix, "");
 			
 			if (otherReason == undefined) { otherReason = "";}
 
@@ -189,16 +193,17 @@ function ValidateReasons2(q_array){
 		if (responseContainer.children().length == 1)
 		{
 			//input control
-			response = responseContainer.find('input').val();
+			var txtBox = responseContainer.find('input');
+			response = txtBox.val();
 			if ($.trim(response) == ""){
 				responseContainer.find('input').addClass("Error");
-				SetUserResponseForQuestionId(question.ID, "");
+				SetUserResponseForQuestionId(question.ID, txtBox.attr('id'), "");
 				hasError = true;
 			}
 			else
 			{
 				responseContainer.find('input').removeClass("Error");
-				SetUserResponseForQuestionId(question.ID, responseContainer.find('input').val());
+				SetUserResponseForQuestionId(question.ID, txtBox.attr('id'), responseContainer.find('input').val());
 			}
 		}
 		else if ($('#divResponse'+ question.ID).children().length == 2)
@@ -217,18 +222,18 @@ function ValidateReasons2(q_array){
 			}
 		}
 	}
-	console.log('has error..'+ hasError);
+	//console.log('has error..'+ hasError);
 		return hasError;
 }
 
-function SetUserResponseForQuestionId(questionId, value)
+function SetUserResponseForQuestionId(questionId, reasonId, value)
 {
 	var collResponses = JSON.parse(localStorage.getItem("CollectedResponses"));
 	for (var idx = 0; idx < collResponses.length; idx++)
 	{
 		if(collResponses[idx].QuestionId == questionId)
 		{
-			collResponses[idx].ReasonId = "";
+			collResponses[idx].ReasonId = reasonId;
 			collResponses[idx].ReasonDetails = value;
 		}
 	}
@@ -284,7 +289,7 @@ function SubmitIntake(myJsonObj)
 				window.open("thankyou.html", "_self");
            },
            error: function (jqXHR, textStatus, errorThrown) {
-           showNativeDialog("An error has occurred. Please try again.");
+           showNativeDialog("An error has occurred. Please try again." + jqXHR.responseText);
            //alert("The access key you entered is incorrect. Please click 'Retry' to reenter your access key.");		   
            //alert(jqXHR.responseText + ";\n\n" + textStatus + ";\n\n" + errorThrown);
 			//showNativeDialog("Error while checking in. Please contact the administrator");

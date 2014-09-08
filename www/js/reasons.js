@@ -222,7 +222,7 @@ function ValidateReasons2(q_array){
 			}
 		}
 	}
-	console.log('has error..'+ hasError);
+	//console.log('has error..'+ hasError);
 		return hasError;
 }
 
@@ -289,7 +289,7 @@ function SubmitIntake(myJsonObj)
 				window.open("thankyou.html", "_self");
            },
            error: function (jqXHR, textStatus, errorThrown) {
-           showNativeDialog("An error has occurred. Please try again.");
+           showNativeDialog("An error has occurred. Please try again." + jqXHR.responseText);
            //alert("The access key you entered is incorrect. Please click 'Retry' to reenter your access key.");		   
            //alert(jqXHR.responseText + ";\n\n" + textStatus + ";\n\n" + errorThrown);
 			//showNativeDialog("Error while checking in. Please contact the administrator");

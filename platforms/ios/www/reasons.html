@@ -57,7 +57,7 @@
 			</div>
             </div>
         </div>
-        <div id="divCompleteResponseView" data-role="view" data-title="" data-layout="ResponseDetailsLayout" data-show="DisplayQuestionResponses" data-init="InitQuestionResponses">
+        <div id="divCompleteResponseView" data-role="view" data-title="" data-layout="ResponseDetailsLayout" data-show="DisplayQuestionResponses">
 			<div class="ResponseDetailContainer">
 				<span id="spanQuestionText"></span>
 				
@@ -73,6 +73,12 @@
 			</header>
 
 			<ul id="local-filterable-listview"></ul>
+		</div>
+		
+		<div id="LocalListView" data-role="view" data-init="mobileListViewLocal" data-layout="ResponseDetailsLayout">
+			<!-- <ul id="listView"></ul> -->
+			<span id="spanQuestionText1"></span>
+			<ul id="local-filterable-listview1"></ul>
 		</div>
 		
 		<div data-role="layout" data-id="checklayout">
@@ -113,7 +119,7 @@
 					<a href="#" class="cancel-link cancelLinkFix" data-role="button">Cancel</a>                					
 					</div>
 					<!--<div style="text-align:center;position:relative;float:left;width:86%"><span id="DeptNameResponseDetail" class="header-text"></span></div>-->
-					<div style="text-align:right;position:relative;float:left;width:7%">
+					<div style="text-align:right;position:relative;float:right;width:7%">
 					<a class="cancel-link cancelLinkFix" data-role="button" data-click="CollectResponse">Done</a>
                     <div style="clear:both;"></div>
 				</div>
@@ -124,7 +130,7 @@
         </div>
 		
 		<!-- modal to display alert messages -->
-		<div data-role="modalview" id="modalviewAlert" style="width: 50%;font-size:1em !important">
+		<div data-role="modalview" id="modalviewAlert" class="ReasonsAlert">
 				<div data-role="header">
 					<div data-role="navbar">
 						<span>Alert</span>
@@ -154,10 +160,10 @@
         </script>
 		
         <script type="text/javascript">
-		var app1, paramQuestionId, eventQuestions;
+		var app1, paramQuestionId, eventQuestions, otherPrefix = "[Other] - ";
 			
-		window.onload = function(){				
-			//app1 = new kendo.mobile.Application(document.body, {useNativeScrolling: true});			
+		window.onload = function(){			
+			//Adding useNativeScrolling property interferes with mobileListView
 			app1 = new kendo.mobile.Application(document.body);
 
 			$("#DeptName").text(localStorage.getItem("deptname"));
@@ -165,12 +171,9 @@
 			$('.textbox-true').click(function(){
 										$(this).parent().parent().append("<div><input type='text' id='" + $(this).attr('id') + "-txtother' class='temp'/></div>")
 									 });
-			//apply mask for number field
-			//$('input[type="number"].TextBox').mask('9999');
-			//$('input[type="text"].TextBox').mask('9999');
 		};
 
-		function mobileListViewLocalFiltering() {        
+		function mobileListViewLocalFiltering() {
 		var dataSource = new kendo.data.DataSource({ data: getResponses() });
         $("#local-filterable-listview").kendoMobileListView({
             dataSource: dataSource,
@@ -184,23 +187,19 @@
         });
     }
 		
-		function InitQuestionResponses()
-		{
-			console.log('init..');
-			var dataSource = new kendo.data.DataSource({ data: getResponses() });
-			/*console.log('listview..');
-					$("ul").kendoMobileListView({
-					//$("#ul_" + question.ID).kendoMobileListView({
-						dataSource: dataSource,
-						template: "#: name #",						
-						virtualViewSize: 50, // needed setting, since local data virtualization does not use paging
-						endlessScroll: true
-					});		*/
-		/*$('#divCompleteResponseView').addClass('DisplayNone');
-			window.setTimeout(function(){
-				console.log("removed..");
-				$('#divCompleteResponseView').removeClass('DisplayNone')
-			}, 500);*/
+		function mobileListViewLocal() {        
+		var dataSource = new kendo.data.DataSource({ data: getOrganizations() });		
+        $("#local-filterable-listview1").kendoMobileListView({
+				dataSource: dataSource,
+				//template: "#:name #",						
+				template: "<label>#: Text# <input type='radio' name='input-" + paramQuestionId + "' id='#:ID#' class='textbox-#:OpensTextbox#'/></label>",
+				filterable: {
+					field: "Text",
+					operator: "contains"
+				},
+				virtualViewSize: 100, // this configuration is needed to determine the items displayed, since the datasource does not (and should not) have paging set.
+				endlessScroll: true
+			});
 		}
 		
 		function DisplayResponses(e){
@@ -260,9 +259,7 @@
                     }
                     else if(inputtype == "selectbox")
                     {
-						//console.log('responses..'+ responses);
-						//Please select/start typing...
-						
+						//Please select/start typing...						
 						var defaultEntry = JSON.parse('{"ID":-1,"Text":"","Description":"Select","OpensTextbox":false}');
 						responses.unshift(defaultEntry);
                         $("#ul_" + question.ID).append("<li></li>");
@@ -275,43 +272,13 @@
                                                    index: 0
                                                    });
 												   
-						$('#ul_8 input').attr('placeholder', 'Please select/start typing an organization...');
-						/*e.view.element.find("#ul_" + question.ID + " > li").kendoMobileListView({
-									//dataSource: responses,											
-									dataSource: getResponses(),
-									template: "<label>#: Text# <input type='radio' name='radio'  /></label>",
-									filterable: {
-													field: "Text",
-													operator: "contains"
-												},
-									virtualViewSize: 50,
-									selectable: "single",
-									click: function(e){
-									console.log(e.dataItem.Text);
-									}*/
-									/*change: function (e){ 
-									var data = dataSource.view(),
-									selected = $.map(this.select(), function(item) {				
-									return data[$(item).index()].Text;
-									});
-
-									}*/
-
-						/*,		endlessScroll: true //for dynamic data fetch
-
-						});
-						
-						$('#ul_8 li[data-role = "listview"]').addClass('ReasonsDropDown');*/
+						$('#ul_8 input').attr('placeholder', 'Please select/start typing an organization...');						
                     }
                     else if(inputtype == "textbox")
                     {
-                        //$("#ul_" + question.ID).append("<li></li>");
 						var txtId = responses[0].ID;
                         $("#ul_" + question.ID).append('<input type="text" value="" name="' + question.ID + '" id="' +  txtId + '" class="TextBox" />');
-						//TODO: make the textbox look native
-						//e.view.element.find('#' + txtId).kendoTextBox();
-						
-                    }
+					}
 					else if(inputtype == "numerictextbox")
                     {
 						var txtId = responses[0].ID;
@@ -335,10 +302,11 @@
 		var canConstructQuestions = $("#divQuestions").children().length == 0;
 		
 		if (canConstructQuestions){
-		    var collectedResponses = [];
+		    var collectedResponses = [], response, responseId;
 		    //localStorage.setItem("CollectedResponses", responsesObj);
 			for(var i = 0; i < q_array.length; i++) {
-                    var question = q_array[i];                    
+                    var question = q_array[i];   
+					var responses = question.Responses;
                     //$('#questions-body div[data-role="content"]').append('<div class="control reasons-form" id="div_reason_list_' + question.ID +'"><label id="i-4" style="margin-bottom:3%;"><span id="' + question.ID +'_prompt"></span></label></div><div class="control">');					
                     //$("#ulResponses").append("<li><span class='span-question-text'>" + question.QuestionText + "</span><div><ul id='ul_" + question.ID + "'></ul></div></li>");
                     
@@ -352,7 +320,7 @@
 					//var responseText = GetResponseText(question.ID);
 					var responseText = "Required";
 					if(responseText == undefined) responseText = "";
-					divResponse = '<div class="span4 ResponseContainer" id="divResponse'+ question.ID + '"><span id="spanResponseText' + question.ID + '" class="Response Required">' + responseText + '</span> <a data-role="button"  id="btnResponseDetail_' + question.ID + '" data-questionid="' + question.ID + '" class="ResponseDetailButton"><span><i class="icon-chevron-sign-right"></i></span></a></div>';
+					divResponse = '<div class="span4 ResponseContainer" id="divResponse'+ question.ID + '" displayListView="false"><span id="spanResponseText' + question.ID + '" class="Response Required">' + responseText + '</span> <a data-role="button"  id="btnResponseDetail_' + question.ID + '" data-questionid="' + question.ID + '" class="ResponseDetailButton"><span><i class="icon-chevron-sign-right"></i></span></a></div>';
 					
 					var divQuestionAndResponse = "";
                     var inputtype = "checkbox";
@@ -360,34 +328,36 @@
                     if(question.ResponsesType == "1")
                     {
                         inputtype = "radio";
+						divResponse = '<div class="span4 ResponseContainer" id="divResponse'+ question.ID + '" displayListView="false"><span id="spanResponseText' + question.ID + '" class="Response Required">' + responseText + '</span> <a data-role="button"  id="btnResponseDetail_' + question.ID + '" data-questionid="' + question.ID + '" class="ResponseDetailButton"><span><i class="icon-chevron-sign-right"></i></span></a></div>';
                     }
                     else if(question.ResponsesType == "2")
                     {
                         inputtype = "checkbox";
+						divResponse = '<div class="span4 ResponseContainer" id="divResponse'+ question.ID + '" displayListView="false"><span id="spanResponseText' + question.ID + '" class="Response Required">' + responseText + '</span> <a data-role="button"  id="btnResponseDetail_' + question.ID + '" data-questionid="' + question.ID + '" class="ResponseDetailButton"><span><i class="icon-chevron-sign-right"></i></span></a></div>';
                     }
                     else if(question.ResponsesType == "3")
                     {
                         inputtype = "selectbox";
                         //SetUpComboBox(question.ID);
+						divResponse = '<div class="span4 ResponseContainer" id="divResponse'+ question.ID + '" displayListView="true"><span id="spanResponseText' + question.ID + '" class="Response Required">' + responseText + '</span> <a data-role="button"  id="btnResponseDetail_' + question.ID + '" data-questionid="' + question.ID + '" class="ResponseDetailButton"><span><i class="icon-chevron-sign-right"></i></span></a></div>';
                     }
                     else if (question.ResponsesType == "4")
                     {
                         inputtype = "textbox";
 						//divResponse = '<div class="span8" id="divResponse'+ question.ID + '" style="padding-top:0.9%"><ul id="ul_' + question.ID + '" data-role="listview" data-style="inset" class="ListViewContainer"><li><input type="text" id="txt_' + question.ID + '"></input></li></ul></div>';
-						divResponse = '<div class="span4" id="divResponse'+ question.ID + '" style="padding-top:0.9%;"><input type="text" id="txt_' + question.ID + '"  class="TextBox FloatRight" placeholder="Required"></input></div>';
-                        //$('#div_reason_list_' + question.ID).append('<label><input type="' + inputtype +'" aria-labelledby="i-4" id="' + question.Responses[0].ID  + '" name="txt_' + question.ID + '" class="horizontal-center textbox small-textbox" style="width:93% !important;"></label>');
+						//divResponse = '<div class="span4" id="divResponse'+ question.ID + '" style="padding-top:0.9%;"><input type="text" id="txt_' + question.ID + '"  class="TextBox FloatRight" placeholder="Required"></input></div>';
+						responseId = responses[0].ID;
+						divResponse = '<div class="span4" id="divResponse'+ question.ID + '" style="padding-top:0.9%;"><input type="text" name="' + question.ID + '" id="' +  responseId + '"  class="TextBox FloatRight" placeholder="Required"></input></div>';
                     }
 					else if (question.ResponsesType == "5")
                     {
-						//console.log("numeric textbox..");
                         inputtype = "textbox";
-						//divResponse = '<div class="span8" id="divResponse'+ question.ID + '" style="padding-top:0.9%"><ul id="ul_' + question.ID + '" data-role="listview" data-style="inset" class="ListViewContainer"><li><input type="text" id="txt_' + question.ID + '"></input></li></ul></div>';
-						
+						//divResponse = '<div class="span8" id="divResponse'+ question.ID + '" style="padding-top:0.9%"><ul id="ul_' + question.ID + '" data-role="listview" data-style="inset" class="ListViewContainer"><li><input type="text" id="txt_' + question.ID + '"></input></li></ul></div>';						
 						//divResponse = '<div class="span4" id="divResponse'+ question.ID + '" style="padding-top:0.9%;"><input type="text" id="txt_' + question.ID + '"  class="TextBox FloatRight" placeholder="Required"></input></div>';
-						//type number
-						divResponse = '<div class="span4" id="divResponse'+ question.ID + '" style="padding-top:0.9%;"><input type="number" id="txt_' + question.ID + '" min="1" max="9999" oninput="MaxLengthCheck(this)" class="TextBox FloatRight" placeholder="Required"></input></div>';
-                        
-						//$('#div_reason_list_' + question.ID).append('<label><input type="' + inputtype +'" aria-labelledby="i-4" id="' + question.Responses[0].ID  + '" name="txt_' + question.ID + '" class="horizontal-center textbox small-textbox" style="width:93% !important;"></label>');
+						responseId = responses[0].ID;
+
+						//type number						
+						divResponse = '<div class="span4" id="divResponse'+ question.ID + '" style="padding-top:0.9%;"><input type="number" name="' + question.ID + '" id="' +  responseId + '" min="1" max="9999" oninput="MaxLengthCheck(this)" class="TextBox FloatRight" placeholder="Required"></input></div>';
                     }
 
 					divQuestionAndResponse = divQuestionText + divResponse;
@@ -397,13 +367,12 @@
 					{
 						$('#divResponse'+ question.ID).click(ShowResponsePage);
 					}
-					//console.log("question.ResponsesType " + question.ResponsesType);
+					
 					if(question.ResponsesType == "5"){
 						//allow only numbers on keypress event
-						$('#txt_'+ question.ID).bind('keypress',PopulateNumbers);						
-						//$('#txt_' + question.ID).oninput= MaxLengthCheck(this);
+						$('#'+ responseId).bind('keypress',PopulateNumbers);
 						//disable paste
-						$('#txt_'+ question.ID).bind("paste",function(e) {  
+						$('#'+ responseId).bind("paste",function(e) {  
 							 e.preventDefault();  
 						}); 
 					}
@@ -417,7 +386,7 @@
 					
                     if(inputtype == "radio" || inputtype == "checkbox" || inputtype == "selectbox")
                     {
-						e.view.element.find("#btnResponseDetail_" + question.ID).kendoMobileButton({click: ShowResponsePage}); //, question:12
+						e.view.element.find("#btnResponseDetail_" + question.ID).kendoMobileButton(); //, question:12 | {click: ShowResponsePage}
 						$("#btnResponseDetail_" + question.ID).addClass('ResponseDetailButton');
                     }
 					else if(inputtype == "textbox")
@@ -455,12 +424,12 @@
 					}
 				}
 				else if(responseType == "checkbox"){
-					//console.log('collecting for checkbox..' + question.ID);
 					//display number of responses selected
 					var collResponses = JSON.parse(localStorage.getItem("CollectedResponses"));
 
                     if (collResponses != undefined){
-                        responseId = GetUserResponseId(collResponses, question.ID);
+                        //responseId = GetUserResponseId(collResponses, question.ID);
+						responseId = GetUserResponse(question.ID, "Id");
                     }
 
 					var responseCount = 0;
@@ -518,7 +487,8 @@
 			allQuestions = eventQuestions.Questions;
 
             if (collResponses != undefined){
-                responseId = GetUserResponseId(collResponses, questionId);
+                //responseId = GetUserResponseId(collResponses, questionId);
+				responseId = GetUserResponse(questionId, "Id");
             }
 			
 			//loop through all the questions to find the response text for the input questionId
@@ -532,6 +502,11 @@
 						if(responses[idx1].ID == responseId)
 						{//if response id matches, get the reponse text
 							retResponseText = responses[idx1].Text;
+							if(responses[idx1].OpensTextbox == true)
+							{
+								//get user entered text
+								retResponseText = GetUserResponse(questionId, "OtherText");
+							}
 							break;
 						}
 					}
@@ -539,7 +514,6 @@
 			}
 			
 			if (retResponseText == undefined) retResponseText = "";
-			//console.log("ret text.." + responseText);
 			return retResponseText;
 		}
 		
@@ -559,13 +533,42 @@
 			return retResponseId;
 		}
 		
+		function xGetUserResponse(collResponses, questionId, propName){
+			var retResponse, userResponseObj;
+			
+			//loop through all the responses that were collected to find the response id that was made
+			for(var idx = 0; idx < collResponses.length; idx++)
+			{
+				if(collResponses[idx].QuestionId == questionId){
+					//retResponseId = collResponses[idx].ReasonId;
+					userResponseObj = collResponses[idx];
+					break;
+				}
+			}
+			
+			if (userResponseObj != undefined){
+				switch(propName){
+					case "ReasonId":
+						retResponse = collResponses[idx].ReasonId;
+						break;
+					case "OtherReason":
+						retResponse = collResponses[idx].ReasonDetails;
+						break;
+				}
+			}
+			
+			return retResponse;
+		}
+		
 		//Display view where response for the question will be displayed
 		function ShowResponsePage(e){
 			//Get QuestionId for which responses need to be displayed			
-			var params = "";
+			var params = "", canDisplayListView = false;
+			
 			if(e.button == 0){
 				paramQuestionId = $(this).attr('id');
 				paramQuestionId = paramQuestionId.replace("divResponse", "");
+				canDisplayListView = $(this).attr('displayListView');
 			}
 			else{
 				params = e.button.data();
@@ -573,7 +576,14 @@
 				paramQuestionId = params.questionid;
 			}
 			
-			app1.navigate("#divCompleteResponseView");
+			if (canDisplayListView == "true"){
+				//load a different view to display response in a listview. Loading the dynamic listview response in 'divCompleteResponseView' had some rendering problems
+				app1.navigate("#LocalListView");
+			}
+			else
+			{
+				app1.navigate("#divCompleteResponseView");
+			}
 		}
 		
 		//Display responses associated with the question
@@ -618,7 +628,7 @@
 		  
 		  responseControlType = GetResponseControlType(responseControlTypeId);
 		  var collResponses = JSON.parse(localStorage.getItem("CollectedResponses"));
-		  var responseId, responseIdColl, responseText;
+		  var responseId, responseIdColl, responseText, canDisplayListView = false;
 				
 		  switch(responseControlType)
 		  {
@@ -660,11 +670,12 @@
 				
 				break;
 			case "select":
-			//ananth
+			//This will not be called anymore		
+                if(false){
 				var defaultEntry = JSON.parse('{"ID":-1,"Text":"","Description":"Select","OpensTextbox":false}');
 				responseForQuestion.unshift(defaultEntry);
                 $("#ul_" + question.ID).append("<li></li>");
-                if(true){
+				
 					e.view.element.find("#ul_" + paramQuestionId + " > li").kendoComboBox({
 													   dataTextField: "Text",
 													   dataValueField: "ID",
@@ -681,6 +692,8 @@
 					combo.value(responseIdColl);
 				}
 				else{
+					canDisplayListView = true;
+					/*
 					//listview
 					var dataSource = new kendo.data.DataSource({ data: getResponses() });
 					//$("#localListView").kendoMobileListView({
@@ -691,6 +704,7 @@
 						virtualViewSize: 40, // needed setting, since local data virtualization does not use paging
 						endlessScroll: true
 					});
+					*/
 				}
 				break;
 		  }
@@ -725,6 +739,10 @@
 				});
 			}
 			
+			if(canDisplayListView){
+				app1.navigate("#LocalListView");
+			}
+			
 		}
 		
 		function GetUserResponse(paramQuestionId, prop){
@@ -742,7 +760,7 @@
 									retPropValue = collResponses[idx].ReasonId;
 									break;
 								case "OtherText":
-									retPropValue = collResponses[idx].ReasonDetails;
+									retPropValue = collResponses[idx].ReasonDetails;									
 									break;
 							}
 							//responseIdColl = collResponses[idx].ReasonId;
@@ -756,7 +774,7 @@
 		
 		function CanCheckResponseId(responseId, responseIdArr){
 			var didResponseIdMatch = false;
-			//console.log('to check..' + responseId);
+			
 			for (var idx = 0; idx < responseIdArr.length; idx++)
 			{
 				if(responseId == responseIdArr[idx]){
@@ -800,7 +818,6 @@
 			for (var idx = 0; idx < questions.length; idx++)
 			{
 				if(questions[idx].ID == questionId){
-					//console.log('questions[idx].ResponsesType = ' + questions[idx].ResponsesType);
 					retResponseType = GetResponseControlType(questions[idx].ResponsesType);
 					break;
 				}
@@ -815,18 +832,16 @@
         }
 		
 		function CollectResponse(e)
-		{
-			var canSaveResponse = true;
-			var responseType = GetResponseType(paramQuestionId);
-			//var responseId = $('input[name="input-'+ paramQuestionId + '"]:checked').attr('id');			
+		{ //console.log("Collecting response...");
+			try{
+            var canSaveResponse = true;
+			var responseType = GetResponseType(paramQuestionId);			
 			var responseId = "";
-			//Other checkbox
-			var isOther = $('input.textbox-true:checked').attr('id') != undefined;			
-			//var otherText = $("#" + responseId + "-txtother").val();			
-			var otherText = $("div.OtherDiv input").val();
-			//console.log('other text..' + otherText);
+			//Other checkbox			
+			var isOther = false;			
+			var otherText = "";			
 			var collResponses = JSON.parse(localStorage.getItem("CollectedResponses"));
-			var response;
+			var response, otherCtl, indivResponseId;
 			
 			for (var idx = 0; idx < collResponses.length; idx++)
 			{
@@ -839,33 +854,43 @@
 						case "checkbox":
 							//collect all the responses for checkbox/radio control
 							$('input[name="input-'+ paramQuestionId + '"]:checked').each(function(){
-							  
-								responseId = responseId + $(this).attr('id') + ",";
+                                indivResponseId = $(this).attr('id');
+								responseId = responseId + indivResponseId + ",";
+                                
+                                otherCtl = $('#' + indivResponseId + '.textbox-true:checked');
+                                isOther = otherCtl.attr('id') != undefined;
+                                //console.log('indivresp..'+ indivResponseId + ' isOther..' + isOther + ' otherText..' + otherText)
+                                if(isOther)
+                                {
+                                    otherText = $('#'+ indivResponseId +"-txtother").val();
+                                }
 							});
 							
 							if (responseId != "")
 							{
 								responseId = responseId.substring(0, responseId.length - 1);
-							}
+                                
+                            }
+							
 						break;
-						case "select":
-							//console.log('collecting response for select box..');
-							var select = $("#ul_" + paramQuestionId + " li[data-role=combobox]");
-							responseId = select.attr('value')
+						case "select":							
+							responseId = $('input[name="input-' + paramQuestionId + '"]:checked').attr('id');
 							otherText = "";
 						break;
 					}
 					collResponses[idx].ReasonId = responseId;
-					collResponses[idx].ReasonDetails = otherText;
+					//collResponses[idx].ReasonDetails = otherText;
 					var otherReasonId = "";
 					if(otherText != "" && otherText != undefined){
 						//OtherReasonId
-						var otherReasonId = $("div.OtherDiv input").attr('id');
-						otherReasonId = otherReasonId.replace("-txtother", "");
-						collResponses[idx].OtherReasonId = otherReasonId;
+						//var otherReasonId = $("div.OtherDiv input").attr('id');
+						//otherReasonId = otherReasonId.replace("-txtother", "");
+						collResponses[idx].OtherReasonId = responseId;//otherReasonId;
+						collResponses[idx].ReasonDetails = otherPrefix + otherText.replace(otherPrefix, "");
 					}
 					else{
 					  collResponses[idx].OtherReasonId = otherReasonId;
+					  collResponses[idx].ReasonDetails = "";
 					}
 					
 					break;
@@ -887,20 +912,51 @@
 			}			
 			
 			if (canSaveResponse){
+                //console.log('navigating back..');
 				app1.navigate('#');
 			}
+            }
+            catch(err){
+                console.log('err occured..');
+                console.log(err.message);
+            }
 		}
 		
+		//Test method
 		function getResponses() {
-			var data = [], idx = 0;
+			var data = [], idx = 0;			
 			for (; idx < 1000; idx++) {
-			console.log('idx..' + idx);
+			
 				data.push({
 					name: "Name" + idx
 				});
 			}
 
 			return data;
+		}
+		
+		function getOrganizations(){
+			var question, responseForQuestion, questionText;
+		if(eventQuestions == undefined){ //if eventQuestions does not exist, parse it. eventQuestions should have been initialized in DisplayResponses methods			
+			eventQuestions = JSON.parse(localStorage.getItem("questions"));
+		  }
+		  
+		  var allQuestions = eventQuestions.Questions;
+		  
+		  for (var idx = 0; idx < allQuestions.length; idx++){
+				question = allQuestions[idx];
+			   if(question.ID == paramQuestionId)
+			   {
+				 //get responses
+				 responseForQuestion	= question.Responses;
+				 //responseControlTypeId 	= question.ResponsesType;
+				 questionText 			= question.QuestionText;
+				 break;
+			   }
+		  }
+		  $('#spanQuestionText1').text(questionText);
+		  
+		  return responseForQuestion;
 		}
         </script>
     </body>

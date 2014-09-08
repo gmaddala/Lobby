@@ -57,7 +57,7 @@ div#modalviewAlert.km-widget.km-modalview.km-view,div#modalviewAlert.ReasonsAler
 /* Alert modal box fix. Since useNativeScrolling is off for Reasons page, this fix is needed */
 div#modalviewAlert.ReasonsAlert.km-widget.km-modalview.km-view
 {
-	height:10%;
+	height:12%;
 }
 
 #dialog-modal:before{
@@ -395,7 +395,7 @@ input[type="text"], input[type="number"]{
 
 .TextBox{
 	font-style: italic;
-	margin-right: 10%;
+	margin-right: 9%;
 }
 .FloatRight{
 	float:right;

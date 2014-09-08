@@ -355,6 +355,7 @@
 						//divResponse = '<div class="span8" id="divResponse'+ question.ID + '" style="padding-top:0.9%"><ul id="ul_' + question.ID + '" data-role="listview" data-style="inset" class="ListViewContainer"><li><input type="text" id="txt_' + question.ID + '"></input></li></ul></div>';						
 						//divResponse = '<div class="span4" id="divResponse'+ question.ID + '" style="padding-top:0.9%;"><input type="text" id="txt_' + question.ID + '"  class="TextBox FloatRight" placeholder="Required"></input></div>';
 						responseId = responses[0].ID;
+
 						//type number						
 						divResponse = '<div class="span4" id="divResponse'+ question.ID + '" style="padding-top:0.9%;"><input type="number" name="' + question.ID + '" id="' +  responseId + '" min="1" max="9999" oninput="MaxLengthCheck(this)" class="TextBox FloatRight" placeholder="Required"></input></div>';
                     }
@@ -636,6 +637,7 @@
 				//if a response is already made, mark it
 				responseIdColl = GetUserResponse(paramQuestionId, "Id");
 				responseText = GetUserResponse(paramQuestionId, "OtherText");
+				responseText = responseText.replace(otherPrefix,"");
 				
 				var liText = "";
 				var canCreateOtherTextBox = false;
@@ -831,8 +833,9 @@
         }
 		
 		function CollectResponse(e)
-		{
-			var canSaveResponse = true;
+		{ //console.log("Collecting response...");
+			try{
+            var canSaveResponse = true;
 			var responseType = GetResponseType(paramQuestionId);			
 			var responseId = "";
 			//Other checkbox			
@@ -852,17 +855,22 @@
 						case "checkbox":
 							//collect all the responses for checkbox/radio control
 							$('input[name="input-'+ paramQuestionId + '"]:checked').each(function(){
-							  indivResponseId = $(this).attr('id');
+                                indivResponseId = $(this).attr('id');
 								responseId = responseId + indivResponseId + ",";
-								otherCtl = $('#' + indivResponseId + '.textbox-true:checked');
-								isOther = otherCtl.attr('id') != undefined;
-								otherText = $('#'+ indivResponseId +"-txtother").val();
+                                
+                                otherCtl = $('#' + indivResponseId + '.textbox-true:checked');
+                                isOther = otherCtl.attr('id') != undefined;
+                                //console.log('indivresp..'+ indivResponseId + ' isOther..' + isOther + ' otherText..' + otherText)
+                                if(isOther)
+                                {
+                                    otherText = $('#'+ indivResponseId +"-txtother").val();
+                                }
 							});
 							
 							if (responseId != "")
 							{
 								responseId = responseId.substring(0, responseId.length - 1);
-							}
+                            }
 						break;
 						case "select":							
 							responseId = $('input[name="input-' + paramQuestionId + '"]:checked').attr('id');
@@ -874,9 +882,9 @@
 					var otherReasonId = "";
 					if(otherText != "" && otherText != undefined){
 						//OtherReasonId
-						var otherReasonId = $("div.OtherDiv input").attr('id');
-						otherReasonId = otherReasonId.replace("-txtother", "");
-						collResponses[idx].OtherReasonId = otherReasonId;
+						//var otherReasonId = $("div.OtherDiv input").attr('id');
+						//otherReasonId = otherReasonId.replace("-txtother", "");
+						collResponses[idx].OtherReasonId = responseId;//otherReasonId;
 						collResponses[idx].ReasonDetails = otherPrefix + otherText.replace(otherPrefix, "");
 					}
 					else{
@@ -903,8 +911,14 @@
 			}			
 			
 			if (canSaveResponse){
+                //console.log('navigating back..');
 				app1.navigate('#');
 			}
+            }
+            catch(err){
+                console.log('err occured..');
+                console.log(err.message);
+            }
 		}
 		
 		//Test method

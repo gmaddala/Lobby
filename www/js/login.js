@@ -189,6 +189,11 @@ function SetStudentData(jsonobj, submitIntake)
                 //showDialog("Error: Invalid logon");
 				ShowFlashMessage("Error: Invalid logon");
 
+                //Remove loading image
+                $('body').removeClass('ajax-spinner');
+                //Remove loading image on kendo div - <div class="k-loading-mask ajax-spinner" style="width:100%;height:100%"></div>
+                $('div.ajax-spinner').removeClass('ajax-spinner');
+                $('#txt_logon').focus();
             }
 }
 
