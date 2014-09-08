@@ -839,7 +839,7 @@
 			var isOther = false;			
 			var otherText = "";			
 			var collResponses = JSON.parse(localStorage.getItem("CollectedResponses"));
-			var response, otherCtl;
+			var response, otherCtl, indivResponseId;
 			
 			for (var idx = 0; idx < collResponses.length; idx++)
 			{
@@ -852,18 +852,17 @@
 						case "checkbox":
 							//collect all the responses for checkbox/radio control
 							$('input[name="input-'+ paramQuestionId + '"]:checked').each(function(){
-							  
-								responseId = responseId + $(this).attr('id') + ",";
+							  indivResponseId = $(this).attr('id');
+								responseId = responseId + indivResponseId + ",";
+								otherCtl = $('#' + indivResponseId + '.textbox-true:checked');
+								isOther = otherCtl.attr('id') != undefined;
+								otherText = $('#'+ indivResponseId +"-txtother").val();
 							});
 							
 							if (responseId != "")
 							{
 								responseId = responseId.substring(0, responseId.length - 1);
 							}
-							
-							otherCtl = $('#' + responseId + '.textbox-true:checked');
-							isOther = otherCtl.attr('id') != undefined;
-							otherText = $('#'+responseId+"-txtother").val();
 						break;
 						case "select":							
 							responseId = $('input[name="input-' + paramQuestionId + '"]:checked').attr('id');
