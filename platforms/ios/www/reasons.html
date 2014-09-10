@@ -75,10 +75,13 @@
 			<ul id="local-filterable-listview"></ul>
 		</div>
 		
-		<div id="LocalListView" data-role="view" data-init="mobileListViewLocal" data-layout="ResponseDetailsLayout">
+		<div id="LocalListView" data-role="view" data-init="mobileListViewLocal" data-show="InitializeListView" data-layout="ResponseDetailsLayout">
 			<!-- <ul id="listView"></ul> -->
-			<span id="spanQuestionText1"></span>
-			<ul id="local-filterable-listview1"></ul>
+			<!-- <span id="spanQuestionText1" style=""></span> -->
+            <div data-role="scroller" style="height:90vh;padding-top:2%">
+			
+                <ul id="local-filterable-listview1"></ul>
+            </div>
 		</div>
 		
 		<div data-role="layout" data-id="checklayout">
@@ -178,10 +181,10 @@
         $("#local-filterable-listview").kendoMobileListView({
             dataSource: dataSource,
             template: "#:name #",						
-            filterable: {
+           /* filterable: {
                 field: "name",
 				operator: "contains"
-            },
+            },*/
             virtualViewSize: 100, // this configuration is needed to determine the items displayed, since the datasource does not (and should not) have paging set.
             endlessScroll: true
         });
@@ -196,12 +199,18 @@
 				filterable: {
 					field: "Text",
 					operator: "contains"
-				},
-				virtualViewSize: 100, // this configuration is needed to determine the items displayed, since the datasource does not (and should not) have paging set.
+				}
+                ,virtualViewSize: 100, // this configuration is needed to determine the items displayed, since the datasource does not (and should not) have paging set.
 				endlessScroll: true
 			});
 		}
 		
+        function InitializeListView()
+        {
+            $('div.km-scroll-header:first').before("<span id='spanQuestionText1' style=''>Org name</span>");
+            $('div[data-role="content"]').scroll(function(){console.log('scrolling..');$('div[data-role="content"]').addClass("Test");});
+        }
+        
 		function DisplayResponses(e){
 				eventQuestions = JSON.parse(localStorage.getItem("questions"));
                 var q_array = eventQuestions.Questions;
@@ -637,6 +646,7 @@
 				//if a response is already made, mark it
 				responseIdColl = GetUserResponse(paramQuestionId, "Id");
 				responseText = GetUserResponse(paramQuestionId, "OtherText");
+				responseText = responseText.replace(otherPrefix,"");
 				
 				var liText = "";
 				var canCreateOtherTextBox = false;
@@ -869,9 +879,7 @@
 							if (responseId != "")
 							{
 								responseId = responseId.substring(0, responseId.length - 1);
-                                
                             }
-							
 						break;
 						case "select":							
 							responseId = $('input[name="input-' + paramQuestionId + '"]:checked').attr('id');

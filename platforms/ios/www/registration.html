@@ -106,7 +106,6 @@
             window.onload = function(){
 				app1 = new kendo.mobile.Application(document.body, {useNativeScrolling: true}); //, transition: 'overlay:up'
                 //$("#DeptName").text(localStorage.getItem("deptname"));
-                window.setTimeout(function(){console.log('setting focus..');$('#txt_firstname').focus();}, 200);
             };
         
 		function InitControls(){
@@ -116,8 +115,8 @@
 			$('#txt_phone').mask('(999)999-9999');
 		}
         
-        function SetDefaultFocus(){console.log('set focus..' + $('#txt_firstname'))
-            //window.setTimeout(function(){$('#txt_firstname').focus();}, 100);
+        function SetDefaultFocus(){//set default focus on first name control
+            $('#txt_firstname').focus();
         }
         </script>
     </body>

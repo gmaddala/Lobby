@@ -1,4 +1,4 @@
-var offlineMode = false;
+var offlineMode = true;
 
 function getUrlParameter(sParam)
 {
