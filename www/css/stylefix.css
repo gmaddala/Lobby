@@ -428,3 +428,29 @@ div.km-listview-wrapper input[type="search"]
 	box-shadow: none !important;
 	border: none !important;
 }
+
+.RegisterFormLabel{
+	padding-top:3%;
+}
+
+.LoadMore{
+  background-color: #589FD3 !important;
+  cursor: pointer;  
+}
+.LoadMore a, .LoadMore a:hover{
+	text-decoration:none;
+	font-weight:bold;
+}
+
+#divFilterWrap{
+ background-color: currentcolor;
+}
+#divFilterWrap:before{
+	font-family: 'iwe_fonts';
+	/* content: "\e21e"; */
+	content: "\f002";
+}
+
+#divFilterWrap > input{
+	border: 0;
+}
