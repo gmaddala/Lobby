@@ -78,14 +78,18 @@
 		<!-- <div id="LocalListView" data-role="view" data-init="mobileListViewLocal" data-layout="ResponseDetailsLayout"> -->
 		<div id="LocalListView" data-role="view" data-show="mobileListViewIncremental" data-layout="ResponseDetailsLayout">
 			<!-- <ul id="listView"></ul> -->
-			<span id="spanQuestionText1"></span>
+			<!-- <span id="spanQuestionText1"></span> -->
 			<div id="divFilterWrap">
 				<input type="search" id="txtSearchOrg"></input>
 			</div>
 			
-			<!-- <div style="overflow-y:scroll;height:70vh"> -->
+			<div style="overflow-y:scroll;height:70vh">
 				<ul id="local-filterable-listview1"></ul>
-			<!-- </div> -->
+			</div>
+		</div>
+		
+		<div id="LocalListViewTest" data-role="view" data-show="mobileListViewIncrementalTest" data-layout="ResponseDetailsLayout">
+			<!-- <ul id="listView"></ul> -->
 		</div>
 		
 		<div data-role="layout" data-id="checklayout">
@@ -209,6 +213,34 @@
 			});
 		}
 		
+		function mobileListViewIncrementalTest(e){
+		  var scrollElem = e.view.element.find('div.km-scroll-container');
+		  console.log(scrollElem);
+		  scrollElem.remove();
+		  //add search box
+		  var searchCtl = "<span id='spanQuestionText1'></span><input type='search' id='txtSearch'></input>";
+		  searchCtl = searchCtl + "<div data-role='scroller' id='divScroll'><ul id='local-filterable-listview2'></ul></div>"
+		  //<div class='km-scroll-container' style='-webkit-transform-origin: 0% 0%;'>
+		  e.view.content.append($(searchCtl));
+		  
+		  //add scroll div
+		  window.setTimeout(function(){$("#divScroll").data("kendoMobileScroller");}, 100);
+		  
+		  var dataSource = new kendo.data.DataSource({ data: getOrganizations() });		
+			$("#local-filterable-listview2").kendoMobileListView({
+				dataSource: dataSource,
+				//template: "#:name #",						
+				template: "<label>#: Text# <input type='radio' name='input-" + paramQuestionId + "' id='#:ID#' class='textbox-#:OpensTextbox#'/></label>",
+				filterable: {
+					field: "Text",
+					operator: "contains"
+				},
+				virtualViewSize: 100, // this configuration is needed to determine the items displayed, since the datasource does not (and should not) have paging set.
+				endlessScroll: true
+			});
+			
+		}
+		
 		var defaultPageSize = 20;		
 		function mobileListViewIncremental(){
 			var allOrgs;
@@ -265,7 +297,7 @@
 			var spanIdInScrollContainer = $('div.km-scroll-container #spanQuestionText1').attr('id');
 			if(spanIdInScrollContainer != undefined)
 			{
-				//$('#spanQuestionText1').parent().next().next().after($('#spanQuestionText1').next().next())
+				$('#spanQuestionText1').parent().next().next().after($('#spanQuestionText1').next().next())
 			}
 		}
 		
@@ -669,7 +701,7 @@
 			
 			if (canDisplayListView == "true"){
 				//load a different view to display response in a listview. Loading the dynamic listview response in 'divCompleteResponseView' had some rendering problems
-				app1.navigate("#LocalListView");
+				app1.navigate("#LocalListViewTest");
 			}
 			else
 			{
