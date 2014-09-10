@@ -75,14 +75,11 @@
 			<ul id="local-filterable-listview"></ul>
 		</div>
 		
-		<!-- <div id="LocalListView" data-role="view" data-init="mobileListViewLocal" data-layout="ResponseDetailsLayout"> -->
-		<div id="LocalListView" data-role="view" data-show="mobileListViewIncremental" data-layout="ResponseDetailsLayout">
+		<div id="LocalListView" data-role="view" data-init="mobileListViewLocal" data-show="InitializeListView" data-layout="ResponseDetailsLayout">
 			<!-- <ul id="listView"></ul> -->
-			<span id="spanQuestionText1"></span>
-			<div style="overflow-y:scroll;height:70vh">
-				<ul id="local-filterable-listview1"></ul>
-			</div>
-		</div>
+            <span id="spanQuestionText1" style=""></span>
+            <ul id="local-filterable-listview1"></ul>
+		</div> 
 		
 		<div data-role="layout" data-id="checklayout">
             <header data-role="header">
@@ -205,75 +202,12 @@
 			});
 		}
 		
-		var defaultPageSize = 20;
-		function mobileListViewIncremental(){
-			var allOrgs = localStorage.getItem("allOrgs");
-			var fromIdx = 0, toIdx = 0;
-			
-			if(allOrgs == undefined){
-				//add all formatted orgs into localStorage
-				var allOrgsFormatted = [];
-				var liText = "";
-				var dataSource = getOrganizations();
-				
-				for(var idx = 0; idx < dataSource.length; idx++)
-				{
-					liText = "<li><label>"+ dataSource[idx].Text + "<input type='radio' name='input-" + paramQuestionId + "' id="+ dataSource[idx].ID +"' class='textbox-"+ dataSource[idx].OpensTextbox+ "'/></label></li>";
-					allOrgsFormatted.push(liText);
-				}
-			}
-			
-			var totalLi = dataSource.length;
-			var liCount = $('input[name="input-' + paramQuestionId + '"]').length;
-			console.log('total count: ' + totalLi + ' in list..' + liCount);
-			
-			if(liCount > 0 && liCount < totalLi)
-			{
-					
-			}
-			else if (liCount == 0)
-			{
-				fromIdx = 0;
-				toIdx = defaultPageSize;
-				
-				for (var idx = fromIdx; idx < toIdx; idx++)
-				{
-					$("#local-filterable-listview1").append(allOrgsFormatted[idx]);
-				}
-			}
-			
-			if (toIdx < totalLi){
-				$("#local-filterable-listview1").append("<li id='liLoadMore' data-click='LoadMoreOrgs'><a data-role='button' data-click='LoadMoreOrgs' onclick='LoadMoreOrgs'>Load more...</a></li>");
-			}
-			
-			$("#local-filterable-listview1").kendoMobileListView();
-			$('#liLoadMore').bind('click', LoadMoreOrgs);
-			
-			//Find the span id in scroll container
-			var spanIdInScrollContainer = $('div.km-scroll-container #spanQuestionText1').attr('id');
-			if(spanIdInScrollContainer != undefined)
-			{
-				$('#spanQuestionText1').parent().next().after($('#spanQuestionText1').next())
-			}
-		}
-		
-		function LoadMoreOrgs(e){
-			var allOrgs = localStorage.getItem("allOrgs");
-			var fromIdx, toIdx, liCount;
-			$('#liLoadMore').remove();
-			liCount = $('input[name="input-' + paramQuestionId + '"]').length;
-			fromIdx = liCount + 1;
-			toIdx = liCount + defaultPageSize + 1;
-			
-			for (var idx = fromIdx; idx < toIdx; idx++)
-			{
-				//$("#local-filterable-listview1").append(allOrgsFormatted[idx]);
-				$("#local-filterable-listview1").append('<li><a href="#" class="km-listview-link" data-role="listview-link">'+ 'Dynamic Item' + '</a></li>');
-			}
-			
-			//$("#local-filterable-listview1").kendoMobileListView();
-		}
-
+        function InitializeListView()
+        {
+            //$('div.km-scroll-header:first').before("<span id='spanQuestionText1' style=''>Org name</span>");
+            //$('div[data-role="content"]').scroll(function(){console.log('scrolling..');$('div[data-role="content"]').addClass("Test");});
+        }
+        
 		function DisplayResponses(e){
 				eventQuestions = JSON.parse(localStorage.getItem("questions"));
                 var q_array = eventQuestions.Questions;
