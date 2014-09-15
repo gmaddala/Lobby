@@ -150,6 +150,7 @@ function SignIn(logon, isCardreader){
 				   error: function (jqXHR, textStatus, errorThrown) {
 				   //showDialog("Invalid UCLA logon");
 				   ShowFlashMessage("Invalid UCLA logon");
+                   app.startCardReader();
 				   //alert(jqXHR + ";\n\n" + textStatus + ";\n\n" + errorThrown);
 				   },
 				   complete: function(){
@@ -194,6 +195,7 @@ function SetStudentData(jsonobj, submitIntake)
                 //Remove loading image on kendo div - <div class="k-loading-mask ajax-spinner" style="width:100%;height:100%"></div>
                 $('div.ajax-spinner').removeClass('ajax-spinner');
                 $('#txt_logon').focus();
+                app.startCardReader();
             }
 }
 
