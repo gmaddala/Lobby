@@ -109,7 +109,7 @@ div#modalviewAlert.ReasonsAlert.km-widget.km-modalview.km-view
 
 /* Login page */
 .HeaderLogoFix{
-  padding-bottom: 5px;
+  /* padding-bottom: 5px; */
 }
 .WelcomeText{
   /* padding:12.5%; */
