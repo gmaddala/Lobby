@@ -523,8 +523,13 @@ box-shadow:none;
     display:block;
 }
 
-#txtAccessKey:focus{
+#txtAccessKey:focus, #txt_app_key:focus{
     text-transform:uppercase;
+}
+
+#txt_app_key{
+    padding:10px;
+    font-size:100% !important;
 }
 
 .Borderless{
