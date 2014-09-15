@@ -78,14 +78,15 @@
 		<!-- <div id="LocalListView" data-role="view" data-init="mobileListViewLocal" data-layout="ResponseDetailsLayout"> -->
 		<div id="LocalListView" data-role="view" data-show="mobileListViewIncremental" data-layout="ResponseDetailsLayout">
 			<!-- <ul id="listView"></ul> -->
-			<span id="spanQuestionText1"></span>
+			 <span id="spanQuestionText1" class="ListViewQuestion"></span><span id="spanListViewResponse"></span>
 			<div id="divFilterWrap">
-				<input type="search" id="txtSearchOrg"></input>
+				<input type="search" id="txtSearchOrg" placeholder="Search.." onkeyup="SearchOrg()"></input>
+                <span id="spanClear" onclick="ClearSearch()"></span>
 			</div>
 			
-			<div style="overflow-y:scroll;height:70vh">
+			<div id="divScrollableListView" style="overflow-y:scroll;height:50vh;-webkit-overflow-scrolling: touch;">
 				<ul id="local-filterable-listview1"></ul>
-			 </div>
+			</div>
 		</div>
 		
 		<div data-role="layout" data-id="checklayout">
@@ -123,7 +124,7 @@
 			<div data-role="header">
 			   <div id="div_header_cancel" class="header-div">
                     <div class="cancel-btn-div">
-					<a href="#" class="cancel-link cancelLinkFix" data-role="button">Cancel</a>                					
+					<a class="cancel-link cancelLinkFix" data-role="button" href="#">Cancel</a>
 					</div>
 					<!--<div style="text-align:center;position:relative;float:left;width:86%"><span id="DeptNameResponseDetail" class="header-text"></span></div>-->
 					<div style="text-align:right;position:relative;float:right;width:7%">
@@ -209,34 +210,37 @@
 			});
 		}
 		
-		var defaultPageSize = 20;
+		var defaultPageSize = 20;		
+
 		function mobileListViewIncremental(){
 			var allOrgs;
 			var fromIdx = 0, toIdx = 0;
-			
+//            $('#txtSearchOrg').val('');
+            
 			if(allOrgs == undefined){
 				//add all formatted orgs into localStorage
 				var allOrgsFormatted = [];
 				var liText = "";
 				var dataSource = getOrganizations();
-				
+                
 				for(var idx = 0; idx < dataSource.length; idx++)
 				{
 					if(idx < defaultPageSize){
-						liText = "<li><label>"+ dataSource[idx].Text + "<input type='radio' name='input-" + paramQuestionId + "' id="+ dataSource[idx].ID +"' class='textbox-"+ dataSource[idx].OpensTextbox+ "'/></label></li>";
+						liText = "<li><label class='km-listview-label'>"+ dataSource[idx].Text + "<input type='radio' name='input-" + paramQuestionId + "' id='"+ dataSource[idx].ID +"' class='textbox-"+ dataSource[idx].OpensTextbox+ " km-widget km-icon km-check'/></label></li>";
 					}
 					else
 					{
-						liText = "<li><label class='km-listview-label'>"+ dataSource[idx].Text + "<input type='radio' name='input-" + paramQuestionId + "' id="+ dataSource[idx].ID +"' class='textbox-"+ dataSource[idx].OpensTextbox+ " km-widget km-icon km-check'/></label></li>";
+						liText = "<li><label class='km-listview-label'>"+ dataSource[idx].Text + "<input type='radio' name='input-" + paramQuestionId + "' id='"+ dataSource[idx].ID +"' class='textbox-"+ dataSource[idx].OpensTextbox+ " km-widget km-icon km-check'/></label></li>";
 					}
-					allOrgsFormatted.push(liText);
+                    
+					allOrgsFormatted.push({"li":liText, "Text": dataSource[idx].Text});
 				}
-				localStorage.setItem("allOrgs", allOrgsFormatted);
+				localStorage.setItem("allOrgs", JSON.stringify(allOrgsFormatted));
 			}
 			
 			var totalLi = dataSource.length;
 			var liCount = $('input[name="input-' + paramQuestionId + '"]').length;
-			console.log('total count: ' + totalLi + ' in list..' + liCount);
+//			console.log('total count: ' + totalLi + ' in list..' + liCount);
 			
 			if(liCount > 0 && liCount < totalLi)
 			{
@@ -249,49 +253,203 @@
 				
 				for (var idx = fromIdx; idx < toIdx; idx++)
 				{
-					$("#local-filterable-listview1").append(allOrgsFormatted[idx]);
+					$("#local-filterable-listview1").append(allOrgsFormatted[idx].li);
 				}
+                
+                if (toIdx < totalLi && $('#liLoadMore').attr('id') == undefined){
+                    $("#local-filterable-listview1").append("<li id='liLoadMore' data-click='LoadMoreOrgs' class='LoadMore'><a data-role='button' data-click='LoadMoreOrgs' onclick='LoadMoreOrgs'>Load more...</a></li>");
+                }
+                
+                $("#local-filterable-listview1").kendoMobileListView();
+                $('#liLoadMore').bind('click', LoadMoreOrgs);
+                $('#liLoadMore a').removeClass("km-listview-link");
+                //Display selected response by the side of the question
+                $('input[name="input-' + paramQuestionId + '"]').click(function(){
+                                                                       $('#spanListViewResponse').text( $(this).parent().text());
+                                                                       listViewResponseId = $(this).attr('id');
+                                                                       });
 			}
 			
-			if (toIdx < totalLi && $('#liLoadMore').attr('id') == undefined){
-				$("#local-filterable-listview1").append("<li id='liLoadMore' data-click='LoadMoreOrgs' class='LoadMore'><a data-role='button' data-click='LoadMoreOrgs' onclick='LoadMoreOrgs'>Load more...</a></li>");
-			}
 			
-			$("#local-filterable-listview1").kendoMobileListView();
-			$('#liLoadMore').bind('click', LoadMoreOrgs);
-			$('#liLoadMore a').removeClass("km-listview-link");
 			
 			//Find the span id in scroll container
 			var spanIdInScrollContainer = $('div.km-scroll-container #spanQuestionText1').attr('id');
 			if(spanIdInScrollContainer != undefined)
 			{
-				$('#spanQuestionText1').parent().next().next().after($('#spanQuestionText1').next().next())
+//				$('#spanQuestionText1').parent().next().next().next().after($('#spanQuestionText1').next().next().next())
+                $('#spanQuestionText1').parent().next().next().after($('#divScrollableListView'));
 			}
 		}
 		
 		function LoadMoreOrgs(e){
-			//total number of Organizations
-			var allOrgs = localStorage.getItem("allOrgs").split('</li>,');
-			var fromIdx, toIdx, liCount;
+			AddOrgs();
+		}
+        
+        var searchStartIdx = 0, searchEndIdx = 0, prevSearchText = "", searchResults;
+        function AddOrgs(searchText){
+            //total number of Organizations
+			var allOrgs = JSON.parse(localStorage.getItem("allOrgs"));
+			var fromIdx, toIdx, liCount, org;
 			var totalLi = allOrgs.length;
 			$('#liLoadMore').remove();
-			liCount = $('input[name="input-' + paramQuestionId + '"]').length;
-			fromIdx = liCount + 1;
-			toIdx = liCount + defaultPageSize + 1;
+            
+            if(searchText != "" && searchText != undefined){//if search text is available, clear all the li items
+                searchText = searchText.toLowerCase();
+                console.log('search text:' + searchText + '; prev search text:' + prevSearchText );
+                
+                if(prevSearchText != searchText){
+                    //get search results
+                    searchResults = GetSearchResults(searchText);
+                    $("#local-filterable-listview1").empty();
+                    prevSearchText = searchText;
+                }
+                
+                liCount = $('input[name="input-' + paramQuestionId + '"]').length;
+                fromIdx = liCount + 1;
+                toIdx = liCount + defaultPageSize + 1;
+                console.log(' search result#:' + searchResults.length);
+
+                for (var idx = fromIdx; idx < toIdx; idx++)
+                {
+                    //$("#local-filterable-listview1").append(allOrgsFormatted[idx]);
+                    //$("#local-filterable-listview1").append('<li><a href="#" class="km-listview-link" data-role="listview-link">'+ 'Dynamic Item' + '</a></li>');
+                    if (searchResults[idx] != undefined){
+                        $("#local-filterable-listview1").append(searchResults[idx].li);
+                    }
+                }
+                
+                if (toIdx < searchResults.length && $('#liLoadMore').attr('id') == undefined){
+                    $("#local-filterable-listview1").append("<li id='liLoadMore' data-click='SearchOrg' class='LoadMore'><a data-role='button' data-click='SearchOrg' onclick='SearchOrg'>Load more search results...</a></li>");
+                    $('#liLoadMore').removeClass("km-listview-link").bind('click', SearchOrg);
+                }
+
+                //Display selected response by the side of the question
+                $('input[name="input-' + paramQuestionId + '"]').click(function(){ $('#spanListViewResponse').text( $(this).parent().text());});
+            }
+			else{
+                if(prevSearchText != ""){
+                    //clear the 'li' items when clearing the search text using backspace key
+                    $("#local-filterable-listview1").empty();
+                    prevSearchText = "";
+                }
+                
+                liCount = $('input[name="input-' + paramQuestionId + '"]').length;
+                fromIdx = liCount + 1;
+                toIdx = liCount + defaultPageSize + 1;
 			
-			for (var idx = fromIdx; idx < toIdx; idx++)
-			{
-				//$("#local-filterable-listview1").append(allOrgsFormatted[idx]);
-				//$("#local-filterable-listview1").append('<li><a href="#" class="km-listview-link" data-role="listview-link">'+ 'Dynamic Item' + '</a></li>');
-				$("#local-filterable-listview1").append(allOrgs[idx]);
-			}
+                for (var idx = fromIdx; idx < toIdx; idx++)
+                {
+                    if (allOrgs[idx] != undefined){
+                        $("#local-filterable-listview1").append(allOrgs[idx].li);
+                    }
+                }
 			
-			if (toIdx < totalLi && $('#liLoadMore').attr('id') == undefined){
-				$("#local-filterable-listview1").append("<li id='liLoadMore' data-click='LoadMoreOrgs' class='LoadMore'><a data-role='button' data-click='LoadMoreOrgs' onclick='LoadMoreOrgs'>Load more...</a></li>");
-				$('#liLoadMore').removeClass("km-listview-link").bind('click', LoadMoreOrgs);
-			}
-			//$("#local-filterable-listview1").kendoMobileListView();
-		}
+                if (toIdx < totalLi && $('#liLoadMore').attr('id') == undefined){
+                    $("#local-filterable-listview1").append("<li id='liLoadMore' data-click='LoadMoreOrgs' class='LoadMore'><a data-role='button' data-click='LoadMoreOrgs' onclick='LoadMoreOrgs'>Load more...</a></li>");
+                    $('#liLoadMore').removeClass("km-listview-link").bind('click', LoadMoreOrgs);
+                }
+                //Display selected response by the side of the question
+                $('input[name="input-' + paramQuestionId + '"]').click(function(){ $('#spanListViewResponse').text( $(this).parent().text());});
+
+            }
+        }
+        
+        function GetSearchResults(searchText){
+            var retResults = [], org;
+            //total number of Organizations
+			var allOrgs = JSON.parse(localStorage.getItem("allOrgs"));
+
+            for(var idx = 0; idx < allOrgs.length; idx++){
+                org = allOrgs[idx].Text.toLowerCase();
+                if(org.indexOf(searchText) != -1){
+                    //add li
+                    retResults.push(allOrgs[idx]);
+                }
+            }
+            
+            return retResults;
+        }
+        
+        function SearchOrg(e)
+        {
+            var ctl = $('#txtSearchOrg');
+            console.log('searching ..')
+            AddOrgs($(ctl).val());
+        }
+        
+        function ClearSearch(){
+            console.log('clearing search text..');
+            var ctl = $('#txtSearchOrg');
+            ctl.val('');
+            $('#spanListViewResponse').text('');
+            AddOrgs("");
+        }
+        
+        function SearchOrg1()
+        {
+            var ctl = $('#txtSearchOrg');
+            var startTime1 = new Date().getTime();
+            console.log('searching..' + $(ctl).val())
+            
+            var startTime2 = new Date().getTime();
+            var allOrgsDataSource = getOrganizations();
+            var endTime2 = new Date().getTime();
+            
+            //search for the input in the list
+            var searchString = $(ctl).val().toLowerCase();
+			var allOrgs = JSON.parse(localStorage.getItem("allOrgs"));
+            var searchResultLiColl = "";
+            var org = "", allOrgsLiString;
+//            console.log('all orgs..' + searchString);
+            if (searchString != ""){
+            var startTime3 = new Date().getTime();
+
+            for (var idx = 0; idx < allOrgsDataSource.length; idx++){
+//                  console.log(allOrgsDataSource[idx]);
+                    org = allOrgsDataSource[idx].Text.toLowerCase();
+                
+                    if(org.indexOf(searchString) != -1)
+                    {
+                        searchResultLiColl = searchResultLiColl + allOrgs[idx].li;
+                    }
+                }
+            var endTime3_1 = new Date().getTime();
+            
+                //clean the existing 'li' nodes from the 'ul'
+                $("#local-filterable-listview1").empty();
+                //construct and add the new 'li' nodes matching the search result
+                $("#local-filterable-listview1").append(searchResultLiColl);
+                //            console.log('search result..' + searchResultLiColl);
+            var endTime3 = new Date().getTime();
+            console.log('not empty search Time - start to end..'+ (endTime3 - startTime3));
+            console.log('not empty for - search Time - start to end..'+ (endTime3_1 - startTime3));
+            }
+            else{
+            var startTime4 = new Date().getTime();
+            var allOrgs;
+/*                if (allOrgsLiString == undefined || allOrgsLiString == "")
+                {
+                    allOrgsLiString = localStorage.getItem("allOrgsLiText");
+                    allOrgs = JSON.parse(localStorage.getItem("allOrgs"));//.split('</li>,');
+                    console.log('collecting all li string');
+                }
+                
+                //clean the existing 'li' nodes from the 'ul'
+                $("#local-filterable-listview1").empty();
+                //construct and add the new 'li' nodes matching the search result
+                $("#local-filterable-listview1").append(allOrgsLiString);
+            var endTime4 = new Date().getTime();
+            console.log('empty search Time - start to end..'+ (endTime4 - startTime4));
+            }
+            */
+            //clean the existing 'li' nodes from the 'ul'
+            $("#local-filterable-listview1").empty();
+            AddOrgs();
+            }
+            var endTime1 = new Date().getTime();
+            console.log('Total Time - start to end..'+ (endTime1 - startTime1));
+            console.log('getOrg Time - start to end..'+ (endTime2 - startTime2));
+        }
 
 		function DisplayResponses(e){
 				eventQuestions = JSON.parse(localStorage.getItem("questions"));
@@ -373,7 +531,7 @@
 					else if(inputtype == "numerictextbox")
                     {
 						var txtId = responses[0].ID;
-                        $("#ul_" + question.ID).append('<input type="number" value="" name="' + question.ID + '" id="' +  txtId + '" class="TextBox" />');
+                        $("#ul_" + question.ID).append('<input type="number" value="" name="' + question.ID + '" id="' +  txtId + '" class="TextBox Borderless" />');
                     }
 				
 			}//for
@@ -448,7 +606,7 @@
 						responseId = responses[0].ID;
 
 						//type number						
-						divResponse = '<div class="span4" id="divResponse'+ question.ID + '" style="padding-top:0.9%;"><input type="number" name="' + question.ID + '" id="' +  responseId + '" min="1" max="9999" oninput="MaxLengthCheck(this)" class="TextBox FloatRight" placeholder="Required"></input></div>';
+						divResponse = '<div class="span4" id="divResponse'+ question.ID + '" style="padding-top:0.9%;"><input type="number" name="' + question.ID + '" id="' +  responseId + '" min="1" max="9999" oninput="MaxLengthCheck(this)" class="TextBox FloatRight Borderless" placeholder="Required"></input></div>';
                     }
 
 					divQuestionAndResponse = divQuestionText + divResponse;
@@ -503,7 +661,8 @@
 				if(responseType != "textbox" && responseType != "checkbox")
 				{
 					//get response text for the question, if made
-					responseText = GetResponseText(question.ID);					
+					responseText = GetResponseText(question.ID);
+					console.log("Respones for QuestionId:" + question.ID + " - " + responseText);
 					if(responseText != ""){//if user provided a response, remove error highlight
 						$('#divResponse'+ question.ID).removeClass("Error");
 						//populate in the readonly control
@@ -923,6 +1082,7 @@
             window.location.href = "login.html";
         }
 		
+        var listViewResponseId = "";
 		function CollectResponse(e)
 		{ //console.log("Collecting response...");
 			try{
@@ -957,15 +1117,21 @@
                                     otherText = $('#'+ indivResponseId +"-txtother").val();
                                 }
 							});
-							
+							console.log('response id before:' + responseId);
 							if (responseId != "")
 							{
 								responseId = responseId.substring(0, responseId.length - 1);
                             }
+                            							console.log('response id after:' + responseId);
 						break;
 						case "select":							
 							responseId = $('input[name="input-' + paramQuestionId + '"]:checked').attr('id');
+/*                            if(responseId == undefined && listViewResponseId != ""){
+                                responseId = listViewResponseId;
+                                listViewResponseId = "";
+                            }*/
 							otherText = "";
+                            console.log('select checkbox' + responseId);
 						break;
 					}
 					collResponses[idx].ReasonId = responseId;
@@ -1025,6 +1191,7 @@
 			return data;
 		}
 		
+        
 		function getOrganizations(){
 			var question, responseForQuestion, questionText;
 		if(eventQuestions == undefined){ //if eventQuestions does not exist, parse it. eventQuestions should have been initialized in DisplayResponses methods			
