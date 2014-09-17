@@ -391,3 +391,70 @@ function showCardReaderErrorAlert(msg) {
     $("#modalviewAlertCardReader").kendoMobileModalView("open");
 }
 
+//methods moved from login.html
+var app1, initialView;
+function Initialize(){
+    
+    //Reset CollectedResponses
+    localStorage.setItem("CollectedResponses", JSON.stringify(""));
+    //app1 = new kendo.mobile.Application(document.body, {useNativeScrolling: true}); //, transition: 'overlay:up'
+    
+    //debugger;
+    if(localStorage.getItem("anon") != "true")
+    {
+        app.initialize();
+    }
+    
+    //$("#welcome_text1").text("Welcome to " + localStorage.getItem("deptname"));
+    InitForm();
+    if(localStorage.getItem("allowregistration") == "false")
+    {
+        $("#btn-register").addClass("invisible");
+    }
+    
+    app1 = new kendo.mobile.Application(document.body, {useNativeScrolling: true, initial: initialView}); //, transition: 'overlay:up'
+};
+
+//not used
+function ClickLogon(){
+    app1.Navigate('#viewSigninWithUclaLogon');
+    app.stopCardReader();
+}
+
+function InitForm(){
+    $("#DeptName").text(localStorage.getItem("deptname"));
+    if(localStorage.getItem("welcome") != null && localStorage.getItem("welcome") != "null")
+    {
+        $("#welcome_text").text(localStorage.getItem("welcome"));
+        $("#welcome_text1").text(localStorage.getItem("welcome"));
+    }
+    
+    if(localStorage.getItem("anon") == "true")
+    {
+        initialView = "anon";
+        //$("#anon").removeClass("invisible");
+        //$("#not_anon").addClass("invisible");
+        //app1.navigate("#anon");
+        $("#body").addClass("molecules-bg");
+    }
+    else if(localStorage.getItem("rsvp") == "true" || localStorage.getItem("enforcedeligibility") == "true")
+    {
+        
+        initialView = "rsvp_eleg";
+        
+        $("#body").removeClass("molecules-bg");
+        //$("#rsvp_eleg").removeClass("invisible");
+        //$("#not_anon").addClass("invisible");
+        //$("#welcome_text_div").addClass("invisible");
+        $("#event_name").text(localStorage.getItem("appdescription"));
+        //app1.navigate("#rsvp_eleg");
+    }
+    else
+    {
+        initialView = "not_anon";
+        $("#not_anon").removeClass("invisible");
+        $('#txt_logon').val('').focus();
+        $("#body").addClass("molecules-bg");
+    }
+}
+
