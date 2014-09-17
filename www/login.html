@@ -25,76 +25,7 @@
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
         <!-- <link rel="stylesheet" type="text/css" href="css/blocks.css" /> -->
         <link rel="stylesheet" type="text/css" href="css/lobby.css" />
-        <!--<link rel="stylesheet" type="text/css" href="css/iwe.css" />-->
         <link rel="stylesheet" type="text/css" href="css/iwe_icon_fonts.css" />
-        <!-- <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" /> -->
-        <script type="text/javascript">
-            var app1, initialView;
-			
-			function ClickLogon(){
-				app1.Navigate('#viewSigninWithUclaLogon');
-                app.stopCardReader();
-			}
-            
-            window.onload = function(){
-				//Reset CollectedResponses
-			    localStorage.setItem("CollectedResponses", JSON.stringify(""));
-				//app1 = new kendo.mobile.Application(document.body, {useNativeScrolling: true}); //, transition: 'overlay:up'
-				
-				//debugger;
-                if(localStorage.getItem("anon") != "true")
-                {
-                    app.initialize();
-                }
-                
-				//$("#welcome_text1").text("Welcome to " + localStorage.getItem("deptname"));
-                InitForm();
-                if(localStorage.getItem("allowregistration") == "false")
-                {
-                    $("#btn-register").addClass("invisible");
-                }
-                
-				app1 = new kendo.mobile.Application(document.body, {useNativeScrolling: true, initial: initialView}); //, transition: 'overlay:up'
-            };
-        
-		function InitForm(){		
-				$("#DeptName").text(localStorage.getItem("deptname"));
-                if(localStorage.getItem("welcome") != null && localStorage.getItem("welcome") != "null")
-                {
-                    $("#welcome_text").text(localStorage.getItem("welcome"));
-                    $("#welcome_text1").text(localStorage.getItem("welcome"));
-                }
-				
-				if(localStorage.getItem("anon") == "true")
-                {
-					initialView = "anon";
-                    //$("#anon").removeClass("invisible");
-                    //$("#not_anon").addClass("invisible");
-					//app1.navigate("#anon");
-					$("#body").addClass("molecules-bg");
-                }
-                else if(localStorage.getItem("rsvp") == "true" || localStorage.getItem("enforcedeligibility") == "true")
-                {
-				
-					initialView = "rsvp_eleg";				
-					
-                    $("#body").removeClass("molecules-bg");
-                    //$("#rsvp_eleg").removeClass("invisible");
-                    //$("#not_anon").addClass("invisible"); 
-                    //$("#welcome_text_div").addClass("invisible");
-                    $("#event_name").text(localStorage.getItem("appdescription"));
-					//app1.navigate("#rsvp_eleg");
-                }
-                else
-                {
-				initialView = "not_anon";
-                    $("#not_anon").removeClass("invisible");
-                    $('#txt_logon').val('').focus();
-					$("#body").addClass("molecules-bg");
-                }
-		}
-        
-            </script>
         
         <style>
             
@@ -103,16 +34,12 @@
             }
         </style>
         
-		<!-- <link href="styles/kendo.common.min.css" rel="stylesheet" /> -->
-        <!-- <link href="styles/kendo.default.min.css" rel="stylesheet" /> -->
-        <!-- <link href="styles/kendo.dataviz.min.css" rel="stylesheet" /> -->
-        <!-- <link href="styles/kendo.dataviz.default.min.css" rel="stylesheet" /> -->
-        
         <link href="styles/kendo.mobile.all.min.css" rel="stylesheet" />
 		<link href="css/stylefix.css" rel="stylesheet" />
         <script src="js/jquery.min.js"></script>
         <!-- <script src="js/angular.min.js"></script> -->
         <script src="js/kendo.all.min.js"></script>
+
         <title>Login</title>
     </head>
     <body class="molecules-bg" id="body">
@@ -120,38 +47,21 @@
                 <div id="div_bruincard" class="absolute-center">
                     <p class="bold-instruction"><i class="icon-credit"></i> <span style="margin-left:2%;">Swipe your Bruincard</span></p>
                 </div>
-                <!--
-                <div>
-                    <img src="img/DAY2_SHOT1_SCULPTUREGARDEN_login.jpg" class="login-image" />
-                </div>
-                 -->
+
                 <div id="div_signin_method" class="panel-button-div">
-                    <!-- <button class="button large panel-button horizontal-center" onclick="ClickLogon();" style="border-bottom:0;">Press here to use your UCLA Logon ID <span class="arrow arrowFix">></span></button> -->
 					<a data-role="button" class="button large panel-button horizontal-center UseUclaLogonButton ButtonFix" href="#viewSigninWithUclaLogon"><span><br/>Press here to use your UCLA Logon ID</span> <span class="arrow arrowFix"><i class="icon-chevron-right"></i></span></a>
-                    <!-- <button class="button large panel-button horizontal-center" onclick="ClickRegistration();">Press here to register <span class="arrow arrowFix">></span></button> -->
+
 					<a data-role="button" class="button large panel-button horizontal-center ButtonFix" data-click="ClickRegistration" id="btn-register"><span><br/>Press here to register</span> <span class="arrow arrowFix"><i class="icon-chevron-right"></i></span></a>
-                    <!--
-                    <span style="margin-right:1%;">Check in with:</span>
-                    <span class="group">
-                        <a id="btn_bruincard" class="button primary active" onclick="ClickBruincard();">Bruincard</a>
-                        <a id="btn_logon" class="button" onclick="ClickLogon();">UCLA Logon ID</a>
-                    </span>-->
                 </div>
-                <!--<div style="margin-top:20px;" id="div_register">
-                    Don't have a UCLA Logon? <a href="registration.html" class="link-gold">Register</a>
-                </div>-->
-                
             </div>
 		<div data-role="view" id="viewSigninWithUclaLogon" data-layout="LayoutWithoutUclaLogo" data-show="InitForm">
 				<div id="div_logon" class="gray-div horizontal-center">
 							<input id="txt_logon" type="text" class="horizontal-center textbox" placeholder="Enter your UCLA Logon ID" style="display:block;"/>
-							<!-- <button class="button large horizontal-center long-button" style="" onclick="SignIn($('#txt_logon').val());">Sign In</button> -->
 							<a data-role="button" class="LongButton SignInButton" data-click="SignInWithUclaLogon">Sign In</a>
                 </div>
 		</div>
 		<!-- Anonymous view -->
 		<div data-role="view" id="anon" class="white-button" data-layout="LayoutWithUclaLogo">
-                <!-- <button class="button large horizontal-center long-button absolute-center" style="margin:auto;" onclick="window.open('reasons.html', '_self');">Continue</button> -->
 				<div class="DivAnonymousContinueButton">
 					<a data-role="button" class="AnonymousContinueButton" data-click="NavigateToReasonsPage">Continue</a>
 				</div>
@@ -178,16 +88,13 @@
                                 <td id="">
                                     <span id="success" class="invisible">SUCCESS</span>
                                     <span id="failed" class="invisible">FAILED
-                                        <!-- <a id="btn_override" class="button large small-button" onclick="CheckIn(localStorage.getItem('uid'), true, localStorage.getItem('cardswiped'));">Override</a> -->
 										<a data-role="button" id="btn_override" class="button large small-button overrideButtonFix" data-click="OverrideCheckIn">Override</a>
-                                            <!-- <span><a href="" lass="link-blue text-right" onclick="OverrideHelp(event);"><small>What is this?</small></a></span> -->
 											<span><a href="" style="" onclick="OverrideHelp(event);" class="helpIcon"><i class="icon-question-sign"></i></a></span>
                                             </span>
                                 </td>
                             </tr>
                     </table>                    
                     <input id="txt_rsvp_eleg_uid" type="text" class="horizontal-center textbox" placeholder="Enter UID" style="display:block;"/>
-                    <!-- <button class="button large horizontal-center long-button" style="" onclick="CheckIn($('#txt_rsvp_eleg_uid').val(), false);">Check In</button> -->
 					<a data-role="button" class="button large horizontal-center long-button CheckInButtonFix" style="" onclick="CheckIn($('#txt_rsvp_eleg_uid').val(), false);">Check In</a>
                 </div>
 				</div>
@@ -199,8 +106,6 @@
 					<div>
 						<img src="img/logo-ucla.png" class="header-logo HeaderLogoFix" />
 						<span id="DeptName" class="header-text"></span>
-						<!--<a href="" id="close-link" onclick="CloseApp(event);">Close</a>-->
-						<!-- <button class="button large link-button" onclick="CloseApp(event);">Close</button> -->
 						<a data-role="button" class="button large link-button" data-rel="modalview" href="#dialog-modal">Close</a>
 					</div>
 					
@@ -231,8 +136,6 @@
 					<div>
 						<img src="img/logo-ucla.png" class="header-logo HeaderLogoFix" />
 						<span id="DeptName" class="header-text"></span>
-						<!--<a href="" id="close-link" onclick="CloseApp(event);">Close</a>-->
-						<!-- <button class="button large link-button" onclick="CloseApp(event);">Close</button> -->
 						<a data-role="button" class="button large link-button" data-rel="modalview" href="#dialog-modal">Close</a>
 					</div>
 					
@@ -245,7 +148,6 @@
 			<div data-role="header">
 				<div data-role="navbar">
 					<span data-title="view-title">Reconfigure Lobby</span>
-					<!-- <a data-click="HideReconfigureLobbyDialog" data-role="button" data-align="right" style="background:none;color:#3284bf;">Cancel</a> -->
 				</div>
 			</div>
 		   <div class="horizontal-center ReconfigureLobby">
@@ -283,7 +185,6 @@
             </div>
 		</div>
 		<!-- modal to display flash message -->
-		<!-- TODO: Flash message styling -->
 		<div data-role="modalview" id="modalviewFlash" style="width: 50%;">
 				<div data-role="header">
 					<div data-role="navbar">
@@ -298,12 +199,12 @@
         <script type="text/javascript" src="phonegap.js"></script>
 		
         <!-- <script type="text/javascript" src="js/blocks.js"></script> -->
-        <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>-->
-        <!-- <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script> -->
-        
-        <script type="text/javascript" src="js/login.js"></script>
+         <script type="text/javascript" src="js/login.js"></script> 
         <script type="text/javascript" src="js/global.js"></script>
-        
-        
+        <script type="text/javascript">
+            window.onload = Initialize();
+            </script>
+
+
     </body>
 </html>
