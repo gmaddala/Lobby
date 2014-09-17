@@ -117,6 +117,7 @@ function SignInWithUclaLogon(){
 	SignIn($('#txt_logon').val());
 }
 
+var startTimer1;
 //self logging in
 function SignIn(logon, isCardreader){
     isCardreader = typeof isCardreader != 'undefined' ? isCardreader : false;
@@ -131,6 +132,8 @@ function SignIn(logon, isCardreader){
     
 	if ( !isOfflineMode() )
 	   {
+           startTimer1 = new Date().getTime();
+           
 			$.ajax({
 				   type: "GET",
 				   url: "http://sait-test.uclanet.ucla.edu/sawebnew2/api/validlogon",
@@ -157,6 +160,7 @@ function SignIn(logon, isCardreader){
 				   $('body').removeClass('ajax-spinner');
 				   }
 				   });
+//           alert((endTimer1 - startTimer1));
 		 }
 		 else{
 				 //get offline data
@@ -178,6 +182,9 @@ function SetStudentData(jsonobj, submitIntake)
                 if(!submitIntake)
                 {
                     window.open("reasons.html", "_self");
+                    //var endTimer1 = new Date().getTime();
+                    //console.log('time taken to authenticate..' + (endTimer1 - startTimer1));
+
                 }
                 else
                 {
@@ -323,6 +330,7 @@ function OverrideHelp(e)
 
 function ClickRegistration()
 {
+    loading();
     app.stopCardReader();
     location.href='registration.html';
     

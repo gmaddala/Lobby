@@ -84,7 +84,7 @@
                 <span id="spanClear" onclick="ClearSearch()"></span>
 			</div>
 			
-			<div id="divScrollableListView" style="overflow-y:scroll;height:50vh;-webkit-overflow-scrolling: touch;">
+			<div id="divScrollableListView">
 				<ul id="local-filterable-listview1"></ul>
 			</div>
 		</div>
@@ -181,6 +181,7 @@
 									 });
 		};
 
+
 		function mobileListViewLocalFiltering() {
 		var dataSource = new kendo.data.DataSource({ data: getResponses() });
         $("#local-filterable-listview").kendoMobileListView({
@@ -215,20 +216,25 @@
 		function mobileListViewIncremental(){
 			var allOrgs;
 			var fromIdx = 0, toIdx = 0;
+            var selectedResponse = $('#spanListViewResponse').text();
+            //get the user response from collected response obj
+            userListViewResponseId = GetUserResponse(paramQuestionId, "Id");
 //            $('#txtSearchOrg').val('');
             
 			if(allOrgs == undefined){
 				//add all formatted orgs into localStorage
 				var allOrgsFormatted = [];
-				var liText = "";
+				var liText = "", responseText;
 				var dataSource = getOrganizations();
                 
 				for(var idx = 0; idx < dataSource.length; idx++)
 				{
-					if(idx < defaultPageSize){
-						liText = "<li><label class='km-listview-label'>"+ dataSource[idx].Text + "<input type='radio' name='input-" + paramQuestionId + "' id='"+ dataSource[idx].ID +"' class='textbox-"+ dataSource[idx].OpensTextbox+ " km-widget km-icon km-check'/></label></li>";
+                    responseText = dataSource[idx].Text;
+                    /*console.log('response Text:' + responseText +' selectedResponse:'+ selectedResponse);
+					if(responseText == selectedResponse){
+						liText = "<li><label class='km-listview-label'>"+ dataSource[idx].Text + "<input type='radio' name='input-" + paramQuestionId + "' id='"+ dataSource[idx].ID +"' class='textbox-"+ dataSource[idx].OpensTextbox+ " km-widget km-icon km-check' checked/></label></li>";
 					}
-					else
+					else*/
 					{
 						liText = "<li><label class='km-listview-label'>"+ dataSource[idx].Text + "<input type='radio' name='input-" + paramQuestionId + "' id='"+ dataSource[idx].ID +"' class='textbox-"+ dataSource[idx].OpensTextbox+ " km-widget km-icon km-check'/></label></li>";
 					}
@@ -257,12 +263,14 @@
 				}
                 
                 if (toIdx < totalLi && $('#liLoadMore').attr('id') == undefined){
-                    $("#local-filterable-listview1").append("<li id='liLoadMore' data-click='LoadMoreOrgs' class='LoadMore'><a data-role='button' data-click='LoadMoreOrgs' onclick='LoadMoreOrgs'>Load more...</a></li>");
+                    $("#local-filterable-listview1").append("<li id='liLoadMore' data-click='LoadMoreOrgs' class='LoadMore'><a data-role='button' data-click='LoadMoreOrgs' data-click='LoadMoreOrgs'>Load more...</a></li>");
                 }
                 
                 $("#local-filterable-listview1").kendoMobileListView();
+                //bind the click event to load more orgs
                 $('#liLoadMore').bind('click', LoadMoreOrgs);
                 $('#liLoadMore a').removeClass("km-listview-link");
+                $('#liLoadMore a').kendoMobileButton({click:LoadMoreOrgs});
                 //Display selected response by the side of the question
                 $('input[name="input-' + paramQuestionId + '"]').click(function(){
                                                                        $('#spanListViewResponse').text( $(this).parent().text());
@@ -279,6 +287,10 @@
 //				$('#spanQuestionText1').parent().next().next().next().after($('#spanQuestionText1').next().next().next())
                 $('#spanQuestionText1').parent().next().next().after($('#divScrollableListView'));
 			}
+            //$('input[name="input-8"]').each(function() {console.log($(this).parent().text());});
+            if(selectedResponse != undefined && selectedResponse != ""){
+                RestoreUserSelection(selectedResponse);
+            }
 		}
 		
 		function LoadMoreOrgs(e){
@@ -291,6 +303,10 @@
 			var allOrgs = JSON.parse(localStorage.getItem("allOrgs"));
 			var fromIdx, toIdx, liCount, org;
 			var totalLi = allOrgs.length;
+            var selectedResponse = $('#spanListViewResponse').text();
+            //get the user response from collected response obj
+            userListViewResponseId = GetUserResponse(paramQuestionId, "Id");
+            console.log('selected response..' + selectedResponse + " userlistviewresponseid:"+ userListViewResponseId + " listviewResponseId:" + listViewResponseId);
 			$('#liLoadMore').remove();
             
             if(searchText != "" && searchText != undefined){//if search text is available, clear all the li items
@@ -319,12 +335,16 @@
                 }
                 
                 if (toIdx < searchResults.length && $('#liLoadMore').attr('id') == undefined){
-                    $("#local-filterable-listview1").append("<li id='liLoadMore' data-click='SearchOrg' class='LoadMore'><a data-role='button' data-click='SearchOrg' onclick='SearchOrg'>Load more search results...</a></li>");
+                    $("#local-filterable-listview1").append("<li id='liLoadMore' data-click='SearchOrg' class='LoadMore'><a data-role='button' data-click='SearchOrg' onclick='SearchOrg' class='AdjustLoadMoreMargin'>Load more search results...</a></li>");
                     $('#liLoadMore').removeClass("km-listview-link").bind('click', SearchOrg);
+                    $('#liLoadMore a').kendoMobileButton({click:SearchOrg});
                 }
 
                 //Display selected response by the side of the question
-                $('input[name="input-' + paramQuestionId + '"]').click(function(){ $('#spanListViewResponse').text( $(this).parent().text());});
+                $('input[name="input-' + paramQuestionId + '"]').click(function(){
+                                                                       $('#spanListViewResponse').text( $(this).parent().text());
+                                                                       listViewResponseId = $(this).attr('id');
+                                                                       });
             }
 			else{
                 if(prevSearchText != ""){
@@ -347,11 +367,27 @@
                 if (toIdx < totalLi && $('#liLoadMore').attr('id') == undefined){
                     $("#local-filterable-listview1").append("<li id='liLoadMore' data-click='LoadMoreOrgs' class='LoadMore'><a data-role='button' data-click='LoadMoreOrgs' onclick='LoadMoreOrgs'>Load more...</a></li>");
                     $('#liLoadMore').removeClass("km-listview-link").bind('click', LoadMoreOrgs);
+                    $('#liLoadMore a').kendoMobileButton({click:LoadMoreOrgs});
                 }
                 //Display selected response by the side of the question
-                $('input[name="input-' + paramQuestionId + '"]').click(function(){ $('#spanListViewResponse').text( $(this).parent().text());});
-
+                $('input[name="input-' + paramQuestionId + '"]').click(function(){
+                                                                       $('#spanListViewResponse').text( $(this).parent().text());
+                                                                       listViewResponseId = $(this).attr('id');
+                                                                       });
             }
+            
+            if(selectedResponse != undefined && selectedResponse != ""){
+                RestoreUserSelection(selectedResponse);
+            }
+        }
+        
+        function RestoreUserSelection(userResponseText){console.log('restoring user response..' + userResponseText);
+            $('input[name="input-' + paramQuestionId + '"]').each(function() {
+                                                                  if($(this).parent().text() == userResponseText)
+                                                                  {
+                                                                    $(this).prop('checked', true);
+                                                                  }
+                                                                  });
         }
         
         function GetSearchResults(searchText){
@@ -381,7 +417,7 @@
             console.log('clearing search text..');
             var ctl = $('#txtSearchOrg');
             ctl.val('');
-            $('#spanListViewResponse').text('');
+            //$('#spanListViewResponse').text('');
             AddOrgs("");
         }
         
@@ -596,7 +632,7 @@
 						//divResponse = '<div class="span8" id="divResponse'+ question.ID + '" style="padding-top:0.9%"><ul id="ul_' + question.ID + '" data-role="listview" data-style="inset" class="ListViewContainer"><li><input type="text" id="txt_' + question.ID + '"></input></li></ul></div>';
 						//divResponse = '<div class="span4" id="divResponse'+ question.ID + '" style="padding-top:0.9%;"><input type="text" id="txt_' + question.ID + '"  class="TextBox FloatRight" placeholder="Required"></input></div>';
 						responseId = responses[0].ID;
-						divResponse = '<div class="span4" id="divResponse'+ question.ID + '" style="padding-top:0.9%;"><input type="text" name="' + question.ID + '" id="' +  responseId + '"  class="TextBox FloatRight" placeholder="Required"></input></div>';
+						divResponse = '<div class="span4" id="divResponse'+ question.ID + '" style="padding-top:1.5%;"><input type="text" name="' + question.ID + '" id="' +  responseId + '"  class="TextBox FloatRight Borderless" placeholder="Required"></input></div>';
                     }
 					else if (question.ResponsesType == "5")
                     {
@@ -606,7 +642,7 @@
 						responseId = responses[0].ID;
 
 						//type number						
-						divResponse = '<div class="span4" id="divResponse'+ question.ID + '" style="padding-top:0.9%;"><input type="number" name="' + question.ID + '" id="' +  responseId + '" min="1" max="9999" oninput="MaxLengthCheck(this)" class="TextBox FloatRight Borderless" placeholder="Required"></input></div>';
+						divResponse = '<div class="span4" id="divResponse'+ question.ID + '" style="padding-top:1.5%;"><input type="number" name="' + question.ID + '" id="' +  responseId + '" min="1" max="9999" oninput="MaxLengthCheck(this)" class="TextBox FloatRight Borderless" placeholder="Required"></input></div>';
                     }
 
 					divQuestionAndResponse = divQuestionText + divResponse;
@@ -1082,7 +1118,7 @@
             window.location.href = "login.html";
         }
 		
-        var listViewResponseId = "";
+        var listViewResponseId = "", userListViewResponseId = "";
 		function CollectResponse(e)
 		{ //console.log("Collecting response...");
 			try{
@@ -1126,10 +1162,25 @@
 						break;
 						case "select":							
 							responseId = $('input[name="input-' + paramQuestionId + '"]:checked').attr('id');
-/*                            if(responseId == undefined && listViewResponseId != ""){
-                                responseId = listViewResponseId;
+                            if(responseId == undefined)// && (listViewResponseId != "" || userListViewResponseId != "")){
+                            {
+                                console.log('collecting response..' + listViewResponseId + " -- " + userListViewResponseId);
+                                if(listViewResponseId != undefined && listViewResponseId != "")
+                                {
+                                    //collect user response if the user answered any
+                                    responseId = listViewResponseId;
+                                }
+                                else if(userListViewResponseId != undefined && userListViewResponseId != "")
+                                {
+                                    //collect the user response which was already made if the user didn't answer any
+                                    responseId = userListViewResponseId;
+                                }
+                                
+                                //responseId = listViewResponseId;
+                                console.log('chkbox responseId nul.. collecting from listviewresponseId..' + responseId);
                                 listViewResponseId = "";
-                            }*/
+
+                            }
 							otherText = "";
                             console.log('select checkbox' + responseId);
 						break;
