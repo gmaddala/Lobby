@@ -63,33 +63,21 @@
 				
 			</div>
 		</div>
-        
-		<div id="Products" data-role="view" data-init="mobileListViewLocalFiltering" data-title="Products">
-			<header data-role="header">
-				<div data-role="navbar">
-					<span data-role="view-title"></span>
-					<a data-align="right" data-role="button" class="nav-button" href="#/">Index</a>
-				</div>
-			</header>
 
-			<ul id="local-filterable-listview"></ul>
-		</div>
-		
-		<div id="LocalListView" data-role="view" data-init="mobileListViewLocal" data-layout="ResponseDetailsLayout">
-			<!-- <ul id="listView"></ul> -->
-			<span id="spanQuestionText1"></span>
-			<ul id="local-filterable-listview1"></ul>
+		<div id="LocalListView" data-role="view" data-show="mobileListViewIncremental" data-layout="ResponseDetailsLayout">
+			 <span id="spanQuestionText1" class="ListViewQuestion"></span><span id="spanListViewResponse"></span>
+			<div id="divFilterWrap">
+				<input type="search" id="txtSearchOrg" placeholder="Search.." onkeyup="SearchOrg()"></input>
+                <span id="spanClear" onclick="ClearSearch()"></span>
+			</div>
+			
+			<div id="divScrollableListView">
+				<ul id="local-filterable-listview1"></ul>
+			</div>
 		</div>
 		
 		<div data-role="layout" data-id="checklayout">
             <header data-role="header">
-                <!-- <div data-role="navbar">
-                    <span data-role="view-title"></span>
-                    <!-- <a data-align="right" data-role="button" class="nav-button" href="#/">Index</a> 
-					<div id="div_header" class="header-div">
-						<div class="HeaderLogoContainer"><img src="img/logo-ucla.png" class="HeaderLogo"/><span id="NameText" class="header-text"></span></div>
-					</div>
-                </div> -->
                 <div data-role="header" style="background-color:#3284bf">
                     <div id="div_header_cancel" class="header-div">
                         <div class="cancel-btn-div">
@@ -103,30 +91,16 @@
         </div>
         
 		<div data-role="layout" data-id="ResponseDetailsLayout">
-            <!-- <header data-role="header" style="background-color:#3284bf"> -->
-			<div data-role="header" style="background-color:#3284bf">               
-				<!-- <div id="div_header" class="header-div" >
-					<div>
-						<a data-role="button" data-align="left" class="link-button" href="#">Cancel</a>
-						<span id="DeptName" class="header-text"></span>						
-						<a data-role="button" class="link-button">Close</a>
-					</div>
-					
-				</div> -->
-			<div data-role="header">
+			<div data-role="header" style="background-color:#3284bf">
 			   <div id="div_header_cancel" class="header-div">
                     <div class="cancel-btn-div">
-					<a href="#" class="cancel-link cancelLinkFix" data-role="button">Cancel</a>                					
+					<a class="cancel-link cancelLinkFix" data-role="button" href="#">Cancel</a>
 					</div>
-					<!--<div style="text-align:center;position:relative;float:left;width:86%"><span id="DeptNameResponseDetail" class="header-text"></span></div>-->
 					<div style="text-align:right;position:relative;float:right;width:7%">
 					<a class="cancel-link cancelLinkFix" data-role="button" data-click="CollectResponse">Done</a>
                     <div style="clear:both;"></div>
 				</div>
-				</div>
-				
 			</div>
-            <!-- </header> -->
         </div>
 		
 		<!-- modal to display alert messages -->
@@ -172,84 +146,267 @@
 										$(this).parent().parent().append("<div><input type='text' id='" + $(this).attr('id') + "-txtother' class='temp'/></div>")
 									 });
 		};
-
-		function mobileListViewLocalFiltering() {
-		var dataSource = new kendo.data.DataSource({ data: getResponses() });
-        $("#local-filterable-listview").kendoMobileListView({
-            dataSource: dataSource,
-            template: "#:name #",						
-            filterable: {
-                field: "name",
-				operator: "contains"
-            },
-            virtualViewSize: 100, // this configuration is needed to determine the items displayed, since the datasource does not (and should not) have paging set.
-            endlessScroll: true
-        });
-    }
 		
-		function mobileListViewLocal() {        
-		var dataSource = new kendo.data.DataSource({ data: getOrganizations() });		
-        $("#local-filterable-listview1").kendoMobileListView({
-				dataSource: dataSource,
-				//template: "#:name #",						
-				template: "<label>#: Text# <input type='radio' name='input-" + paramQuestionId + "' id='#:ID#' class='textbox-#:OpensTextbox#'/></label>",
-				filterable: {
-					field: "Text",
-					operator: "contains"
-				},
-				virtualViewSize: 100, // this configuration is needed to determine the items displayed, since the datasource does not (and should not) have paging set.
-				endlessScroll: true
-			});
+        //page size for # of records to be displayed in the listview at a time
+        var defaultPageSize = 20;
+
+		function mobileListViewIncremental(){
+			var allOrgs;
+			var fromIdx = 0, toIdx = 0;
+            var selectedResponse = $('#spanListViewResponse').text();
+            //get the user response from collected response obj
+            userListViewResponseId = GetUserResponse(paramQuestionId, "Id");
+//            $('#txtSearchOrg').val('');
+            
+			if(allOrgs == undefined){
+				//add all formatted orgs into localStorage
+				var allOrgsFormatted = [];
+				var liText = "", responseText;
+                 //get the data to be populated in the listview
+				var dataSource = getOrganizations();
+                
+				for(var idx = 0; idx < dataSource.length; idx++)
+				{
+                    responseText = dataSource[idx].Text;
+					
+                    liText = "<li><label class='km-listview-label'>"+ dataSource[idx].Text + "<input type='radio' name='input-" + paramQuestionId + "' id='"+ dataSource[idx].ID +"' class='textbox-"+ dataSource[idx].OpensTextbox+ " km-widget km-icon km-check'/></label></li>";
+					
+                    
+					allOrgsFormatted.push({"li":liText, "Text": dataSource[idx].Text});
+				}
+				localStorage.setItem("allOrgs", JSON.stringify(allOrgsFormatted));
+			}
+			
+			var totalLi = dataSource.length;
+			var liCount = $('input[name="input-' + paramQuestionId + '"]').length;
+
+			
+			if(liCount > 0 && liCount < totalLi)
+			{
+					
+			}
+			else if (liCount == 0)
+			{
+				fromIdx = 0;
+				toIdx = defaultPageSize;
+				
+				for (var idx = fromIdx; idx < toIdx; idx++)
+				{
+					$("#local-filterable-listview1").append(allOrgsFormatted[idx].li);
+				}
+                
+                if (toIdx < totalLi && $('#liLoadMore').attr('id') == undefined){
+                    $("#local-filterable-listview1").append("<li id='liLoadMore' data-click='LoadMoreOrgs' class='LoadMore'><a data-role='button' data-click='LoadMoreOrgs' data-click='LoadMoreOrgs'>Load more...</a></li>");
+                }
+                
+                $("#local-filterable-listview1").kendoMobileListView();
+                //bind the click event to load more orgs
+                $('#liLoadMore').bind('click', LoadMoreOrgs);
+                $('#liLoadMore a').removeClass("km-listview-link");
+                $('#liLoadMore a').kendoMobileButton({click:LoadMoreOrgs});
+                //Display selected response by the side of the question
+                $('input[name="input-' + paramQuestionId + '"]').click(function(){
+                                                                       $('#spanListViewResponse').text( $(this).parent().text());
+                                                                       listViewResponseId = $(this).attr('id');
+                                                                       });
+			}
+			
+			
+			
+			//Find the span id in scroll container
+			var spanIdInScrollContainer = $('div.km-scroll-container #spanQuestionText1').attr('id');
+			if(spanIdInScrollContainer != undefined)
+			{
+//				$('#spanQuestionText1').parent().next().next().next().after($('#spanQuestionText1').next().next().next())
+                $('#spanQuestionText1').parent().next().next().after($('#divScrollableListView'));
+			}
+            //$('input[name="input-8"]').each(function() {console.log($(this).parent().text());});
+            if(selectedResponse != undefined && selectedResponse != ""){
+                RestoreUserSelection(selectedResponse);
+            }
 		}
 		
+        //Loads more organization on click of 'Load More' button
+		function LoadMoreOrgs(e){
+			AddOrgs("");
+		}
+        
+        var searchStartIdx = 0, searchEndIdx = 0, prevSearchText = "", searchResults;
+        //Adds organization to listview incrementally
+        function AddOrgs(searchText){
+            //total number of Organizations
+			var allOrgs = JSON.parse(localStorage.getItem("allOrgs"));
+			var fromIdx, toIdx, liCount, org;
+			var totalLi = allOrgs.length;
+            var selectedResponse = $('#spanListViewResponse').text();
+            //get the user response from collected response obj
+            userListViewResponseId = GetUserResponse(paramQuestionId, "Id");
+//            console.log('selected response..' + selectedResponse + " userlistviewresponseid:"+ userListViewResponseId + " listviewResponseId:" + listViewResponseId);
+			$('#liLoadMore').remove();
+            
+            if(searchText != "" && searchText != undefined){//if search text is available, clear all the li items
+                searchText = searchText.toLowerCase();
+//                console.log('search text:' + searchText + '; prev search text:' + prevSearchText );
+                
+                if(prevSearchText != searchText){
+                    //get search results
+                    searchResults = GetSearchResults(searchText);
+                    $("#local-filterable-listview1").empty();
+                    prevSearchText = searchText;
+                }
+                
+                liCount = $('input[name="input-' + paramQuestionId + '"]').length;
+                fromIdx = liCount + 1;
+                toIdx = liCount + defaultPageSize + 1;
+//                console.log(' search result#:' + searchResults.length);
+
+                for (var idx = fromIdx; idx < toIdx; idx++)
+                {
+                    if (searchResults[idx] != undefined){
+                        $("#local-filterable-listview1").append(searchResults[idx].li);
+                    }
+                }
+                
+                if (toIdx < searchResults.length && $('#liLoadMore').attr('id') == undefined){
+                    $("#local-filterable-listview1").append("<li id='liLoadMore' data-click='SearchOrg' class='LoadMore'><a data-role='button' data-click='SearchOrg' onclick='SearchOrg' class='AdjustLoadMoreMargin'>Load more search results...</a></li>");
+//                    $('#liLoadMore').removeClass("km-listview-link").bind('click', SearchOrg);
+                    //associate click event to 'load more' button
+                    $('#liLoadMore a').kendoMobileButton({click:SearchOrg});
+                }
+
+                //Display selected response by the side of the question
+                $('input[name="input-' + paramQuestionId + '"]').click(function(){
+                                                                       $('#spanListViewResponse').text( $(this).parent().text());
+                                                                       listViewResponseId = $(this).attr('id');
+                                                                       });
+            }
+			else{
+                if(prevSearchText != ""){
+                    //clear the 'li' items when clearing the search text using backspace key
+                    $("#local-filterable-listview1").empty();
+                    prevSearchText = "";
+                }
+                
+                liCount = $('input[name="input-' + paramQuestionId + '"]').length;
+                fromIdx = liCount + 1;
+                toIdx = liCount + defaultPageSize + 1;
+			
+                for (var idx = fromIdx; idx < toIdx; idx++)
+                {
+                    if (allOrgs[idx] != undefined){
+                        $("#local-filterable-listview1").append(allOrgs[idx].li);
+                    }
+                }
+			
+                if (toIdx < totalLi && $('#liLoadMore').attr('id') == undefined){
+                    $("#local-filterable-listview1").append("<li id='liLoadMore' data-click='LoadMoreOrgs' class='LoadMore'><a data-role='button' data-click='LoadMoreOrgs' onclick='LoadMoreOrgs'>Load more...</a></li>");
+//                    $('#liLoadMore').removeClass("km-listview-link").bind('click', LoadMoreOrgs);
+                    //associate click event to 'load more' button
+                    $('#liLoadMore a').kendoMobileButton({click:LoadMoreOrgs});
+                }
+                //Display selected response by the side of the question
+                $('input[name="input-' + paramQuestionId + '"]').click(function(){
+                                                                       $('#spanListViewResponse').text( $(this).parent().text());
+                                                                       listViewResponseId = $(this).attr('id');
+                                                                       });
+            }
+            
+            if(selectedResponse != undefined && selectedResponse != ""){
+                RestoreUserSelection(selectedResponse);
+            }
+        }
+        
+        //Restore passed in user response
+        function RestoreUserSelection(userResponseText){
+            //console.log('restoring user response..' + userResponseText);
+            $('input[name="input-' + paramQuestionId + '"]').each(function() {
+                                                                  if($(this).parent().text() == userResponseText)
+                                                                  {
+                                                                    $(this).prop('checked', true);
+                                                                  }
+                                                                  });
+        }
+        
+        //Performs search on organizations and returns the list of items which contains the searchText
+        function GetSearchResults(searchText){
+            var retResults = [], org;
+            //total number of Organizations
+			var allOrgs = JSON.parse(localStorage.getItem("allOrgs"));
+
+            for(var idx = 0; idx < allOrgs.length; idx++){
+                org = allOrgs[idx].Text.toLowerCase();
+                //apply 'contains' filter
+                if(org.indexOf(searchText) != -1){
+                    //add li
+                    retResults.push(allOrgs[idx]);
+                }
+            }
+            
+            return retResults;
+        }
+        
+        //Function called on keyup event on listview search box
+        function SearchOrg(e)
+        {
+            var ctl = $('#txtSearchOrg');
+//            console.log('searching ..')
+            AddOrgs($(ctl).val());
+        }
+        
+        //clear search box text
+        function ClearSearch(){
+//            console.log('clearing search text..');
+            var ctl = $('#txtSearchOrg');
+            ctl.val('');
+            //$('#spanListViewResponse').text('');
+            AddOrgs("");
+        }
+
 		function DisplayResponses(e){
 				eventQuestions = JSON.parse(localStorage.getItem("questions"));
                 var q_array = eventQuestions.Questions;
-		if (q_array.length < 3)
-		{ //Display one-column layout like display if there're only 2 questions or less. This will be needed for most of the lobby which has single question
-				for(var i = 0; i < q_array.length; i++) {
+
+                if (q_array.length < 3)
+                { //Display one-column layout like display if there're only 2 questions or less. This will be needed for most of the lobby which has single question
+                    for(var i = 0; i < q_array.length; i++) {
 				
-                    var question = q_array[i];
-                    //$('#questions-body div[data-role="content"]').append('<form class="form"><div class="control reasons-form" id="div_reason_list_' + question.ID +'"><label id="i-4" style="margin-bottom:3%;"><span id="' + question.ID +'_prompt"></span></label></div><div class="control">');
-                    $('#questions-body div[data-role="content"]').append('<div class="control reasons-form" id="div_reason_list_' + question.ID +'"><label id="i-4" style="margin-bottom:3%;"><span id="' + question.ID +'_prompt"></span></label></div><div class="control">');
-					//$('#' + question.ID + '_prompt').text(question.QuestionText);
-                    $("#ulResponses").append("<li><span class='span-question-text'>" + question.QuestionText + "</span><div><ul id='ul_" + question.ID + "'></ul></div></li>");
-                    
-                    var inputtype = "checkbox";
-                    
-                    
-                    if(question.ResponsesType == "1")
-                    {
-                        inputtype = "radio";
-                    }
-                    else if(question.ResponsesType == "2")
-                    {
-                        inputtype = "checkbox";
-                    }
-                    else if(question.ResponsesType == "3")
-                    {
-                        inputtype = "selectbox";
-                        //SetUpComboBox(question.ID);
-                    }
-                    else if (question.ResponsesType == "4")
-                    {
-                        inputtype = "textbox";
-                        //$('#div_reason_list_' + question.ID).append('<label><input type="' + inputtype +'" aria-labelledby="i-4" id="' + question.Responses[0].ID  + '" name="txt_' + question.ID + '" class="horizontal-center textbox small-textbox" style="width:93% !important;"></label>');
-                    }
-					else if (question.ResponsesType == "5")
-                    {
-                        inputtype = "numerictextbox";
-                        //$('#div_reason_list_' + question.ID).append('<label><input type="' + inputtype +'" aria-labelledby="i-4" id="' + question.Responses[0].ID  + '" name="txt_' + question.ID + '" class="horizontal-center textbox small-textbox" style="width:93% !important;"></label>');
-                    }
+                        var question = q_array[i];
+                        $('#questions-body div[data-role="content"]').append('<div class="control reasons-form" id="div_reason_list_' + question.ID +'"><label id="i-4" style="margin-bottom:3%;"><span id="' + question.ID +'_prompt"></span></label></div><div class="control">');
 
-					var responses = question.Responses;					
+                        $("#ulResponses").append("<li><span class='span-question-text'>" + question.QuestionText + "</span><div><ul id='ul_" + question.ID + "'></ul></div></li>");
+                    
+                        var inputtype = "checkbox";
+                    
+                        if(question.ResponsesType == "1")
+                        {
+                            inputtype = "radio";
+                        }
+                        else if(question.ResponsesType == "2")
+                        {
+                            inputtype = "checkbox";
+                        }
+                        else if(question.ResponsesType == "3")
+                        {
+                            inputtype = "selectbox";
+                            //SetUpComboBox(question.ID);
+                        }
+                        else if (question.ResponsesType == "4")
+                        {
+                            inputtype = "textbox";
+                        }
+                        else if (question.ResponsesType == "5")
+                        {
+                            inputtype = "numerictextbox";
+                        }
+
+                        var responses = question.Responses;
 					
-					e.view.content.append($('<ul ></ul>'));
+                        e.view.content.append($('<ul ></ul>'));
 
-                    var viewID = e.view.id;                    
-                    if(inputtype == "radio" || inputtype == "checkbox")
-                    {
-                        e.view.element.find("#ul_" + question.ID).kendoMobileListView({
+                        var viewID = e.view.id;
+                        if(inputtype == "radio" || inputtype == "checkbox")
+                        {
+                            e.view.element.find("#ul_" + question.ID).kendoMobileListView({
                             //dataSource: responses,
                             //template: "id: #: id# with text: #: text#",
                             template: "<label>#: Text# <input type='" + inputtype + "' name='input-" + question.ID + "' id='#:ID#' class='textbox-#:OpensTextbox#'/></label>",
@@ -282,33 +439,30 @@
 					else if(inputtype == "numerictextbox")
                     {
 						var txtId = responses[0].ID;
-                        $("#ul_" + question.ID).append('<input type="number" value="" name="' + question.ID + '" id="' +  txtId + '" class="TextBox" />');
+                        $("#ul_" + question.ID).append('<input type="number" value="" name="' + question.ID + '" id="' +  txtId + '" class="TextBox Borderless" />');
                     }
-				
 			}//for
 			
-			//Continue button
-			$("#ulResponses").append('<li><a data-role="button" id="continueBtn" class="button">Continue</a></li>');
-			e.view.element.find("#continueBtn").kendoMobileButton({click: SubmitReasons});
-		}	
-		else{
-			BuildQuestionsAndResponses(q_array, e);
-		}
-			
-		
+                //Continue button
+                $("#ulResponses").append('<li><a data-role="button" id="continueBtn" class="button">Continue</a></li>');
+                e.view.element.find("#continueBtn").kendoMobileButton({click: SubmitReasons});
+            }
+            else{//Build questions and responses if there're more than 2 questions
+                BuildQuestionsAndResponses(q_array, e);
+            }
 		}
 
+        //Method to build questions and response summary where # of questions > 2
 		function BuildQuestionsAndResponses(q_array, e){
+        //check if questions are already constructed
 		var canConstructQuestions = $("#divQuestions").children().length == 0;
 		
 		if (canConstructQuestions){
 		    var collectedResponses = [], response, responseId;
-		    //localStorage.setItem("CollectedResponses", responsesObj);
+
 			for(var i = 0; i < q_array.length; i++) {
                     var question = q_array[i];   
 					var responses = question.Responses;
-                    //$('#questions-body div[data-role="content"]').append('<div class="control reasons-form" id="div_reason_list_' + question.ID +'"><label id="i-4" style="margin-bottom:3%;"><span id="' + question.ID +'_prompt"></span></label></div><div class="control">');					
-                    //$("#ulResponses").append("<li><span class='span-question-text'>" + question.QuestionText + "</span><div><ul id='ul_" + question.ID + "'></ul></div></li>");
                     
 					collectedResponses.push({QuestionId: question.ID, ReasonId: "", ReasonDetails: "", OtherReasonId: ""});
 					
@@ -316,55 +470,49 @@
 					var divQuestionText = '<div class="span8"> <span class="QuestionText"><br/>' + question.QuestionText + '</span> </div>';
 					//add ul view here and append here..
 					var divResponse = '<div class="span4" id="divResponse'+ question.ID + '"><ul id="ul_' + question.ID + '"></ul></div>';
-					//divResponse = '<div class="span8" id="divResponse'+ question.ID + '"><ul id="ul_' + question.ID + '" data-role="listview" data-style="inset" class="ListViewContainer"><li><span id="spanResponseText' + question.ID + '">Response Text..</span></li></ul> <a data-role="button"  id="btnResponseDetail_' + question.ID + '" data-questionid="' + question.ID + '"><span style="float:right">&gt;</span></a></div>';
-					//var responseText = GetResponseText(question.ID);
 					var responseText = "Required";
-					if(responseText == undefined) responseText = "";
-					divResponse = '<div class="span4 ResponseContainer" id="divResponse'+ question.ID + '" displayListView="false"><span id="spanResponseText' + question.ID + '" class="Response Required">' + responseText + '</span> <a data-role="button"  id="btnResponseDetail_' + question.ID + '" data-questionid="' + question.ID + '" class="ResponseDetailButton"><span><i class="icon-chevron-sign-right"></i></span></a></div>';
+					if(responseText == undefined) {responseText = "";}
+
+                    divResponse = '<div class="span4 ResponseContainer" id="divResponse'+ question.ID + '" displayListView="false"><span id="spanResponseText' + question.ID + '" class="Response Required">' + responseText + '</span> <a data-role="button"  id="btnResponseDetail_' + question.ID + '" data-questionid="' + question.ID + '" class="ResponseDetailButton"><span><i class="icon-chevron-sign-right"></i></span></a></div>';
 					
 					var divQuestionAndResponse = "";
                     var inputtype = "checkbox";
                     
                     if(question.ResponsesType == "1")
-                    {
+                    {//radio button
                         inputtype = "radio";
 						divResponse = '<div class="span4 ResponseContainer" id="divResponse'+ question.ID + '" displayListView="false"><span id="spanResponseText' + question.ID + '" class="Response Required">' + responseText + '</span> <a data-role="button"  id="btnResponseDetail_' + question.ID + '" data-questionid="' + question.ID + '" class="ResponseDetailButton"><span><i class="icon-chevron-sign-right"></i></span></a></div>';
                     }
                     else if(question.ResponsesType == "2")
-                    {
+                    {//checkbox
                         inputtype = "checkbox";
 						divResponse = '<div class="span4 ResponseContainer" id="divResponse'+ question.ID + '" displayListView="false"><span id="spanResponseText' + question.ID + '" class="Response Required">' + responseText + '</span> <a data-role="button"  id="btnResponseDetail_' + question.ID + '" data-questionid="' + question.ID + '" class="ResponseDetailButton"><span><i class="icon-chevron-sign-right"></i></span></a></div>';
                     }
                     else if(question.ResponsesType == "3")
-                    {
+                    {//combo/select control
                         inputtype = "selectbox";
-                        //SetUpComboBox(question.ID);
 						divResponse = '<div class="span4 ResponseContainer" id="divResponse'+ question.ID + '" displayListView="true"><span id="spanResponseText' + question.ID + '" class="Response Required">' + responseText + '</span> <a data-role="button"  id="btnResponseDetail_' + question.ID + '" data-questionid="' + question.ID + '" class="ResponseDetailButton"><span><i class="icon-chevron-sign-right"></i></span></a></div>';
                     }
                     else if (question.ResponsesType == "4")
-                    {
+                    {//textbox
                         inputtype = "textbox";
-						//divResponse = '<div class="span8" id="divResponse'+ question.ID + '" style="padding-top:0.9%"><ul id="ul_' + question.ID + '" data-role="listview" data-style="inset" class="ListViewContainer"><li><input type="text" id="txt_' + question.ID + '"></input></li></ul></div>';
-						//divResponse = '<div class="span4" id="divResponse'+ question.ID + '" style="padding-top:0.9%;"><input type="text" id="txt_' + question.ID + '"  class="TextBox FloatRight" placeholder="Required"></input></div>';
 						responseId = responses[0].ID;
-						divResponse = '<div class="span4" id="divResponse'+ question.ID + '" style="padding-top:0.9%;"><input type="text" name="' + question.ID + '" id="' +  responseId + '"  class="TextBox FloatRight" placeholder="Required"></input></div>';
+						divResponse = '<div class="span4" id="divResponse'+ question.ID + '" style="padding-top:1.5%;"><input type="text" name="' + question.ID + '" id="' +  responseId + '"  class="TextBox FloatRight Borderless" placeholder="Required"></input></div>';
                     }
 					else if (question.ResponsesType == "5")
-                    {
+                    {//numeric textbox
                         inputtype = "textbox";
-						//divResponse = '<div class="span8" id="divResponse'+ question.ID + '" style="padding-top:0.9%"><ul id="ul_' + question.ID + '" data-role="listview" data-style="inset" class="ListViewContainer"><li><input type="text" id="txt_' + question.ID + '"></input></li></ul></div>';						
-						//divResponse = '<div class="span4" id="divResponse'+ question.ID + '" style="padding-top:0.9%;"><input type="text" id="txt_' + question.ID + '"  class="TextBox FloatRight" placeholder="Required"></input></div>';
 						responseId = responses[0].ID;
 
 						//type number						
-						divResponse = '<div class="span4" id="divResponse'+ question.ID + '" style="padding-top:0.9%;"><input type="number" name="' + question.ID + '" id="' +  responseId + '" min="1" max="9999" oninput="MaxLengthCheck(this)" class="TextBox FloatRight" placeholder="Required"></input></div>';
+						divResponse = '<div class="span4" id="divResponse'+ question.ID + '" style="padding-top:1.5%;"><input type="number" name="' + question.ID + '" id="' +  responseId + '" min="1" max="9999" oninput="MaxLengthCheck(this)" class="TextBox FloatRight Borderless" placeholder="Required"></input></div>';
                     }
 
 					divQuestionAndResponse = divQuestionText + divResponse;
                     $('#divQuestions').append(divContainer.replace('{0}', divQuestionAndResponse));
 					
 					if(question.ResponsesType != "4" && question.ResponsesType != "5")
-					{
+					{//Display all the responses for the question if the response type is not textbox/numeric textbox
 						$('#divResponse'+ question.ID).click(ShowResponsePage);
 					}
 					
@@ -378,8 +526,7 @@
 					}
 					
 					
-					var responses = question.Responses;					
-					var responsePlaceHolder = "<span>response text</span> <span style='float:right'>&gt;</span>";
+					var responses = question.Responses;
 					e.view.content.append($('<ul ></ul>'));
 
                     var viewID = e.view.id;                    
@@ -401,8 +548,6 @@
 			e.view.element.find("#continueBtn").kendoMobileButton({click: SubmitReasons});
 		  }
 		  else{
-			//reset controls
-			//$('div.QuestionAndResponseContainer span.Response').empty()
 			//load responses for the questions
 			var question, responseType, responseText;
 			for(var i = 0; i < q_array.length; i++) {
@@ -412,7 +557,8 @@
 				if(responseType != "textbox" && responseType != "checkbox")
 				{
 					//get response text for the question, if made
-					responseText = GetResponseText(question.ID);					
+					responseText = GetResponseText(question.ID);
+//					console.log("Respones for QuestionId:" + question.ID + " - " + responseText);
 					if(responseText != ""){//if user provided a response, remove error highlight
 						$('#divResponse'+ question.ID).removeClass("Error");
 						//populate in the readonly control
@@ -474,11 +620,12 @@
 				e.preventDefault();
 			}
 		}
-		
+		//Gets user provided response for the passed in questionId
 		function GetResponseText(questionId)
 		{
 			var allQuestions, responseId, question, responses, retResponseText;
 			responseText = "";
+            //user provided responses
 			var collResponses = JSON.parse(localStorage.getItem("CollectedResponses"));
 			if(eventQuestions == undefined){ //if eventQuestions does not exist, parse it. eventQuestions should have been initialized in DisplayResponses methods			
 				eventQuestions = JSON.parse(localStorage.getItem("questions"));
@@ -533,33 +680,6 @@
 			return retResponseId;
 		}
 		
-		function xGetUserResponse(collResponses, questionId, propName){
-			var retResponse, userResponseObj;
-			
-			//loop through all the responses that were collected to find the response id that was made
-			for(var idx = 0; idx < collResponses.length; idx++)
-			{
-				if(collResponses[idx].QuestionId == questionId){
-					//retResponseId = collResponses[idx].ReasonId;
-					userResponseObj = collResponses[idx];
-					break;
-				}
-			}
-			
-			if (userResponseObj != undefined){
-				switch(propName){
-					case "ReasonId":
-						retResponse = collResponses[idx].ReasonId;
-						break;
-					case "OtherReason":
-						retResponse = collResponses[idx].ReasonDetails;
-						break;
-				}
-			}
-			
-			return retResponse;
-		}
-		
 		//Display view where response for the question will be displayed
 		function ShowResponsePage(e){
 			//Get QuestionId for which responses need to be displayed			
@@ -589,7 +709,7 @@
 		//Display responses associated with the question
 		//This function is used to display responses for a question where response count is more than 2
 		function DisplayQuestionResponses(e){
-			//add delay before displaying all the response controls to prevent accidental touch on controls
+			//add delay before displaying all the response controls to prevent accidental touch on response controls
 			$('#divCompleteResponseView').addClass('DisplayNone');
 			window.setTimeout(function(){
 				$('#divCompleteResponseView').removeClass('DisplayNone')
@@ -597,7 +717,7 @@
 		 
 		  var responseForQuestion, allQuestions, question, questionText, responseControlTypeId, responseControlType;
 		  
-		  $("#DeptNameResponseDetail").text(localStorage.getItem("deptname"));
+		  //$("#DeptNameResponseDetail").text(localStorage.getItem("deptname"));
 		  if(eventQuestions == undefined){ //if eventQuestions does not exist, parse it. eventQuestions should have been initialized in DisplayResponses methods			
 			eventQuestions = JSON.parse(localStorage.getItem("questions"));
 		  }
@@ -637,6 +757,7 @@
 				//if a response is already made, mark it
 				responseIdColl = GetUserResponse(paramQuestionId, "Id");
 				responseText = GetUserResponse(paramQuestionId, "OtherText");
+				responseText = responseText.replace(otherPrefix,"");
 				
 				var liText = "";
 				var canCreateOtherTextBox = false;
@@ -660,7 +781,6 @@
 						}
 						
 						$("#ul_" + paramQuestionId).append(liText);
-						//if(canCreateOtherTextBox && responseForQuestion[idx].ID == responseId){
 						if(canCreateOtherTextBox && doesQuestionHaveResponse){ 
 							$("#ul_" + paramQuestionId).after("<div class='OtherDiv'><input type='text' id='" + responseForQuestion[idx].ID + "-txtother'/></div>");							
 							$('div.OtherDiv input').val(responseText);
@@ -693,18 +813,6 @@
 				}
 				else{
 					canDisplayListView = true;
-					/*
-					//listview
-					var dataSource = new kendo.data.DataSource({ data: getResponses() });
-					//$("#localListView").kendoMobileListView({
-					//$("ul").kendoMobileListView({
-					$("#ul_8").kendoMobileListView({
-						dataSource: dataSource,
-						template: "#: name #",
-						virtualViewSize: 40, // needed setting, since local data virtualization does not use paging
-						endlessScroll: true
-					});
-					*/
 				}
 				break;
 		  }
@@ -745,6 +853,7 @@
 			
 		}
 		
+        //Get user response - reasonId/reasonText (in case if 'Other' is checked)
 		function GetUserResponse(paramQuestionId, prop){
 			var collResponses = JSON.parse(localStorage.getItem("CollectedResponses"));
 			var retPropValue = "";
@@ -763,15 +872,13 @@
 									retPropValue = collResponses[idx].ReasonDetails;									
 									break;
 							}
-							//responseIdColl = collResponses[idx].ReasonId;
-							//responseText = collResponses[idx].ReasonDetails;
 						}
 					}
 				}
 				
-				return retPropValue;
+            return retPropValue;
 		}
-		
+		//Check if the passed in user responseId exist in the list of responses for the question. Returns true if there's a match; else false
 		function CanCheckResponseId(responseId, responseIdArr){
 			var didResponseIdMatch = false;
 			
@@ -786,6 +893,7 @@
 			return didResponseIdMatch;
 		}
 		
+        //Gets the control type for the passed in control type Id
 		function GetResponseControlType(responseControlTypeId)
 		{
 			var responseControlType = "";
@@ -809,6 +917,7 @@
 			return responseControlType;
 		}
 		
+        //Get the response type of the question for the passed in questionId
 		function GetResponseType(questionId)
 		{
 			var retResponseType = "";
@@ -826,13 +935,16 @@
 			return retResponseType;
 		}
         
+        //Function called when 'Cancel' button is clicked from the header
         function CancelResponses(e)
         {
             window.location.href = "login.html";
         }
 		
-		function CollectResponse(e)
-		{ //console.log("Collecting response...");
+        var listViewResponseId = "", userListViewResponseId = "";
+        //Function called when 'Done' button clicked from the header. Collects the response provided by the user
+        function CollectResponse(e)
+		{
 			try{
             var canSaveResponse = true;
 			var responseType = GetResponseType(paramQuestionId);			
@@ -865,17 +977,36 @@
                                     otherText = $('#'+ indivResponseId +"-txtother").val();
                                 }
 							});
-							
+//							console.log('response id before:' + responseId);
 							if (responseId != "")
 							{
 								responseId = responseId.substring(0, responseId.length - 1);
-                                
                             }
-							
+//                            							console.log('response id after:' + responseId);
 						break;
 						case "select":							
 							responseId = $('input[name="input-' + paramQuestionId + '"]:checked').attr('id');
+                            if(responseId == undefined)// && (listViewResponseId != "" || userListViewResponseId != "")){
+                            {
+//                                console.log('collecting response..' + listViewResponseId + " -- " + userListViewResponseId);
+                                if(listViewResponseId != undefined && listViewResponseId != "")
+                                {
+                                    //collect user response if the user answered any
+                                    responseId = listViewResponseId;
+                                }
+                                else if(userListViewResponseId != undefined && userListViewResponseId != "")
+                                {
+                                    //collect the user response which was already made if the user didn't answer any
+                                    responseId = userListViewResponseId;
+                                }
+                                
+                                //responseId = listViewResponseId;
+//                                console.log('chkbox responseId nul.. collecting from listviewresponseId..' + responseId);
+                                listViewResponseId = "";
+
+                            }
 							otherText = "";
+//                            console.log('select checkbox' + responseId);
 						break;
 					}
 					collResponses[idx].ReasonId = responseId;
@@ -883,8 +1014,6 @@
 					var otherReasonId = "";
 					if(otherText != "" && otherText != undefined){
 						//OtherReasonId
-						//var otherReasonId = $("div.OtherDiv input").attr('id');
-						//otherReasonId = otherReasonId.replace("-txtother", "");
 						collResponses[idx].OtherReasonId = responseId;//otherReasonId;
 						collResponses[idx].ReasonDetails = otherPrefix + otherText.replace(otherPrefix, "");
 					}
@@ -896,21 +1025,18 @@
 					break;
 				}
 			}
-			
-			
-			
-			localStorage.setItem("CollectedResponses", JSON.stringify(collResponses));
+
+            localStorage.setItem("CollectedResponses", JSON.stringify(collResponses));
 			
 			if (isOther) //if other checkbox is enabled
 			{
 				if($.trim(otherText) == '')
 				{
-					//$("#" + responseId + "-txtother").addClass('Error').focus();
 					$('div.OtherDiv input').addClass('Error').focus();
 					canSaveResponse = false;
 				}				
 			}			
-			
+			//canSaveResponse is false when no reason is provided when "Other" reason is selected
 			if (canSaveResponse){
                 //console.log('navigating back..');
 				app1.navigate('#');
@@ -922,28 +1048,17 @@
             }
 		}
 		
-		//Test method
-		function getResponses() {
-			var data = [], idx = 0;			
-			for (; idx < 1000; idx++) {
-			
-				data.push({
-					name: "Name" + idx
-				});
-			}
-
-			return data;
-		}
-		
+        //Gets all the organizations for the questionId.
 		function getOrganizations(){
 			var question, responseForQuestion, questionText;
-		if(eventQuestions == undefined){ //if eventQuestions does not exist, parse it. eventQuestions should have been initialized in DisplayResponses methods			
-			eventQuestions = JSON.parse(localStorage.getItem("questions"));
-		  }
+
+            if(eventQuestions == undefined){ //if eventQuestions does not exist, parse it. eventQuestions should have been initialized in DisplayResponses methods
+                eventQuestions = JSON.parse(localStorage.getItem("questions"));
+            }
 		  
-		  var allQuestions = eventQuestions.Questions;
+            var allQuestions = eventQuestions.Questions;
 		  
-		  for (var idx = 0; idx < allQuestions.length; idx++){
+            for (var idx = 0; idx < allQuestions.length; idx++){
 				question = allQuestions[idx];
 			   if(question.ID == paramQuestionId)
 			   {
@@ -953,10 +1068,11 @@
 				 questionText 			= question.QuestionText;
 				 break;
 			   }
-		  }
-		  $('#spanQuestionText1').text(questionText);
+            }
+            //populate the question text
+            $('#spanQuestionText1').text(questionText);
 		  
-		  return responseForQuestion;
+            return responseForQuestion;
 		}
         </script>
     </body>

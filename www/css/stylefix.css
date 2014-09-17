@@ -109,7 +109,7 @@ div#modalviewAlert.ReasonsAlert.km-widget.km-modalview.km-view
 
 /* Login page */
 .HeaderLogoFix{
-  padding-bottom: 5px;
+  /* padding-bottom: 5px; */
 }
 .WelcomeText{
   /* padding:12.5%; */
@@ -219,8 +219,8 @@ div.gray-div{
 }
 
 .SignInButton{
-	margin-left:4.7%;
-	width:88%
+	margin-left:3.0%; /*4.7%;*/
+	width:90%
 }
 
 .ButtonFix{
@@ -434,23 +434,133 @@ div.km-listview-wrapper input[type="search"]
 }
 
 .LoadMore{
-  background-color: #589FD3 !important;
+/*  background-color: #589FD3 !important;*/
   cursor: pointer;  
 }
 .LoadMore a, .LoadMore a:hover{
 	text-decoration:none;
-	font-weight:bold;
+/*	font-weight:bold; */
+}
+.LoadMore a{
+    margin-left: 45%;
+}
+.AdjustLoadMoreMargin{
+    margin-left: 37% !important;
 }
 
 #divFilterWrap{
- background-color: currentcolor;
+ background-color: #d6d6d6;
+ border-radius: 25px;
+ margin-left:3%;
+ margin-right:2%;
+ height:70%;
 }
+
 #divFilterWrap:before{
-	font-family: 'iwe_fonts';
-	/* content: "\e21e"; */
-	content: "\f002";
+	font-family: 'Kendo UI';
+	content: "\e21e";
+	/*content: "\f002"; -- font-family: iwe fonts*/
+    padding-left:0.5%;
+    color: #aaa !important;
+    vertical-align:middle;
+}
+
+#spanClear{
+    width:4%;
+    padding-bottom:1%;
+    display:inline-block;
+}
+
+/*#divFilterWrap:after{ */
+#spanClear:before{
+	font-family: 'Kendo UI';
+	content: "\e031";
+	/*content: "\f002"; -- font-family: iwe fonts*/
+    color: #aaa !important;
+    vertical-align:middle;
+    zoom:1.2;
+}
+
+@media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait) {
+
+#divFilterWrap > input{
+    width: 90% !important;
+}
+
+#divScrollableListView{
+    height:85vh;
+}
+
 }
 
 #divFilterWrap > input{
-	border: 0;
+    border: 0;
+    padding-top: 0.5%;
+    height: 25px;
+    width: 91%;
+    text-align:center;
+    margin-bottom:0.1%;
+    background-color: #d6d6d6;
+    -webkit-box-shadow:none;
+    box-shadow:none;
+    margin-top:0.5%;
+}
+
+#divFilterWrap > input:focus{
+ text-align: left;
+ border:0;
+ -webkit-box-shadow:none;
+ box-shadow: none;
+}
+
+.FloatTop{
+    -webkit-transform: translateZ(100px);
+    background-color: #ccc;
+    -webkit-backface-visibility: hidden;
+    -webkit-overflow-scrolling: touch;
+}
+
+.ListViewQuestion{
+    width: 50%;
+    display:inline-block !important;
+}
+
+#spanListViewResponse{
+    display: inline-block;
+    width: 45%;
+    padding-top:0.5%;
+    font-style: italic;
+}
+
+#txtAccessKey{
+    display:block;
+}
+
+#txtAccessKey:focus, #txt_app_key:focus{
+    text-transform:uppercase;
+}
+
+#txt_app_key{
+    padding:10px;
+    font-size:100% !important;
+}
+
+.Borderless{
+    border:0 !important;
+    text-align:right;
+    -webkit-box-shadow:none !important;
+    box-shadow: none !important;
+    margin-right:13.5%;
+    font-size:100% !important;
+}
+
+/*Filter textbox - listview*/
+#txtSearchOrg{
+    padding-top:1.2%;
+}
+
+#divScrollableListView{
+    overflow-y:scroll;
+    height:75vh;
+    -webkit-overflow-scrolling: touch;
 }
