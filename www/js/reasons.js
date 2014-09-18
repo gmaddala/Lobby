@@ -423,7 +423,7 @@ function AddOrgs(searchText){
         }
         
         liCount = $('input[name="input-' + paramQuestionId + '"]').length;
-        fromIdx = liCount + 1;
+        fromIdx = liCount;// + 1;
         toIdx = liCount + defaultPageSize + 1;
         //                console.log(' search result#:' + searchResults.length);
         
@@ -499,7 +499,7 @@ function GetSearchResults(searchText){
     var retResults = [], org;
     //total number of Organizations
     var allOrgs = JSON.parse(localStorage.getItem("allOrgs"));
-    
+
     for(var idx = 0; idx < allOrgs.length; idx++){
         org = allOrgs[idx].Text.toLowerCase();
         //apply 'contains' filter
@@ -507,6 +507,7 @@ function GetSearchResults(searchText){
             //add li
             retResults.push(allOrgs[idx]);
         }
+     
     }
     
     return retResults;
@@ -588,8 +589,8 @@ function DisplayResponses(e){
         }//for
         
         //Continue button
-        $("#ulResponses").append('<li><a data-role="button" id="continueBtn" class="button">Continue</a></li>');
-        e.view.element.find("#continueBtn").kendoMobileButton({click: SubmitReasons});
+//        $("#ulResponses").append('<li><a data-role="button" id="continueBtn" class="button">Continue</a></li>');
+//        e.view.element.find("#continueBtn").kendoMobileButton({click: SubmitReasons});
     }
     else{//Build questions and responses if there're more than 2 questions
         BuildQuestionsAndResponses(q_array, e);
@@ -688,8 +689,8 @@ function BuildQuestionsAndResponses(q_array, e){
         
         localStorage.setItem("CollectedResponses", JSON.stringify(collectedResponses));
         //Continue button
-        $("#divQuestions").append('<div id="divContinueButton" class="ContinueButtonPadding"><a data-role="button" id="continueBtn" class="button">Continue</a></div>');
-        e.view.element.find("#continueBtn").kendoMobileButton({click: SubmitReasons});
+        //$("#divQuestions").append('<div id="divContinueButton" class="ContinueButtonPadding"><a data-role="button" id="continueBtn" class="button">Continue</a></div>');
+        //e.view.element.find("#continueBtn").kendoMobileButton({click: SubmitReasons});
     }
     else{
         //load responses for the questions
@@ -842,11 +843,11 @@ function ShowResponsePage(e){
     
     if (canDisplayListView == "true"){
         //load a different view to display response in a listview. Loading the dynamic listview response in 'divCompleteResponseView' had some rendering problems
-        app1.navigate("#LocalListView");
+        app1.navigate("#LocalListView", "slide:left");
     }
     else
     {
-        app1.navigate("#divCompleteResponseView");
+        app1.navigate("#divCompleteResponseView", "slide:left");
     }
 }
 

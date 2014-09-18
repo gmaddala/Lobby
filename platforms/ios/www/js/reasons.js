@@ -301,147 +301,6 @@ function SubmitIntake(myJsonObj)
            });
 }
 
-function SetUpComboBox(questionID)
-{
-    $('#div_reason_list_' + questionID).append('<div class="ui-widget" style="width:100%;"><select id="combobox_' + questionID + '" class="select-combo-box"></select></div>');
-    (function( $ ) {
-     $.widget( "custom.combobox", {
-              _create: function() {
-              this.wrapper = $( "<span>" )
-              .addClass( "" )
-              .insertAfter( this.element );
-              
-              this.element.hide();
-              this._createAutocomplete();
-              this._createShowAllButton();
-              },
-              
-              _createAutocomplete: function() {
-              var selected = this.element.children( ":selected" ),
-              value = selected.val() ? selected.text() : "";
-              
-              this.input = $( "<input>" )
-              .appendTo( this.wrapper )
-              .val( value )
-              .attr( "title", "" )
-              .addClass( "select-combobox-input" )
-              .autocomplete({
-                            delay: 0,
-                            minLength: 0,
-                            source: $.proxy( this, "_source" )
-                            })
-              .tooltip({
-                       tooltipClass: "ui-state-highlight"
-                       });
-              
-              this._on( this.input, {
-                       autocompleteselect: function( event, ui ) {
-                       ui.item.option.selected = true;
-                       this._trigger( "select", event, {
-                                     item: ui.item.option
-                                     });
-                       },
-                       
-                       autocompletechange: "_removeIfInvalid"
-                       });
-              },
-              
-              _createShowAllButton: function() {
-              var input = this.input,
-              wasOpen = false;
-              
-              $( "<a>" )
-              .attr( "tabIndex", -1 )
-              .attr( "title", "" )
-              .tooltip()
-              .appendTo( this.wrapper )
-              .button({
-                      icons: {
-                      primary: "ui-icon-triangle-1-s"
-                      },
-                      text: false
-                      })
-              .removeClass( "ui-corner-all" )
-              .addClass( "select-combobox-button" )
-              .mousedown(function() {
-                         wasOpen = input.autocomplete( "widget" ).is( ":visible" );
-                         })
-              .click(function() {
-                     input.focus();
-                     
-                     // Close if already visible
-                     if ( wasOpen ) {
-                     return;
-                     }
-                     
-                     // Pass empty string as value to search for, displaying all results
-                     input.autocomplete( "search", "" );
-                     });
-              },
-              
-              _source: function( request, response ) {
-              var matcher = new RegExp( $.ui.autocomplete.escapeRegex(request.term), "i" );
-              response( this.element.children( "option" ).map(function() {
-                                                              var text = $( this ).text();
-                                                              if ( this.value && ( !request.term || matcher.test(text) ) )
-                                                              return {
-                                                              label: text,
-                                                              value: text,
-                                                              option: this
-                                                              };
-                                                              }) );
-              },
-              
-              _removeIfInvalid: function( event, ui ) {
-              
-              // Selected an item, nothing to do
-              if ( ui.item ) {
-              return;
-              }
-              
-              // Search for a match (case-insensitive)
-              var value = this.input.val(),
-              valueLowerCase = value.toLowerCase(),
-              valid = false;
-              this.element.children( "option" ).each(function() {
-                                                     if ( $( this ).text().toLowerCase() === valueLowerCase ) {
-                                                     this.selected = valid = true;
-                                                     return false;
-                                                     }
-                                                     });
-              
-              // Found a match, nothing to do
-              if ( valid ) {
-              return;
-              }
-              
-              // Remove invalid value
-              this.input
-              .val( "" )
-              .attr( "title", value + " didn't match any item" )
-              .tooltip( "open" );
-              this.element.val( "" );
-              this._delay(function() {
-                          this.input.tooltip( "close" ).attr( "title", "" );
-                          }, 2500 );
-              this.input.autocomplete( "instance" ).term = "";
-              },
-              
-              _destroy: function() {
-              this.wrapper.remove();
-              this.element.show();
-              }
-              });
-     })( jQuery );
-    
-    $(function() {
-      $( "#combobox_" + questionID ).combobox();
-      $( "#toggle" ).click(function() {
-                           $( "#combobox_" + questionID ).toggle();
-                           });
-      });
-}
-
 //moved from reasons.html
 var app1, paramQuestionId, eventQuestions, otherPrefix = "[Other] - ";
 function Initialize(){
@@ -564,7 +423,7 @@ function AddOrgs(searchText){
         }
         
         liCount = $('input[name="input-' + paramQuestionId + '"]').length;
-        fromIdx = liCount + 1;
+        fromIdx = liCount;// + 1;
         toIdx = liCount + defaultPageSize + 1;
         //                console.log(' search result#:' + searchResults.length);
         
@@ -640,16 +499,26 @@ function GetSearchResults(searchText){
     var retResults = [], org;
     //total number of Organizations
     var allOrgs = JSON.parse(localStorage.getItem("allOrgs"));
-    
+    console.log('search text:'+ searchText);
     for(var idx = 0; idx < allOrgs.length; idx++){
         org = allOrgs[idx].Text.toLowerCase();
+        if(searchText == "aa"){
+            //console.log('from cache..' + org);
+        }
         //apply 'contains' filter
         if(org.indexOf(searchText) != -1){
+        if(searchText == "aa"){
+           // console.log("contains match: "+org + " index:" + idx);
+        }
             //add li
             retResults.push(allOrgs[idx]);
         }
+     
     }
     
+    if(searchText == "aa"){
+        console.log(retResults);
+    }
     return retResults;
 }
 
@@ -683,30 +552,7 @@ function DisplayResponses(e){
             
             $("#ulResponses").append("<li><span class='span-question-text'>" + question.QuestionText + "</span><div><ul id='ul_" + question.ID + "'></ul></div></li>");
             
-            var inputtype = "checkbox";
-            
-            if(question.ResponsesType == "1")
-            {
-                inputtype = "radio";
-            }
-            else if(question.ResponsesType == "2")
-            {
-                inputtype = "checkbox";
-            }
-            else if(question.ResponsesType == "3")
-            {
-                inputtype = "selectbox";
-                //SetUpComboBox(question.ID);
-            }
-            else if (question.ResponsesType == "4")
-            {
-                inputtype = "textbox";
-            }
-            else if (question.ResponsesType == "5")
-            {
-                inputtype = "numerictextbox";
-            }
-            
+            var inputtype = GetResponseControlType(question.ResponsesType);//"checkbox";
             var responses = question.Responses;
             
             e.view.content.append($('<ul ></ul>'));
@@ -722,7 +568,7 @@ function DisplayResponses(e){
                 
                 e.view.element.find("#ul_" + question.ID).data("kendoMobileListView").append(responses);
             }
-            else if(inputtype == "selectbox")
+            else if(inputtype == "select")//selectbox
             {
                 //Please select/start typing...
                 var defaultEntry = JSON.parse('{"ID":-1,"Text":"","Description":"Select","OpensTextbox":false}');
@@ -752,8 +598,8 @@ function DisplayResponses(e){
         }//for
         
         //Continue button
-        $("#ulResponses").append('<li><a data-role="button" id="continueBtn" class="button">Continue</a></li>');
-        e.view.element.find("#continueBtn").kendoMobileButton({click: SubmitReasons});
+//        $("#ulResponses").append('<li><a data-role="button" id="continueBtn" class="button">Continue</a></li>');
+//        e.view.element.find("#continueBtn").kendoMobileButton({click: SubmitReasons});
     }
     else{//Build questions and responses if there're more than 2 questions
         BuildQuestionsAndResponses(q_array, e);
@@ -852,8 +698,8 @@ function BuildQuestionsAndResponses(q_array, e){
         
         localStorage.setItem("CollectedResponses", JSON.stringify(collectedResponses));
         //Continue button
-        $("#divQuestions").append('<div id="divContinueButton" class="ContinueButtonPadding"><a data-role="button" id="continueBtn" class="button">Continue</a></div>');
-        e.view.element.find("#continueBtn").kendoMobileButton({click: SubmitReasons});
+        //$("#divQuestions").append('<div id="divContinueButton" class="ContinueButtonPadding"><a data-role="button" id="continueBtn" class="button">Continue</a></div>');
+        //e.view.element.find("#continueBtn").kendoMobileButton({click: SubmitReasons});
     }
     else{
         //load responses for the questions
@@ -1006,11 +852,11 @@ function ShowResponsePage(e){
     
     if (canDisplayListView == "true"){
         //load a different view to display response in a listview. Loading the dynamic listview response in 'divCompleteResponseView' had some rendering problems
-        app1.navigate("#LocalListView");
+        app1.navigate("#LocalListView", "slide:left");
     }
     else
     {
-        app1.navigate("#divCompleteResponseView");
+        app1.navigate("#divCompleteResponseView", "slide:left");
     }
 }
 
@@ -1220,6 +1066,9 @@ function GetResponseControlType(responseControlTypeId)
         case 4:
             responseControlType = "textbox"
             break;
+		case 5:
+			responseControlType = "numerictextbox";
+			break;
     }
     
     return responseControlType;

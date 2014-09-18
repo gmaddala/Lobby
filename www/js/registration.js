@@ -97,11 +97,42 @@ function Register()
         if(submitIntake)
         {
             var jsonobj = SetUpIntakeJSONObj();
-            SubmitIntake(jsonobj);
+            SubmitIntake1(jsonobj);
         }
         else
         {
             window.open("reasons.html", "_self");
         }
     }
+}
+
+function SubmitIntake1(myJsonObj)
+{
+    $.ajax({
+           type: "POST",
+           contentType: "application/json; charset=utf-8",
+           url: "http://sait-test.uclanet.ucla.edu/sawebnew2/api/submitstudentinfo",
+           dataType: "json",
+           data: JSON.stringify(
+                                myJsonObj
+                                ),
+           beforeSend: function(){
+           loading();
+           },
+           success: function(data){
+           //Reset CollectedResponses on successful submission
+           localStorage.setItem("CollectedResponses", JSON.stringify(""));
+           window.open("thankyou.html", "_self");
+           },
+           error: function (jqXHR, textStatus, errorThrown) {
+           showNativeDialog("An error has occurred. Please try again." + jqXHR.responseText);
+           //alert("The access key you entered is incorrect. Please click 'Retry' to reenter your access key.");
+           //alert(jqXHR.responseText + ";\n\n" + textStatus + ";\n\n" + errorThrown);
+           //showNativeDialog("Error while checking in. Please contact the administrator");
+           },
+           complete: function(){
+           endLoading();
+           }
+           
+           });
 }

@@ -564,3 +564,8 @@ div.km-listview-wrapper input[type="search"]
     height:75vh;
     -webkit-overflow-scrolling: touch;
 }
+
+.LoginTextBox{
+    font-size: 100% !important;
+    height:1em !important;
+}

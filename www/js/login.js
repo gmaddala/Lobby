@@ -174,11 +174,12 @@ function SetStudentData(jsonobj, submitIntake)
 {
 		if(jsonobj.Data.IsValidLogon == true)
             {
-                localStorage.setItem("uid", jsonobj.Data.DictionaryUserInfo.UID);
-                localStorage.setItem("firstname", jsonobj.Data.DictionaryUserInfo.FirstName)
-                localStorage.setItem("lastname", jsonobj.Data.DictionaryUserInfo.LastName);
-                localStorage.setItem("phone", jsonobj.Data.DictionaryUserInfo.Phone);
-                localStorage.setItem("email", jsonobj.Data.DictionaryUserInfo.Email);
+                var dictionaryObj = jsonobj.Data.DictionaryUserInfo;
+                localStorage.setItem("uid", dictionaryObj.UID);
+                localStorage.setItem("firstname", dictionaryObj.FirstName)
+                localStorage.setItem("lastname", dictionaryObj.LastName);
+                localStorage.setItem("phone", dictionaryObj.Phone);
+                localStorage.setItem("email", dictionaryObj.Email);
                 if(!submitIntake)
                 {
                     window.open("reasons.html", "_self");
@@ -330,7 +331,7 @@ function OverrideHelp(e)
 
 function ClickRegistration()
 {
-    loading();
+//    loading();
     app.stopCardReader();
     location.href='registration.html';
     
@@ -453,7 +454,8 @@ function InitForm(){
     {
         initialView = "not_anon";
         $("#not_anon").removeClass("invisible");
-        $('#txt_logon').val('').focus();
+        console.log('set default focus');
+        setTimeout(function(){console.log('focussing..');$('#txt_logon').val('').focus();}, 800);
         $("#body").addClass("molecules-bg");
     }
 }
