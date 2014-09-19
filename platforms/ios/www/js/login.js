@@ -113,8 +113,15 @@ function ClickLogon(){
 
 
 function SignInWithUclaLogon(){
-    app.stopCardReader();
-	SignIn($('#txt_logon').val());
+    var uclaLogon = $.trim($('#txt_logon').val());
+    if(uclaLogon != ""){
+        app.stopCardReader();
+        SignIn($('#txt_logon').val());
+    }
+    else
+    {
+        ShowFlashMessage("Please enter your UCLA logon");
+    }
 }
 
 var startTimer1;
@@ -144,21 +151,20 @@ function SignIn(logon, isCardreader){
 				   loading();
 				   },
 				   success: function(data){
-					//alert(data);
-					var jsonobj = JSON.parse(data);
-					SetStudentData(jsonobj, submitIntake);
+                        var jsonobj = JSON.parse(data);
+                        SetStudentData(jsonobj, submitIntake);
 					
 					//window.open("login.html?key=" + $('#txtAccessKey').val() + "&deptname=" + jsonobj.Data.DeptName ,"_self");
 				   },
 				   error: function (jqXHR, textStatus, errorThrown) {
-				   //showDialog("Invalid UCLA logon");
-				   ShowFlashMessage("Invalid UCLA logon");
-                   app.startCardReader();
-				   //alert(jqXHR + ";\n\n" + textStatus + ";\n\n" + errorThrown);
+                        //showDialog("Invalid UCLA logon");
+                        ShowFlashMessage("Invalid UCLA logon");
+                        app.startCardReader();
+                        //alert(jqXHR + ";\n\n" + textStatus + ";\n\n" + errorThrown);
 				   },
 				   complete: function(){
-				   $('body').removeClass('ajax-spinner');
-				   }
+                            endLoading();
+                        }
 				   });
 //           alert((endTimer1 - startTimer1));
 		 }
@@ -199,10 +205,9 @@ function SetStudentData(jsonobj, submitIntake)
 				ShowFlashMessage("Error: Invalid logon");
 
                 //Remove loading image
-                $('body').removeClass('ajax-spinner');
+                endLoading();
                 //Remove loading image on kendo div - <div class="k-loading-mask ajax-spinner" style="width:100%;height:100%"></div>
-                $('div.ajax-spinner').removeClass('ajax-spinner');
-                $('#txt_logon').focus();
+                //$('#txt_logon').focus();
                 app.startCardReader();
             }
 }
@@ -273,9 +278,8 @@ function CheckIn(logon, isoverride, isCardreader){
            //alert(jqXHR + ";\n\n" + textStatus + ";\n\n" + errorThrown);
            },
            complete: function(){
-           //$('body').removeClass('ajax-spinner');
-           endLoading();
-           }
+                    endLoading();
+                }
            });
 }
 
@@ -340,25 +344,24 @@ function ClickRegistration()
 function ValidateAppKey(){
 	  var key = $("#txt_app_key").val();
 	  if(key == null || key == "")
-	  {
-	  //do nothing
+	  {//highlight the error field
+          $("#txt_app_key").addClass("Error");
 	  }
 	  else if(key == localStorage.getItem("key"))
 	  {
-	  console.log('checking..');
-		app.stopCardReader();
+          $("#txt_app_key").removeClass("Error");
+          app.stopCardReader();
 
-		localStorage.setItem("key", "null");
-		console.log('opening..');
-		window.open("index.html", "_self");
-		//window.location.href = "index.html";
+          localStorage.setItem("key", "null");
+          window.open("index.html", "_self");
 	  }
 	  else
 	  {
-		//$(this).dialog("close");
-		HideReconfigureLobbyDialog();
-		//showDialog("Incorrect key");
-		ShowFlashMessage("Incorrect key");
+          $("#txt_app_key").addClass("Error");
+          //$(this).dialog("close");
+          HideReconfigureLobbyDialog();
+          //showDialog("Incorrect key");
+          ShowFlashMessage("Incorrect key");
 	  }
 }
 
@@ -373,6 +376,7 @@ function HideReconfigureLobbyDialog() {
 function ShowFlashMessage(message){
 	$('#spanFlashMessage').text(message);
 	$("#modalviewFlash").kendoMobileModalView("open");
+    $(".ContentWithRoundedCorners").parent().addClass("ContentWithRoundedCorners");
 	//auto close the message after 1s
 	window.setTimeout(function(){
                                   $("#modalviewFlash").kendoMobileModalView("close");
@@ -467,5 +471,11 @@ function FocusLoginControl()
 //    $('#txt_logon').focus();
     setTimeout(function(){console.log('focussing..');
                $('#txt_logon').focus();
-               }, 500);
+               }, 200);
+}
+
+function DisplayReconfigureLobbyDialog(){
+    $("#txt_app_key").val("").removeClass("Error");
+    $(".ContentWithRoundedCorners").parent().addClass("ContentWithRoundedCorners");
+    $("#dialog-modal").kendoMobileModalView("open");
 }

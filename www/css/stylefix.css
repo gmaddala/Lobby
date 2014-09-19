@@ -127,14 +127,14 @@ div#modalviewAlert.ReasonsAlert.km-widget.km-modalview.km-view
 
 .ReconfigureLobby{
 padding-left: 3% !important;
-padding-bottom: 2%;
-padding-top: 2%;
+padding-bottom: 3%;
+padding-top: 0%;
 /* custom background style */
 background: #fff;
 }
 
 .ReconfigureLobbyButton{
-width: 42%;
+width: 40.5%;
 height: 20px;
 padding: 2%;
 color: #3284bf !important;
@@ -568,4 +568,22 @@ div.km-listview-wrapper input[type="search"]
 .LoginTextBox{
     font-size: 100% !important;
     height:1em !important;
+}
+
+/* Modal box title with rounded corners */
+.TitleWithRoundedCorners
+{
+    border-radius:10px !important;
+    border-bottom-left-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+}
+/* Modal box content with rounded corners */
+.ContentWithRoundedCorners{
+    border-radius:10px !important;
+    border-top-left-radius: 0px !important;
+    border-top-right-radius: 0px !important;
+}
+
+.TextBoxFix{
+    height: 100% !important;
 }

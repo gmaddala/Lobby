@@ -109,7 +109,7 @@
 					<div>
 						<img src="img/logo-ucla.png" class="header-logo HeaderLogoFix" />
 						<span id="DeptName" class="header-text"></span>
-						<a data-role="button" class="button large link-button" data-rel="modalview" href="#dialog-modal">Close</a>
+						<a data-role="button" class="button large link-button" data-click="DisplayReconfigureLobbyDialog">Close</a>
 					</div>
 					
 				</div>
@@ -139,7 +139,7 @@
 					<div>
 						<img src="img/logo-ucla.png" class="header-logo HeaderLogoFix" />
 						<span id="DeptName" class="header-text"></span>
-						<a data-role="button" class="button large link-button" data-rel="modalview" href="#dialog-modal">Close</a>
+						<a data-role="button" class="button large link-button" href="#dialog-modal">Close</a>
 					</div>
 					
 				</div>				
@@ -149,15 +149,15 @@
 		<!-- modal dialog to reconfigure lobby -->
 		<div data-role="modalview" id="dialog-modal">
 			<div data-role="header">
-				<div data-role="navbar">
+				<div data-role="navbar" class="TitleWithRoundedCorners">
 					<span data-title="view-title">Reconfigure Lobby</span>
 				</div>
 			</div>
 		   <div class="horizontal-center ReconfigureLobby">
 				<span>Please enter Application Key</span>
-				<input id="txt_app_key" type="text" class="textbox"/>
+				<input id="txt_app_key" type="text" class="textbox TextBoxFix" MaxLength="6"/>
 			</div>
-			<div class="ReconfigureLobby">
+			<div class="ReconfigureLobby ContentWithRoundedCorners">
 				<a data-role="button" class="modal-double-button-left ReconfigureLobbyButton" data-click="HideReconfigureLobbyDialog"> Cancel</a>				
 				<a data-role="button" class="modal-double-button-right important ReconfigureLobbyButton SubmitButton" data-click="ValidateAppKey"> Submit</a>
 			</div>
@@ -166,35 +166,35 @@
 		<!-- modal to display alert messages -->
 		<div data-role="modalview" id="modalviewAlert" style="width: 50%;">
 				<div data-role="header">
-					<div data-role="navbar">
+					<div data-role="navbar" class="TitleWithRoundedCorners">
 						<span>Alert</span>
 						<a data-click="HideNativeDialog" data-role="button" data-align="right" style="background:none;color:#3284bf;">Close</a>
 					</div>
 				</div>					   
-				<div class="modalContent">
+				<div class="modalContent ContentWithRoundedCorners">
 					<span id="spanAlertMessage" class="AlertText"></span> 
 			   </div>
 		</div>
         <!-- modal to display alert messages -->
 		<div data-role="modalview" id="modalviewAlertCardReader" style="width: 50%;">
             <div data-role="header">
-                <div data-role="navbar">
+                <div data-role="navbar" class="TitleWithRoundedCorners">
                     <span>Alert</span>
                     <a data-click="FailedCardSwipe" data-role="button" data-align="right" style="background:none;color:#3284bf;">Close</a>
                 </div>
             </div>
-            <div class="modalContent">
+            <div class="modalContent ContentWithRoundedCorners">
                 <span id="spanAlertMessageCardReader" class="AlertText"></span>
             </div>
 		</div>
 		<!-- modal to display flash message -->
 		<div data-role="modalview" id="modalviewFlash" style="width: 50%;">
 				<div data-role="header">
-					<div data-role="navbar">
+					<div data-role="navbar" class="TitleWithRoundedCorners">
 						<span>Error</span>						
 					</div>
 				</div>					   
-			<div class="modalContent">	
+			<div class="modalContent ContentWithRoundedCorners">
 				<span id="spanFlashMessage" class="AlertText"></span> 				   
 			</div>
 		</div>
