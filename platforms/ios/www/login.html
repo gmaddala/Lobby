@@ -33,10 +33,12 @@
                 padding-top:0 !important;
             }
         </style>
-        
+        <link rel="stylesheet" href="styles/kendo.common.min.css">
+        <link rel="stylesheet" href="styles/kendo.default.min.css">
         <link href="styles/kendo.mobile.all.min.css" rel="stylesheet" />
 		<link href="css/stylefix.css" rel="stylesheet" />
-        <script src="js/jquery.min.js"></script>
+        <!-- <script src="js/jquery.min.js"></script> -->
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
         <!-- <script src="js/angular.min.js"></script> -->
         <script src="js/kendo.all.min.js"></script>
 
@@ -54,12 +56,13 @@
 <a data-role="button" class="button large panel-button horizontal-center ButtonFix" data-click="ClickRegistration" id="btn-register" data-transition="slide"><span><br/>Press here to register</span> <span class="arrow arrowFix"><i class="icon-chevron-right"></i></span></a>
                 </div>
             </div>
-		<div data-role="view" id="viewSigninWithUclaLogon" data-layout="LayoutWithoutUclaLogo" data-show="InitForm">
+		<div data-role="view" id="viewSigninWithUclaLogon" data-layout="LayoutWithoutUclaLogo" data-show="InitForm" data-transition-end="FocusLoginControl">
 				<div id="div_logon" class="gray-div horizontal-center">
 							<input id="txt_logon" type="text" class="horizontal-center textbox LoginTextBox" placeholder="Enter your UCLA Logon ID" style="display:block;"/>
 							<a data-role="button" class="LongButton SignInButton" data-click="SignInWithUclaLogon">Sign In</a>
                 </div>
 		</div>
+        
 		<!-- Anonymous view -->
 		<div data-role="view" id="anon" class="white-button" data-layout="LayoutWithUclaLogo">
 				<div class="DivAnonymousContinueButton">

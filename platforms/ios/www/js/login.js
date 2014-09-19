@@ -454,9 +454,18 @@ function InitForm(){
     {
         initialView = "not_anon";
         $("#not_anon").removeClass("invisible");
-        console.log('set default focus');
-        setTimeout(function(){console.log('focussing..');$('#txt_logon').val('').focus();}, 800);
+//        console.log('set default focus');
+//        setTimeout(function(){console.log('focussing..');$('#txt_logon').val('').focus();}, 800);
         $("#body").addClass("molecules-bg");
     }
 }
 
+
+function FocusLoginControl()
+{
+    console.log('transition end.. focussing..');
+//    $('#txt_logon').focus();
+    setTimeout(function(){console.log('focussing..');
+               $('#txt_logon').focus();
+               }, 500);
+}

@@ -499,26 +499,17 @@ function GetSearchResults(searchText){
     var retResults = [], org;
     //total number of Organizations
     var allOrgs = JSON.parse(localStorage.getItem("allOrgs"));
-    console.log('search text:'+ searchText);
+
     for(var idx = 0; idx < allOrgs.length; idx++){
         org = allOrgs[idx].Text.toLowerCase();
-        if(searchText == "aa"){
-            //console.log('from cache..' + org);
-        }
         //apply 'contains' filter
         if(org.indexOf(searchText) != -1){
-        if(searchText == "aa"){
-           // console.log("contains match: "+org + " index:" + idx);
-        }
             //add li
             retResults.push(allOrgs[idx]);
         }
      
     }
     
-    if(searchText == "aa"){
-        console.log(retResults);
-    }
     return retResults;
 }
 
