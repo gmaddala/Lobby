@@ -82,6 +82,7 @@ function showDialog(message) {
 function showNativeDialog(msg) {
 	$('#spanAlertMessage').text(msg);
 	$("#modalviewAlert").kendoMobileModalView("open");
+    $('#divContent').parent().parent().addClass('FlexFix');
 }
 			
 function HideNativeDialog() {			

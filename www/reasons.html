@@ -109,14 +109,20 @@
 		<!-- modal to display alert messages -->
 		<div data-role="modalview" id="modalviewAlert" class="ReasonsAlert">
 				<div data-role="header">
-					<div data-role="navbar">
+					<div data-role="navbar" class="TitleWithRoundedCorners">
 						<span>Alert</span>
-						<a data-click="HideNativeDialog" data-role="button" data-align="right" style="background:none;color:#3284bf;">Close</a>
+						<!--<a data-click="HideNativeDialog" data-role="button" data-align="right" style="background:none;color:#3284bf;">Close</a> -->
 					</div>
 				</div>
-				<div class="modalContent">
-					<span id="spanAlertMessage" class="AlertText"></span> 
-			    </div>
+                    <div class="modalContent ContentWithRoundedCorners FlexFix" id="divContent">
+                        <span id="spanAlertMessage" class="AlertText"></span>
+                    </div>
+
+                <div data-role="footer">
+                    <div class="ContentWithRoundedCorners iOSLikeOkContainer">
+                        <a data-role="button" class="modal-double-button-left iOSLikeOkButton" data-click="HideNativeDialog">OK</a>
+                    </div>
+                </div>
 		</div>
 		
         

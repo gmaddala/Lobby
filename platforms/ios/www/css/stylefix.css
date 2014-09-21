@@ -66,8 +66,13 @@ div#modalviewAlert.ReasonsAlert.km-widget.km-modalview.km-view
 
 .modalContent{
     background-color: #fff;
-    padding:15px;
+ /*   padding:15px; */
+    padding-bottom: 1%;
     text-align:center;
+}
+
+.FlexFix{
+    -webkit-flex: none !important;
 }
 
 .closeModal{
@@ -134,7 +139,7 @@ background: #fff;
 }
 
 .ReconfigureLobbyButton{
-width: 40.5%;
+width: 44%;
 height: 20px;
 padding: 2%;
 color: #3284bf !important;
@@ -491,6 +496,14 @@ div.km-listview-wrapper input[type="search"]
     height:85vh;
 }
 
+.inner-addon .glyphicon {
+  padding-top: 4.5% !important;
+}
+
+.ReconfigureLobbyButton{
+    width: 40.5% !important;
+}
+
 }
 
 #divFilterWrap > input{
@@ -576,6 +589,14 @@ div.km-listview-wrapper input[type="search"]
     border-radius:10px !important;
     border-bottom-left-radius: 0px !important;
     border-bottom-right-radius: 0px !important;
+/* styles to make it iOS7 like */
+    border-top:solid 1px #ddd;
+    padding-bottom:0px;
+}
+/* styles to make it iOS7 like */
+.TitleWithRoundedCorners.km-widget.km-navbar{
+    background-color: #fff;
+    border-width: 0px;
 }
 /* Modal box content with rounded corners */
 .ContentWithRoundedCorners{
@@ -584,6 +605,74 @@ div.km-listview-wrapper input[type="search"]
     border-top-right-radius: 0px !important;
 }
 
+.iOSLikeContainer{
+    border-top:solid 1px #ddd !important;
+    padding-bottom:0px;
+}
+.iOSLikeButtonLeft{
+    border:0px !important;
+    border-right:solid 1px #ddd !important;
+    border-top-right-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+    -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
+}
+
+.iOSLikeButtonLeft:active, .iOSLikeButtonRight:active, .iOSLikeOkContainer:active{
+    background: #eee;
+    color: #3284bf !important;
+}
+.iOSLikeButtonRight{
+    border:0px !important;
+    -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
+}
+
 .TextBoxFix{
     height: 100% !important;
+}
+
+
+/* enable absolute positioning */
+.inner-addon { 
+    position: relative; 
+}
+
+/* style icon */
+.inner-addon .glyphicon {
+  position: absolute;
+  padding-top: 3.3%;
+  pointer-events: none;
+}
+
+/* align icon */
+.left-addon .glyphicon  { left:  0px;}
+.right-addon .glyphicon { right: 7%;}
+
+/* add padding  */
+.left-addon input  { padding-left:  30px; }
+.right-addon input { padding-right: 2%; }
+
+#divAppKey>i{
+    color:#FF6666;
+    zoom:1.2;
+}
+
+.TitleWithRoundedCorners > div{
+    line-height:2em !important;
+}
+
+.iOSLikeOkButton{
+    width:100% !important;
+/*    padding-bottom:5% !important; */
+    border:0px !important;
+
+}
+
+.iOSLikeOkContainer{
+    padding-left:0% !important;
+    padding-bottom: 0% !important;
+    border-top:solid 1px #ccc;
+    border-radius:10px !important;
+    border-top-left-radius: 0px !important;
+    border-top-right-radius: 0px !important;
+    background-color:#fff;
 }

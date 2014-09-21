@@ -409,7 +409,7 @@ function AddOrgs(searchText){
     //get the user response from collected response obj
     userListViewResponseId = GetUserResponse(paramQuestionId, "Id");
     //            console.log('selected response..' + selectedResponse + " userlistviewresponseid:"+ userListViewResponseId + " listviewResponseId:" + listViewResponseId);
-    $('#liLoadMore').remove();
+//    $('#liLoadMore').remove();
     
     if(searchText != "" && searchText != undefined){//if search text is available, clear all the li items
         searchText = searchText.toLowerCase();
@@ -433,6 +433,7 @@ function AddOrgs(searchText){
                 $("#local-filterable-listview1").append(searchResults[idx].li);
             }
         }
+
         
         if (toIdx < searchResults.length && $('#liLoadMore').attr('id') == undefined){
             $("#local-filterable-listview1").append("<li id='liLoadMore' data-click='SearchOrg' class='LoadMore'><a data-role='button' data-click='SearchOrg' onclick='SearchOrg' class='AdjustLoadMoreMargin'>Load more search results...</a></li>");
@@ -465,6 +466,8 @@ function AddOrgs(searchText){
             }
         }
         
+//        $('#liLoadMore').remove();
+        
         if (toIdx < totalLi && $('#liLoadMore').attr('id') == undefined){
             $("#local-filterable-listview1").append("<li id='liLoadMore' data-click='LoadMoreOrgs' class='LoadMore'><a data-role='button' data-click='LoadMoreOrgs' onclick='LoadMoreOrgs'>Load more...</a></li>");
             //                    $('#liLoadMore').removeClass("km-listview-link").bind('click', LoadMoreOrgs);
@@ -478,6 +481,7 @@ function AddOrgs(searchText){
                                                                });
     }
     
+            $('#liLoadMore').first().remove();
     if(selectedResponse != undefined && selectedResponse != ""){
         RestoreUserSelection(selectedResponse);
     }

@@ -53,7 +53,7 @@ var app = {
             };
             var error = function(message) {
                 //alert(message);
-				showCardReaderErrorAlert("Error: Please reswipe card");
+				showCardReaderErrorAlert("Please reswipe card");
                 /*
                 $( "#dialog" ).on( "dialogclose", function( event, ui ) {
                                   app.stopCardReader();
@@ -115,12 +115,14 @@ function ClickLogon(){
 function SignInWithUclaLogon(){
     var uclaLogon = $.trim($('#txt_logon').val());
     if(uclaLogon != ""){
+        $('#txt_logon').removeClass('Error');
         app.stopCardReader();
         SignIn($('#txt_logon').val());
     }
     else
     {
-        ShowFlashMessage("Please enter your UCLA logon");
+        //ShowFlashMessage("Please enter your UCLA logon");
+        $('#txt_logon').addClass('Error');
     }
 }
 
@@ -202,7 +204,7 @@ function SetStudentData(jsonobj, submitIntake)
 		else
             {
                 //showDialog("Error: Invalid logon");
-				ShowFlashMessage("Error: Invalid logon");
+				ShowFlashMessage("Invalid logon");
 
                 //Remove loading image
                 endLoading();
@@ -350,6 +352,7 @@ function ValidateAppKey(){
 	  else if(key == localStorage.getItem("key"))
 	  {
           $("#txt_app_key").removeClass("Error");
+          $("#txt_app_key").next().addClass("DisplayNone");
           app.stopCardReader();
 
           localStorage.setItem("key", "null");
@@ -357,11 +360,12 @@ function ValidateAppKey(){
 	  }
 	  else
 	  {
-          $("#txt_app_key").addClass("Error");
+          $("#txt_app_key").removeClass("Error");
+         $("#txt_app_key").next().removeClass("DisplayNone");
           //$(this).dialog("close");
-          HideReconfigureLobbyDialog();
+          //HideReconfigureLobbyDialog();
           //showDialog("Incorrect key");
-          ShowFlashMessage("Incorrect key");
+          //ShowFlashMessage("Incorrect key");
 	  }
 }
 
