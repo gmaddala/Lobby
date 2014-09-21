@@ -430,7 +430,19 @@ function AddOrgs(searchText){
         for (var idx = fromIdx; idx < toIdx; idx++)
         {
             if (searchResults[idx] != undefined){
-                $("#local-filterable-listview1").append(searchResults[idx].li);
+
+                if(idx == fromIdx){
+                    //input type='radio'
+                    var tempLiText =searchResults[idx].li;
+                    tempLiText = tempLiText.replace("input type='radio'", "input type='radio' disabled='disabled'");
+                    
+                    $("#local-filterable-listview1").append(tempLiText);
+                    setTimeout(function(){$('input[type="radio"]:disabled').removeAttr('disabled');}, 500);
+                }
+                else
+                {
+                    $("#local-filterable-listview1").append(searchResults[idx].li);
+                }
             }
         }
         
@@ -460,8 +472,20 @@ function AddOrgs(searchText){
         
         for (var idx = fromIdx; idx < toIdx; idx++)
         {
-            if (allOrgs[idx] != undefined){
-                $("#local-filterable-listview1").append(allOrgs[idx].li);
+            if (allOrgs[idx] != undefined){console.log('disabling and enabling');
+//                $("#local-filterable-listview1").append(allOrgs[idx].li);
+                if(idx == fromIdx){//fix to prevent accidentally checking the first control which replaces the 'Load more' button
+                    //input type='radio'
+                    var tempLiText =allOrgs[idx].li;
+                    tempLiText = tempLiText.replace("input type='radio'", "input type='radio' disabled='disabled'");
+                    
+                    $("#local-filterable-listview1").append(tempLiText);
+                    setTimeout(function(){$('input[type="radio"]:disabled').removeAttr('disabled');}, 500);
+                }
+                else
+                {
+                    $("#local-filterable-listview1").append(allOrgs[idx].li);
+                }
             }
         }
         

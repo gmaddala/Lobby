@@ -409,7 +409,7 @@ function AddOrgs(searchText){
     //get the user response from collected response obj
     userListViewResponseId = GetUserResponse(paramQuestionId, "Id");
     //            console.log('selected response..' + selectedResponse + " userlistviewresponseid:"+ userListViewResponseId + " listviewResponseId:" + listViewResponseId);
-//    $('#liLoadMore').remove();
+    $('#liLoadMore').remove();
     
     if(searchText != "" && searchText != undefined){//if search text is available, clear all the li items
         searchText = searchText.toLowerCase();
@@ -430,10 +430,21 @@ function AddOrgs(searchText){
         for (var idx = fromIdx; idx < toIdx; idx++)
         {
             if (searchResults[idx] != undefined){
-                $("#local-filterable-listview1").append(searchResults[idx].li);
+
+                if(idx == fromIdx){
+                    //input type='radio'
+                    var tempLiText =searchResults[idx].li;
+                    tempLiText = tempLiText.replace("input type='radio'", "input type='radio' disabled='disabled'");
+                    
+                    $("#local-filterable-listview1").append(tempLiText);
+                    setTimeout(function(){$('input[type="radio"]:disabled').removeAttr('disabled');}, 500);
+                }
+                else
+                {
+                    $("#local-filterable-listview1").append(searchResults[idx].li);
+                }
             }
         }
-
         
         if (toIdx < searchResults.length && $('#liLoadMore').attr('id') == undefined){
             $("#local-filterable-listview1").append("<li id='liLoadMore' data-click='SearchOrg' class='LoadMore'><a data-role='button' data-click='SearchOrg' onclick='SearchOrg' class='AdjustLoadMoreMargin'>Load more search results...</a></li>");
@@ -461,12 +472,22 @@ function AddOrgs(searchText){
         
         for (var idx = fromIdx; idx < toIdx; idx++)
         {
-            if (allOrgs[idx] != undefined){
-                $("#local-filterable-listview1").append(allOrgs[idx].li);
+            if (allOrgs[idx] != undefined){console.log('disabling and enabling');
+//                $("#local-filterable-listview1").append(allOrgs[idx].li);
+                if(idx == fromIdx){//fix to prevent accidentally checking the first control which replaces the 'Load more' button
+                    //input type='radio'
+                    var tempLiText =allOrgs[idx].li;
+                    tempLiText = tempLiText.replace("input type='radio'", "input type='radio' disabled='disabled'");
+                    
+                    $("#local-filterable-listview1").append(tempLiText);
+                    setTimeout(function(){$('input[type="radio"]:disabled').removeAttr('disabled');}, 500);
+                }
+                else
+                {
+                    $("#local-filterable-listview1").append(allOrgs[idx].li);
+                }
             }
         }
-        
-//        $('#liLoadMore').remove();
         
         if (toIdx < totalLi && $('#liLoadMore').attr('id') == undefined){
             $("#local-filterable-listview1").append("<li id='liLoadMore' data-click='LoadMoreOrgs' class='LoadMore'><a data-role='button' data-click='LoadMoreOrgs' onclick='LoadMoreOrgs'>Load more...</a></li>");
@@ -481,7 +502,6 @@ function AddOrgs(searchText){
                                                                });
     }
     
-            $('#liLoadMore').first().remove();
     if(selectedResponse != undefined && selectedResponse != ""){
         RestoreUserSelection(selectedResponse);
     }
