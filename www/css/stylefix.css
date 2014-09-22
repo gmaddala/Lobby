@@ -367,7 +367,7 @@ input[type="text"], input[type="number"]{
 }
 
 .ResponseDetailContainer{
-	padding-top: 1%;
+	padding-top: 2%;
 	padding-left:1%;
 	padding-right: 1%;
 }
@@ -651,9 +651,10 @@ div.km-listview-wrapper input[type="search"]
 .left-addon input  { padding-left:  30px; }
 .right-addon input { padding-right: 2%; }
 
-#divAppKey>i{
+.WarningSign{
     color:#FF6666;
-    zoom:1.2;
+/*    zoom:1.2; */
+    padding-right:1%;
 }
 
 .TitleWithRoundedCorners > div{
@@ -675,4 +676,24 @@ div.km-listview-wrapper input[type="search"]
     border-top-left-radius: 0px !important;
     border-top-right-radius: 0px !important;
     background-color:#fff;
+}
+
+.RemoveBoxShadow{
+	-webkit-box-shadow: none !important;
+	box-shadow: none !important;
+
+}
+
+.SpanError{
+    display: inline-block;
+    float: right;
+    position: absolute;
+    padding-left: 55%;
+    padding-top:1%;
+    z-index:1;
+}
+
+.Label{
+    display:inline-block;
+    width:40%;
 }

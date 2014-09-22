@@ -41,6 +41,10 @@
 <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
         <!-- <script src="js/angular.min.js"></script> -->
         <script src="js/kendo.all.min.js"></script>
+        <!--masked input -->
+        <script src="js/jquery.maksedinput.min.js"></script>
+		<!-- Bootstrap -->
+<!--		<link href="css/bootstrap.min.css" rel="stylesheet"> --> <!-- media="screen" -->
 
         <title>Login</title>
     </head>
@@ -102,7 +106,46 @@
                 </div>
 				</div>
             </div>
-		<!-- Layout with Ucla logo -->
+
+<div data-role="view" data-layout="LayoutRegisterCancelOnly" style="height:75%;" data-init="InitRegisterControls" data-show="SetDefaultRegisterFocus" id="divRegistrationView"> <!--  class="div-white-body" -->
+    <div class="div-white-body WhiteBodyFix" id="divRegistration">
+        <div class="div-white-body-interior">
+            <ul data-role="listview">
+                <li>
+                    <label>
+                        <span class="Label">First Name<span class="RequiredField">*</span></span><input id="txt_firstname" type="text" class="textbox" placeholder="First (Required)" style="display:block;"/> <span class="SpanError DisplayNone"><i class="icon-warning-sign WarningSign"></i></span>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <span class="Label">Last Name<span class="RequiredField">*</span></span><input id="txt_lastname" type="text" class="textbox" placeholder="Last (Required)" style="display:block;"/><span class="SpanError DisplayNone"><i class="icon-warning-sign WarningSign"></i></span>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <span class="Label">Email Address</span><input id="txt_email" type="text" class="textbox" placeholder="yourname@domain.com" style="display:block;"/><span class="SpanError DisplayNone"><i class="icon-warning-sign WarningSign"></i></span>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <span class="Label">Mobile Phone</span><input id="txt_phone" type="text" class="textbox" placeholder="(999)999-9999" style="display:block;"/><span class="SpanError DisplayNone"><i class="icon-warning-sign WarningSign"></i></span>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <span class="Label">UID</span><input id="txt_uid" type="text" class="textbox" placeholder="Enter 9 digit UID" style="display:block;" maxlength="9"/><span class="SpanError DisplayNone"><i class="icon-warning-sign WarningSign"></i></span>
+                    </label>
+                </li>
+            </ul>
+            
+            <!-- <button class="button large horizontal-center big-blue-button" onclick="Register();" style="">Register</button> -->
+            <!-- <a data-role="button" class="button large horizontal-center big-blue-button" data-click="Register" style="">Register</a> -->
+            <a data-role="button" data-click="Register" style="margin-left:3%">Register</a>
+        </div>
+    </div>
+</div>
+
+        <!-- Layout with Ucla logo -->
 		<div data-role="layout" data-id="LayoutWithUclaLogo">
 			<div data-role="header">
 			   <div id="div_header" class="header-div" >
@@ -146,6 +189,15 @@
 			</div>
 		</div>
 		
+        <!-- Layout with Cancel button -->
+		<div data-role="layout" data-id="LayoutRegisterCancelOnly">
+            <div data-role="header">
+                <div id="div_register_header" class="header-div" >
+					<a data-role="button" class="cancel-link cancelLinkFix" href="#">Cancel</a> <!-- href="login.html" -->
+				</div>
+            </div>
+        </div>
+        
 		<!-- modal dialog to reconfigure lobby -->
 		<div data-role="modalview" id="dialog-modal">
 			<div data-role="header">
@@ -158,9 +210,12 @@
                    <span>Reconfigure Lobby</span>
                </div> -->
                 <span>Please enter Application Key</span>
-                <div class="inner-addon right-addon" id="divAppKey">
+                <div id="divAppKey" class="inner-addon right-addon"> <!--class="inner-addon right-addon" -->
                     <input id="txt_app_key" type="text" class="textbox TextBoxFix" MaxLength="6"/>
-                    <i class="glyphicon icon-warning-sign DisplayNone"></i>
+                    <i class="glyphicon icon-warning-sign WarningSign DisplayNone"></i>
+                </div>
+                <div class="DisplayNone" id="divAppKeyError">
+                    <i class="icon-warning-sign WarningSign"></i><span class="RequiredField">Please enter a valid application key</span>
                 </div>
 			</div>
             <div data-role="footer">
@@ -213,6 +268,11 @@
          <script type="text/javascript" src="js/login.js"></script> 
         <!-- <script type="text/javascript" src="js/login.min.js"></script> -->
         <script type="text/javascript" src="js/global.js"></script>
+        <!-- <script type="text/javascript" src="js/blocks.js"></script> -->
+        <script type="text/javascript" src="js/registration.js"></script>
+        <!--Bootstrap-->
+		<!-- <script src="js/bootstrap.min.js"></script> -->
+        
         <script type="text/javascript">
             window.onload = Initialize();
             </script>

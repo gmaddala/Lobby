@@ -23,7 +23,7 @@ function SubmitReasons(e)
     if(hasError)
     {
         //showDialog(errorText);
-		showNativeDialog(errorText);
+		//showNativeDialog(errorText);
         return;
     }
     
@@ -196,13 +196,16 @@ function ValidateReasons2(q_array){
 			var txtBox = responseContainer.find('input');
 			response = txtBox.val();
 			if ($.trim(response) == ""){
-				responseContainer.find('input').addClass("Error");
+                //highlight the complete cell
+				responseContainer.find('input').parent().addClass("Error");
+                responseContainer.find('input').addClass("Error");
 				SetUserResponseForQuestionId(question.ID, txtBox.attr('id'), "");
 				hasError = true;
 			}
 			else
 			{
-				responseContainer.find('input').removeClass("Error");
+				responseContainer.find('input').parent().removeClass("Error");
+                responseContainer.find('input').removeClass("Error");
 				SetUserResponseForQuestionId(question.ID, txtBox.attr('id'), responseContainer.find('input').val());
 			}
 		}
@@ -286,7 +289,8 @@ function SubmitIntake(myJsonObj)
            success: function(data){
 				//Reset CollectedResponses on successful submission
 				localStorage.setItem("CollectedResponses", JSON.stringify(""));
-				window.open("thankyou.html", "_self");
+				//window.open("thankyou.html", "_self");
+                app1.navigate("#divThankYouView", "slide:left");
            },
            error: function (jqXHR, textStatus, errorThrown) {
            showNativeDialog("An error has occurred. Please try again." + jqXHR.responseText);
@@ -617,6 +621,7 @@ function DisplayResponses(e){
 //        e.view.element.find("#continueBtn").kendoMobileButton({click: SubmitReasons});
     }
     else{//Build questions and responses if there're more than 2 questions
+        console.log('build..');
         BuildQuestionsAndResponses(q_array, e);
     }
 }
@@ -763,10 +768,16 @@ function BuildQuestionsAndResponses(q_array, e){
                 }
             }
             else if(responseType == "textbox")
-            {
+            {console.log('textbox..');
                 responseText = $('#txt_' +question.ID).val();
                 if(responseText != ""){//if user provided a response, remove error highlight
+                    console.log("removing highlight..");
                     $('#txt_' +question.ID).removeClass("Error");
+                    $('#txt_' +question.ID).parent().removeClass("Error");
+                }
+                else{
+                    $('#txt_' +question.ID).addClass("Error");
+                    $('#txt_' +question.ID).parent().addClass("Error");
                 }
             }
         }
@@ -918,7 +929,7 @@ function DisplayQuestionResponses(e){
     responseControlType = GetResponseControlType(responseControlTypeId);
     var collResponses = JSON.parse(localStorage.getItem("CollectedResponses"));
     var responseId, responseIdColl, responseText, canDisplayListView = false;
-    
+//    console.log('displaying responses..');
     switch(responseControlType)
     {
         case "radio":
@@ -1210,8 +1221,11 @@ function CollectResponse(e)
         }			
         //canSaveResponse is false when no reason is provided when "Other" reason is selected
         if (canSaveResponse){
-            //console.log('navigating back..');
-            app1.navigate('#');
+            console.log('navigating back..');
+            app1.navigate("#questions-body");//, "slide:left");
+        }
+        else{
+            console.log('empty other text..');
         }
     }
     catch(err){

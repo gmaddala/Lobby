@@ -68,7 +68,9 @@
 		</div>
 
 		<div id="LocalListView" data-role="view" data-show="mobileListViewIncremental" data-layout="ResponseDetailsLayout">
-			 <span id="spanQuestionText1" class="ListViewQuestion"></span><span id="spanListViewResponse"></span>
+            <div class="ResponseDetailContainer">
+                <span id="spanQuestionText1" class="ListViewQuestion"></span><span id="spanListViewResponse"></span>
+            </div>
 			<div id="divFilterWrap">
 				<input type="search" id="txtSearchOrg" placeholder="Search.." onkeyup="SearchOrg()"></input>
                 <span id="spanClear" onclick="ClearSearch()"></span>
@@ -79,6 +81,14 @@
 			</div>
 		</div>
 		
+        
+        <div data-role="view" data-layout="LayoutWithUclaLogo" id="divThankYouView" data-show="InitializeThankYou">
+            <div class="div-white-body center-text WhiteBodyFix">
+                <span class="clear-margin-padding header-text" style="color:#000" id="thankyoumsg"></span>
+            </div>
+            
+        </div>
+        
 		<div data-role="layout" data-id="checklayout">
             <header data-role="header">
                 <div data-role="header" style="background-color:#3284bf">
@@ -97,15 +107,27 @@
 			<div data-role="header" style="background-color:#3284bf">
 			   <div id="div_header_cancel" class="header-div">
                     <div class="cancel-btn-div">
-					<a class="cancel-link cancelLinkFix" data-role="button" href="#">Cancel</a>
+                        <a class="cancel-link cancelLinkFix" data-role="button" href="#">Cancel</a>
 					</div>
 					<div style="text-align:right;position:relative;float:right;width:7%">
-					<a class="cancel-link cancelLinkFix" data-role="button" data-click="CollectResponse">Done</a>
+                        <a class="cancel-link cancelLinkFix" data-role="button" data-click="CollectResponse">Done</a>
+                    </div>
                     <div style="clear:both;"></div>
 				</div>
 			</div>
         </div>
 		
+        <!-- Layout with Ucla logo -->
+		<div data-role="layout" data-id="LayoutWithUclaLogo">
+			<div data-role="header" style="background-color: #3284bf">
+                <div id="div_header" class="header-div" >
+					<div>
+						<img src="img/logo-ucla.png" class="header-logo HeaderLogoFix" />
+						<span id="DeptName" class="header-text"></span>
+					</div>
+				</div>
+			</div>
+		</div>
 		<!-- modal to display alert messages -->
 		<div data-role="modalview" id="modalviewAlert" class="ReasonsAlert">
 				<div data-role="header">
@@ -130,7 +152,8 @@
 		<!-- <script type="text/javascript" src="js/blocks.js"></script> -->        
 		
 		<!-- <script type="text/javascript" src="js/reasons.js"></script> -->
-		<script type="text/javascript" src="js/reasons.js"></script>        
+		<script type="text/javascript" src="js/reasons.js"></script>
+        <script type="text/javascript" src="js/thankyou.js"></script>
         <script type="text/javascript" src="js/global.js"></script>
 		<script type="text/javascript" src="phonegap.js"></script>
         <!-- TODO: Remove index.js reference, if not needed -->

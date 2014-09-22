@@ -337,10 +337,12 @@ function OverrideHelp(e)
 
 function ClickRegistration()
 {
-//    loading();
     app.stopCardReader();
-    location.href='registration.html';
-    
+//    location.href='registration.html';
+    //reset input controls
+    $('#divRegistration input').removeClass("Error").val("").addClass("RemoveBoxShadow");
+    $('span.SpanError').addClass('DisplayNone')
+    app1.navigate("#divRegistrationView", "slide:left");
 }
 
 function ValidateAppKey(){
@@ -352,6 +354,7 @@ function ValidateAppKey(){
 	  else if(key == localStorage.getItem("key"))
 	  {
           $("#txt_app_key").removeClass("Error");
+          //$('#divAppKeyError').addClass("DisplayNone");
           $("#txt_app_key").next().addClass("DisplayNone");
           app.stopCardReader();
 
@@ -360,8 +363,13 @@ function ValidateAppKey(){
 	  }
 	  else
 	  {
-          $("#txt_app_key").removeClass("Error");
-         $("#txt_app_key").next().removeClass("DisplayNone");
+          //Highlight the field and display error message
+          $("#divAppKeyError").click();
+          $("#txt_app_key").addClass("Error").focus();
+          //$('#divAppKeyError').removeClass("DisplayNone");
+          //Display Error icon to the right of the input control
+          $("#txt_app_key").next().removeClass("DisplayNone");
+
           //$(this).dialog("close");
           //HideReconfigureLobbyDialog();
           //showDialog("Incorrect key");
@@ -473,13 +481,20 @@ function FocusLoginControl()
 {
     console.log('transition end.. focussing..');
 //    $('#txt_logon').focus();
-    setTimeout(function(){console.log('focussing..');
+    setTimeout(function(){
+               console.log('focussing..');
+               $('#div_logon').click();
                $('#txt_logon').focus();
-               }, 200);
+               }, 500);
 }
 
 function DisplayReconfigureLobbyDialog(){
+    //Reset the textbox control and error highlight
     $("#txt_app_key").val("").removeClass("Error");
+    //remove error icon
+    $("#txt_app_key").next().addClass("DisplayNone");
+    //remove the error message
+    //$('#divAppKeyError').addClass("DisplayNone");
     $(".ContentWithRoundedCorners").parent().addClass("ContentWithRoundedCorners");
     $("#dialog-modal").kendoMobileModalView("open");
 }
