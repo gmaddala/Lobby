@@ -307,16 +307,17 @@ function SubmitIntake(myJsonObj)
 
 //moved from reasons.html
 var app1, paramQuestionId, eventQuestions, otherPrefix = "[Other] - ";
-function Initialize(){
+function Initialize1(){
     //Adding useNativeScrolling property interferes with mobileListView
-    app1 = new kendo.mobile.Application(document.body);
-    
-    $("#DeptName").text(localStorage.getItem("deptname"));
+    //needed for standalone reasons.html
+    //    app1 = new kendo.mobile.Application(document.body);
+    console.log("Initializing reasons page..");
+    //    $("#DeptName").text(localStorage.getItem("deptname"));
     
     $('.textbox-true').click(function(){
                              $(this).parent().parent().append("<div><input type='text' id='" + $(this).attr('id') + "-txtother' class='temp'/></div>")
                              });
-};
+}
 
 //page size for # of records to be displayed in the listview at a time
 var defaultPageSize = 20;
@@ -882,7 +883,7 @@ function ShowResponsePage(e){
     }
     else
     {
-        app1.navigate("#divCompleteResponseView", "slide:left");
+        app1.navigate("#divCompleteResponseView");//, "slide:left");
     }
 }
 
@@ -1121,7 +1122,8 @@ function GetResponseType(questionId)
 //Function called when 'Cancel' button is clicked from the header
 function CancelResponses(e)
 {
-    window.location.href = "login.html";
+    //    window.location.href = "login.html";
+//    app1.navigate("#", "slide:left");
 }
 
 var listViewResponseId = "", userListViewResponseId = "";
@@ -1256,4 +1258,10 @@ function getOrganizations(){
     $('#spanQuestionText1').text(questionText);
     
     return responseForQuestion;
+}
+
+
+//method added on SPA integration
+function NavigateToReasonSummary(){
+    app1.navigate("#questions-body");//, "slide:left");
 }

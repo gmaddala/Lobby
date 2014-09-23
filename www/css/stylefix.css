@@ -219,7 +219,7 @@ div.gray-div{
 	/* background-image: none !important; */
 	font-size: 150% !important;
 	margin-right: 8%;
-	padding: 3%;
+	/* padding: 3%; */
 	font-size:large !important;
 }
 
@@ -453,15 +453,16 @@ div.km-listview-wrapper input[type="search"]
     margin-left: 37% !important;
 }
 
-#divFilterWrap{
+/* listview filter styles used for standalone reasons.html */
+#xdivFilterWrap{
  background-color: #d6d6d6;
  border-radius: 25px;
  margin-left:3%;
  margin-right:2%;
  height:70%;
 }
-
-#divFilterWrap:before{
+/* listview filter styles used for standalone reasons.html */
+#xdivFilterWrap:before{
 	font-family: 'Kendo UI';
 	content: "\e21e";
 	/*content: "\f002"; -- font-family: iwe fonts*/
@@ -476,8 +477,9 @@ div.km-listview-wrapper input[type="search"]
     display:inline-block;
 }
 
+/* style used in standalone reasons.html */
 /*#divFilterWrap:after{ */
-#spanClear:before{
+#xspanClear:before{
 	font-family: 'Kendo UI';
 	content: "\e031";
 	/*content: "\f002"; -- font-family: iwe fonts*/
@@ -493,15 +495,19 @@ div.km-listview-wrapper input[type="search"]
 }
 
 #divScrollableListView{
-    height:85vh;
+    height:85vh !important;
 }
 
 .inner-addon .glyphicon {
-  padding-top: 4.5% !important;
+  padding-top: 3.3% !important;
 }
 
 .ReconfigureLobbyButton{
     width: 40.5% !important;
+}
+
+#spanClear:before{
+       margin-top:-0.8% !important;
 }
 
 }
@@ -580,7 +586,10 @@ div.km-listview-wrapper input[type="search"]
 
 .LoginTextBox{
     font-size: 100% !important;
-    height:1em !important;
+/*    height:1em !important; */
+    /* to override bootstrap border color */
+    border-color:inherit !important;
+    width:93%;
 }
 
 /* Modal box title with rounded corners */
@@ -639,7 +648,7 @@ div.km-listview-wrapper input[type="search"]
 /* style icon */
 .inner-addon .glyphicon {
   position: absolute;
-  padding-top: 3.3%;
+  padding-top: 2.5%;
   pointer-events: none;
 }
 
@@ -697,3 +706,62 @@ div.km-listview-wrapper input[type="search"]
     display:inline-block;
     width:40%;
 }
+
+/* to override icon-* styles imposed by bootstrap */
+[class^="icon-"], [class*=" icon-"]{
+  display:inline;
+  background-image:none !important;
+  line-height:initial !important;
+}
+
+/* --- Styles added to fix Reasons page display after integration with login.html --- */
+.WhiteBackground, .WhiteBackground>div[data-role="content"]{
+    background-color: #fff !important;
+}
+
+.ReasonsContainer{
+    padding-left:1.5%;
+    padding-top:8%;
+}
+
+.ResponseDetailContainer{
+    padding-top:10%;
+}
+
+#divFilterWrap{
+ background-color: #d6d6d6;
+ border-radius: 25px;
+ margin-left:3%;
+/* margin-right:2%; */
+ height:70%;
+ width: 100%;
+}
+
+#divFilterWrap:before{
+    font-family: 'Kendo UI';
+    content: "\e21e";
+/*content: "\f002"; -- font-family: iwe fonts*/
+   padding-left:1%;
+   padding-top:1.2%;
+   position: absolute;
+   color: #aaa !important;
+   vertical-align:middle;
+}
+
+#spanClear:before{
+	font-family: 'Kendo UI';
+	content: "\e031";
+	/*content: "\f002"; -- font-family: iwe fonts*/
+    color: #aaa !important;
+    vertical-align:middle;
+    zoom:1.2;
+    position: absolute;
+    margin-left: -4%;
+    margin-top:-0.3%;
+}
+
+#divFilterWrap > input{
+    padding-left:4%;
+}
+
+/* --- Reasons page style fix end ---  */

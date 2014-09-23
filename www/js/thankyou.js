@@ -7,7 +7,7 @@ function InitializeThankYou(){
     }
     
     var url = "";
-    $("#DeptName").text(localStorage.getItem("deptname"));
+    $("#DeptNameThankYou").text(localStorage.getItem("deptname"));
     
     if(localStorage.getItem("rsvp") == "false")
     {

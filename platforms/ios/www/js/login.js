@@ -190,14 +190,16 @@ function SetStudentData(jsonobj, submitIntake)
                 localStorage.setItem("email", dictionaryObj.Email);
                 if(!submitIntake)
                 {
-                    window.open("reasons.html", "_self");
+//                    window.open("reasons.html", "_self");
+                    app1.navigate("#questions-body");
                     //var endTimer1 = new Date().getTime();
                     //console.log('time taken to authenticate..' + (endTimer1 - startTimer1));
 
                 }
                 else
                 {
-                    window.open("thankyou.html", "_self");
+//                    window.open("thankyou.html", "_self");
+                    app1.navigate("#questions-body");                    
                 }
                 //window.open("reasons.html?key=" + getUrlParameter('key') + "&uid=" + jsonobj.Data.UID + "&rsvp=" + getUrlParameter("rsvp") + "&anon=" + getUrlParameter("anon") + "&firstname=" + jsonobj.Data.DictionaryUserInfo.FirstName + "&lastname=" + jsonobj.Data.DictionaryUserInfo.LastName + "&phone=" + jsonobj.Data.DictionaryUserInfo.Phone + "&email=" + jsonobj.Data.DictionaryUserInfo.Email + "&initialintakestatus=" + getUrlParameter("initialintakestatus"), "_self");
             }
@@ -364,8 +366,9 @@ function ValidateAppKey(){
 	  else
 	  {
           //Highlight the field and display error message
-          $("#divAppKeyError").click();
-          $("#txt_app_key").addClass("Error").focus();
+//          $("#divAppKeyError").click();
+          //setting focus toggles keypad and causes page layout issues
+          $("#txt_app_key").addClass("Error");//.focus();
           //$('#divAppKeyError').removeClass("DisplayNone");
           //Display Error icon to the right of the input control
           $("#txt_app_key").next().removeClass("DisplayNone");
@@ -378,7 +381,8 @@ function ValidateAppKey(){
 }
 
 function NavigateToReasonsPage(){
-  window.open('reasons.html', '_self');
+//  window.open('reasons.html', '_self');
+    app1.navigate("#questions-body");
 }
 
 function HideReconfigureLobbyDialog() {

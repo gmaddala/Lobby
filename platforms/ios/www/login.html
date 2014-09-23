@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <!--
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-     KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
--->
+ Licensed to the Apache Software Foundation (ASF) under one
+ or more contributor license agreements.  See the NOTICE file
+ distributed with this work for additional information
+ regarding copyright ownership.  The ASF licenses this file
+ to you under the Apache License, Version 2.0 (the
+ "License"); you may not use this file except in compliance
+ with the License.  You may obtain a copy of the License at
+ 
+ http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing,
+ software distributed under the License is distributed on an
+ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ KIND, either express or implied.  See the License for the
+ specific language governing permissions and limitations
+ under the License.
+ -->
 <html>
     <head>
         <meta charset="utf-8" />
@@ -33,122 +33,170 @@
                 padding-top:0 !important;
             }
         </style>
-        <link rel="stylesheet" href="styles/kendo.common.min.css">
-        <link rel="stylesheet" href="styles/kendo.default.min.css">
-        <link href="styles/kendo.mobile.all.min.css" rel="stylesheet" />
-		<link href="css/stylefix.css" rel="stylesheet" />
-        <!-- <script src="js/jquery.min.js"></script> -->
-<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-        <!-- <script src="js/angular.min.js"></script> -->
+        
+        <script src="js/jquery.min.js"></script>
+        <!--<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>->
+         <!-- <script src="js/angular.min.js"></script> -->
         <script src="js/kendo.all.min.js"></script>
         <!--masked input -->
         <script src="js/jquery.maksedinput.min.js"></script>
 		<!-- Bootstrap -->
-<!--		<link href="css/bootstrap.min.css" rel="stylesheet"> --> <!-- media="screen" -->
-
-        <title>Login</title>
-    </head>
+		<link href="css/bootstrap.min.css" rel="stylesheet">  <!-- media="screen" -->
+            <link href="css/lobby-kendoui.css" rel="stylesheet" />
+            <link rel="stylesheet" href="styles/kendo.common.min.css">
+                <link rel="stylesheet" href="styles/kendo.default.min.css">
+                    <link href="styles/kendo.mobile.all.min.css" rel="stylesheet" />
+                    
+                    <link href="css/stylefix.css" rel="stylesheet" />
+                    
+                    <title>Login</title>
+                    </head>
     <body class="molecules-bg" id="body">
 		<div id="not_anon" class="login-textbox invisible" data-role="view" data-layout="LayoutWithUclaLogo">
-                <div id="div_bruincard" class="absolute-center">
-                    <p class="bold-instruction"><i class="icon-credit"></i> <span style="margin-left:2%;">Swipe your Bruincard</span></p>
-                </div>
-
-                <div id="div_signin_method" class="panel-button-div">
-					<a data-role="button" class="button large panel-button horizontal-center UseUclaLogonButton ButtonFix" href="#viewSigninWithUclaLogon" data-transition="slide"><span><br/>Press here to use your UCLA Logon ID</span> <span class="arrow arrowFix"><i class="icon-chevron-right"></i></span></a>
-
-<a data-role="button" class="button large panel-button horizontal-center ButtonFix" data-click="ClickRegistration" id="btn-register" data-transition="slide"><span><br/>Press here to register</span> <span class="arrow arrowFix"><i class="icon-chevron-right"></i></span></a>
-                </div>
+            <div id="div_bruincard" class="absolute-center">
+                <p class="bold-instruction"><i class="icon-credit"></i> <span style="margin-left:2%;">Swipe your Bruincard</span></p>
             </div>
+            
+            <div id="div_signin_method" class="panel-button-div">
+                <a data-role="button" class="button large panel-button horizontal-center UseUclaLogonButton ButtonFix" href="#viewSigninWithUclaLogon" data-transition="slide"><span><br/>Press here to use your UCLA Logon ID</span> <span class="arrow arrowFix"><i class="icon-chevron-right"></i></span></a>
+                
+                <a data-role="button" class="button large panel-button horizontal-center ButtonFix" data-click="ClickRegistration" id="btn-register" data-transition="slide"><span><br/>Press here to register</span> <span class="arrow arrowFix"><i class="icon-chevron-right"></i></span></a>
+            </div>
+        </div>
 		<div data-role="view" id="viewSigninWithUclaLogon" data-layout="LayoutWithoutUclaLogo" data-show="InitForm" data-transition-end="FocusLoginControl">
-				<div id="div_logon" class="gray-div horizontal-center">
-							<input id="txt_logon" type="text" class="horizontal-center textbox LoginTextBox" placeholder="Enter your UCLA Logon ID" style="display:block;"/>
-							<a data-role="button" class="LongButton SignInButton" data-click="SignInWithUclaLogon">Sign In</a>
-                </div>
+            <div id="div_logon" class="gray-div horizontal-center">
+                <input id="txt_logon" type="text" class="horizontal-center textbox LoginTextBox" placeholder="Enter your UCLA Logon ID" style="display:block;"/>
+                <a data-role="button" class="LongButton SignInButton" data-click="SignInWithUclaLogon">Sign In</a>
+            </div>
 		</div>
         
 		<!-- Anonymous view -->
 		<div data-role="view" id="anon" class="white-button" data-layout="LayoutWithUclaLogo">
-				<div class="DivAnonymousContinueButton">
-					<a data-role="button" class="AnonymousContinueButton" data-click="NavigateToReasonsPage">Continue</a>
-				</div>
+            <div class="DivAnonymousContinueButton">
+                <a data-role="button" class="AnonymousContinueButton" data-click="NavigateToReasonsPage">Continue</a>
+            </div>
         </div>
 		
 		<!-- RSVP -->
 		<div data-role="view" id="rsvp_eleg" data-layout="LayoutWithoutWelcomeMessage">
-                <div class="div-white-body WhiteBodyFix">
+            <div class="div-white-body WhiteBodyFix">
 				<div class="center-text">
                     <span class="clear-margin-padding header-text" style="color:#000">Swipe Bruincard or enter UID to check in</span>
                 </div>
                 <div class="gray-div horizontal-center eventInfo">
                     <table id="event_table" class="form-table">
-                            <tr>
-                                <td class="form-table-label">Event:</td>
-                                <td id="event_name"></td>
-                            </tr>
-                            <tr>
-                                <td class="form-table-label">Name:</td>
-                                <td id="student_name"></td>
-                            </tr>
-                            <tr>
-                                <td class="form-table-label">Status:</td>
-                                <td id="">
-                                    <span id="success" class="invisible">SUCCESS</span>
-                                    <span id="failed" class="invisible">FAILED
-										<a data-role="button" id="btn_override" class="button large small-button overrideButtonFix" data-click="OverrideCheckIn">Override</a>
-											<span><a href="" style="" onclick="OverrideHelp(event);" class="helpIcon"><i class="icon-question-sign"></i></a></span>
-                                            </span>
-                                </td>
-                            </tr>
-                    </table>                    
+                        <tr>
+                            <td class="form-table-label">Event:</td>
+                            <td id="event_name"></td>
+                        </tr>
+                        <tr>
+                            <td class="form-table-label">Name:</td>
+                            <td id="student_name"></td>
+                        </tr>
+                        <tr>
+                            <td class="form-table-label">Status:</td>
+                            <td id="">
+                                <span id="success" class="invisible">SUCCESS</span>
+                                <span id="failed" class="invisible">FAILED
+                                    <a data-role="button" id="btn_override" class="button large small-button overrideButtonFix" data-click="OverrideCheckIn">Override</a>
+                                    <span><a href="" style="" onclick="OverrideHelp(event);" class="helpIcon"><i class="icon-question-sign"></i></a></span>
+                                </span>
+                            </td>
+                        </tr>
+                    </table>
                     <input id="txt_rsvp_eleg_uid" type="text" class="horizontal-center textbox" placeholder="Enter UID" style="display:block;"/>
 					<a data-role="button" class="button large horizontal-center long-button CheckInButtonFix" style="" onclick="CheckIn($('#txt_rsvp_eleg_uid').val(), false);">Check In</a>
                 </div>
-				</div>
             </div>
-
-<div data-role="view" data-layout="LayoutRegisterCancelOnly" style="height:75%;" data-init="InitRegisterControls" data-show="SetDefaultRegisterFocus" id="divRegistrationView"> <!--  class="div-white-body" -->
-    <div class="div-white-body WhiteBodyFix" id="divRegistration">
-        <div class="div-white-body-interior">
-            <ul data-role="listview">
-                <li>
-                    <label>
-                        <span class="Label">First Name<span class="RequiredField">*</span></span><input id="txt_firstname" type="text" class="textbox" placeholder="First (Required)" style="display:block;"/> <span class="SpanError DisplayNone"><i class="icon-warning-sign WarningSign"></i></span>
-                    </label>
-                </li>
-                <li>
-                    <label>
-                        <span class="Label">Last Name<span class="RequiredField">*</span></span><input id="txt_lastname" type="text" class="textbox" placeholder="Last (Required)" style="display:block;"/><span class="SpanError DisplayNone"><i class="icon-warning-sign WarningSign"></i></span>
-                    </label>
-                </li>
-                <li>
-                    <label>
-                        <span class="Label">Email Address</span><input id="txt_email" type="text" class="textbox" placeholder="yourname@domain.com" style="display:block;"/><span class="SpanError DisplayNone"><i class="icon-warning-sign WarningSign"></i></span>
-                    </label>
-                </li>
-                <li>
-                    <label>
-                        <span class="Label">Mobile Phone</span><input id="txt_phone" type="text" class="textbox" placeholder="(999)999-9999" style="display:block;"/><span class="SpanError DisplayNone"><i class="icon-warning-sign WarningSign"></i></span>
-                    </label>
-                </li>
-                <li>
-                    <label>
-                        <span class="Label">UID</span><input id="txt_uid" type="text" class="textbox" placeholder="Enter 9 digit UID" style="display:block;" maxlength="9"/><span class="SpanError DisplayNone"><i class="icon-warning-sign WarningSign"></i></span>
-                    </label>
-                </li>
-            </ul>
-            
-            <!-- <button class="button large horizontal-center big-blue-button" onclick="Register();" style="">Register</button> -->
-            <!-- <a data-role="button" class="button large horizontal-center big-blue-button" data-click="Register" style="">Register</a> -->
-            <a data-role="button" data-click="Register" style="margin-left:3%">Register</a>
         </div>
-    </div>
-</div>
-
+        
+        <!-- Register page controls -->
+        <div data-role="view" data-layout="LayoutRegisterCancelOnly" style="height:75%;" data-init="InitRegisterControls" data-show="SetDefaultRegisterFocus" id="divRegistrationView"> <!--  class="div-white-body" -->
+            <div class="div-white-body WhiteBodyFix" id="divRegistration">
+                <div class="div-white-body-interior">
+                    <ul data-role="listview">
+                        <li>
+                            <label>
+                                <span class="Label">First Name<span class="RequiredField">*</span></span><input id="txt_firstname" type="text" class="textbox" placeholder="First (Required)" style="display:block;"/> <span class="SpanError DisplayNone"><i class="icon-warning-sign WarningSign"></i></span>
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <span class="Label">Last Name<span class="RequiredField">*</span></span><input id="txt_lastname" type="text" class="textbox" placeholder="Last (Required)" style="display:block;"/><span class="SpanError DisplayNone"><i class="icon-warning-sign WarningSign"></i></span>
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <span class="Label">Email Address</span><input id="txt_email" type="text" class="textbox" placeholder="yourname@domain.com" style="display:block;"/><span class="SpanError DisplayNone"><i class="icon-warning-sign WarningSign"></i></span>
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <span class="Label">Mobile Phone</span><input id="txt_phone" type="text" class="textbox" placeholder="(999)999-9999" style="display:block;"/><span class="SpanError DisplayNone"><i class="icon-warning-sign WarningSign"></i></span>
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <span class="Label">UID</span><input id="txt_uid" type="text" class="textbox" placeholder="Enter 9 digit UID" style="display:block;" maxlength="9"/><span class="SpanError DisplayNone"><i class="icon-warning-sign WarningSign"></i></span>
+                            </label>
+                        </li>
+                    </ul>
+                    
+                    <!-- <button class="button large horizontal-center big-blue-button" onclick="Register();" style="">Register</button> -->
+                    <!-- <a data-role="button" class="button large horizontal-center big-blue-button" data-click="Register" style="">Register</a> -->
+                    <a data-role="button" data-click="Register" style="margin-left:3%">Register</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Reasons page controls -->
+        <div id="questions-body" data-role="view" data-title=" " data-layout="checklayout" data-show="DisplayResponses" class="WhiteBackground">
+            <div class="ReasonsContainer">
+                <span class="span-question-text" style="margin:0;">Please answer the following questions:</span>
+                <ul data-role="listview" data-style="inset" id="ulResponses" data-type="group">
+                </ul>
+                <div class="row-fluid FormIndentation" id="divQuestions" style="padding-left:2%;">
+                    
+                </div>
+                <div style="padding-left:6%;">
+                    <div id="divContinueButton" class="ContinueButtonPadding"><a data-role="button" id="continueBtn" class="button1" data-click="SubmitReasons">Continue</a></div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="divCompleteResponseView" data-role="view" data-title="" data-layout="ResponseDetailsLayout" data-show="DisplayQuestionResponses" class="WhiteBackground">
+            <div class="ResponseDetailContainer">
+                <span id="spanQuestionText"></span>
+                
+            </div>
+        </div>
+        
+        <div id="LocalListView" data-role="view" data-show="mobileListViewIncremental" data-layout="ResponseDetailsLayout" class="WhiteBackground">
+            <div class="ResponseDetailContainer">
+                <span id="spanQuestionText1" class="ListViewQuestion"></span><span id="spanListViewResponse"></span>
+            </div>
+            <div id="divFilterWrap" class="WhiteBackground">
+                <input type="search" id="txtSearchOrg" placeholder="Search.." onkeyup="SearchOrg()"></input>
+                <span id="spanClear" onclick="ClearSearch()"></span>
+            </div>
+            
+            <div id="divScrollableListView">
+                <ul id="local-filterable-listview1"></ul>
+            </div>
+        </div>
+        
+        <!--Thank You page -->
+        <div data-role="view" data-layout="LayoutWithUclaLogoWithoutClose" id="divThankYouView" data-show="InitializeThankYou">
+            <div class="div-white-body center-text WhiteBodyFix">
+                <span class="clear-margin-padding header-text" style="color:#000" id="thankyoumsg"></span>
+            </div>
+            
+        </div>
+        
         <!-- Layout with Ucla logo -->
 		<div data-role="layout" data-id="LayoutWithUclaLogo">
 			<div data-role="header">
-			   <div id="div_header" class="header-div" >
+                <div id="div_header" class="header-div" >
 					<div>
 						<img src="img/logo-ucla.png" class="header-logo HeaderLogoFix" />
 						<span id="DeptName" class="header-text"></span>
@@ -164,11 +212,11 @@
 		<!-- Layout without Ucla logo; just 'cancel' link in the header -->
 		<div data-role="layout" data-id="LayoutWithoutUclaLogo">
 			<div data-role="header">
-			   <div id="div_header_cancel" class="header-div">
+                <div id="div_header_cancel" class="header-div">
                     <a href="#not_anon" class="cancel-link cancelLinkFix" data-role="button">Cancel</a>
-                <div>
+                    <div>
+                    </div>
                 </div>
-            </div>
 				<div id="welcome_text_div1" class="center-text WelcomeText">
 					<span id="welcome_text1" class="clear-margin-padding header-text"></span>
 				</div>
@@ -178,26 +226,67 @@
 		<!-- When trying to hide the welcome message from LayoutWithUclaLogo layout, the padding is maintained to the top of content. So, creating new layout. -->
 		<div data-role="layout" data-id="LayoutWithoutWelcomeMessage">
 			<div data-role="header">
-			   <div id="div_header" class="header-div" >
+                <div id="div_header" class="header-div" >
 					<div>
 						<img src="img/logo-ucla.png" class="header-logo HeaderLogoFix" />
 						<span id="DeptName" class="header-text"></span>
 						<a data-role="button" class="button large link-button" href="#dialog-modal">Close</a>
 					</div>
 					
-				</div>				
+				</div>
 			</div>
 		</div>
 		
-        <!-- Layout with Cancel button -->
+        <!-- Layout with Cancel button - used in Register page -->
 		<div data-role="layout" data-id="LayoutRegisterCancelOnly">
             <div data-role="header">
                 <div id="div_register_header" class="header-div" >
-					<a data-role="button" class="cancel-link cancelLinkFix" href="#">Cancel</a> <!-- href="login.html" -->
+					<a data-role="button" class="cancel-link cancelLinkFix" data-click="DisplayLogin">Cancel</a> <!-- href="login.html" -->
 				</div>
             </div>
         </div>
+        <!-- used by Reasons page -->
+        <div data-role="layout" data-id="ResponseDetailsLayout">
+			<div data-role="header" style="background-color:#3284bf;position: absolute;">
+                <div id="div_header_cancel" class="header-div">
+                    <div class="cancel-btn-div">
+                        <a class="cancel-link cancelLinkFix" data-role="button" data-click="NavigateToReasonSummary">Cancel</a>
+					</div>
+					<div style="text-align:right;position:relative;float:right;width:7%">
+                        <a class="cancel-link cancelLinkFix" data-role="button" data-click="CollectResponse">Done</a>
+                    </div>
+                    <div style="clear:both;"></div>
+				</div>
+			</div>
+        </div>
+        <!-- used by Reasons page -->
+        <div data-role="layout" data-id="checklayout">
+            <header data-role="header">
+                <div data-role="header" style="background-color:#3284bf">
+                    <div id="div_header_cancel" class="header-div">
+                        <div class="cancel-btn-div">
+                            <!-- Call DisplayLogin method in registration.js -->
+                            <a class="cancel-link cancelLinkFix" data-role="button" data-click="DisplayLogin">Cancel</a>
+                        </div>
+                        <div style="clear:both;"></div>
+                    </div>
+                    
+                </div>
+            </header>
+        </div>
         
+        <!-- Layout used by ThankYou page -->
+		<div data-role="layout" data-id="LayoutWithUclaLogoWithoutClose">
+			<div data-role="header">
+                <div id="div_header" class="header-div" >
+					<div>
+						<img src="img/logo-ucla.png" class="header-logo HeaderLogoFix" />
+						<span id="DeptNameThankYou" class="header-text"></span>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<!-- modal dialog to reconfigure lobby -->
 		<div data-role="modalview" id="dialog-modal">
 			<div data-role="header">
@@ -205,10 +294,10 @@
 					<span data-title="view-title">Reconfigure Lobby</span>
 				</div>
 			</div>
-		   <div class="horizontal-center ReconfigureLobby">
-<!--               <div>
-                   <span>Reconfigure Lobby</span>
-               </div> -->
+            <div class="horizontal-center ReconfigureLobby">
+                <!--               <div>
+                 <span>Reconfigure Lobby</span>
+                 </div> -->
                 <span>Please enter Application Key</span>
                 <div id="divAppKey" class="inner-addon right-addon"> <!--class="inner-addon right-addon" -->
                     <input id="txt_app_key" type="text" class="textbox TextBoxFix" MaxLength="6"/>
@@ -219,24 +308,24 @@
                 </div>
 			</div>
             <div data-role="footer">
-            <div class="ReconfigureLobby ContentWithRoundedCorners iOSLikeContainer">
-				<a data-role="button" class="modal-double-button-left ReconfigureLobbyButton iOSLikeButtonLeft" data-click="HideReconfigureLobbyDialog"> Cancel</a>
-				<a data-role="button" class="modal-double-button-right important ReconfigureLobbyButton SubmitButton iOSLikeButtonRight" data-click="ValidateAppKey"> Submit</a>
-			</div>
+                <div class="ReconfigureLobby ContentWithRoundedCorners iOSLikeContainer">
+                    <a data-role="button" class="modal-double-button-left ReconfigureLobbyButton iOSLikeButtonLeft" data-click="HideReconfigureLobbyDialog"> Cancel</a>
+                    <a data-role="button" class="modal-double-button-right important ReconfigureLobbyButton SubmitButton iOSLikeButtonRight" data-click="ValidateAppKey"> Submit</a>
+                </div>
             </div>
 		</div>
 		
 		<!-- modal to display alert messages -->
 		<div data-role="modalview" id="modalviewAlert" style="width: 50%;">
-				<div data-role="header">
-					<div data-role="navbar" class="TitleWithRoundedCorners">
-						<span>Alert</span>
-						<a data-click="HideNativeDialog" data-role="button" data-align="right" style="background:none;color:#3284bf;">Close</a>
-					</div>
-				</div>					   
-				<div class="modalContent ContentWithRoundedCorners">
-					<span id="spanAlertMessage" class="AlertText"></span> 
-			   </div>
+            <div data-role="header">
+                <div data-role="navbar" class="TitleWithRoundedCorners">
+                    <span>Alert</span>
+                    <a data-click="HideNativeDialog" data-role="button" data-align="right" style="background:none;color:#3284bf;">Close</a>
+                </div>
+            </div>
+            <div class="modalContent ContentWithRoundedCorners">
+                <span id="spanAlertMessage" class="AlertText"></span>
+            </div>
 		</div>
         <!-- modal to display alert messages -->
 		<div data-role="modalview" id="modalviewAlertCardReader" style="width: 50%;">
@@ -252,31 +341,33 @@
 		</div>
 		<!-- modal to display flash message -->
 		<div data-role="modalview" id="modalviewFlash" style="width: 50%;">
-				<div data-role="header">
-					<div data-role="navbar" class="TitleWithRoundedCorners">
-						<span>Error</span>						
-					</div>
-				</div>					   
+            <div data-role="header">
+                <div data-role="navbar" class="TitleWithRoundedCorners">
+                    <span>Error</span>
+                </div>
+            </div>
 			<div class="modalContent ContentWithRoundedCorners">
-				<span id="spanFlashMessage" class="AlertText"></span> 				   
+				<span id="spanFlashMessage" class="AlertText"></span>
 			</div>
 		</div>
 		
         <script type="text/javascript" src="phonegap.js"></script>
 		
         <!-- <script type="text/javascript" src="js/blocks.js"></script> -->
-         <script type="text/javascript" src="js/login.js"></script> 
+        <script type="text/javascript" src="js/login.js"></script> 
         <!-- <script type="text/javascript" src="js/login.min.js"></script> -->
         <script type="text/javascript" src="js/global.js"></script>
         <!-- <script type="text/javascript" src="js/blocks.js"></script> -->
         <script type="text/javascript" src="js/registration.js"></script>
+		<script type="text/javascript" src="js/reasons.js"></script>
+        <script type="text/javascript" src="js/thankyou.js"></script>
         <!--Bootstrap-->
-		<!-- <script src="js/bootstrap.min.js"></script> -->
+		<script src="js/bootstrap.min.js"></script>
         
         <script type="text/javascript">
             window.onload = Initialize();
             </script>
-
-
+        
+        
     </body>
 </html>
