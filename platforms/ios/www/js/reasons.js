@@ -1221,11 +1221,8 @@ function CollectResponse(e)
         }			
         //canSaveResponse is false when no reason is provided when "Other" reason is selected
         if (canSaveResponse){
-            console.log('navigating back..');
+            //adding transition effect stops the page from navigating when the keypad is displayed on iOS7
             app1.navigate("#questions-body");//, "slide:left");
-        }
-        else{
-            console.log('empty other text..');
         }
     }
     catch(err){
