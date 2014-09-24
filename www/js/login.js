@@ -53,7 +53,7 @@ var app = {
             };
             var error = function(message) {
                 //alert(message);
-				showCardReaderErrorAlert("Please reswipe card");
+				showCardReaderErrorAlert("Please reswipe your Bruin card");
                 /*
                 $( "#dialog" ).on( "dialogclose", function( event, ui ) {
                                   app.stopCardReader();
@@ -474,6 +474,7 @@ function InitForm(){
     {
         initialView = "not_anon";
         $("#not_anon").removeClass("invisible");
+        $("#txt_logon").val("").focus();        
 //        console.log('set default focus');
 //        setTimeout(function(){console.log('focussing..');$('#txt_logon').val('').focus();}, 800);
         $("#body").addClass("molecules-bg");

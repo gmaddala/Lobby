@@ -144,7 +144,7 @@
                     
                     <!-- <button class="button large horizontal-center big-blue-button" onclick="Register();" style="">Register</button> -->
                     <!-- <a data-role="button" class="button large horizontal-center big-blue-button" data-click="Register" style="">Register</a> -->
-                    <a data-role="button" data-click="Register" style="margin-left:3%">Register</a>
+                    <a data-role="button" data-click="Register" style="margin-left:4%">Register</a>
                 </div>
             </div>
         </div>
@@ -327,16 +327,21 @@
                 <span id="spanAlertMessage" class="AlertText"></span>
             </div>
 		</div>
-        <!-- modal to display alert messages -->
+        <!-- modal to display alert message for failed card swipe -->
 		<div data-role="modalview" id="modalviewAlertCardReader" style="width: 50%;">
             <div data-role="header">
                 <div data-role="navbar" class="TitleWithRoundedCorners">
                     <span>Alert</span>
-                    <a data-click="FailedCardSwipe" data-role="button" data-align="right" style="background:none;color:#3284bf;">Close</a>
+                    <!-- <a data-click="FailedCardSwipe" data-role="button" data-align="right" style="background:none;color:#3284bf;">Close</a> -->
                 </div>
             </div>
-            <div class="modalContent ContentWithRoundedCorners">
+            <div class="modalContent">
                 <span id="spanAlertMessageCardReader" class="AlertText"></span>
+            </div>
+            <div data-role="footer">
+                <div class="ContentWithRoundedCorners iOSLikeOkContainer">
+                    <a data-role="button" class="modal-double-button-left iOSLikeOkButton" data-click="FailedCardSwipe">OK</a>
+                </div>
             </div>
 		</div>
 		<!-- modal to display flash message -->

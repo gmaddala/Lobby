@@ -326,6 +326,15 @@ function mobileListViewIncremental(){
     var allOrgs;
     var fromIdx = 0, toIdx = 0;
     var selectedResponse = $('#spanListViewResponse').text();
+    
+    if(canReconstructListView){
+        //set user response as empty when listview is to be constructed fresh
+        selectedResponse = "";
+        //reset listview controls
+        $('#local-filterable-listview1').empty();
+        //reset the user selected response
+        $('#spanListViewResponse').text("");
+    }
     //get the user response from collected response obj
     userListViewResponseId = GetUserResponse(paramQuestionId, "Id");
     //            $('#txtSearchOrg').val('');
@@ -627,6 +636,7 @@ function DisplayResponses(e){
     }
 }
 
+var canReconstructListView = false;
 //Method to build questions and response summary where # of questions > 2
 function BuildQuestionsAndResponses(q_array, e){
     //check if questions are already constructed
@@ -783,6 +793,9 @@ function BuildQuestionsAndResponses(q_array, e){
             }
         }
     }
+    
+    //if all the questions are constructed, ListView will also be constructed new
+    canReconstructListView = canConstructQuestions;
 }
 
 //function to check length of input. If greater than 4, first 4 chars are retained
