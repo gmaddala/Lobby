@@ -88,7 +88,7 @@ var app = {
 
 function ClickBruincard(){
     //debugger;
-	console.log('Cancel click..');
+//	console.log('Cancel click..');
     $('#div_logon').css('display', 'none');
     $('#div_signin_method').css('display', 'block');
     $('#div_bruincard').css('display', 'block');
@@ -149,7 +149,7 @@ function SignIn(logon, isCardreader){
 				   data: {"logon": logon, "submitIntake": submitIntake, "appkey": localStorage.getItem("key"), "initialintakestatus": localStorage.getItem("initialintakestatus"), "locationID": localStorage.getItem("selLocationID"), "cardSwiped": localStorage.getItem("cardswiped")},
 				   beforeSend: function(){
 				   app.stopCardReader();
-				   console.log('before send..');
+//				   console.log('before send..');
 				   loading();
 				   },
 				   success: function(data){
@@ -407,7 +407,7 @@ function FailedCardSwipe(){
 }
 
 function showCardReaderErrorAlert(msg) {
-    console.log(msg.toString);
+//    console.log(msg.toString);
     $('#spanAlertMessageCardReader').text(msg);
     $("#modalviewAlertCardReader").kendoMobileModalView("open");
 }
@@ -415,7 +415,11 @@ function showCardReaderErrorAlert(msg) {
 //methods moved from login.html
 var app1, initialView;
 function Initialize(){
-    
+    $('#txt_app_key').bind("keyup", function(){
+                            //convert the text to uppercase
+                            var key = $(this).val();
+//                            $(this).val(key.toUpperCase());
+                           });
     //Reset CollectedResponses
     localStorage.setItem("CollectedResponses", JSON.stringify(""));
     //app1 = new kendo.mobile.Application(document.body, {useNativeScrolling: true}); //, transition: 'overlay:up'

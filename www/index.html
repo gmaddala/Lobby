@@ -135,7 +135,12 @@
                 $('#div_access_key').removeClass('invisible');
                 $('#splash').animate({'margin-top': '10%'}, 1000);
             };
-		   
+//		   $('#txtAccessKey').
+            $('#txtAccessKey').bind("keyup", function(){
+                       //convert the text to uppercase
+                       var key = $(this).val();
+                       $(this).val(key.toUpperCase());
+                       });
 		</script>
 		<script type="text/javascript">
 		     //uncomment when including phonegap.js

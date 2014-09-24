@@ -556,7 +556,7 @@ div.km-listview-wrapper input[type="search"]
 }
 
 #txtAccessKey:focus, #txt_app_key:focus{
-    text-transform:uppercase;
+    /* text-transform:uppercase; */
 }
 
 #txt_app_key{
