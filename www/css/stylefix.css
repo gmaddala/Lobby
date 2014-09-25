@@ -120,7 +120,7 @@ div#modalviewAlert.ReasonsAlert.km-widget.km-modalview.km-view
   /* padding:12.5%; */
 }
 
-.arrowFix{
+.xarrowFix{
    padding-right:4%;
 }
 
@@ -224,8 +224,11 @@ div.gray-div{
 }
 
 .SignInButton{
-	margin-left:3.0%; /*4.7%;*/
-	width:90%
+/*	margin-left:3.0%;  *//*4.7%;*/
+	width:10%;
+    background-color: #fff !important;
+    border-radius: 10px !important;
+    padding:1% !important;
 }
 
 .ButtonFix{
@@ -490,26 +493,33 @@ div.km-listview-wrapper input[type="search"]
 
 @media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait) {
 
-#divFilterWrap > input{
-    width: 90% !important;
-}
+    #divFilterWrap > input{
+        width: 90% !important;
+    }
 
-#divScrollableListView{
-    height:85vh !important;
-}
+    #divScrollableListView{
+        height:85vh !important;
+    }
 
-.inner-addon .glyphicon {
-  padding-top: 3.3% !important;
-}
+    .inner-addon .glyphicon {
+    padding-top: 3.3% !important;
+    }
 
-.ReconfigureLobbyButton{
-    width: 40.5% !important;
-}
+    .ReconfigureLobbyButton{
+        width: 40.5% !important;
+    }
 
-#spanClear:before{
-       margin-top:-0.8% !important;
-}
-
+    #spanClear:before{
+        margin-top:-0.8% !important;
+    }
+    
+    .SignInContainer{
+        padding-top:35% !important;
+    }
+    
+    .RegistrationContainer{
+        margin-top:35%;
+    }
 }
 
 #divFilterWrap > input{
@@ -555,10 +565,6 @@ div.km-listview-wrapper input[type="search"]
     display:block;
 }
 
-#txtAccessKey:focus, #txt_app_key:focus{
-    /* text-transform:uppercase; */
-}
-
 #txt_app_key{
     padding:10px;
     font-size:100% !important;
@@ -588,8 +594,9 @@ div.km-listview-wrapper input[type="search"]
     font-size: 100% !important;
 /*    height:1em !important; */
     /* to override bootstrap border color */
-    border-color:inherit !important;
-    width:93%;
+    border-color:#ccc !important;
+   /* width:93%; */
+   width: 50%;
 }
 
 /* Modal box title with rounded corners */
@@ -765,3 +772,59 @@ div.km-listview-wrapper input[type="search"]
 }
 
 /* --- Reasons page style fix end ---  */
+
+/* Login page */
+.LoginPageButton{
+    margin:0;
+    width:100%;
+    border-radius:0 !important;
+    color:#fff !important;
+    border:0 !important;
+    text-align:center !important;
+    font-weight:bold !important;
+    font-size:150% !important;
+}
+.SwipeBruinCard{
+    margin-left:2%;
+    color:#fff000;
+}
+.ArrowPadding
+{
+    padding-left:1%;
+}
+.HorizontalCenter{
+    text-align:center;
+}
+.LoginInstruction{
+    padding-bottom:2%;
+    display:inline-block;
+    color:#fff;
+}
+.AlignArrows{
+    margin-left:1.5%;
+}
+.SignInContainer{
+    padding-top:5%;
+}
+.SignInButtons{
+    padding-top:3%;
+}
+
+/* Registration */
+.RegistrationContainer{
+    background-color:#ffffff;
+    padding:1%;
+    font-size:medium;
+    color:#000;
+    width:50%;
+}
+.CenterAlign{
+    text-align:center;
+}
+.RegisterButtonContainer{
+    padding-top:2%;
+}
+
+#viewSigninWithUclaLogon>div[data-role="content"]{
+    background-color: transparent;
+}

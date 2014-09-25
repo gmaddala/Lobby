@@ -54,19 +54,23 @@
     <body class="molecules-bg" id="body">
 		<div id="not_anon" class="login-textbox invisible" data-role="view" data-layout="LayoutWithUclaLogo">
             <div id="div_bruincard" class="absolute-center">
-                <p class="bold-instruction"><i class="icon-credit"></i> <span style="margin-left:2%;">Swipe your Bruincard</span></p>
+                <p class="bold-instruction"><span class="SwipeBruinCard">Swipe your Bruincard</span></p>
             </div>
             
             <div id="div_signin_method" class="panel-button-div">
-                <a data-role="button" class="button large panel-button horizontal-center UseUclaLogonButton ButtonFix" href="#viewSigninWithUclaLogon" data-transition="slide"><span><br/>Press here to use your UCLA Logon ID</span> <span class="arrow arrowFix"><i class="icon-chevron-right"></i></span></a>
+                <a data-role="button" class="LoginPageButton AlignArrows" href="#viewSigninWithUclaLogon" data-transition="slide"><span><br/>Sign in using your UCLA Logon ID</span> <span class="ArrowPadding"><i class="icon-circle-arrow-right"></i></span></a>
                 
-                <a data-role="button" class="button large panel-button horizontal-center ButtonFix" data-click="ClickRegistration" id="btn-register" data-transition="slide"><span><br/>Press here to register</span> <span class="arrow arrowFix"><i class="icon-chevron-right"></i></span></a>
+                <a data-role="button" class="LoginPageButton" data-click="ClickRegistration" id="btn-register" data-transition="slide"><span><br/>Don't have a UCLA ID? Register here</span> <span class="ArrowPadding"><i class="icon-circle-arrow-right"></i></span></a>
             </div>
         </div>
-		<div data-role="view" id="viewSigninWithUclaLogon" data-layout="LayoutWithoutUclaLogo" data-show="InitForm" data-transition-end="FocusLoginControl">
-            <div id="div_logon" class="gray-div horizontal-center">
-                <input id="txt_logon" type="text" class="horizontal-center textbox LoginTextBox" placeholder="Enter your UCLA Logon ID" style="display:block;"/>
-                <a data-role="button" class="LongButton SignInButton" data-click="SignInWithUclaLogon">Sign In</a>
+		<div data-role="view" id="viewSigninWithUclaLogon" data-layout="LayoutWithUclaLogoNoClose" data-show="InitForm" data-transition-end="FocusLoginControl">
+            <div id="div_logon1" class="HorizontalCenter SignInContainer">
+                <span class="LoginInstruction">Please provide your UCLA Logon ID or UID</span>
+                <input id="txt_logon" type="text" class="horizontal-center textbox LoginTextBox" placeholder="Enter your UCLA Logon ID Or UID" style="display:block;"/>
+                <div class="SignInButtons">
+                    <a data-role="button" class="SignInButton" href="#" data-transition="slide:reverse">Cancel</a>
+                    <a data-role="button" class="SignInButton" data-click="SignInWithUclaLogon">Sign In</a>
+                </div>
             </div>
 		</div>
         
@@ -111,41 +115,45 @@
         </div>
         
         <!-- Register page controls -->
-        <div data-role="view" data-layout="LayoutRegisterCancelOnly" style="height:75%;" data-init="InitRegisterControls" data-show="SetDefaultRegisterFocus" id="divRegistrationView"> <!--  class="div-white-body" -->
-            <div class="div-white-body WhiteBodyFix" id="divRegistration">
+        <div data-role="view" data-layout="LayoutWithUclaLogoNoClose" style="height:75%;" data-init="InitRegisterControls" data-show="SetDefaultRegisterFocus" id="divRegistrationView"> <!--  class="div-white-body" -->
+
+            <div class="RegistrationContainer horizontal-center" id="divRegistration">
                 <div class="div-white-body-interior">
                     <ul data-role="listview">
                         <li>
                             <label>
-                                <span class="Label">First Name<span class="RequiredField">*</span></span><input id="txt_firstname" type="text" class="textbox" placeholder="First (Required)" style="display:block;"/> <span class="SpanError DisplayNone"><i class="icon-warning-sign WarningSign"></i></span>
+                                <span class="Label">First Name<span class="RequiredField">*</span></span><input id="txt_firstname" type="text" class="textbox RemoveBoxShadow" placeholder="First (Required)" style="display:block;"/> <span class="SpanError DisplayNone"><i class="icon-warning-sign WarningSign"></i></span>
                             </label>
                         </li>
                         <li>
                             <label>
-                                <span class="Label">Last Name<span class="RequiredField">*</span></span><input id="txt_lastname" type="text" class="textbox" placeholder="Last (Required)" style="display:block;"/><span class="SpanError DisplayNone"><i class="icon-warning-sign WarningSign"></i></span>
+                                <span class="Label">Last Name<span class="RequiredField">*</span></span><input id="txt_lastname" type="text" class="textbox RemoveBoxShadow" placeholder="Last (Required)" style="display:block;"/><span class="SpanError DisplayNone"><i class="icon-warning-sign WarningSign"></i></span>
                             </label>
                         </li>
                         <li>
                             <label>
-                                <span class="Label">Email Address</span><input id="txt_email" type="text" class="textbox" placeholder="yourname@domain.com" style="display:block;"/><span class="SpanError DisplayNone"><i class="icon-warning-sign WarningSign"></i></span>
+                                <span class="Label">Email Address</span><input id="txt_email" type="text" class="textbox RemoveBoxShadow" placeholder="yourname@domain.com" style="display:block;"/><span class="SpanError DisplayNone"><i class="icon-warning-sign WarningSign"></i></span>
                             </label>
                         </li>
                         <li>
                             <label>
-                                <span class="Label">Mobile Phone</span><input id="txt_phone" type="text" class="textbox" placeholder="(999)999-9999" style="display:block;"/><span class="SpanError DisplayNone"><i class="icon-warning-sign WarningSign"></i></span>
+                                <span class="Label">Mobile Phone</span><input id="txt_phone" type="text" class="textbox RemoveBoxShadow" placeholder="(999)999-9999" style="display:block;"/><span class="SpanError DisplayNone"><i class="icon-warning-sign WarningSign"></i></span>
                             </label>
                         </li>
                         <li>
                             <label>
-                                <span class="Label">UID</span><input id="txt_uid" type="text" class="textbox" placeholder="Enter 9 digit UID" style="display:block;" maxlength="9"/><span class="SpanError DisplayNone"><i class="icon-warning-sign WarningSign"></i></span>
+                                <span class="Label">UID</span><input id="txt_uid" type="text" class="textbox RemoveBoxShadow" placeholder="Enter 9 digit UID" style="display:block;" maxlength="9"/><span class="SpanError DisplayNone"><i class="icon-warning-sign WarningSign"></i></span>
                             </label>
                         </li>
                     </ul>
                     
                     <!-- <button class="button large horizontal-center big-blue-button" onclick="Register();" style="">Register</button> -->
                     <!-- <a data-role="button" class="button large horizontal-center big-blue-button" data-click="Register" style="">Register</a> -->
-                    <a data-role="button" data-click="Register" style="margin-left:4%">Register</a>
                 </div>
+            </div>
+            <div class="CenterAlign RegisterButtonContainer">
+                <a data-role="button" class="SignInButton" href="#">Cancel</a>
+                <a data-role="button" data-click="Register" class="SignInButton">Register</a>
             </div>
         </div>
         
@@ -199,13 +207,28 @@
                 <div id="div_header" class="header-div" >
 					<div>
 						<img src="img/logo-ucla.png" class="header-logo HeaderLogoFix" />
-						<span id="DeptName" class="header-text"></span>
+						<span populateDeptName="true" class="header-text"></span>
 						<a data-role="button" class="button large link-button" data-click="DisplayReconfigureLobbyDialog">Close</a>
 					</div>
 					
 				</div>
 				<div id="welcome_text_div" class="center-text WelcomeText">
-					<span id="welcome_text" class="clear-margin-padding header-text"></span>
+					<span populateWelcomeMessage="true" class="clear-margin-padding header-text"></span>
+				</div>
+			</div>
+		</div>
+        <!-- Layout with Ucla logo and Welcome text without Close button; Used in Register and SignIn pages -->
+		<div data-role="layout" data-id="LayoutWithUclaLogoNoClose">
+			<div data-role="header" style="position:relative">
+                <div id="div_header" class="header-div" >
+					<div>
+						<img src="img/logo-ucla.png" class="header-logo HeaderLogoFix" />
+						<span populateDeptName="true" class="header-text"></span>
+					</div>
+					
+				</div>
+				<div id="welcome_text_div" class="center-text WelcomeText">
+					<span populateWelcomeMessage="true" class="clear-margin-padding header-text"></span>
 				</div>
 			</div>
 		</div>
@@ -218,7 +241,7 @@
                     </div>
                 </div>
 				<div id="welcome_text_div1" class="center-text WelcomeText">
-					<span id="welcome_text1" class="clear-margin-padding header-text"></span>
+					<span populateWelcomeMessage="true" class="clear-margin-padding header-text"></span>
 				</div>
 			</div>
 		</div>
@@ -229,7 +252,7 @@
                 <div id="div_header" class="header-div" >
 					<div>
 						<img src="img/logo-ucla.png" class="header-logo HeaderLogoFix" />
-						<span id="DeptName" class="header-text"></span>
+						<span populateDeptName="true" class="header-text"></span>
 						<a data-role="button" class="button large link-button" data-click="DisplayReconfigureLobbyDialog">Close</a>
 					</div>
 					
@@ -281,7 +304,7 @@
                 <div id="div_header" class="header-div" >
 					<div>
 						<img src="img/logo-ucla.png" class="header-logo HeaderLogoFix" />
-						<span id="DeptNameThankYou" class="header-text"></span>
+						<span populateDeptName="true" class="header-text"></span>
 					</div>
 				</div>
 			</div>

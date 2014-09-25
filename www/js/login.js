@@ -447,11 +447,17 @@ function ClickLogon(){
 }
 
 function InitForm(){
-    $("#DeptName").text(localStorage.getItem("deptname"));
+//    $("#DeptName").text(localStorage.getItem("deptname"));
+    $("span[populateDeptName='true']").text(localStorage.getItem("deptname"));
+    
     if(localStorage.getItem("welcome") != null && localStorage.getItem("welcome") != "null")
     {
-        $("#welcome_text").text(localStorage.getItem("welcome"));
-        $("#welcome_text1").text(localStorage.getItem("welcome"));
+//        $("#welcome_text").text(localStorage.getItem("welcome"));
+//        $("#welcome_text1").text(localStorage.getItem("welcome"));
+            $("span[populateWelcomeMessage='true']").text(localStorage.getItem("deptname"));
+    }
+    else{
+        $("#welcome_text").text("Welcome to the event");    
     }
     
     if(localStorage.getItem("anon") == "true")
@@ -478,7 +484,9 @@ function InitForm(){
     {
         initialView = "not_anon";
         $("#not_anon").removeClass("invisible");
-        $("#txt_logon").val("").focus();        
+        $("#txt_logon").val("").focus();
+        $('#div_logon1').click();
+        $('#txt_logon').focus();
 //        console.log('set default focus');
 //        setTimeout(function(){console.log('focussing..');$('#txt_logon').val('').focus();}, 800);
         $("#body").addClass("molecules-bg");
@@ -490,10 +498,11 @@ function FocusLoginControl()
 {
     console.log('transition end.. focussing..');
 //    $('#txt_logon').focus();
+    
     setTimeout(function(){
                console.log('focussing..');
-               $('#div_logon').click();
-               $('#txt_logon').focus();
+         //      $('#div_logon').click();
+           //    $('#txt_logon').focus();
                }, 500);
 }
 

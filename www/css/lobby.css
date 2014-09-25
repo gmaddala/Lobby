@@ -565,7 +565,8 @@ div.gray-div + div.gray-div{
     background-color:#BBBFC4 !important;
 }
 
-.arrow{
+/* was used in login page */
+.xarrow{
     float:right;
     font-size:xx-large;
 }
@@ -597,7 +598,8 @@ div.gray-div + div.gray-div{
 
 .panel-button-div{
     position:fixed;
-    bottom:0;
+ /*   bottom:0;  */
+    bottom: 10vh;
     width:100%;
 }
 
