@@ -201,6 +201,7 @@ function SearchUser()
     var logonCtl = $('#txt_rsvp_eleg_uid');
     
     if(logonId != ""){
+        DisplayRSVPCheckInButton(true);
         logonCtl.removeClass('Error');
         SignIn(logonCtl.val());
     }
@@ -338,6 +339,7 @@ function CheckIn(logon, isoverride, isCardreader){
                             $('#divSearchFail').addClass('DisplayNone');
                             $('#divSearchLastCheckIn').removeClass('DisplayNone');
                             $('#spanSearchLastCheckIn').text(fullName);
+                            DisplayRSVPCheckInButton(false);
                         }
                         else
                         {
@@ -655,4 +657,15 @@ function InitRSVPSearch(){
     $('#liRsvpUidSearch').addClass('RSVPInputTypeHighlight');
     //hide RSVP search results
     DisplayRSVPSearchResults(false);
+    DisplayRSVPCheckInButton(true);
+}
+
+function DisplayRSVPCheckInButton(canDisplay){
+    if(canDisplay){
+        //display 'Check In' button
+        $('#divRSVPCheckIn').removeClass('DisplayNone');
+    }
+    else{
+        $('#divRSVPCheckIn').addClass('DisplayNone');
+    }
 }

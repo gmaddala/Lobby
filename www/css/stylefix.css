@@ -427,7 +427,7 @@ input[type="radio"]:focus, input[type="checkbox"]:focus{
 	display: none !important;
 }
 .DisplayHidden{
-    display: hidden !important;
+    visibility: hidden !important;
 }
 div.km-listview-wrapper input[type="search"]
 {
