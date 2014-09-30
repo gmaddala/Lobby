@@ -70,7 +70,7 @@
 			<div id="div_access_key" class="gray-div horizontal-center">
                 <div class="upperRightIcon helpIcon"><a href="" style="" onclick="AccessKeyHelp(event);" class=""><i class="icon-question-sign"></i></a></div>
                     <div>
-                        <input id="txtAccessKey" type="text" class="horizontal-center textbox" placeholder="Enter your kiosk access key"/>
+                        <input id="txtAccessKey" type="text" class="horizontal-center textbox" placeholder="Enter your kiosk access key" maxlength="6"/>
                     </div>
                     
                     <!-- <div id="div-locations" class="control horizontal-center invisible" style="width:90%;">
@@ -101,15 +101,20 @@
         </div>
 		<div data-role="modalview" id="modalviewAlert">
 				<div data-role="header">
-					<div data-role="navbar">
+					<div data-role="navbar" class="TitleWithRoundedCorners">
 						<span>Alert</span>
-						<a data-click="HideNativeDialog" data-role="button" data-align="right" class="closeModal">Close</a>
+						<!-- <a data-click="HideNativeDialog" data-role="button" data-align="right" class="closeModal">Close</a> -->
 					</div>
 				</div>					   
 			   <div class="modalContent">
 					<span id="spanAlertMessage" class="AlertText"></span> 
 			   </div>
 				   <!--Style to change styling of display message: style="background:#fff;color:#3284bf;" -->
+                   <div data-role="footer">
+                       <div class="ContentWithRoundedCorners iOSLikeOkContainer">
+                           <a data-role="button" class="modal-double-button-left iOSLikeOkButton" data-click="HideNativeDialog">OK</a>
+                       </div>
+                   </div>
 		</div>
 
         <!-- <script type="text/javascript" src="phonegap.js"></script> -->

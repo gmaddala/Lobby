@@ -82,35 +82,123 @@
         </div>
 		
 		<!-- RSVP -->
-		<div data-role="view" id="rsvp_eleg" data-layout="LayoutWithoutWelcomeMessage">
-            <div class="div-white-body WhiteBodyFix">
-				<div class="center-text">
-                    <span class="clear-margin-padding header-text" style="color:#000">Swipe Bruincard or enter UID to check in</span>
+		<div data-role="splitview" id="rsvp_eleg" class="WhiteBackground">
+            <div data-role="pane" id="divSidePane" data-layout="LayoutLeftSideRSVP" class="SplitViewLeftPane">
+                <div data-role="view" data-title="RSVPCheckIn" id="divLeftPaneContainer" class="LeftPaneContainer">
+                                                                <span populateDeptName="true" class="header-text1"></span>
+                    <ul data-role="listview" class="Divider" id="ulRsvpInputTypes">
+                        <li id="liRsvpSwipe"><a data-role="button" data-target="divDetailPane" href="#divCheckInView">Swipe</a></li>
+                        <li id="liRsvpUidSearch"><a data-role="button" data-target="divDetailPane" href="#divSearchView">Search </i></a></li>
+                    </ul>
                 </div>
-                <div class="gray-div horizontal-center eventInfo">
-                    <table id="event_table" class="form-table">
-                        <tr>
-                            <td class="form-table-label">Event:</td>
-                            <td id="event_name"></td>
-                        </tr>
-                        <tr>
-                            <td class="form-table-label">Name:</td>
-                            <td id="student_name"></td>
-                        </tr>
-                        <tr>
-                            <td class="form-table-label">Status:</td>
-                            <td id="">
-                                <span id="success" class="invisible">SUCCESS</span>
-                                <span id="failed" class="invisible">FAILED
-                                    <a data-role="button" id="btn_override" class="button large small-button overrideButtonFix" data-click="OverrideCheckIn">Override</a>
-                                    <span><a href="" style="" onclick="OverrideHelp(event);" class="helpIcon"><i class="icon-question-sign"></i></a></span>
-                                </span>
-                            </td>
-                        </tr>
-                    </table>
-                    <input id="txt_rsvp_eleg_uid" type="text" class="horizontal-center textbox" placeholder="Enter UID" style="display:block;"/>
-					<a data-role="button" class="button large horizontal-center long-button CheckInButtonFix" style="" onclick="CheckIn($('#txt_rsvp_eleg_uid').val(), false);">Check In</a>
+                <!-- Split view left side layout -->
+                <div data-role="layout" data-id="LayoutLeftSideRSVP">
+                    <div data-role="header">
+                        <div id="div_header" class="SplitViewLeft">
+                            <div>
+                                <img src="img/logo-ucla.png" class="HeaderLogoSplitView" />
+                                <!--<a data-role="button" class="button large link-button" data-click="DisplayReconfigureLobbyDialog">Close</a> -->
+                            </div>
+                            
+                        </div>
+                    </div>
                 </div>
+            </div>
+            <div data-role="pane" id="divDetailPane" data-layout="LayoutRightSideRSVP" class="RSVPRightHandPane">
+                <div data-role="view" id="divCheckInView" class="RightPaneContainer" data-show="InitRSVPSwipe">
+                    <div class="event-name-container">
+                        <span canDisplayEventName="true" class="event-name"></span>
+                    </div>
+                    <div class="rsvp-instruction">
+                        <span>Please swipe your Bruincard</span>
+                    </div>
+                    <div class="RSVPCheckInPadding" id="divCheckInViewContainer">
+                         <div class="row-fluid">
+                             <div class="span4 align-right"><span>Name:</span></div>
+                             <div class="span4"><span id="spanSwipeName" canDisplayName="true"></span></div>
+                         </div>
+                         <div class="row-fluid">
+                             <div class="span4 align-right"><span>University ID:</span></div>
+                             <div class="span4"><span id="spanSwipeUid"  canDisplayUID="true"></span></div>
+                         </div>
+                         <div class="row-fluid">
+                             <div class="span4 align-right"><span>Check in Status:</span></div>
+                             <div class="span6">
+                                 <div displayStatus="Success" class="DisplayNone" id="divSwipeSuccess">
+                                     <span class="status-rounded-corner success">Success</span>
+                                 </div>
+                                 <div displayStatus="Fail" class="DisplayNone override-fail-align" id="divSwipeFail">
+                                 <span class="status-rounded-corner failure">Failed</span><a data-role="button" id="btn_override" class="button large small-button override-button-fix" data-click="OverrideCheckIn">Override</a>
+                                 <span id="spanOverride" class="override-help-container"><a href="" onclick="OverrideHelp(event);" class="OverrideHelpLink"><i class="icon-question-sign OverrideHelpIcon"></i></a></span>
+                                 </div>
+                             </div>
+                         </div>
+                         <div class="DisplayNone last-successful-rsvp-checkin" id="divSwipeLastCheckIn">
+                             <span>Last successful check in: </span><span id="spanSwipeLastCheckIn" canDisplayLastCheckIn="true"></span>
+                        </div>
+                    </div>
+                </div>
+                <div data-role="view" id="divSearchView" class="right-pane-search-container" data-show="InitRSVPSearch">
+                    <div id="divRSVPSearchContainer"> <!-- class="rsvp-search-container" -->
+                        <div class="event-name-container">
+                            <span canDisplayEventName="true" class="event-name"></span>
+                        </div>
+                        <div class="rsvp-search-instruction">
+                            <span>Please enter Ucla logon / UID to search and check in</span>
+                        </div>
+                        <div class="row-fluid rsvp-search-controls">
+                            <div class="span6">
+                                <input id="txt_rsvp_eleg_uid" type="text" class="horizontal-center rsvp-logon-input" placeholder="Enter Ucla logon/UID" style="display:block;" maxlength="25" onfocus="ResetRSVPInput()"/>
+                            </div>
+                            <div class="span2" id="divSearch">
+                                <a data-role="button" data-click="SearchUser">Search</a>
+                            </div>
+                        </div>
+                        <div class="RSVPCheckInPadding" id="divRSVPSearchResults">
+                            <div class="row-fluid">
+                                <div class="span4 align-right"><span>Name:</span></div>
+                                <div class="span4"><span id="spanSearchName" canDisplayName="true"></span></div>
+                            </div>
+                            <div class="row-fluid">
+                                <div class="span4 align-right"><span>University ID:</span></div>
+                                <div class="span4"><span id="spanSearchUid" canDisplayUID="true"></span></div>
+                            </div>
+                            <div class="row-fluid">
+                                <div class="span4 align-right"><span>Check in Status:</span></div>
+                                <div class="span6">
+                                    <div displayStatus="Success" class="DisplayNone" id="divSearchSuccess">
+                                        <span class="status-rounded-corner success">Success</span>
+                                    </div>
+                                    <div displayStatus="Fail" class="DisplayNone override-fail-align" id="divSearchFail">
+                                        <span class="status-rounded-corner failure">Failed</span><a data-role="button" id="btn_override" class="button large small-button override-button-fix" data-click="OverrideCheckIn">Override</a>
+                                        <span id="spanOverride" class="override-help-container"><a href="" onclick="OverrideHelp(event);" class="OverrideHelpLink"><i class="icon-question-sign OverrideHelpIcon"></i></a></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row-fluid">
+                                <div class="span10 text-align-center" id="divRSVPCheckIn">
+                                    <a data-role="button" data-click="RSVPCheckIn">Check In</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="DisplayNone last-successful-rsvp-checkin" id="divSearchLastCheckIn">
+                            <span>Last successful check in: </span><span id="spanSearchLastCheckIn" canDisplayLastCheckIn="true"></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Split view right side layout -->
+                <div data-role="layout" data-id="LayoutRightSideRSVP">
+                    <div data-role="header" class="SplitViewRightHeader">
+                        <div id="div_header" class="SplitViewRightPadding">
+                            <div>
+                                <a data-role="button" class="button large link-button" data-click="DisplayReconfigureLobbyDialog">Close</a>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
         
@@ -152,8 +240,8 @@
                 </div>
             </div>
             <div class="CenterAlign RegisterButtonContainer">
-                <a data-role="button" class="SignInButton" href="#">Cancel</a>
-                <a data-role="button" data-click="Register" class="SignInButton">Register</a>
+                <a data-role="button" class="SignInButton" href="#" data-transition="slide:reverse">Cancel</a>
+                <a data-role="button" data-click="Register" class="SignInButton font-bold">Register</a>
             </div>
         </div>
         
@@ -343,11 +431,16 @@
             <div data-role="header">
                 <div data-role="navbar" class="TitleWithRoundedCorners">
                     <span>Alert</span>
-                    <a data-click="HideNativeDialog" data-role="button" data-align="right" style="background:none;color:#3284bf;">Close</a>
+                    <!--<a data-click="HideNativeDialog" data-role="button" data-align="right" style="background:none;color:#3284bf;">Close</a> -->
                 </div>
             </div>
-            <div class="modalContent ContentWithRoundedCorners">
+            <div class="modalContent">
                 <span id="spanAlertMessage" class="AlertText"></span>
+            </div>
+            <div data-role="footer">
+                <div class="ContentWithRoundedCorners iOSLikeOkContainer">
+                    <a data-role="button" class="modal-double-button-left iOSLikeOkButton" data-click="HideNativeDialog">OK</a>
+                </div>
             </div>
 		</div>
         <!-- modal to display alert message for failed card swipe -->

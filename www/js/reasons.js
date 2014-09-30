@@ -569,6 +569,12 @@ function ClearSearch(){
 }
 
 function DisplayResponses(e){
+    //add delay before displaying all the response controls to prevent accidental touch on response controls
+    $('#divQuestions').addClass('DisplayNone');
+    window.setTimeout(function(){
+                      $('#divQuestions').removeClass('DisplayNone')
+                      }, 400);
+    
     eventQuestions = JSON.parse(localStorage.getItem("questions"));
     var q_array = eventQuestions.Questions;
     

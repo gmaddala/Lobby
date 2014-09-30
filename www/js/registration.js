@@ -136,3 +136,39 @@ function DisplayLogin(){
     app.startCardReader();
     app1.navigate("#");//, "slide:left");
 }
+
+function SwitchSplitView(){
+    console.log('switch view..');
+    var data = e.button.data();
+    var view = data.param;
+    console.log('param..' + param);
+    switch(view){
+        case "Swipe":
+            $('#divDetailPane').data("kendoMobilePane");
+            pane.navigate("#divCheckInView");
+            break;
+        case "Search":
+            $('#divDetailPane').data("kendoMobilePane");
+            pane.navigate("#divSearchView");
+            //focus not set on Safari browser on iOS
+            $('#txt_rsvp_eleg_uid').focus();
+            break;
+    }
+}
+
+function DisplayRSVPSearchResults(canShow)
+{
+    if(!canShow){
+        $('#divRSVPSearchResults').addClass('DisplayNone');
+    }
+    else{
+        $('#divRSVPSearchResults').removeClass('DisplayNone');
+    }
+}
+
+function ResetRSVPInput(){
+    console.log('resetting..');
+    $('#txt_rsvp_eleg_uid').val("");
+    //hide RSVP search results
+    DisplayRSVPSearchResults(false);
+}

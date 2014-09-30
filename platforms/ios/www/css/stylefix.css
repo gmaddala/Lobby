@@ -267,9 +267,10 @@ div.gray-div{
 	margin-top: 15%;
 }
 
-.overrideButtonFix{
+.override-button-fix{
 	height: 80% !important;
-	padding-top: 1% !important;
+/* 	padding-top: 1% !important; */
+    padding: 1.4% 4.5% !important;
 }
 
 
@@ -425,7 +426,9 @@ input[type="radio"]:focus, input[type="checkbox"]:focus{
 .DisplayNone{
 	display: none !important;
 }
-
+.DisplayHidden{
+    display: hidden !important;
+}
 div.km-listview-wrapper input[type="search"]
 {
 	webkit-box-sizing: border-box !important;
@@ -519,6 +522,33 @@ div.km-listview-wrapper input[type="search"]
     
     .RegistrationContainer{
         margin-top:35%;
+    }
+    
+    .header-text1
+    {
+        top:2.9% !important;
+    }
+    .SplitViewLeft{
+        height:4.35em !important;
+    }
+    #divLeftPaneContainer>div[data-role="content"]{
+        margin-top:5% !important;
+    }
+    
+    .rsvp-search-instruction, .rsvp-search-controls{
+        padding-left: 10% !important;
+    }
+    
+    .last-successful-rsvp-checkin{
+        padding-left: 11% !important;
+    }
+    
+    .event-name-container{
+        padding-left: 35% !important;
+    }
+    
+    .rsvp-instruction{
+        padding-left: 30% !important;
     }
 }
 
@@ -817,7 +847,12 @@ div.km-listview-wrapper input[type="search"]
     font-size:medium;
     color:#000;
     width:50%;
+    border-radius: 10px;
 }
+.font-bold{
+    font-weight: bold;
+}
+
 .CenterAlign{
     text-align:center;
 }
@@ -827,4 +862,156 @@ div.km-listview-wrapper input[type="search"]
 
 #viewSigninWithUclaLogon>div[data-role="content"]{
     background-color: transparent;
+}
+
+/* RSVP */
+.RSVPLeftHandPane, .RSVPRightHandPane{
+    /*margin-top: 5%;*/
+    background-color: #fff;
+}
+
+.RSVPRightHandPane{
+    margin-top:0%;
+}
+
+.SplitViewLeft{
+/*    margin-top: -4%;
+    position: fixed;*/
+    padding-left: 1%;
+    position: relative;
+    background-color:#3284bf;
+    height: 4.9em;
+}
+
+.SplitViewLeftPane{
+/*    margin-top: 10.8%;*/
+}
+
+.SplitViewRightHeader{
+    position:relative;
+    display: inline-block;
+    background-color: #3284bf;
+}
+.SplitViewRightPadding{
+    padding-top: 5%;
+}
+
+#divLeftPaneContainer>div[data-role="content"]{
+    background-color: #fff;
+    position: relative;
+    display:inline-block;
+    padding-top: 25% !important;
+}
+
+.LeftPaneContainer{
+    position: relative;
+    display: inline-block;
+    background-color: #3268bf;
+}
+.HeaderLogoSplitView{
+    width:16%;
+    padding-top:13%;
+    padding-left:3%;
+    height:auto;
+}
+
+.header-text1{
+position: fixed;
+top:5.5%;
+left: 8%;
+z-index:3;
+color:#fff;
+font-size:large;
+}
+
+.Divider{
+    height:100vh;
+    border-right: solid 1px #ccc;
+}
+
+#divDetailPane > div[data-role="view"]{
+    padding-top:15%;
+}
+.RightPaneContainer > div[data-role="content"], .right-pane-search-container > div[data-role="content"]{
+    background-color: #fff !important;
+}
+.align-right{
+  text-align:right;
+}
+.RSVPCheckInPadding{
+    padding-left:15%;
+    padding-top:8%;
+}
+.status-rounded-corner{
+    color:#fff;
+    display:inline-block;
+    width:auto;
+    border-radius:10px;
+    padding:4px;
+    margin-top:-2%;
+}
+.success{
+    background-color: green;
+}
+.failure{
+    background-color: red;
+}
+.RSVPInputTypeHighlight{
+    background-color: #eee !important;
+}
+.OverrideHelpIcon{
+    zoom:1.3;
+}
+.OverrideHelpLink{
+	color: #bfbfbf !important;
+}
+.OverrideHelpLink:active{
+    text-decoration:none;
+}
+.override-fail-align{
+    margin-top:-1%;
+}
+.override-help-container{
+    margin-left:-3%;
+}
+.right-pane-search-container{
+    background-color: #fff !important;
+}
+.rsvp-logon-input{
+    width:90%;
+    height:2em !important;
+}
+.rsvp-search-container{
+    margin-left: 5%;
+    margin-top: 5%;
+}
+.text-align-right{
+    text-align: right;
+}
+.text-align-center{
+    text-align: center;
+}
+.last-successful-rsvp-checkin{
+    padding-top:5%;
+    padding-left:17%;
+}
+.event-name-container{
+    padding-left:40%;
+}
+.event-name{
+    font-size:x-large;
+}
+.rsvp-instruction{
+    padding-left:35%;
+    padding-top:10%;
+    font-size: large;
+}
+.rsvp-search-instruction{
+    padding-left: 16%;
+    padding-bottom: 2%;
+    padding-top:10%;
+    font-size: large;
+}
+.rsvp-search-controls{
+    padding-left:15%;
 }

@@ -131,12 +131,16 @@ var startTimer1;
 function SignIn(logon, isCardreader){
     isCardreader = typeof isCardreader != 'undefined' ? isCardreader : false;
     localStorage.setItem("cardswiped", isCardreader);
-    
+
+    var isRSVP = false;
     var submitIntake = false; //if no reasons list, immediately submit intake
     var qjson = JSON.parse(localStorage.getItem("questions"));
     if(qjson.HasQuestions == false)
     {
         submitIntake = true;
+    }
+    if(localStorage.getItem("rsvp") == "true"){
+        isRSVP = true;
     }
     
 	if ( !isOfflineMode() )
@@ -154,7 +158,12 @@ function SignIn(logon, isCardreader){
 				   },
 				   success: function(data){
                         var jsonobj = JSON.parse(data);
+                    if(!isRSVP){
                         SetStudentData(jsonobj, submitIntake);
+                    }
+                   else{
+                        SetRSVPStudentData(jsonobj);
+                   }
 					
 					//window.open("login.html?key=" + $('#txtAccessKey').val() + "&deptname=" + jsonobj.Data.DeptName ,"_self");
 				   },
@@ -176,6 +185,49 @@ function SignIn(logon, isCardreader){
 				  var jsonobj = JSON.parse(offlineData);
 				  SetStudentData(jsonobj, submitIntake);
 		 }
+}
+
+function SearchUser()
+{//RSVP user search
+    var logonId =$('#txt_rsvp_eleg_uid').val();
+    logonId = $.trim(logonId);
+    //reset the controls which display student name, UID and status
+    $('#spanSearchName').text("");
+    $('#spanSearchUid').text("");
+//    $('#divOverrideSuccess').addClass('DisplayNone');
+//    $('#divOverrideFail').addClass('DisplayNone');
+    $('#divSearchSuccess').addClass('DisplayNone');
+    $('#divSearchFail').addClass('DisplayNone');
+    var logonCtl = $('#txt_rsvp_eleg_uid');
+    
+    if(logonId != ""){
+        logonCtl.removeClass('Error');
+        SignIn(logonCtl.val());
+    }
+    else{
+        //highlight field
+        logonCtl.addClass('Error');
+    }
+}
+
+function SetRSVPStudentData(jsonobj){
+    if(jsonobj.Data.IsValidLogon == true){
+        //display RSVP search results
+        DisplayRSVPSearchResults(true);
+
+        var dictionaryObj = jsonobj.Data.DictionaryUserInfo;
+        $('#spanSearchName').text(dictionaryObj.FirstName + " " + dictionaryObj.LastName);
+        $('#spanSearchUid').text(dictionaryObj.UID);
+    }
+    else
+    {
+        //showDialog("Error: Invalid logon");
+        ShowFlashMessage("Invalid logon");
+        
+        //Remove loading image
+        endLoading();
+    }
+    
 }
 
 function SetStudentData(jsonobj, submitIntake)
@@ -219,12 +271,18 @@ function SetStudentData(jsonobj, submitIntake)
 function OverrideCheckIn(){
 	CheckIn(localStorage.getItem('uid'), true, localStorage.getItem('cardswiped'));
 }
+var isManualRSVPCheckIn = false;
+function RSVPCheckIn(){
+    var logon = $('#spanSearchUid').text()
+    CheckIn(logon, false);
+}
 
 //rsvp or eligibility check
 function CheckIn(logon, isoverride, isCardreader){
     isCardreader = typeof isCardreader != 'undefined' ? isCardreader : false;
     localStorage.setItem("cardswiped", isCardreader);
     var type = -1; //if rsvp or enforced eligibility
+//    console.log('param logon:' + logon);
     if(localStorage.getItem("rsvp") == "true")
     {
         type = 0;
@@ -257,17 +315,55 @@ function CheckIn(logon, isoverride, isCardreader){
                    localStorage.setItem("lastname", jsonobj.Data.UserInfo.DictionaryUserInfo.LastName);
                    localStorage.setItem("phone", jsonobj.Data.UserInfo.DictionaryUserInfo.Phone);
                    localStorage.setItem("email", jsonobj.Data.UserInfo.DictionaryUserInfo.Email);
-                    $('#student_name').text(localStorage.getItem("firstname") + " " + localStorage.getItem("lastname"));
+//                    $('#student_name').text(localStorage.getItem("firstname") + " " + localStorage.getItem("lastname"));
+                    var fullName = localStorage.getItem("firstname") + " " + localStorage.getItem("lastname");
+           
+                    if(isManualRSVPCheckIn){
+                        $('#spanSearchName').text(fullName);
+                        $('#spanSearchUid').text(localStorage.getItem("uid"));
+                    }
+                    else{
+                            $('#spanSwipeName').text(fullName);
+                            $('#spanSwipeUid').text(localStorage.getItem("uid"));
+                        }
            
                     if(jsonobj.Data.IsEligible == true)
                     {
                         $('#success').removeClass('invisible');
                         $('#failed').addClass('invisible');
+
+
+                        if(isManualRSVPCheckIn){
+                            $('#divSearchSuccess').removeClass('DisplayNone');
+                            $('#divSearchFail').addClass('DisplayNone');
+                            $('#divSearchLastCheckIn').removeClass('DisplayNone');
+                            $('#spanSearchLastCheckIn').text(fullName);
+                        }
+                        else
+                        {
+                            $('#divSwipeSuccess').removeClass('DisplayNone');
+                            $('#divSwipeFail').addClass('DisplayNone');
+                            $('#divSwipeLastCheckIn').removeClass('DisplayNone');
+                            $('#spanSwipeLastCheckIn').text(fullName);
+                        }
+           
+                        ClearRSVPFields(false);
                     }
                     else
                     {
                         $('#failed').removeClass('invisible');
                         $('#success').addClass('invisible');
+                        if(isManualRSVPCheckIn){
+                            $('#divSearchSuccess').addClass('DisplayNone');
+                            $('#divSearchFail').removeClass('DisplayNone');
+                            ClearRSVPFields(true);
+                        }
+                        else
+                        {
+                            $('#divSwipeSuccess').addClass('DisplayNone');
+                            $('#divSwipeFail').removeClass('DisplayNone');
+                            ClearRSVPFields(true);
+                        }
                     }
            
            
@@ -285,6 +381,29 @@ function CheckIn(logon, isoverride, isCardreader){
                     endLoading();
                 }
            });
+}
+
+function ClearRSVPFields(isRSVPFailed){
+    var timeout = 3000;
+    if(isRSVPFailed){
+        timeout = 6000;
+    }
+    //clear the fields collected through swipe/search after Successful check-in/override check-in
+    setTimeout(function(){
+               console.log('isManualRSVPCheckIn:'+ isManualRSVPCheckIn);
+               if(!isManualRSVPCheckIn){
+                    $('#spanSwipeName').text("");
+                    $('#spanSwipeUid').text("");
+//                    $('#divOverrideSuccess').addClass('DisplayNone');
+                    $('#divSwipeSuccess').addClass('DisplayNone');
+//                    $('#divOverrideFail').addClass('DisplayNone');
+                    $('#divSwipeFail').addClass('DisplayNone');
+                }
+               else{
+                    DisplayRSVPSearchResults(false);
+                }
+               }, timeout);
+    
 }
 
 function CloseApp(e)
@@ -344,6 +463,8 @@ function ClickRegistration()
     //reset input controls
     $('#divRegistration input').removeClass("Error").val("").addClass("RemoveBoxShadow");
     $('span.SpanError').addClass('DisplayNone')
+    //suggested by Telerik team; Ticket# 856962
+    kendo.UserEvents.defaultThreshold(9);
     app1.navigate("#divRegistrationView", "slide:left");
 }
 
@@ -478,6 +599,9 @@ function InitForm(){
         //$("#not_anon").addClass("invisible");
         //$("#welcome_text_div").addClass("invisible");
         $("#event_name").text(localStorage.getItem("appdescription"));
+        $('#liRsvpSwipe').addClass('RSVPInputTypeHighlight');
+        $('#liRsvpUidSearch').removeClass('RSVPInputTypeHighlight');
+        $('span[canDisplayEventName="true"]').text(localStorage.getItem("appdescription"));
         //app1.navigate("#rsvp_eleg");
     }
     else
@@ -515,4 +639,20 @@ function DisplayReconfigureLobbyDialog(){
     //$('#divAppKeyError').addClass("DisplayNone");
     $(".ContentWithRoundedCorners").parent().addClass("ContentWithRoundedCorners");
     $("#dialog-modal").kendoMobileModalView("open");
+}
+
+//RSVP methods
+function InitRSVPSwipe(){
+    isManualRSVPCheckIn = false;
+    $('#liRsvpSwipe').addClass('RSVPInputTypeHighlight');
+    $('#liRsvpUidSearch').removeClass('RSVPInputTypeHighlight');
+}
+
+function InitRSVPSearch(){
+    isManualRSVPCheckIn = true;
+    //Highlight 'Search' pane in the left hand pane
+    $('#liRsvpSwipe').removeClass('RSVPInputTypeHighlight');
+    $('#liRsvpUidSearch').addClass('RSVPInputTypeHighlight');
+    //hide RSVP search results
+    DisplayRSVPSearchResults(false);
 }

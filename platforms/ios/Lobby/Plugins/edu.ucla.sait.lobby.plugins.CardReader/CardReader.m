@@ -18,8 +18,15 @@
     self.cordovaCommand = command;
     self.mtSCRALib = [[MTSCRA alloc] init];
     [self.mtSCRALib listenForEvents:(TRANS_EVENT_OK|TRANS_EVENT_START|TRANS_EVENT_ERROR)];
+
+    //ananth
+//    NSString *restCallString = [NSString stringWithFormat:@"http://sait-test.uclanet.ucla.edu/sawebnew2/api/errorlog?Message=%@", testString];
+//    NSURL *restURL = [NSURL URLWithString:restCallString];
+//    NSURLRequest *restRequest = [NSURLRequest requestWithURL:restURL];
     
     
+//    currentConnection = [[NSURLConnection alloc] initWithRequest:restRequest delegate:self];
+    //ananth
     
     if([self isHeadsetPluggedIn])
     {
@@ -64,6 +71,7 @@
 
 - (void)onDataEvent:(id)status
 {
+    
 #ifdef _DGBPRNT
     NSLog(@"onDataEvent: %i", [status intValue]);
 #endif
@@ -119,6 +127,11 @@
             }
             @catch(NSException *e)
             {
+                NSArray *backtrace = [e callStackSymbols];
+                NSString *message = [NSString stringWithFormat:@"onDataEvent: Backtrace:\n%@.", backtrace];
+                
+                
+                [self logError:(message)];
             }
             
             if(bTrackError == NO)
@@ -164,6 +177,8 @@
 
 - (void)returnData
 {
+    @try {
+    
     if(self.self.mtSCRALib != NULL)
     {
         NSString *pResponse = [NSString stringWithFormat:@"Response.Type: %@\n"
@@ -261,6 +276,23 @@
             [self.commandDelegate sendPluginResult:pluginResult callbackId:self.cordovaCommand.callbackId];
         }
     }
+    }
+    @catch (NSException *exception) {
+        NSArray *backtrace = [exception callStackSymbols];
+        NSString *message = [NSString stringWithFormat:@"returnData: Backtrace:\n%@.", backtrace];
+        
+        
+        [self logError:(message)];
+        
+        //ananth
+        //in case of an exception, set the card read status as ERROR
+        CDVPluginResult *pluginResult = [CDVPluginResult
+                                         resultWithStatus: CDVCommandStatus_ERROR                                     messageAsString: @"Did not capture UID"];
+        
+        [self.mtSCRALib clearBuffers];
+        
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:self.cordovaCommand.callbackId];
+    }
 }
 
 
@@ -328,5 +360,39 @@
     return NO;
 }
 
+//ananth
+- (void)connection:(NSURLConnection*)connection didReceiveData:(NSData *)data{
+    
+}
 
+//ananth
+- (void)connection:(NSURLConnection*)connection didFailWithError:(NSError *)error{
+    NSLog(@"Connection failed");
+    [self logError:@"Unable to access API/API server. Connection failed"];
+    currentConnection = nil;
+}
+
+//ananth
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection{
+    currentConnection = nil;
+}
+
+//ananth
+//Method to log error message through an Web API call
+- (void) logError:(NSString *) message{
+    NSString *post = [NSString stringWithFormat:@"Message=%@", message];
+    NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+    NSString *postLength = [NSString stringWithFormat:@"%lu", (long)[postData length]];
+
+    //create mutable URL request
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:[NSURL URLWithString:@"http://sait-test.uclanet.ucla.edu/sawebnew2/api/errorlog"]];
+    [request setHTTPMethod:@"POST"];
+    [request setValue: postLength forHTTPHeaderField:@"Content-Length"];
+    [request setValue: @"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPBody:postData];
+
+    currentConnection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+
+}
 @end
