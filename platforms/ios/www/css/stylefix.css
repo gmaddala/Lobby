@@ -831,7 +831,7 @@ div.km-listview-wrapper input[type="search"]
     color:#fff;
 }
 .AlignArrows{
-    margin-left:1.5%;
+    margin-left:2.9%;
 }
 .SignInContainer{
     padding-top:5%;
@@ -1014,4 +1014,12 @@ font-size:large;
 }
 .rsvp-search-controls{
     padding-left:15%;
+}
+
+.response-detail-chevron-container{
+    padding-left: 2.5%;
+}
+.response-detail-chevron{
+    color: #666;
+    zoom: 1.2;
 }

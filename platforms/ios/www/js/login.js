@@ -466,7 +466,7 @@ function ClickRegistration()
     $('#divRegistration input').removeClass("Error").val("").addClass("RemoveBoxShadow");
     $('span.SpanError').addClass('DisplayNone')
     //suggested by Telerik team; Ticket# 856962
-    kendo.UserEvents.defaultThreshold(9);
+    kendo.UserEvents.defaultThreshold(12);
     app1.navigate("#divRegistrationView", "slide:left");
 }
 
@@ -668,4 +668,9 @@ function DisplayRSVPCheckInButton(canDisplay){
     else{
         $('#divRSVPCheckIn').addClass('DisplayNone');
     }
+}
+
+//enables the card reader to start reading
+function StartCardReader(){
+    app.startCardReader();
 }

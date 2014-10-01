@@ -172,3 +172,8 @@ function ResetRSVPInput(){
     //hide RSVP search results
     DisplayRSVPSearchResults(false);
 }
+
+function NavigateToLoginPage(){
+    StartCardReader();
+    app1.navigate("#");
+}

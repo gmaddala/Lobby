@@ -630,6 +630,17 @@ function DisplayResponses(e){
                 var txtId = responses[0].ID;
                 $("#ul_" + question.ID).append('<input type="number" value="" name="' + question.ID + '" id="' +  txtId + '" class="TextBox Borderless" />');
             }
+            else if(inputtype == "scale")
+            {
+                var txtId = responses[i].ID;
+                e.view.element.find("#ul_" + question.ID).kendoMobileListView({
+                                                                              //dataSource: responses,
+                                                                              //template: "id: #: id# with text: #: text#",
+                                                                              template: "<label>#: Text# <input type='number' value='5' name='input-" + question.ID + "' id='#:ID#' /></label>",
+                                                                              });
+                
+                e.view.element.find("#ul_" + question.ID).data("kendoMobileListView").append(responses);
+            }
         }//for
         
         //Continue button
@@ -637,7 +648,7 @@ function DisplayResponses(e){
 //        e.view.element.find("#continueBtn").kendoMobileButton({click: SubmitReasons});
     }
     else{//Build questions and responses if there're more than 2 questions
-        console.log('build..');
+        //console.log('build..');
         BuildQuestionsAndResponses(q_array, e);
     }
 }
@@ -645,8 +656,20 @@ function DisplayResponses(e){
 var canReconstructListView = false;
 //Method to build questions and response summary where # of questions > 2
 function BuildQuestionsAndResponses(q_array, e){
+    var defaultResponseText = "Required";
     //check if questions are already constructed
     var canConstructQuestions = $("#divQuestions").children().length == 0;
+    var userResponses = JSON.parse(localStorage.getItem("CollectedResponses"));
+
+    //if user response is not available, clear the responses that were already made
+    if(userResponses == ""){
+        $('div.ResponseContainer span').text(defaultResponseText)
+        //clear number fields
+        $('div.QuestionAndResponseContainer').find('div input[type="number"]').val("");
+        //clear text fields
+        $('div.QuestionAndResponseContainer').find('div input[type="text"]').val("");
+
+    }
     
     if (canConstructQuestions){
         var collectedResponses = [], response, responseId;
@@ -661,10 +684,9 @@ function BuildQuestionsAndResponses(q_array, e){
             var divQuestionText = '<div class="span8"> <span class="QuestionText"><br/>' + question.QuestionText + '</span> </div>';
             //add ul view here and append here..
             var divResponse = '<div class="span4" id="divResponse'+ question.ID + '"><ul id="ul_' + question.ID + '"></ul></div>';
-            var responseText = "Required";
-            if(responseText == undefined) {responseText = "";}
+            if(defaultResponseText == undefined) {defaultResponseText = "";}
             
-            divResponse = '<div class="span4 ResponseContainer" id="divResponse'+ question.ID + '" displayListView="false"><span id="spanResponseText' + question.ID + '" class="Response Required">' + responseText + '</span> <a data-role="button"  id="btnResponseDetail_' + question.ID + '" data-questionid="' + question.ID + '" class="ResponseDetailButton"><span><i class="icon-chevron-sign-right"></i></span></a></div>';
+            divResponse = '<div class="span4 ResponseContainer" id="divResponse'+ question.ID + '" displayListView="false"><span id="spanResponseText' + question.ID + '" class="Response Required">' + defaultResponseText + '</span> <a data-role="button"  id="btnResponseDetail_' + question.ID + '" data-questionid="' + question.ID + '" class="ResponseDetailButton"><span><i class="icon-chevron-sign-right"></i></span></a></div>';
             
             var divQuestionAndResponse = "";
             var inputtype = "checkbox";
@@ -672,23 +694,23 @@ function BuildQuestionsAndResponses(q_array, e){
             if(question.ResponsesType == "1")
             {//radio button
                 inputtype = "radio";
-                divResponse = '<div class="span4 ResponseContainer" id="divResponse'+ question.ID + '" displayListView="false"><span id="spanResponseText' + question.ID + '" class="Response Required">' + responseText + '</span> <a data-role="button"  id="btnResponseDetail_' + question.ID + '" data-questionid="' + question.ID + '" class="ResponseDetailButton"><span><i class="icon-chevron-sign-right"></i></span></a></div>';
+                divResponse = '<div class="span4 ResponseContainer" id="divResponse'+ question.ID + '" displayListView="false"><span id="spanResponseText' + question.ID + '" class="Response Required">' + defaultResponseText + '</span> <span class="response-detail-chevron-container"><i class="icon-chevron-sign-right response-detail-chevron"></i></span></div>';
             }
             else if(question.ResponsesType == "2")
             {//checkbox
                 inputtype = "checkbox";
-                divResponse = '<div class="span4 ResponseContainer" id="divResponse'+ question.ID + '" displayListView="false"><span id="spanResponseText' + question.ID + '" class="Response Required">' + responseText + '</span> <a data-role="button"  id="btnResponseDetail_' + question.ID + '" data-questionid="' + question.ID + '" class="ResponseDetailButton"><span><i class="icon-chevron-sign-right"></i></span></a></div>';
+                divResponse = '<div class="span4 ResponseContainer" id="divResponse'+ question.ID + '" displayListView="false"><span id="spanResponseText' + question.ID + '" class="Response Required">' + defaultResponseText + '</span> <span class="response-detail-chevron-container"><i class="icon-chevron-sign-right response-detail-chevron"></i></span></div>';
             }
             else if(question.ResponsesType == "3")
             {//combo/select control
                 inputtype = "selectbox";
-                divResponse = '<div class="span4 ResponseContainer" id="divResponse'+ question.ID + '" displayListView="true"><span id="spanResponseText' + question.ID + '" class="Response Required">' + responseText + '</span> <a data-role="button"  id="btnResponseDetail_' + question.ID + '" data-questionid="' + question.ID + '" class="ResponseDetailButton"><span><i class="icon-chevron-sign-right"></i></span></a></div>';
+                divResponse = '<div class="span4 ResponseContainer" id="divResponse'+ question.ID + '" displayListView="true"><span id="spanResponseText' + question.ID + '" class="Response Required">' + defaultResponseText + '</span> <span class="response-detail-chevron-container"><i class="icon-chevron-sign-right response-detail-chevron"></i></span></div>';
             }
             else if (question.ResponsesType == "4")
             {//textbox
                 inputtype = "textbox";
                 responseId = responses[0].ID;
-                divResponse = '<div class="span4" id="divResponse'+ question.ID + '" style="padding-top:1.5%;"><input type="text" name="' + question.ID + '" id="' +  responseId + '"  class="TextBox FloatRight Borderless" placeholder="Required"></input></div>';
+                divResponse = '<div class="span4" id="divResponse'+ question.ID + '" style="padding-top:1.5%;"><input type="text" name="' + question.ID + '" id="' +  responseId + '"  class="TextBox FloatRight Borderless" placeholder="'+ defaultResponseText +'"></input></div>';
             }
             else if (question.ResponsesType == "5")
             {//numeric textbox
@@ -696,7 +718,14 @@ function BuildQuestionsAndResponses(q_array, e){
                 responseId = responses[0].ID;
                 
                 //type number
-                divResponse = '<div class="span4" id="divResponse'+ question.ID + '" style="padding-top:1.5%;"><input type="number" name="' + question.ID + '" id="' +  responseId + '" min="1" max="9999" oninput="MaxLengthCheck(this)" class="TextBox FloatRight Borderless" placeholder="Required"></input></div>';
+                divResponse = '<div class="span4" id="divResponse'+ question.ID + '" style="padding-top:1.5%;"><input type="number" name="' + question.ID + '" id="' +  responseId + '" min="1" max="9999" oninput="MaxLengthCheck(this)" class="TextBox FloatRight Borderless" placeholder="'+ defaultResponseText +'"></input></div>';
+            }
+            else if (question.ResponsesType == "6")
+            {//numeric scale
+                inputtype= "scale";
+                responseId = responses[0].ID;
+                
+                divResponse = '<div class="span4 ResponseContainer" id="divResponse'+ question.ID + '" displayListView="false"><span id="spanResponseText' + question.ID + '" class="Response Required">' + defaultResponseText + '</span> <span class="response-detail-chevron-container"><i class="icon-chevron-sign-right response-detail-chevron"></i></span></div>';
             }
             
             divQuestionAndResponse = divQuestionText + divResponse;
@@ -724,8 +753,8 @@ function BuildQuestionsAndResponses(q_array, e){
             
             if(inputtype == "radio" || inputtype == "checkbox" || inputtype == "selectbox")
             {
-                e.view.element.find("#btnResponseDetail_" + question.ID).kendoMobileButton(); //, question:12 | {click: ShowResponsePage}
-                $("#btnResponseDetail_" + question.ID).addClass('ResponseDetailButton');
+                //e.view.element.find("#btnResponseDetail_" + question.ID).kendoMobileButton(); //, question:12 | {click: ShowResponsePage}
+                //$("#btnResponseDetail_" + question.ID).addClass('ResponseDetailButton');
             }
             else if(inputtype == "textbox")
             {
@@ -806,9 +835,10 @@ function BuildQuestionsAndResponses(q_array, e){
 
 //function to check length of input. If greater than 4, first 4 chars are retained
 //TODO: To make length check for number textbox generic, maxlength need to be configured in DB
-function MaxLengthCheck(ctl){
-    if (ctl.value.length > 4)
-    {ctl.value = ctl.value.slice(0,4); }
+function MaxLengthCheck(ctl, e){
+    var maxLength = 4;
+    if (ctl.value.length > maxLength)
+    {ctl.value = ctl.value.slice(0,maxLength); }
 }
 
 //Function to allow only numbers into the text field
@@ -818,6 +848,9 @@ function PopulateNumbers(e)
     if(code < 48 || code > 57){
         
         e.preventDefault();
+    }
+    if(code == 13){
+        $(this).blur();
     }
 }
 //Gets user provided response for the passed in questionId
@@ -898,10 +931,14 @@ function ShowResponsePage(e){
     
     if (canDisplayListView == "true"){
         //load a different view to display response in a listview. Loading the dynamic listview response in 'divCompleteResponseView' had some rendering problems
-        app1.navigate("#LocalListView", "slide:left");
+        //commenting slide to be consistent with all the view transitions
+        //Issue: When slide view transition is in place, if the keypad is displayed in the response detai page
+        //and when 'Cancel' / 'Done' is touched/clicked, all the buttons stop working. To avoid that, transition is removed
+        app1.navigate("#LocalListView");//, "slide:left");
     }
     else
     {
+        //commenting slide to be consistent with all the view transitions
         app1.navigate("#divCompleteResponseView");//, "slide:left");
     }
 }
@@ -1015,6 +1052,39 @@ function DisplayQuestionResponses(e){
                 canDisplayListView = true;
             }
             break;
+        case "scale":
+            //if a response is already made, mark it
+            responseIdColl = GetUserResponse(paramQuestionId, "Id");
+            responseText = GetUserResponse(paramQuestionId, "OtherText");
+            responseText = responseText.replace(otherPrefix,"");
+            
+            var liText = "";
+            var responseIdArr = responseIdColl.split(",");
+            var doesQuestionHaveResponse = false;
+            
+            for (var idx = 0; idx < responseForQuestion.length; idx++)
+            {
+                //if(responseId != undefined && responseId != "" && responseForQuestion[idx].ID == responseId){
+                /*doesQuestionHaveResponse = CanCheckResponseId(responseForQuestion[idx].ID, responseIdArr);
+                if(doesQuestionHaveResponse){
+                    liText = "<li><label> " + responseForQuestion[idx].Text + "<input type='" + responseControlType + "' name='input-" + paramQuestionId + "' id='"+ responseForQuestion[idx].ID+ "' checked='checked' class='textbox-"+ responseForQuestion[idx].OpensTextbox+ "'/></label></li>";
+                }
+                else
+                {*/
+                    liText = "<li><label> " + responseForQuestion[idx].Text + "<input type='number' name='input-" + paramQuestionId + "' id='"+ responseForQuestion[idx].ID+ "' class='textbox-"+ responseForQuestion[idx].OpensTextbox+ "'/></label></li>";
+                //}
+                
+
+                
+                $("#ul_" + paramQuestionId).append(liText);
+                /*if(canCreateOtherTextBox && doesQuestionHaveResponse){
+                    $("#ul_" + paramQuestionId).after("<div class='OtherDiv'><input type='text' id='" + responseForQuestion[idx].ID + "-txtother'/></div>");
+                    $('div.OtherDiv input').val(responseText);
+                }*/
+            }
+            e.view.element.find("#ul_" + paramQuestionId).kendoMobileListView();
+            
+            break;
     }
     
     
@@ -1115,6 +1185,15 @@ function GetResponseControlType(responseControlTypeId)
 		case 5:
 			responseControlType = "numerictextbox";
 			break;
+        case 6:
+            responseControlType = "scale";
+            break;
+        case 7:
+            responseControlType = "dropdown";
+            break;
+        case 8:
+            responseControlType = "toggle";
+            break;
     }
     
     return responseControlType;
