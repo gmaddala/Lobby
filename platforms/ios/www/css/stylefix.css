@@ -49,8 +49,8 @@ div.div-white-body-interior button, div.gray-div button{
 
 div#modalviewAlert.km-widget.km-modalview.km-view,div#modalviewAlert.ReasonsAlert.km-widget.km-modalview.km-view  , #dialog-modal.km-widget.km-modalview.km-view, #modalviewFlash.km-widget.km-modalview.km-view{ 
     position:fixed;
-    width:50% !important;
-    left:25%;
+    width:40%; /*!important; */
+    left:32%;
     top:40%;
 }
 
@@ -139,10 +139,10 @@ background: #fff;
 }
 
 .ReconfigureLobbyButton{
-width: 44%;
-height: 20px;
-padding: 2%;
-color: #3284bf !important;
+    width: 42%;
+    height: 20px;
+    padding: 2%;
+    color: #3284bf !important;
 /* border:none !important; */
 }
 
@@ -517,17 +517,18 @@ div.km-listview-wrapper input[type="search"]
     }
     
     .SignInContainer{
-        padding-top:35% !important;
+        padding-top:25% !important;
     }
     
     .RegistrationContainer{
-        margin-top:35%;
+        margin-top:25%;
     }
     
     .header-text1
     {
         top:2.9% !important;
     }
+
     .SplitViewLeft{
         height:4.35em !important;
     }
@@ -550,7 +551,35 @@ div.km-listview-wrapper input[type="search"]
     .rsvp-instruction{
         padding-left: 30% !important;
     }
+    
+    .signout{
+        line-height: 1 !important;
+    }
+    
+    .header-button-close{
+        padding: 0 1% !important;
+    }
+    
+    div#modalviewAlert.km-widget.km-modalview.km-view,div#modalviewAlert.ReasonsAlert.km-widget.km-modalview.km-view  , #dialog-modal.km-widget.km-modalview.km-view, #modalviewFlash.km-widget.km-modalview.km-view{ 
+    position:fixed;
+    width:50%; /* !important */
+    left:25%;
+    top:40%;
+    }
+    
+    .ReconfigureLobbyButton{
+        width: 44%;
+    }
+    
+    .LoginTextBox{
+        width: 38% !important;
+    }
 }
+
+    .header-text-fix{
+        vertical-align:middle;
+    }
+
 
 #divFilterWrap > input{
     border: 0;
@@ -626,7 +655,7 @@ div.km-listview-wrapper input[type="search"]
     /* to override bootstrap border color */
     border-color:#ccc !important;
    /* width:93%; */
-   width: 50%;
+   width: 28%;
 }
 
 /* Modal box title with rounded corners */
@@ -1022,4 +1051,64 @@ font-size:large;
 .response-detail-chevron{
     color: #666;
     zoom: 1.2;
+}
+
+.extra-large{
+    font-size: 250%;
+}
+
+/* fix for header in layouts */
+.welcome-container{
+    padding-top: 0;
+}
+.dept-name{
+    display: block;
+}
+.welcome-container-1{
+    padding:1%;
+    background:-webkit-radial-gradient(circle, #3284bf,#1e4b87);
+    margin-bottom: 7%;
+    margin-top:5%;
+    margin-left: -8.5%;
+    width:115%;
+}
+
+.header-button-close{
+    height:initial;
+    border:none !important;
+    color:#fff !important;
+    fon-size:large !important;
+    float:right;
+    padding: 0.6% 1%;
+}
+.ucla-logo-center{
+    width: 10%;
+}
+.signout{
+    zoom: 1.5;
+}
+
+/* Reasons detail page back button */
+.back-btn-div{
+    text-align:left;
+    position:relative;
+    float:left;
+    width:12%; 
+    margin-left:-14px;
+}
+
+.header-div-fix{
+    margin-bottom: 0%;
+}
+
+.text-align-cener{
+    text-align:center;
+    display: inline-block;
+    width: 100%;
+}
+
+.back-icon{
+    zoom:0.9;
+    vertical-align: baseline;
+    padding-right: 4%;
 }

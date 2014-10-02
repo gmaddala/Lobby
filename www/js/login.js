@@ -577,11 +577,11 @@ function InitForm(){
     {
 //        $("#welcome_text").text(localStorage.getItem("welcome"));
 //        $("#welcome_text1").text(localStorage.getItem("welcome"));
-            $("span[populateWelcomeMessage='true']").text(localStorage.getItem("deptname"));
+            $("span[populateWelcomeMessage='true']").text(localStorage.getItem("welcome"));
     }
-    else{
-        $("#welcome_text").text("Welcome to the event");    
-    }
+//    else{
+//        $("#welcome_text").text("Welcome to the event");    
+//    }
     
     if(localStorage.getItem("anon") == "true")
     {

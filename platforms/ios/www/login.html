@@ -54,7 +54,7 @@
     <body class="molecules-bg" id="body">
 		<div id="not_anon" class="login-textbox invisible" data-role="view" data-layout="LayoutWithUclaLogo">
             <div id="div_bruincard" class="absolute-center">
-                <p class="bold-instruction"><span class="SwipeBruinCard">Swipe your Bruincard</span></p>
+                <p class="bold-instruction extra-large"><span class="SwipeBruinCard">Swipe your Bruincard</span></p>
             </div>
             
             <div id="div_signin_method" class="panel-button-div">
@@ -69,7 +69,7 @@
                 <input id="txt_logon" type="text" class="horizontal-center textbox LoginTextBox" placeholder="Enter your UCLA Logon ID Or UID" style="display:block;"/>
                 <div class="SignInButtons">
                     <a data-role="button" class="SignInButton" href="#" data-transition="slide:reverse">Cancel</a>
-                    <a data-role="button" class="SignInButton" data-click="SignInWithUclaLogon">Sign In</a>
+                    <a data-role="button" class="SignInButton font-bold" data-click="SignInWithUclaLogon">Sign In</a>
                 </div>
             </div>
 		</div>
@@ -85,7 +85,7 @@
 		<div data-role="splitview" id="rsvp_eleg" class="WhiteBackground">
             <div data-role="pane" id="divSidePane" data-layout="LayoutLeftSideRSVP" class="SplitViewLeftPane">
                 <div data-role="view" data-title="RSVPCheckIn" id="divLeftPaneContainer" class="LeftPaneContainer">
-                                                                <span populateDeptName="true" class="header-text1"></span>
+                    <span populateDeptName="true" class="header-text1"></span>
                     <ul data-role="listview" class="Divider" id="ulRsvpInputTypes">
                         <li id="liRsvpSwipe"><a data-role="button" data-target="divDetailPane" href="#divCheckInView">Swipe</a></li>
                         <li id="liRsvpUidSearch"><a data-role="button" data-target="divDetailPane" href="#divSearchView">Search </i></a></li>
@@ -289,18 +289,22 @@
             
         </div>
         
-        <!-- Layout with Ucla logo -->
+        <!-- Layout with Ucla logo : page header with close and UCLA logo, department name and welcome message-->
 		<div data-role="layout" data-id="LayoutWithUclaLogo">
 			<div data-role="header">
                 <div id="div_header" class="header-div" >
 					<div>
-						<img src="img/logo-ucla.png" class="header-logo HeaderLogoFix" />
-						<span populateDeptName="true" class="header-text"></span>
-						<a data-role="button" class="button large link-button" data-click="DisplayReconfigureLobbyDialog">Close</a>
+						<!--<img src="img/logo-ucla.png" class="header-logo HeaderLogoFix" />
+						<span populateDeptName="true" class="header-text header-text-fix"></span>-->
+						<a data-role="button" class="button large header-button-close" data-click="DisplayReconfigureLobbyDialog"><i class="icon-signout signout"></i></a>
 					</div>
 					
 				</div>
-				<div id="welcome_text_div" class="center-text WelcomeText">
+				<div id="welcome_text_div" class="center-text welcome-container">
+                    <p class="welcome-container-1">
+                        <img src="img/logo-ucla.png" class="header-logo HeaderLogoFix ucla-logo-center" />
+                        <span populateDeptName="true" class="header-text header-text-fix dept-name"></span>
+                    </p>
 					<span populateWelcomeMessage="true" class="clear-margin-padding header-text"></span>
 				</div>
 			</div>
@@ -310,12 +314,16 @@
 			<div data-role="header" style="position:relative">
                 <div id="div_header" class="header-div" >
 					<div>
-						<img src="img/logo-ucla.png" class="header-logo HeaderLogoFix" />
-						<span populateDeptName="true" class="header-text"></span>
+						<!-- <img src="img/logo-ucla.png" class="header-logo HeaderLogoFix" />
+						<span populateDeptName="true" class="header-text"></span> -->
 					</div>
 					
 				</div>
-				<div id="welcome_text_div" class="center-text WelcomeText">
+				<div id="welcome_text_div" class="center-text welcome-container">
+                    <p class="welcome-container-1">
+                        <img src="img/logo-ucla.png" class="header-logo HeaderLogoFix ucla-logo-center" />
+                        <span populateDeptName="true" class="header-text header-text-fix dept-name"></span>
+                    </p>
 					<span populateWelcomeMessage="true" class="clear-margin-padding header-text"></span>
 				</div>
 			</div>
@@ -359,9 +367,9 @@
         <!-- used by Reasons page -->
         <div data-role="layout" data-id="ResponseDetailsLayout">
 			<div data-role="header" style="background-color:#3284bf;position: absolute;">
-                <div id="div_header_cancel" class="header-div">
-                    <div class="cancel-btn-div">
-                        <a class="cancel-link cancelLinkFix" data-role="button" data-click="NavigateToReasonSummary">Cancel</a>
+                <div id="div_header_cancel" class="header-div header-div-fix">
+                    <div class="back-btn-div">
+                        <a class="cancel-link cancelLinkFix" data-role="button" data-click="NavigateToReasonSummary"><i class="icon-chevron-left back-icon"></i>Back</a>
 					</div>
 					<div style="text-align:right;position:relative;float:right;width:7%">
                         <a class="cancel-link cancelLinkFix" data-role="button" data-click="CollectResponse">Done</a>
@@ -402,14 +410,14 @@
 		<div data-role="modalview" id="dialog-modal">
 			<div data-role="header">
 				<div data-role="navbar" class="TitleWithRoundedCorners">
-					<span data-title="view-title">Reconfigure Lobby</span>
+					<span data-title="view-title">Exiting Kiosk</span>
 				</div>
 			</div>
             <div class="horizontal-center ReconfigureLobby">
                 <!--               <div>
                  <span>Reconfigure Lobby</span>
                  </div> -->
-                <span>Please enter Application Key</span>
+                <span class="text-align-cener">Please provide key to exit Kiosk</span>
                 <div id="divAppKey" class="inner-addon right-addon"> <!--class="inner-addon right-addon" -->
                     <input id="txt_app_key" type="text" class="textbox TextBoxFix" MaxLength="6"/>
                     <i class="glyphicon icon-warning-sign WarningSign DisplayNone"></i>

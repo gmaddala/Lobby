@@ -132,7 +132,8 @@ function Register()
 }
 
 function DisplayLogin(){
-    console.log('navigating to login page..');
+//    console.log('navigating to login page..');
+    ResetUserResponses();
     app.startCardReader();
     app1.navigate("#");//, "slide:left");
 }

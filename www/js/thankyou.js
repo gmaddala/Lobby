@@ -14,8 +14,11 @@ function InitializeThankYou(){
         url = "login.html";
     }
     
-    
+    //TODO: get the timeout ms from configuration
     window.setTimeout(function(){
-                      window.location.href = url;
-                      }, 1500);
+//                      window.location.href = url;
+                      if(localStorage.getItem("rsvp") == "false"){
+                        app1.navigate("#", "slide:left");
+                        }
+                      }, 2500);
 }

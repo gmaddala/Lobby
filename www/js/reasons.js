@@ -287,8 +287,8 @@ function SubmitIntake(myJsonObj)
            loading();
            },
            success: function(data){
-				//Reset CollectedResponses on successful submission
-				localStorage.setItem("CollectedResponses", JSON.stringify(""));
+                //reset user responses on Reasons page
+                ResetUserResponses();
 				//window.open("thankyou.html", "_self");
                 app1.navigate("#divThankYouView", "slide:left");
            },
@@ -334,6 +334,8 @@ function mobileListViewIncremental(){
         $('#local-filterable-listview1').empty();
         //reset the user selected response
         $('#spanListViewResponse').text("");
+        //clear the filter control
+        $('#txtSearchOrg').val("");
     }
     //get the user response from collected response obj
     userListViewResponseId = GetUserResponse(paramQuestionId, "Id");
@@ -660,10 +662,10 @@ function BuildQuestionsAndResponses(q_array, e){
     //check if questions are already constructed
     var canConstructQuestions = $("#divQuestions").children().length == 0;
     var userResponses = JSON.parse(localStorage.getItem("CollectedResponses"));
-
+    
     //if user response is not available, clear the responses that were already made
     if(userResponses == ""){
-        $('div.ResponseContainer span').text(defaultResponseText)
+        $('div.ResponseContainer span.Response').text(defaultResponseText)
         //clear number fields
         $('div.QuestionAndResponseContainer').find('div input[type="number"]').val("");
         //clear text fields
@@ -935,12 +937,14 @@ function ShowResponsePage(e){
         //commenting slide to be consistent with all the view transitions
         //Issue: When slide view transition is in place, if the keypad is displayed in the response detai page
         //and when 'Cancel' / 'Done' is touched/clicked, all the buttons stop working. To avoid that, transition is removed
-        app1.navigate("#LocalListView");//, "slide:left");
+//        app1.navigate("#LocalListView");//, "slide:left");
+        app1.navigate("#LocalListView", "slide:left");
     }
     else
     {
         //commenting slide to be consistent with all the view transitions
-        app1.navigate("#divCompleteResponseView");//, "slide:left");
+//        app1.navigate("#divCompleteResponseView");//, "slide:left");
+        app1.navigate("#divCompleteResponseView", "slide:left");        
     }
 }
 
@@ -1318,12 +1322,23 @@ function CollectResponse(e)
             {
                 $('div.OtherDiv input').addClass('Error').focus();
                 canSaveResponse = false;
-            }				
+            }
+            else{
+                $('div.OtherDiv input').blur();
+            }
         }			
         //canSaveResponse is false when no reason is provided when "Other" reason is selected
         if (canSaveResponse){
-            //adding transition effect stops the page from navigating when the keypad is displayed on iOS7
-            app1.navigate("#questions-body");//, "slide:left");
+            if(isOther){
+                //if Other textbox is displayed, add a 200ms delay before completing the transition with slide effect
+                //Note: If Slide transition is not needed, delay is not needed
+                setTimeout(function(){ app1.navigate("#questions-body", "slide:left"); }, 200);
+            }
+            else
+            {
+                //adding transition effect stops the page from navigating when the keypad is displayed on iOS7
+                app1.navigate("#questions-body", "slide:left");
+            }
         }
     }
     catch(err){
@@ -1363,4 +1378,12 @@ function getOrganizations(){
 //method added on SPA integration
 function NavigateToReasonSummary(){
     app1.navigate("#questions-body");//, "slide:left");
+}
+
+//Reset user responses to display blank form on reasons page load
+function ResetUserResponses(){
+    //empty all the questions and responses that were already displayed
+    $("#divQuestions").empty();
+    //Reset CollectedResponses
+    localStorage.setItem("CollectedResponses", JSON.stringify(""));
 }
