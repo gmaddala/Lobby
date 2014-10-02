@@ -53,7 +53,7 @@ var app = {
             };
             var error = function(message) {
                 //alert(message);
-				showCardReaderErrorAlert("Please reswipe your Bruin card");
+				showCardReaderErrorAlert("Please reswipe your BruinCard");
                 /*
                 $( "#dialog" ).on( "dialogclose", function( event, ui ) {
                                   app.stopCardReader();
