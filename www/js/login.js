@@ -480,7 +480,7 @@ function ValidateAppKey(){
 	  {
           $("#txt_app_key").removeClass("Error");
           //$('#divAppKeyError').addClass("DisplayNone");
-          $("#txt_app_key").next().addClass("DisplayNone");
+//          $("#txt_app_key").next().addClass("DisplayNone");
           app.stopCardReader();
 
           localStorage.setItem("key", "null");
@@ -494,7 +494,7 @@ function ValidateAppKey(){
           $("#txt_app_key").addClass("Error");//.focus();
           //$('#divAppKeyError').removeClass("DisplayNone");
           //Display Error icon to the right of the input control
-          $("#txt_app_key").next().removeClass("DisplayNone");
+//          $("#txt_app_key").next().removeClass("DisplayNone");
 
           //$(this).dialog("close");
           //HideReconfigureLobbyDialog();
@@ -674,3 +674,7 @@ function DisplayRSVPCheckInButton(canDisplay){
 function StartCardReader(){
     app.startCardReader();
 }
+
+window.onerror(function(msg, url, line){
+               alert('login.js Error:' + msg + " -- " + line);
+               });

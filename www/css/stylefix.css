@@ -574,6 +574,10 @@ div.km-listview-wrapper input[type="search"]
     .LoginTextBox{
         width: 38% !important;
     }
+
+    .response-container-lt-2Q{
+        padding-top: 2%;
+    }
 }
 
     .header-text-fix{
@@ -1112,3 +1116,13 @@ font-size:large;
     vertical-align: baseline;
     padding-right: 4%;
 }
+
+.slider{
+    width:30% !important;
+}
+
+/* ThankYou page */
+.thankyou-container{
+    padding-top: 15%;
+}
+

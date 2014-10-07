@@ -25,12 +25,12 @@ function Register()
     {
         hasError = true;        
 		$('#txt_firstname').addClass('Error');
-        $('#txt_firstname').next().removeClass('DisplayNone');
+        //$('#txt_firstname').next().removeClass('DisplayNone');
     }
     else
     {
 		$('#txt_firstname').removeClass('Error');
-        $('#txt_firstname').next().addClass('DisplayNone');
+        //$('#txt_firstname').next().addClass('DisplayNone');
     }
     
     if($('#txt_lastname').val().length == 0)
@@ -38,13 +38,13 @@ function Register()
         hasError = true;
         //$('#lastname_error').text('Please enter Last Name');
 		$('#txt_lastname').addClass('Error');
-        $('#txt_lastname').next().removeClass('DisplayNone');
+        //$('#txt_lastname').next().removeClass('DisplayNone');
     }
     else
     {
         //$('#lastname_error').text('');
 		$('#txt_lastname').removeClass('Error');
-        $('#txt_lastname').next().addClass('DisplayNone');
+//        $('#txt_lastname').next().addClass('DisplayNone');
     }
     
     if($('#txt_email').val().length > 0)
@@ -54,7 +54,7 @@ function Register()
             hasError = true;
             //$('#email_error').text('Please enter valid Email Address');
 			$('#txt_email').addClass('Error');
-            $('#txt_email').next().removeClass('DisplayNone');
+//            $('#txt_email').next().removeClass('DisplayNone');
         }
         else
         {

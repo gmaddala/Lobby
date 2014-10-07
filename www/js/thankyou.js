@@ -18,7 +18,9 @@ function InitializeThankYou(){
     window.setTimeout(function(){
 //                      window.location.href = url;
                       if(localStorage.getItem("rsvp") == "false"){
-                        app1.navigate("#", "slide:left");
+                            //start the card reader when navigating to login view
+                            StartCardReader();
+                            app1.navigate("#", "slide:left");
                         }
                       }, 2500);
 }

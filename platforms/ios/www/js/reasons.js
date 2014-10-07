@@ -319,24 +319,30 @@ function Initialize1(){
                              });
 }
 
+function ResetListViewControls(){
+    console.log('reconstructing listview..');
+    //set user response as empty when listview is to be constructed fresh
+//    selectedResponse = "";
+    //reset listview controls
+    $('#local-filterable-listview1').empty();
+    //reset the user selected response
+    $('#spanListViewResponse').text("");
+    //clear the filter control
+    $('#txtSearchOrg').val("");
+}
+
 //page size for # of records to be displayed in the listview at a time
 var defaultPageSize = 20;
 
 function mobileListViewIncremental(){
     var allOrgs;
     var fromIdx = 0, toIdx = 0;
-    var selectedResponse = $('#spanListViewResponse').text();
     
-    if(canReconstructListView){
-        //set user response as empty when listview is to be constructed fresh
-        selectedResponse = "";
-        //reset listview controls
-        $('#local-filterable-listview1').empty();
-        //reset the user selected response
-        $('#spanListViewResponse').text("");
-        //clear the filter control
-        $('#txtSearchOrg').val("");
-    }
+//    if(canReconstructListView){
+//        ResetListViewControls();
+//    }
+    
+    var selectedResponse = $('#spanListViewResponse').text();
     //get the user response from collected response obj
     userListViewResponseId = GetUserResponse(paramQuestionId, "Id");
     //            $('#txtSearchOrg').val('');
@@ -582,6 +588,11 @@ function DisplayResponses(e){
     
     if (q_array.length < 3)
     { //Display one-column layout like display if there're only 2 questions or less. This will be needed for most of the lobby which has single question
+        //reset the response container
+        $("#ulResponses").empty();
+        //Hide the instruction
+        $('div.ReasonsContainer span').first().addClass('DisplayNone');
+        
         for(var i = 0; i < q_array.length; i++) {
             
             var question = q_array[i];
@@ -632,17 +643,7 @@ function DisplayResponses(e){
                 var txtId = responses[0].ID;
                 $("#ul_" + question.ID).append('<input type="number" value="" name="' + question.ID + '" id="' +  txtId + '" class="TextBox Borderless" />');
             }
-            else if(inputtype == "scale")
-            {
-                var txtId = responses[i].ID;
-                e.view.element.find("#ul_" + question.ID).kendoMobileListView({
-                                                                              //dataSource: responses,
-                                                                              //template: "id: #: id# with text: #: text#",
-                                                                              template: "<label>#: Text# <input type='number' value='5' name='input-" + question.ID + "' id='#:ID#' /></label>",
-                                                                              });
-                
-                e.view.element.find("#ul_" + question.ID).data("kendoMobileListView").append(responses);
-            }
+            
         }//for
         
         //Continue button
@@ -650,7 +651,8 @@ function DisplayResponses(e){
 //        e.view.element.find("#continueBtn").kendoMobileButton({click: SubmitReasons});
     }
     else{//Build questions and responses if there're more than 2 questions
-        //console.log('build..');
+        //Display the instruction
+        $('div.ReasonsContainer span').first().removeClass('DisplayNone');
         BuildQuestionsAndResponses(q_array, e);
     }
 }
@@ -672,8 +674,10 @@ function BuildQuestionsAndResponses(q_array, e){
         $('div.QuestionAndResponseContainer').find('div input[type="text"]').val("");
 
     }
-    
+        console.log('canConstructQuestions..' + canConstructQuestions);
     if (canConstructQuestions){
+        //Reset listview control and collected user response
+        ResetListViewControls();
         var collectedResponses = [], response, responseId;
         
         for(var i = 0; i < q_array.length; i++) {
@@ -721,13 +725,6 @@ function BuildQuestionsAndResponses(q_array, e){
                 
                 //type number
                 divResponse = '<div class="span4" id="divResponse'+ question.ID + '" style="padding-top:1.5%;"><input type="number" name="' + question.ID + '" id="' +  responseId + '" min="1" max="9999" oninput="MaxLengthCheck(this)" class="TextBox FloatRight Borderless" placeholder="'+ defaultResponseText +'"></input></div>';
-            }
-            else if (question.ResponsesType == "6")
-            {//numeric scale
-                inputtype= "scale";
-                responseId = responses[0].ID;
-                
-                divResponse = '<div class="span4 ResponseContainer" id="divResponse'+ question.ID + '" displayListView="false"><span id="spanResponseText' + question.ID + '" class="Response Required">' + defaultResponseText + '</span> <span class="response-detail-chevron-container"><i class="icon-chevron-sign-right response-detail-chevron"></i></span></div>';
             }
             
             divQuestionAndResponse = divQuestionText + divResponse;
@@ -1057,39 +1054,7 @@ function DisplayQuestionResponses(e){
                 canDisplayListView = true;
             }
             break;
-        case "scale":
-            //if a response is already made, mark it
-            responseIdColl = GetUserResponse(paramQuestionId, "Id");
-            responseText = GetUserResponse(paramQuestionId, "OtherText");
-            responseText = responseText.replace(otherPrefix,"");
-            
-            var liText = "";
-            var responseIdArr = responseIdColl.split(",");
-            var doesQuestionHaveResponse = false;
-            
-            for (var idx = 0; idx < responseForQuestion.length; idx++)
-            {
-                //if(responseId != undefined && responseId != "" && responseForQuestion[idx].ID == responseId){
-                /*doesQuestionHaveResponse = CanCheckResponseId(responseForQuestion[idx].ID, responseIdArr);
-                if(doesQuestionHaveResponse){
-                    liText = "<li><label> " + responseForQuestion[idx].Text + "<input type='" + responseControlType + "' name='input-" + paramQuestionId + "' id='"+ responseForQuestion[idx].ID+ "' checked='checked' class='textbox-"+ responseForQuestion[idx].OpensTextbox+ "'/></label></li>";
-                }
-                else
-                {*/
-                    liText = "<li><label> " + responseForQuestion[idx].Text + "<input type='number' name='input-" + paramQuestionId + "' id='"+ responseForQuestion[idx].ID+ "' class='textbox-"+ responseForQuestion[idx].OpensTextbox+ "'/></label></li>";
-                //}
-                
-
-                
-                $("#ul_" + paramQuestionId).append(liText);
-                /*if(canCreateOtherTextBox && doesQuestionHaveResponse){
-                    $("#ul_" + paramQuestionId).after("<div class='OtherDiv'><input type='text' id='" + responseForQuestion[idx].ID + "-txtother'/></div>");
-                    $('div.OtherDiv input').val(responseText);
-                }*/
-            }
-            e.view.element.find("#ul_" + paramQuestionId).kendoMobileListView();
-            
-            break;
+        
     }
     
     

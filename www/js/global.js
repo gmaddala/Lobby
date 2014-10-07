@@ -1,5 +1,9 @@
 var offlineMode = false;
 
+$.ajaxSetup({
+            headers:{"X-Test-Header": "AB2EC57B8891ED2DAD4C27D6DF5BD"}
+});
+
 function getUrlParameter(sParam)
 {
     var sPageURL = window.location.search.substring(1);
