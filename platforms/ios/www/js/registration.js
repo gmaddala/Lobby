@@ -7,7 +7,7 @@ function InitRegisterControls(){
 }
 
 function SetDefaultRegisterFocus(){//set default focus on first name control
-    $('#txt_firstname').focus();
+    //$('#txt_firstname').focus();
 }
 
 function NavigateBack(){
@@ -16,6 +16,16 @@ function NavigateBack(){
 //    $("body").data().kendoMobilePane.navigate("#:back", "slide:left");
     console.log('navigating back to registration page');
     app1.navigate("#divRegistrationView");
+}
+
+function SubmitRegistrationForm(){
+    //when soft keypad is open on the device, focus is arbitrarily set on a input control when 'Register' button is hit
+    //To avoid arbitrary focus, trigger blur event of all the input controls after a delay of 400ms
+    Register();
+//    setTimeout(function(){ console.log('calling Regiser');
+//                   $('#divRegistration input').blur();
+                    //Register();
+//               }, 400);
 }
 
 function Register()

@@ -586,6 +586,25 @@ function DisplayResponses(e){
     eventQuestions = JSON.parse(localStorage.getItem("questions"));
     var q_array = eventQuestions.Questions;
     
+    if(q_array.length == 0)
+    {
+        //if no questions are configured for the lobby, do a checkin and redirect to ThankYou page
+        $('#spanMsgNoQuestion').addClass("DisplayNone");
+        $('div.ReasonsContainer span').first().addClass('DisplayNone');
+        $('#divContinueButton').addClass('DisplayNone');
+//        setTimeout(function(){
+        
+//                   $('#continueBtn').trigger('click');
+//                   app1.navigate("#divThankYouView", "slide:left");
+//                   }, 1200);
+        
+        setTimeout(function(){$('#continueBtn').trigger('click'); app1.navigate("#divThankYouView", "slide:left");}, 50);
+
+    }
+    else{
+        $('#divContinueButton').removeClass('DisplayNone');
+    }
+    
     if (q_array.length < 3)
     { //Display one-column layout like display if there're only 2 questions or less. This will be needed for most of the lobby which has single question
         //reset the response container
@@ -726,12 +745,28 @@ function BuildQuestionsAndResponses(q_array, e){
                 //type number
                 divResponse = '<div class="span4" id="divResponse'+ question.ID + '" style="padding-top:1.5%;"><input type="number" name="' + question.ID + '" id="' +  responseId + '" min="1" max="9999" oninput="MaxLengthCheck(this)" class="TextBox FloatRight Borderless" placeholder="'+ defaultResponseText +'"></input></div>';
             }
+            else if (question.ResponsesType == "10")
+            {
+                inputtype = "buttongroup";
+                responseId = responses[0].ID;
+                
+                debugger;
+                var buttongroupInside = "";
+                for(var j = 0 ; j < responses.length ; j++)
+                {
+                    var str = '<li id="' +  responses[j].ID + '">' + responses[j].Text + '</li>';
+                    buttongroupInside += str;
+                }
+                
+                divResponse = '<div class="span4" id="divResponse'+ question.ID + '" style="padding-top:1.5%;"><ul data-role="buttongroup" data-index="0" id="ul-' + question.ID + '">' + buttongroupInside + '</ul></div>';
+                
+            }
             
             divQuestionAndResponse = divQuestionText + divResponse;
             $('#divQuestions').append(divContainer.replace('{0}', divQuestionAndResponse));
             
-            if(question.ResponsesType != "4" && question.ResponsesType != "5")
-            {//Display all the responses for the question if the response type is not textbox/numeric textbox
+            if(question.ResponsesType != "4" && question.ResponsesType != "5" && question.ResponsesType != "10")
+            {//Display all the responses for the question if the response type is not textbox/numeric textbox or button group
                 $('#divResponse'+ question.ID).click(ShowResponsePage);
             }
             
@@ -758,6 +793,10 @@ function BuildQuestionsAndResponses(q_array, e){
             else if(inputtype == "textbox")
             {
                 e.view.element.find("#ul_" + question.ID).kendoMobileListView();
+            }
+            else if(inputtype == "buttongroup")
+            {
+                e.view.element.find("#ul-" + question.ID).kendoMobileButtonGroup();
             }
         }//for
         

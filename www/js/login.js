@@ -171,7 +171,7 @@ function SignIn(logon, isCardreader){
                         //showDialog("Invalid UCLA logon");
                         ShowFlashMessage("Invalid UCLA logon");
                         app.startCardReader();
-                        //alert(jqXHR + ";\n\n" + textStatus + ";\n\n" + errorThrown);
+                        alert(jqXHR.responseText + ";\n\n" + textStatus + ";\n\n" + errorThrown);
 				   },
 				   complete: function(){
                             endLoading();
@@ -583,6 +583,9 @@ function InitForm(){
 //        $("#welcome_text").text("Welcome to the event");    
 //    }
     
+    //bind keypress event for textbox
+    //                $('#'+ responseId).bind('keypress',PopulateNumbers);
+    
     if(localStorage.getItem("anon") == "true")
     {
         initialView = "anon";
@@ -675,6 +678,6 @@ function StartCardReader(){
     app.startCardReader();
 }
 
-window.onerror(function(msg, url, line){
+window.onerror = function(msg, url, line){
                alert('login.js Error:' + msg + " -- " + line);
-               });
+               };
