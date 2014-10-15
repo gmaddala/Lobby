@@ -166,6 +166,22 @@ function ValidateReasons1(q_array){
 			}
 		}
 		
+        if($('div.OtherDiv input').attr('id') != undefined){
+            //other input ctl is displayed
+            var otherTextbox = $('div.OtherDiv input');
+            var otherText = otherTextbox.val();
+            otherText = $.trim(otherText);
+            
+            if(otherText == ""){
+                otherTextbox.addClass('Error');
+                hasError = true;
+            }
+            else{
+                otherTextbox.removeClass('Error');
+                hasError = false;
+            }
+        }
+        
 		if (firstErrCtl == undefined){
 		   firstErrCtl = ctl;
 		   //**scrollTop and focus both does the same; commented scrollTop
@@ -663,6 +679,22 @@ function DisplayResponses(e){
                 $("#ul_" + question.ID).append('<input type="number" value="" name="' + question.ID + '" id="' +  txtId + '" class="TextBox Borderless" />');
             }
             
+            for(var index = 0; index < responses.length; index++){
+                
+                if(responses[index].OpensTextbox == true)
+                {
+                    txtId = responses[index].ID;
+                    $("input[id='" + txtId + "']").change(function(){
+                            if(this.checked){
+                                $("#ul_" + question.ID).after("<div class='OtherDiv'><input type='text' id='" + txtId + "-txtother'/></div>");
+//                $('div.OtherDiv input').val(responseText);
+                            }
+                            else{
+                                $('div.OtherDiv').remove();
+                            }
+                          });
+                }
+            }
         }//for
         
         //Continue button

@@ -33,6 +33,13 @@ a{
 	color: #bfbfbf !important;
 }
 
+.access-key-help{
+    display: inline-block;
+    float: right;
+    text-align:right;
+    z-index: 1;
+}
+
 .textbox{
 	font-size: 130% !important;
 }
@@ -164,9 +171,11 @@ background: #fff;
 
 #ddl-locations{
     padding:0;
+    width:52%;
+    padding-top: 1%;
 }
 
-#lbl-locations{
+#xlbl-locations{
     width:95%;
     display:block;
     margin-left:auto;
@@ -1126,3 +1135,12 @@ font-size:large;
     padding-top: 15%;
 }
 
+
+
+/* index.html */
+.access-key-box{
+    font-size:100% !important;
+    width: 50%;
+    display: inline-block;
+    margin-right: 3%;
+}
