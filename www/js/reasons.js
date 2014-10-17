@@ -291,7 +291,6 @@ function SetUpIntakeJSONObj()
 
 function SubmitIntake(myJsonObj)
 {
-    debugger;
     $.ajax({
            type: "POST",
            contentType: "application/json; charset=utf-8",
