@@ -140,7 +140,8 @@ function RedirectToLoginPage(jsonobj)
 	   }
 		else
 		{
-			$('#div-locations').removeClass('invisible');
+			//$('#div-locations').removeClass('invisible');
+            $('#liLocations').removeClass('invisible');
 			//$('#div-locations').empty();
 		   for(var i = 0 ; i < location_array.length ; i++)
 		   {
