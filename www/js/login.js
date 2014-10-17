@@ -378,7 +378,7 @@ function CheckIn(logon, isoverride, isCardreader){
                 //showDialog("Invalid UCLA logon");
 				ShowFlashMessage("Invalid UCLA logon");
                 app.startCardReader();
-           //alert(jqXHR + ";\n\n" + textStatus + ";\n\n" + errorThrown);
+           alert(jqXHR.responseText + ";\n\n" + textStatus + ";\n\n" + errorThrown);
            },
            complete: function(){
                     endLoading();
