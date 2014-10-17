@@ -83,7 +83,7 @@ function ClickLogon(){
 function SignIn(logon){
     $.ajax({
            type: "GET",
-           url: "http://sait-test.uclanet.ucla.edu/sawebnew2/api/validlogon",
+           url: getAPIUrl() + "/api/validlogon",
            data: {"logon": logon},
            beforeSend: function(){
            $('body').addClass('ajax-spinner');

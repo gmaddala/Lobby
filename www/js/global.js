@@ -1,7 +1,7 @@
 var offlineMode = false;
 
 $.ajaxSetup({
-            headers:{"X-Test-Header": "AB2EC57B8891ED2DAD4C27D6DF5BD"}
+            headers:{"Auth-Key": "AB2EC57B8891ED2DAD4C27D6DF5BD"}
 });
 
 function getUrlParameter(sParam)
@@ -16,6 +16,11 @@ function getUrlParameter(sParam)
             return replaceAll(sParameterName[1], "%20", " ");
         }
     }
+}
+
+function getAPIUrl()
+{
+    return "http://sait-test.uclanet.ucla.edu/lobbyapi";
 }
 
 function escapeRegExp(string) {
@@ -64,6 +69,7 @@ function clearStudentInfo()
     localStorage.setItem("phone", null);
     localStorage.setItem("email", null);
     localStorage.setItem("cardswiped", null);
+    localStorage.setItem("intakeID", -1);
 }
 
 function showDialog(message) {

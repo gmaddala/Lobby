@@ -26,7 +26,6 @@ function SubmitReasons(e)
 		//showNativeDialog(errorText);
         return;
     }
-    
     var myJsonObj = SetUpIntakeJSONObj();
     
     
@@ -278,11 +277,12 @@ function SetUpIntakeJSONObj()
     AppID: localStorage.getItem("key"),
     InitialIntakeStatus: localStorage.getItem("initialintakestatus"),
     Reasons: {
-    IntakeID: 0,
-    ReasonsList: []
+        IntakeID: localStorage.getItem("intakeID"),
+        ReasonsList: []
     },
     LocationID: localStorage.getItem("selLocationID"),
-    CardSwiped: localStorage.getItem("cardswiped")
+    CardSwiped: localStorage.getItem("cardswiped"),
+    IntakeID: localStorage.getItem("intakeID")
     };
     
     return myJsonObj;
@@ -291,10 +291,11 @@ function SetUpIntakeJSONObj()
 
 function SubmitIntake(myJsonObj)
 {
+    debugger;
     $.ajax({
            type: "POST",
            contentType: "application/json; charset=utf-8",
-           url: "http://sait-test.uclanet.ucla.edu/sawebnew2/api/submitstudentinfo",
+           url: getAPIUrl() + "/api/submitstudentinfo",
            dataType: "json",
            data: JSON.stringify(
                                 myJsonObj
@@ -600,6 +601,7 @@ function DisplayResponses(e){
                       }, 400);
     
     eventQuestions = JSON.parse(localStorage.getItem("questions"));
+    debugger;
     var q_array = eventQuestions.Questions;
     
     if(q_array.length == 0)

@@ -135,7 +135,8 @@ function SignIn(logon, isCardreader){
     var isRSVP = false;
     var submitIntake = false; //if no reasons list, immediately submit intake
     var qjson = JSON.parse(localStorage.getItem("questions"));
-    if(qjson.HasQuestions == false)
+    var allqjson = JSON.parse(localStorage.getItem("allquestions"));
+    if(allqjson.HasQuestions == false)
     {
         submitIntake = true;
     }
@@ -149,8 +150,8 @@ function SignIn(logon, isCardreader){
            
 			$.ajax({
 				   type: "GET",
-				   url: "http://sait-test.uclanet.ucla.edu/sawebnew2/api/validlogon",
-				   data: {"logon": logon, "submitIntake": submitIntake, "appkey": localStorage.getItem("key"), "initialintakestatus": localStorage.getItem("initialintakestatus"), "locationID": localStorage.getItem("selLocationID"), "cardSwiped": localStorage.getItem("cardswiped")},
+				   url: getAPIUrl() + "/api/validlogon",
+				   data: {"logon": logon, "submitIntake": submitIntake, "appkey": localStorage.getItem("key"), "initialintakestatus": localStorage.getItem("initialintakestatus"), "locationID": localStorage.getItem("selLocationID"), "cardSwiped": localStorage.getItem("cardswiped"), "intakeid": localStorage.getItem("intakeID")},
 				   beforeSend: function(){
 				   app.stopCardReader();
 //				   console.log('before send..');
@@ -294,7 +295,7 @@ function CheckIn(logon, isoverride, isCardreader){
     }
     $.ajax({
            type: "GET",
-           url: "http://sait-test.uclanet.ucla.edu/sawebnew2/api/checkineventuser",
+           url: getAPIUrl() + "/api/checkineventuser",
            data: {"appid": localStorage.getItem("appid"), "uid": logon, "overrideRegistration": isoverride, "type": type, "initialintakestatus": localStorage.getItem("initialintakestatus"), "locationID": localStorage.getItem("selLocationID"), "appKey": localStorage.getItem("key"), "cardswiped": localStorage.getItem("cardswiped")},
            beforeSend: function(){
                 app.stopCardReader();

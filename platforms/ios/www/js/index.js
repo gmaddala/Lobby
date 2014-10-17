@@ -72,7 +72,7 @@ function LaunchKiosk()
         localStorage.clear();
         $.ajax({
                type: "GET",
-               url: "http://sait-test.uclanet.ucla.edu/sawebnew2/api/ApplicationConfiguration",
+               url: getAPIUrl() + "/api/ApplicationConfiguration",
                data: {"id": $('#txtAccessKey').val()},
                beforeSend: function(){
                loading();
@@ -120,7 +120,12 @@ function RedirectToLoginPage(jsonobj)
 		localStorage.setItem("enforcedeligibility", jsonobj.Data.IsEnforcedEligibility);
 		localStorage.setItem("initialintakestatus", jsonobj.Data.InitialIntakeStatus);
 		//localStorage.setItem("hasreasons", jsonobj.Data.HasReasons);
-		localStorage.setItem("questions", JSON.stringify(jsonobj.Data.Questions));
+		localStorage.setItem("allquestions", JSON.stringify(jsonobj.Data.Questions));
+
+        if(jsonobj.Data.Questions.Questions.length == 1)
+        {
+            localStorage.setItem("questions", JSON.stringify(jsonobj.Data.Questions.Questions[0])); //does not have multiple forms
+        }
 	   localStorage.setItem("allowregistration", jsonobj.Data.AllowRegistration);
     localStorage.setItem("confirmation", jsonobj.Data.ConfirmationMessage);
     localStorage.setItem("welcome", jsonobj.Data.WelcomeMessage);
@@ -128,6 +133,7 @@ function RedirectToLoginPage(jsonobj)
 	   localStorage.setItem("eligibilitytype", jsonobj.Data.EligibilityType);
 	   
 	   localStorage.setItem("locations", JSON.stringify(jsonobj.Data.Locations));
+    localStorage.setItem("intakeID", -1);
 	   
 	   var location_array = jsonobj.Data.Locations;
 	   if(location_array.length < 2)
