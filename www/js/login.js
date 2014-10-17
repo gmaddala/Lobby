@@ -140,7 +140,7 @@ function SignIn(logon, isCardreader){
     {
         submitIntake = true;
     }
-    if(localStorage.getItem("rsvp") == "true"){
+        if(localStorage.getItem("rsvp") == "true" || localStorage.getItem("enforcedeligibility") == "true"){
         isRSVP = true;
     }
     
