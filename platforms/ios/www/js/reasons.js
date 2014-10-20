@@ -268,6 +268,10 @@ function SubmitNoReasons()
 
 function SetUpIntakeJSONObj()
 {
+    if(localStorage.getItem("cardswiped") == "null")
+    {
+        localStorage.setItem("cardswiped", false);
+    }
     var myJsonObj = {
     UID: localStorage.getItem("uid"),
     FirstName: localStorage.getItem("firstname"),
@@ -291,7 +295,6 @@ function SetUpIntakeJSONObj()
 
 function SubmitIntake(myJsonObj)
 {
-    debugger;
     $.ajax({
            type: "POST",
            contentType: "application/json; charset=utf-8",
