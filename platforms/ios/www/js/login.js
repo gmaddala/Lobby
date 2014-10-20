@@ -150,7 +150,7 @@ function SetQuestions(formid)
     {
         if(forms.Questions[i].ID.trim() == formid)
         {
-            localStorage.setItem("questions", forms.Questions[i].Questions);
+            localStorage.setItem("questions", JSON.stringify(forms.Questions[i]));
             return;
         }
     }
