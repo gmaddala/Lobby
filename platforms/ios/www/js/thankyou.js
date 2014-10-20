@@ -20,7 +20,14 @@ function InitializeThankYou(){
                       if(localStorage.getItem("rsvp") == "false"){
                             //start the card reader when navigating to login view
                             StartCardReader();
-                            app1.navigate("#", "slide:left");
+                            if(localStorage.getItem("anon") == "true")
+                            {
+                                app1.navigate("#anon", "slide:left");
+                            }
+                            else
+                            {
+                                app1.navigate("#", "slide:left");
+                            }
                         }
                       }, 2500);
 }

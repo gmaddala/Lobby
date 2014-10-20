@@ -269,6 +269,10 @@ function SubmitNoReasons()
 
 function SetUpIntakeJSONObj()
 {
+    if(localStorage.getItem("cardswiped") == "null")
+    {
+        localStorage.setItem("cardswiped", false);
+    }
     var myJsonObj = {
     UID: localStorage.getItem("uid"),
     FirstName: localStorage.getItem("firstname"),
@@ -278,11 +282,12 @@ function SetUpIntakeJSONObj()
     AppID: localStorage.getItem("key"),
     InitialIntakeStatus: localStorage.getItem("initialintakestatus"),
     Reasons: {
-    IntakeID: 0,
-    ReasonsList: []
+        IntakeID: localStorage.getItem("intakeID"),
+        ReasonsList: []
     },
     LocationID: localStorage.getItem("selLocationID"),
-    CardSwiped: localStorage.getItem("cardswiped")
+    CardSwiped: localStorage.getItem("cardswiped"),
+    IntakeID: localStorage.getItem("intakeID")
     };
     
     return myJsonObj;
@@ -294,7 +299,7 @@ function SubmitIntake(myJsonObj)
     $.ajax({
            type: "POST",
            contentType: "application/json; charset=utf-8",
-           url: "http://sait-test.uclanet.ucla.edu/sawebnew2/api/submitstudentinfo",
+           url: getAPIUrl() + "/api/submitstudentinfo",
            dataType: "json",
            data: JSON.stringify(
                                 myJsonObj

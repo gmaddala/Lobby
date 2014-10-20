@@ -116,13 +116,43 @@ function SignInWithUclaLogon(){
     var uclaLogon = $.trim($('#txt_logon').val());
     if(uclaLogon != ""){
         $('#txt_logon').removeClass('Error');
-        app.stopCardReader();
+        //app.stopCardReader();
         SignIn($('#txt_logon').val());
     }
     else
     {
         //ShowFlashMessage("Please enter your UCLA logon");
         $('#txt_logon').addClass('Error');
+    }
+}
+
+function HandleMultipleForms()
+{
+    app1.navigate("#viewFormSelection");
+}
+
+function StartPreSession()
+{
+    SetQuestions(localStorage.getItem("preformid"));
+    
+    app1.navigate("#questions-body");
+}
+
+function StartPostSession()
+{
+    app1.navigate("#questions-body");
+}
+
+function SetQuestions(formid)
+{
+    var forms = JSON.parse(localStorage.getItem("allquestions"));
+    for(var i = 0 ; i < forms.Questions.length ; i++)
+    {
+        if(forms.Questions[i].ID.trim() == formid)
+        {
+            localStorage.setItem("questions", forms.Questions[i].Questions);
+            return;
+        }
     }
 }
 
@@ -135,7 +165,8 @@ function SignIn(logon, isCardreader){
     var isRSVP = false;
     var submitIntake = false; //if no reasons list, immediately submit intake
     var qjson = JSON.parse(localStorage.getItem("questions"));
-    if(qjson.HasQuestions == false)
+    var allqjson = JSON.parse(localStorage.getItem("allquestions"));
+    if(allqjson.HasQuestions == false)
     {
         submitIntake = true;
     }
@@ -149,21 +180,26 @@ function SignIn(logon, isCardreader){
            
 			$.ajax({
 				   type: "GET",
-				   url: "http://sait-test.uclanet.ucla.edu/sawebnew2/api/validlogon",
-				   data: {"logon": logon, "submitIntake": submitIntake, "appkey": localStorage.getItem("key"), "initialintakestatus": localStorage.getItem("initialintakestatus"), "locationID": localStorage.getItem("selLocationID"), "cardSwiped": localStorage.getItem("cardswiped")},
+				   url: getAPIUrl() + "/api/validlogon",
+				   data: {"logon": logon, "submitIntake": submitIntake, "appkey": localStorage.getItem("key"), "initialintakestatus": localStorage.getItem("initialintakestatus"), "locationID": localStorage.getItem("selLocationID"), "cardSwiped": localStorage.getItem("cardswiped"), "intakeid": localStorage.getItem("intakeID")},
 				   beforeSend: function(){
+//ananth
 				   app.stopCardReader();
+                   
 //				   console.log('before send..');
 				   loading();
 				   },
 				   success: function(data){
                         var jsonobj = JSON.parse(data);
-                    if(!isRSVP){
-                        SetStudentData(jsonobj, submitIntake);
-                    }
-                   else{
-                        SetRSVPStudentData(jsonobj);
-                   }
+                   
+                   
+                        if(!isRSVP){
+                            SetStudentData(jsonobj, submitIntake);
+                        }
+                       else{
+                            SetRSVPStudentData(jsonobj);
+                       }
+                   
 					
 					//window.open("login.html?key=" + $('#txtAccessKey').val() + "&deptname=" + jsonobj.Data.DeptName ,"_self");
 				   },
@@ -241,20 +277,32 @@ function SetStudentData(jsonobj, submitIntake)
                 localStorage.setItem("lastname", dictionaryObj.LastName);
                 localStorage.setItem("phone", dictionaryObj.Phone);
                 localStorage.setItem("email", dictionaryObj.Email);
-                if(!submitIntake)
+                
+                var allquestionsjsonobj = JSON.parse(localStorage.getItem("allquestions"));
+                if(allquestionsjsonobj.Questions.length > 1) //multiple forms
                 {
-//                    window.open("reasons.html", "_self");
-                    app1.navigate("#questions-body");
-                    //var endTimer1 = new Date().getTime();
-                    //console.log('time taken to authenticate..' + (endTimer1 - startTimer1));
-
+                    localStorage.setItem("postformidlist", jsonobj.Data.FormsToDisplay.PostEvaluationForms); //jsonarray
+                    localStorage.setItem("preformid", jsonobj.Data.FormsToDisplay.PreEvaluationFormID);
+                    
+                    HandleMultipleForms();
                 }
                 else
                 {
-//                    window.open("thankyou.html", "_self");
-                    app1.navigate("#questions-body");                    
+                    if(!submitIntake)
+                    {
+    //                    window.open("reasons.html", "_self");
+                        app1.navigate("#questions-body");
+                        //var endTimer1 = new Date().getTime();
+                        //console.log('time taken to authenticate..' + (endTimer1 - startTimer1));
+
+                    }
+                    else
+                    {
+    //                    window.open("thankyou.html", "_self");
+                        app1.navigate("#questions-body");                    
+                    }
+                    //window.open("reasons.html?key=" + getUrlParameter('key') + "&uid=" + jsonobj.Data.UID + "&rsvp=" + getUrlParameter("rsvp") + "&anon=" + getUrlParameter("anon") + "&firstname=" + jsonobj.Data.DictionaryUserInfo.FirstName + "&lastname=" + jsonobj.Data.DictionaryUserInfo.LastName + "&phone=" + jsonobj.Data.DictionaryUserInfo.Phone + "&email=" + jsonobj.Data.DictionaryUserInfo.Email + "&initialintakestatus=" + getUrlParameter("initialintakestatus"), "_self");
                 }
-                //window.open("reasons.html?key=" + getUrlParameter('key') + "&uid=" + jsonobj.Data.UID + "&rsvp=" + getUrlParameter("rsvp") + "&anon=" + getUrlParameter("anon") + "&firstname=" + jsonobj.Data.DictionaryUserInfo.FirstName + "&lastname=" + jsonobj.Data.DictionaryUserInfo.LastName + "&phone=" + jsonobj.Data.DictionaryUserInfo.Phone + "&email=" + jsonobj.Data.DictionaryUserInfo.Email + "&initialintakestatus=" + getUrlParameter("initialintakestatus"), "_self");
             }
 		else
             {
@@ -273,9 +321,11 @@ function OverrideCheckIn(){
 	CheckIn(localStorage.getItem('uid'), true, localStorage.getItem('cardswiped'));
 }
 var isManualRSVPCheckIn = false;
+//function to check in a user after RSVP search
 function RSVPCheckIn(){
     var logon = $('#spanSearchUid').text()
     CheckIn(logon, false);
+//    app.stopCardReader();
 }
 
 //rsvp or eligibility check
@@ -294,7 +344,7 @@ function CheckIn(logon, isoverride, isCardreader){
     }
     $.ajax({
            type: "GET",
-           url: "http://sait-test.uclanet.ucla.edu/sawebnew2/api/checkineventuser",
+           url: getAPIUrl() + "/api/checkineventuser",
            data: {"appid": localStorage.getItem("appid"), "uid": logon, "overrideRegistration": isoverride, "type": type, "initialintakestatus": localStorage.getItem("initialintakestatus"), "locationID": localStorage.getItem("selLocationID"), "appKey": localStorage.getItem("key"), "cardswiped": localStorage.getItem("cardswiped")},
            beforeSend: function(){
                 app.stopCardReader();
@@ -347,6 +397,7 @@ function CheckIn(logon, isoverride, isCardreader){
                             $('#divSwipeFail').addClass('DisplayNone');
                             $('#divSwipeLastCheckIn').removeClass('DisplayNone');
                             $('#spanSwipeLastCheckIn').text(fullName);
+                            DisplayRSVPCheckInButton(false);
                         }
            
                         ClearRSVPFields(false);
@@ -358,25 +409,38 @@ function CheckIn(logon, isoverride, isCardreader){
                         if(isManualRSVPCheckIn){
                             $('#divSearchSuccess').addClass('DisplayNone');
                             $('#divSearchFail').removeClass('DisplayNone');
+                            DisplayRSVPCheckInButton(false);
                             ClearRSVPFields(true);
                         }
                         else
                         {
                             $('#divSwipeSuccess').addClass('DisplayNone');
                             $('#divSwipeFail').removeClass('DisplayNone');
+                            DisplayRSVPCheckInButton(false);
                             ClearRSVPFields(true);
                         }
                     }
            
            
                }
+           if(!isManualRSVPCheckIn){
+           //start the card reader if rsvp flag for manual search is turned off
+           //since stopping the card reader right after the check-in in RSVPCheckIn method crashes the app
+           //when 'Swipe' tab is selected, condition is added here
                 app.startCardReader();
+           }
                //window.open("login.html?key=" + $('#txtAccessKey').val() + "&deptname=" + jsonobj.Data.DeptName ,"_self");
            },
            error: function (jqXHR, textStatus, errorThrown) {
                 //showDialog("Invalid UCLA logon");
 				ShowFlashMessage("Invalid UCLA logon");
-                app.startCardReader();
+
+               if(!isManualRSVPCheckIn){
+               //start the card reader if rsvp flag for manual search is turned off
+               //since stopping the card reader right after the check-in in RSVPCheckIn method crashes the app
+                //when 'Swipe' tab is selected, condition is added here
+                        app.startCardReader();
+                   }
            //alert(jqXHR + ";\n\n" + textStatus + ";\n\n" + errorThrown);
            },
            complete: function(){
@@ -637,12 +701,16 @@ function DisplayReconfigureLobbyDialog(){
 
 //RSVP methods
 function InitRSVPSwipe(){
+    //start card reader to read swipe data
+    app.startCardReader();
     isManualRSVPCheckIn = false;
     $('#liRsvpSwipe').addClass('RSVPInputTypeHighlight');
     $('#liRsvpUidSearch').removeClass('RSVPInputTypeHighlight');
 }
 
 function InitRSVPSearch(){
+    //stop reading swipe data
+    app.stopCardReader();
     isManualRSVPCheckIn = true;
     //Highlight 'Search' pane in the left hand pane
     $('#liRsvpSwipe').removeClass('RSVPInputTypeHighlight');
