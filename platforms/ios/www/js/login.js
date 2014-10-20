@@ -126,6 +126,36 @@ function SignInWithUclaLogon(){
     }
 }
 
+function HandleMultipleForms()
+{
+    app1.navigate("#viewFormSelection");
+}
+
+function StartPreSession()
+{
+    SetQuestions(localStorage.getItem("preformid"));
+    
+    app1.navigate("#questions-body");
+}
+
+function StartPostSession()
+{
+    app1.navigate("#questions-body");
+}
+
+function SetQuestions(formid)
+{
+    var forms = JSON.parse(localStorage.getItem("allquestions"));
+    for(var i = 0 ; i < forms.Questions.length ; i++)
+    {
+        if(forms.Questions[i].ID.trim() == formid)
+        {
+            localStorage.setItem("questions", forms.Questions[i].Questions);
+            return;
+        }
+    }
+}
+
 var startTimer1;
 //self logging in
 function SignIn(logon, isCardreader){
@@ -159,12 +189,15 @@ function SignIn(logon, isCardreader){
 				   },
 				   success: function(data){
                         var jsonobj = JSON.parse(data);
-                    if(!isRSVP){
-                        SetStudentData(jsonobj, submitIntake);
-                    }
-                   else{
-                        SetRSVPStudentData(jsonobj);
-                   }
+                   
+                   
+                        if(!isRSVP){
+                            SetStudentData(jsonobj, submitIntake);
+                        }
+                       else{
+                            SetRSVPStudentData(jsonobj);
+                       }
+                   
 					
 					//window.open("login.html?key=" + $('#txtAccessKey').val() + "&deptname=" + jsonobj.Data.DeptName ,"_self");
 				   },
@@ -242,20 +275,32 @@ function SetStudentData(jsonobj, submitIntake)
                 localStorage.setItem("lastname", dictionaryObj.LastName);
                 localStorage.setItem("phone", dictionaryObj.Phone);
                 localStorage.setItem("email", dictionaryObj.Email);
-                if(!submitIntake)
+                
+                var allquestionsjsonobj = JSON.parse(localStorage.getItem("allquestions"));
+                if(allquestionsjsonobj.Questions.length > 1) //multiple forms
                 {
-//                    window.open("reasons.html", "_self");
-                    app1.navigate("#questions-body");
-                    //var endTimer1 = new Date().getTime();
-                    //console.log('time taken to authenticate..' + (endTimer1 - startTimer1));
-
+                    localStorage.setItem("postformidlist", jsonobj.Data.FormsToDisplay.PostEvaluationForms); //jsonarray
+                    localStorage.setItem("preformid", jsonobj.Data.FormsToDisplay.PreEvaluationFormID);
+                    
+                    HandleMultipleForms();
                 }
                 else
                 {
-//                    window.open("thankyou.html", "_self");
-                    app1.navigate("#questions-body");                    
+                    if(!submitIntake)
+                    {
+    //                    window.open("reasons.html", "_self");
+                        app1.navigate("#questions-body");
+                        //var endTimer1 = new Date().getTime();
+                        //console.log('time taken to authenticate..' + (endTimer1 - startTimer1));
+
+                    }
+                    else
+                    {
+    //                    window.open("thankyou.html", "_self");
+                        app1.navigate("#questions-body");                    
+                    }
+                    //window.open("reasons.html?key=" + getUrlParameter('key') + "&uid=" + jsonobj.Data.UID + "&rsvp=" + getUrlParameter("rsvp") + "&anon=" + getUrlParameter("anon") + "&firstname=" + jsonobj.Data.DictionaryUserInfo.FirstName + "&lastname=" + jsonobj.Data.DictionaryUserInfo.LastName + "&phone=" + jsonobj.Data.DictionaryUserInfo.Phone + "&email=" + jsonobj.Data.DictionaryUserInfo.Email + "&initialintakestatus=" + getUrlParameter("initialintakestatus"), "_self");
                 }
-                //window.open("reasons.html?key=" + getUrlParameter('key') + "&uid=" + jsonobj.Data.UID + "&rsvp=" + getUrlParameter("rsvp") + "&anon=" + getUrlParameter("anon") + "&firstname=" + jsonobj.Data.DictionaryUserInfo.FirstName + "&lastname=" + jsonobj.Data.DictionaryUserInfo.LastName + "&phone=" + jsonobj.Data.DictionaryUserInfo.Phone + "&email=" + jsonobj.Data.DictionaryUserInfo.Email + "&initialintakestatus=" + getUrlParameter("initialintakestatus"), "_self");
             }
 		else
             {

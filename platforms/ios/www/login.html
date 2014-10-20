@@ -73,6 +73,17 @@
                 </div>
             </div>
 		</div>
+        <div data-role="view" id="viewFormSelection" data-layout="LayoutWithUclaLogoNoClose" data-show="InitForm" data-transition-end="FocusLoginControl">
+            <div id="div_select_form" class="HorizontalCenter SignInContainer">
+                <span class="LoginInstruction">Please select which session you are checking in for</span>
+
+                <div id="div_choose_form" class="panel-button-div">
+                    <a data-role="button" class="LoginPageButton" data-click="StartPreSession" data-transition="slide"><span><br/>Start new session</span> <span class="ArrowPadding"><i class="icon-circle-arrow-right AlignArrows"></i></span></a>
+                    
+                    <a data-role="button" class="LoginPageButton" data-click="StartPostSession" data-transition="slide"><span><br/>Complete post session</span> <span class="ArrowPadding"><i class="icon-circle-arrow-right AlignArrows"></i></span></a>
+                </div>
+            </div>
+		</div>
         
 		<!-- Anonymous view -->
 		<div data-role="view" id="anon" class="white-button" data-layout="LayoutWithUclaLogo">
