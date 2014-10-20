@@ -225,12 +225,13 @@
                         </li>
                         <li>
                             <label>
-                                <span class="Label">Mobile Phone</span><input id="txt_phone" type="text" class="textbox RemoveBoxShadow" placeholder="(999)999-9999" style="display:block;"/><span class="SpanError DisplayNone"><i class="icon-warning-sign WarningSign"></i></span>
+                                <span class="Label">Mobile Phone</span><input id="txt_phone" type="tel" class="textbox RemoveBoxShadow" placeholder="(999)999-9999" style="display:block;"/><span class="SpanError DisplayNone"><i class="icon-warning-sign WarningSign"></i></span>
                             </label>
                         </li>
                         <li>
                             <label>
-                                <span class="Label">UID</span><input id="txt_uid" type="text" class="textbox RemoveBoxShadow" placeholder="Enter 9 digit UID" style="display:block;" maxlength="9"/><span class="SpanError DisplayNone"><i class="icon-warning-sign WarningSign"></i></span>
+                                <!-- having UID as 'number' type field interferes with masking -->
+                                <span class="Label">UID</span><input id="txt_uid" type="tel" class="textbox RemoveBoxShadow" placeholder="Enter 9 digit UID" style="display:block;" maxlength="9"/><span class="SpanError DisplayNone"><i class="icon-warning-sign WarningSign"></i></span>
                             </label>
                         </li>
                     </ul>
@@ -241,14 +242,15 @@
             </div>
             <div class="CenterAlign RegisterButtonContainer">
                 <a data-role="button" class="SignInButton" data-click="NavigateToLoginPage" data-transition="slide:reverse">Cancel</a>
-                <a data-role="button" data-click="Register" class="SignInButton font-bold">Register</a>
+                <a data-role="button" data-click="SubmitRegistrationForm" class="SignInButton font-bold">Register</a>
             </div>
         </div>
         
         <!-- Reasons page controls -->
         <div id="questions-body" data-role="view" data-title=" " data-layout="checklayout" data-show="DisplayResponses" class="WhiteBackground">
             <div class="ReasonsContainer">
-                <span class="span-question-text" style="margin:0;" id="span">Please answer the following questions:</span>
+                <span class="span-question-text DisplayNone" style="margin:0;" id="spanMsgAnyQuestion">Please answer the following questions:</span>
+                <span class="span-question-text DisplayNone" style="margin:0;" id="spanMsgNoQuestion">Please wait...</span>
                 <ul data-role="listview" data-style="inset" id="ulResponses" data-type="group" class="response-container-lt-2Q">
                 </ul>
                 <div class="row-fluid FormIndentation" id="divQuestions" style="padding-left:2%;">
@@ -426,12 +428,25 @@
                  </div> -->
                 <span class="text-align-cener">Please provide key to exit kiosk</span>
                 <div id="divAppKey" class="inner-addon right-addon"> <!--class="inner-addon right-addon" -->
-                    <input id="txt_app_key" type="text" class="textbox TextBoxFix" MaxLength="6"/>
-                    <i class="glyphicon icon-warning-sign WarningSign DisplayNone"></i>
+                    <ul data-role="listview" id="ulReconfigureApp" class="reconfigure-app">
+                        <li>
+                            <label>Key <input id="txtAccessKey" type="text" MaxLength="6" class="RemoveBoxShadow exit-access-key" placeholder="Enter a app key"/>
+                            <i class="glyphicon icon-warning-sign WarningSign DisplayNone"></i>
+                            </label>
+                        </li>
+                        <li id="liLocations" class="invisible">
+                            <label id="lbl-locations">Select a Location
+                                <select id="ddl-locations" class="exit-locations">
+                                </select>
+                            </label>
+                        </li>
+                    </ul>
+                    
                 </div>
                 <div class="DisplayNone" id="divAppKeyError">
                     <i class="icon-warning-sign WarningSign"></i><span class="RequiredField">Please enter a valid application key</span>
                 </div>
+
 			</div>
             <div data-role="footer">
                 <div class="ReconfigureLobby ContentWithRoundedCorners iOSLikeContainer">
@@ -490,7 +505,9 @@
         <script type="text/javascript" src="phonegap.js"></script>
 		
         <!-- <script type="text/javascript" src="js/blocks.js"></script> -->
-        <script type="text/javascript" src="js/login.js"></script> 
+        <script type="text/javascript" src="js/login.js"></script>
+<!--        Index.js -- needed to call relaunch kiosk-->
+        <script type="text/javascript" src="js/index.js"></script>
         <!-- <script type="text/javascript" src="js/login.min.js"></script> -->
         <script type="text/javascript" src="js/global.js"></script>
         <!-- <script type="text/javascript" src="js/blocks.js"></script> -->
@@ -502,9 +519,9 @@
         
         <script type="text/javascript">
             window.onload = Initialize();
-            window.onerror(function(msg, url, line){
+            window.onerror = function(msg, url, line){
                            alert('login.html Error:' + msg + " -- " + line);
-                           });
+                           };
             </script>
         
         

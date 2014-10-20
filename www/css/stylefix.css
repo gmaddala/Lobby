@@ -138,7 +138,7 @@ div#modalviewAlert.ReasonsAlert.km-widget.km-modalview.km-view
 }
 
 .ReconfigureLobby{
-padding-left: 3% !important;
+/*padding-left: 3% !important; */
 padding-bottom: 3%;
 padding-top: 0%;
 /* custom background style */
@@ -234,10 +234,10 @@ div.gray-div{
 
 .SignInButton{
 /*	margin-left:3.0%;  *//*4.7%;*/
-	width:10%;
+	width:11%;
     background-color: #fff !important;
     border-radius: 10px !important;
-    padding:1% !important;
+    padding:1.5% !important;
 }
 
 .ButtonFix{
@@ -527,6 +527,10 @@ div.km-listview-wrapper input[type="search"]
     
     .SignInContainer{
         padding-top:25% !important;
+    }
+    
+    .SignInButton{
+        width: 16%;
     }
     
     .RegistrationContainer{
@@ -1143,4 +1147,22 @@ font-size:large;
     width: 50%;
     display: inline-block;
     margin-right: 3%;
+}
+
+.reconfigure-app{
+    padding-top: 2%;
+}
+
+#txtAccessKey:focus{
+    -webkit-box-shadow: none;
+}
+
+.exit-access-key{
+    height: initial !important;
+    font-size: 100% !important;
+    width: 53% !important;
+}
+
+.exit-locations{
+    font-size: 100% !important;
 }

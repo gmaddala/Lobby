@@ -140,8 +140,11 @@ function RedirectToLoginPage(jsonobj)
 	   }
 		else
 		{
-			$('#div-locations').removeClass('invisible');
+			//$('#div-locations').removeClass('invisible');
+            $('#liLocations').removeClass('invisible');
 			//$('#div-locations').empty();
+            //clear all the locations that were already populated
+            $('#ddl-locations').empty();
 		   for(var i = 0 ; i < location_array.length ; i++)
 		   {
 				$('#ddl-locations').append($('<option></option>').val(location_array[i].ID).html(location_array[i].Name));

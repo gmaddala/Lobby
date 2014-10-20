@@ -139,7 +139,7 @@ function SignIn(logon, isCardreader){
     {
         submitIntake = true;
     }
-    if(localStorage.getItem("rsvp") == "true"){
+    if(localStorage.getItem("rsvp") == "true" || localStorage.getItem("enforcedeligibility") == "true"){
         isRSVP = true;
     }
     
@@ -171,7 +171,7 @@ function SignIn(logon, isCardreader){
                         //showDialog("Invalid UCLA logon");
                         ShowFlashMessage("Invalid UCLA logon");
                         app.startCardReader();
-                        //alert(jqXHR + ";\n\n" + textStatus + ";\n\n" + errorThrown);
+                        alert(jqXHR.responseText + ";\n\n" + textStatus + ";\n\n" + errorThrown);
 				   },
 				   complete: function(){
                             endLoading();
@@ -471,36 +471,24 @@ function ClickRegistration()
 }
 
 function ValidateAppKey(){
-	  var key = $("#txt_app_key").val();
+	  var key = $("#txtAccessKey").val();
 	  if(key == null || key == "")
 	  {//highlight the error field
-          $("#txt_app_key").addClass("Error");
-	  }
-	  else if(key == localStorage.getItem("key"))
-	  {
-          $("#txt_app_key").removeClass("Error");
-          //$('#divAppKeyError').addClass("DisplayNone");
-//          $("#txt_app_key").next().addClass("DisplayNone");
-          app.stopCardReader();
-
-          localStorage.setItem("key", "null");
-          window.open("index.html", "_self");
+          $("#txtAccessKey").addClass("Error");
 	  }
 	  else
 	  {
-          //Highlight the field and display error message
-//          $("#divAppKeyError").click();
-          //setting focus toggles keypad and causes page layout issues
-          $("#txt_app_key").addClass("Error");//.focus();
-          //$('#divAppKeyError').removeClass("DisplayNone");
-          //Display Error icon to the right of the input control
-//          $("#txt_app_key").next().removeClass("DisplayNone");
+          $("#txtAccessKey").removeClass("Error");
+          //$('#divAppKeyError').addClass("DisplayNone");
+//          $("#txtAccessKey").next().addClass("DisplayNone");
+          //app.stopCardReader();
 
-          //$(this).dialog("close");
-          //HideReconfigureLobbyDialog();
-          //showDialog("Incorrect key");
-          //ShowFlashMessage("Incorrect key");
+          localStorage.setItem("key", "null");
+          //call launchkiosk method to launch the new kiosk / relaunch existing kiosk
+          LaunchKiosk();
+          //window.open("index.html", "_self");
 	  }
+	  
 }
 
 function NavigateToReasonsPage(){
@@ -538,7 +526,7 @@ function showCardReaderErrorAlert(msg) {
 //methods moved from login.html
 var app1, initialView;
 function Initialize(){
-    $('#txt_app_key').bind("keyup", function(){
+    $('#txtAccessKey').bind("keyup", function(){
                             //convert the text to uppercase
                             var key = $(this).val();
 //                            $(this).val(key.toUpperCase());
@@ -582,6 +570,9 @@ function InitForm(){
 //    else{
 //        $("#welcome_text").text("Welcome to the event");    
 //    }
+    
+    //bind keypress event for textbox
+    //                $('#'+ responseId).bind('keypress',PopulateNumbers);
     
     if(localStorage.getItem("anon") == "true")
     {
@@ -634,11 +625,12 @@ function FocusLoginControl()
 
 function DisplayReconfigureLobbyDialog(){
     //Reset the textbox control and error highlight
-    $("#txt_app_key").val("").removeClass("Error");
+    $("#txtAccessKey").val("").removeClass("Error");
     //remove error icon
-    $("#txt_app_key").next().addClass("DisplayNone");
+    $("#txtAccessKey").next().addClass("DisplayNone");
     //remove the error message
     //$('#divAppKeyError').addClass("DisplayNone");
+    $('#liLocations').addClass('invisible');
     $(".ContentWithRoundedCorners").parent().addClass("ContentWithRoundedCorners");
     $("#dialog-modal").kendoMobileModalView("open");
 }
@@ -675,6 +667,6 @@ function StartCardReader(){
     app.startCardReader();
 }
 
-window.onerror(function(msg, url, line){
+window.onerror = function(msg, url, line){
                alert('login.js Error:' + msg + " -- " + line);
-               });
+               };
