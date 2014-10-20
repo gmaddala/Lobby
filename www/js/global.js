@@ -70,6 +70,8 @@ function clearStudentInfo()
     localStorage.setItem("email", null);
     localStorage.setItem("cardswiped", null);
     localStorage.setItem("intakeID", -1);
+    localStorage.setItem("postformidlist", null);
+    localStorage.setItem("preformid", null);
 }
 
 function showDialog(message) {

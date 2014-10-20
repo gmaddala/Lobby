@@ -80,7 +80,14 @@
                 <div id="div_choose_form" class="panel-button-div">
                     <a data-role="button" class="LoginPageButton" data-click="StartPreSession" data-transition="slide"><span><br/>Start new session</span> <span class="ArrowPadding"><i class="icon-circle-arrow-right AlignArrows"></i></span></a>
                     
-                    <a data-role="button" class="LoginPageButton" data-click="StartPostSession" data-transition="slide"><span><br/>Complete post session</span> <span class="ArrowPadding"><i class="icon-circle-arrow-right AlignArrows"></i></span></a>
+                    <a id="singlePostForm" data-role="button" class="LoginPageButton invisible" data-click="StartPostSession" data-transition="slide"><span><br/>Complete post session</span> <span class="ArrowPadding"><i class="icon-circle-arrow-right AlignArrows"></i></span></a>
+                    
+                    <label class="LoginPageButton invisible" id="multPostForms">Complete post session
+                        <select id="multPostFormsDropdown">
+                            
+                        </select>
+                        <a data-role="button" class="LoginPageButton" data-click="StartPostSession" data-transition="slide" style="width:initial !important;"><span><span class="ArrowPadding"><i class="icon-circle-arrow-right AlignArrows"></i></span></a>
+                    </label>
                 </div>
             </div>
 		</div>

@@ -128,6 +128,25 @@ function SignInWithUclaLogon(){
 
 function HandleMultipleForms()
 {
+    $("#singlePostForm").addClass("invisible");
+    $("#multPostForms").addClass("invisible");
+    
+    var postFormsList = JSON.parse(localStorage.getItem("postformidlist"));
+    if(postFormsList.length == 1)
+    {
+        $("#singlePostForm").removeClass("invisible");
+    }
+    else if(postFormsList.length > 1)
+    {
+        $("#multPostForms").removeClass("invisible");
+        
+        
+        for(var i = 0 ; i < postFormsList.length ; i++)
+        {
+            $("#multPostFormsDropdown").append("<option value='" + postFormsList[i].IntakeID + "'>" +  postFormsList[i].LastUpdated + "</option>");
+        }
+        $("#multPostFormsDropdown").kendoDropDownList();
+    }
     app1.navigate("#viewFormSelection");
 }
 
@@ -140,6 +159,27 @@ function StartPreSession()
 
 function StartPostSession()
 {
+    var postFormsList = JSON.parse(localStorage.getItem("postformidlist"));
+    var formID;
+    if(postFormsList.length == 1)
+    {
+        formID = postFormsList[0].FormID;
+        localStorage.setItem("intakeID", postFormsList[0].IntakeID);
+    }
+    else if(postFormsList.length > 1)
+    {
+        localStorage.setItem("intakeID", $("#multPostFormsDropdown").val());
+        for(var i = 0 ; i < postFormsList.length ; i++)
+        {
+            if(postFormsList[i].IntakeID == localStorage.getItem("intakeID"))
+            {
+                formID = postFormsList[i].FormID;
+                break;
+            }
+        }
+    }
+    
+    SetQuestions(formID);
     app1.navigate("#questions-body");
 }
 
@@ -279,10 +319,17 @@ function SetStudentData(jsonobj, submitIntake)
                 var allquestionsjsonobj = JSON.parse(localStorage.getItem("allquestions"));
                 if(allquestionsjsonobj.Questions.length > 1) //multiple forms
                 {
-                    localStorage.setItem("postformidlist", jsonobj.Data.FormsToDisplay.PostEvaluationForms); //jsonarray
+                    localStorage.setItem("postformidlist", JSON.stringify(jsonobj.Data.FormsToDisplay.PostEvaluationForms)); //jsonarray
                     localStorage.setItem("preformid", jsonobj.Data.FormsToDisplay.PreEvaluationFormID);
                     
-                    HandleMultipleForms();
+                    if(jsonobj.Data.FormsToDisplay.PostEvaluationForms.length > 0)
+                    {
+                        HandleMultipleForms();
+                    }
+                    else
+                    {
+                        StartPreSession(); //no post eval forms, go directly to pre eval
+                    }
                 }
                 else
                 {
