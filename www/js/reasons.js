@@ -207,22 +207,42 @@ function ValidateReasons2(q_array){
 		
 		if (responseContainer.children().length == 1)
 		{
+            //button group
+            if(responseContainer.find('ul'))
+            {
+                if(responseContainer.children().data("kendoMobileButtonGroup").current().attr('id') == undefined)
+                {
+                    responseContainer.find('ul').parent().addClass("Error");
+                    responseContainer.find('ul').addClass("Error");
+                    SetUserResponseForQuestionId(question.ID, responseContainer.children().data("kendoMobileButtonGroup").current().attr('id'), "");
+                    hasError = true;
+                }
+                else
+                {
+                    responseContainer.find('ul').parent().removeClass("Error");
+                    responseContainer.find('ul').removeClass("Error");
+                    SetUserResponseForQuestionId(question.ID, responseContainer.children().data("kendoMobileButtonGroup").current().attr('id'), "");
+                }
+            }
 			//input control
 			var txtBox = responseContainer.find('input');
-			response = txtBox.val();
-			if ($.trim(response) == ""){
-                //highlight the complete cell
-				responseContainer.find('input').parent().addClass("Error");
-                responseContainer.find('input').addClass("Error");
-				SetUserResponseForQuestionId(question.ID, txtBox.attr('id'), "");
-				hasError = true;
-			}
-			else
-			{
-				responseContainer.find('input').parent().removeClass("Error");
-                responseContainer.find('input').removeClass("Error");
-				SetUserResponseForQuestionId(question.ID, txtBox.attr('id'), responseContainer.find('input').val());
-			}
+            if(txtBox.length != 0)
+            {
+                response = txtBox.val();
+                if ($.trim(response) == ""){
+                    //highlight the complete cell
+                    responseContainer.find('input').parent().addClass("Error");
+                    responseContainer.find('input').addClass("Error");
+                    SetUserResponseForQuestionId(question.ID, txtBox.attr('id'), "");
+                    hasError = true;
+                }
+                else
+                {
+                    responseContainer.find('input').parent().removeClass("Error");
+                    responseContainer.find('input').removeClass("Error");
+                    SetUserResponseForQuestionId(question.ID, txtBox.attr('id'), responseContainer.find('input').val());
+                }
+            }
 		}
 		else if ($('#divResponse'+ question.ID).children().length == 2)
 		{
@@ -604,7 +624,7 @@ function DisplayResponses(e){
                       }, 400);
     
     eventQuestions = JSON.parse(localStorage.getItem("questions"));
-    debugger;
+    //debugger;
     var q_array = eventQuestions.Questions;
     
     if(q_array.length == 0)
@@ -787,7 +807,7 @@ function BuildQuestionsAndResponses(q_array, e){
                 inputtype = "buttongroup";
                 responseId = responses[0].ID;
                 
-                debugger;
+                //debugger;
                 var buttongroupInside = "";
                 for(var j = 0 ; j < responses.length ; j++)
                 {
