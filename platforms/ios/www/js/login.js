@@ -409,6 +409,7 @@ function CheckIn(logon, isoverride, isCardreader){
                         if(isManualRSVPCheckIn){
                             $('#divSearchSuccess').addClass('DisplayNone');
                             $('#divSearchFail').removeClass('DisplayNone');
+                            //Hide 'CheckIn' button display
                             DisplayRSVPCheckInButton(false);
                             ClearRSVPFields(true);
                         }
@@ -416,7 +417,6 @@ function CheckIn(logon, isoverride, isCardreader){
                         {
                             $('#divSwipeSuccess').addClass('DisplayNone');
                             $('#divSwipeFail').removeClass('DisplayNone');
-                            DisplayRSVPCheckInButton(false);
                             ClearRSVPFields(true);
                         }
                     }
@@ -547,7 +547,7 @@ function ValidateAppKey(){
 //          $("#txtAccessKey").next().addClass("DisplayNone");
           //app.stopCardReader();
 
-          localStorage.setItem("key", "null");
+          //localStorage.setItem("key", "null");
           //call launchkiosk method to launch the new kiosk / relaunch existing kiosk
           LaunchKiosk();
           //window.open("index.html", "_self");

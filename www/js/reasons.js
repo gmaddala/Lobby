@@ -600,8 +600,12 @@ function ClearSearch(){
 function DisplayResponses(e){
     //add delay before displaying all the response controls to prevent accidental touch on response controls
     $('#divQuestions').addClass('DisplayHidden');
+    $('#ulResponses').addClass('DisplayHidden');
     window.setTimeout(function(){
                       $('#divQuestions').removeClass('DisplayHidden')
+                      }, 400);
+    window.setTimeout(function(){
+                      $('#ulResponses').removeClass('DisplayHidden')
                       }, 400);
     
     eventQuestions = JSON.parse(localStorage.getItem("questions"));

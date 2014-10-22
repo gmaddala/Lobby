@@ -547,7 +547,7 @@ function ValidateAppKey(){
 //          $("#txtAccessKey").next().addClass("DisplayNone");
           //app.stopCardReader();
 
-          localStorage.setItem("key", "null");
+          //localStorage.setItem("key", "null");
           //call launchkiosk method to launch the new kiosk / relaunch existing kiosk
           LaunchKiosk();
           //window.open("index.html", "_self");

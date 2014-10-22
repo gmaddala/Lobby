@@ -569,8 +569,11 @@ div.km-listview-wrapper input[type="search"]
         line-height: 1 !important;
     }
     
-    .header-button-close{
+    .header-button-close, .rsvp-header-button-close{
         padding: 0 1% !important;
+    }
+    
+    .rsvp-header-button-close{
         margin-top: 2.4% !important;
     }
     
@@ -1097,15 +1100,18 @@ font-size:large;
     width:115%;
 }
 
-.header-button-close{
+.header-button-close, .rsvp-header-button-close{
     height:initial;
     border:none !important;
     color:#fff !important;
 /*    font-size:large !important;*/
     float:right;
     padding: 0.6% 1%;
+}
+.rsvp-header-button-close{
     margin-top: -0.2%;
 }
+
 .ucla-logo-center{
     width: 10%;
 }
