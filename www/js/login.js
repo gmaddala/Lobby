@@ -545,11 +545,11 @@ function ValidateAppKey(){
           $("#txtAccessKey").removeClass("Error");
           //$('#divAppKeyError').addClass("DisplayNone");
 //          $("#txtAccessKey").next().addClass("DisplayNone");
-          //app.stopCardReader();
+          app.stopCardReader();
 
           //localStorage.setItem("key", "null");
           //call launchkiosk method to launch the new kiosk / relaunch existing kiosk
-          LaunchKiosk();
+          LaunchKiosk(true);
           //window.open("index.html", "_self");
 	  }
 	  
@@ -611,8 +611,46 @@ function Initialize(){
     {
         $("#btn-register").addClass("invisible");
     }
+    else{
+        $("#btn-register").removeClass("invisible");
+    }
     
     app1 = new kendo.mobile.Application(document.body, {useNativeScrolling: true, initial: initialView}); //, transition: 'overlay:up'
+};
+
+function ResetLobby(){
+    $('#txtAccessKey').bind("keyup", function(){
+                            //convert the text to uppercase
+                            var key = $(this).val();
+                            //                            $(this).val(key.toUpperCase());
+                            });
+    //Reset CollectedResponses
+    localStorage.setItem("CollectedResponses", JSON.stringify(""));
+    //app1 = new kendo.mobile.Application(document.body, {useNativeScrolling: true}); //, transition: 'overlay:up'
+    
+    //debugger;
+    if(localStorage.getItem("anon") != "true")
+    {
+        //app.initialize();
+    }
+    
+    //$("#welcome_text1").text("Welcome to " + localStorage.getItem("deptname"));
+    InitForm();
+    if(localStorage.getItem("allowregistration") == "false")
+    {
+        $("#btn-register").addClass("invisible");
+    }
+    else
+    {
+        $("#btn-register").removeClass("invisible");
+    }
+    
+    //app1 = new kendo.mobile.Application(document.body, {useNativeScrolling: true, initial: initialView}); //, transition: 'overlay:up'
+    app1.navigate('#' + initialView);
+    
+    //reset RSVP related fields when the app is reset
+    $('#spanSearchLastCheckIn').text("");
+    $('#spanSwipeLastCheckIn').text("");
 };
 
 //not used
@@ -702,6 +740,12 @@ function DisplayReconfigureLobbyDialog(){
 //RSVP methods
 function InitRSVPSwipe(){
     //start card reader to read swipe data
+    //var isCardreader1 = typeof isCardreader != 'undefined' ? isCardreader : false;
+
+    //alert('starting card reader in RSVP');
+//    if(!IsCardReaderStarted()){
+//        SetCardReaderStatus(true);
+//    }
     app.startCardReader();
     isManualRSVPCheckIn = false;
     $('#liRsvpSwipe').addClass('RSVPInputTypeHighlight');

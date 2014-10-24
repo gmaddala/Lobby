@@ -1180,3 +1180,7 @@ font-size:large;
 .exit-locations{
     font-size: 100% !important;
 }
+
+.big-font > span.km-text{
+    font-size: 1.2em;
+}

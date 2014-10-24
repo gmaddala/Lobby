@@ -12,9 +12,25 @@ function SubmitReasons(e)
     var hasError = false;
 	var ctl;
 	var firstErrCtl;
-	if (q_array.length < 3)
+    var cnt = 0;
+    
+    if (q_array.length < 3)
 	{//validate reasons for less than 3 questions
-		hasError = ValidateReasons1(q_array);
+        if($('div.OtherDiv input').attr('id') != undefined){
+            $('div.OtherDiv input').blur();
+
+            //adding a delay to avoid UI transition error
+            for(var i= 0 ; i < 2000000; i++){
+                cnt = cnt + 2;
+            }
+        }
+        else{
+            cnt = 1001;
+        }
+        
+        if(cnt > 1000){
+          hasError = ValidateReasons1(q_array);
+        }
 	}
 	else{//validate reasons for 3 or more questions
 		hasError = ValidateReasons2(q_array);
@@ -601,12 +617,6 @@ function DisplayResponses(e){
     //add delay before displaying all the response controls to prevent accidental touch on response controls
     $('#divQuestions').addClass('DisplayHidden');
     $('#ulResponses').addClass('DisplayHidden');
-    window.setTimeout(function(){
-                      $('#divQuestions').removeClass('DisplayHidden')
-                      }, 400);
-    window.setTimeout(function(){
-                      $('#ulResponses').removeClass('DisplayHidden')
-                      }, 400);
     
     eventQuestions = JSON.parse(localStorage.getItem("questions"));
     var q_array = eventQuestions.Questions;
@@ -632,6 +642,11 @@ function DisplayResponses(e){
     
     if (q_array.length < 3)
     { //Display one-column layout like display if there're only 2 questions or less. This will be needed for most of the lobby which has single question
+        $('#divQuestions').empty();
+        window.setTimeout(function(){
+                          $('#ulResponses').removeClass('DisplayHidden')
+                          }, 400);
+
         //reset the response container
         $("#ulResponses").empty();
         //Hide the instruction
@@ -712,6 +727,11 @@ function DisplayResponses(e){
     }
     else{//Build questions and responses if there're more than 2 questions
         //Display the instruction
+        $('#ulResponses').empty();
+        window.setTimeout(function(){
+                          $('#divQuestions').removeClass('DisplayHidden')
+                          }, 400);
+        
         $('div.ReasonsContainer span').first().removeClass('DisplayNone');
         BuildQuestionsAndResponses(q_array, e);
     }

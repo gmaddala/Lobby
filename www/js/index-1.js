@@ -1,4 +1,11 @@
-function LaunchKiosk()
+function LaunchKioskFromIndex(e){
+    var params = e.button.data();
+    //Passing parameter to listview/view is not supported. So, param value is stored in a global variable
+    var isLoginPage = params.fromloginpage;
+    LaunchKiosk(isLoginPage);
+}
+
+function LaunchKiosk(fromLoginPage)
 {
     
     //SetTestData();
@@ -7,7 +14,9 @@ function LaunchKiosk()
     {
         localStorage.setItem("selLocationID", $('#ddl-locations').val());
         InitializeLocalStorage();
-        window.open("login.html", "_self");
+//        window.open("login.html", "_self");
+        //redirect to login page, if from index.html else navigate to a view
+        InitializePage(fromLoginPage);
     }
     else
     {
@@ -27,7 +36,7 @@ function LaunchKiosk()
                    if(jsonobj.Status == 200)
                    {
                    //RedirectToLoginPage(jsonobj);
-                   RedirectToLoginPage(data);
+                        RedirectToLoginPage(data, fromLoginPage);
                    }
                    else
                    {
@@ -54,7 +63,7 @@ function LaunchKiosk()
     
 }
 
-function RedirectToLoginPage(data)
+function RedirectToLoginPage(data, fromLoginPage)
 {
 //    localStorage.setItem("key", $('#txtAccessKey').val());
 //    localStorage.setItem("deptname", jsonobj.Data.DeptName);
@@ -83,6 +92,7 @@ function RedirectToLoginPage(data)
     localStorage.setItem("newAppData", data);
     var jsonobj = JSON.parse(data);
 	   var location_array = jsonobj.Data.Locations;
+//    console.log("lcoations.length " + location_array.length);
 	   if(location_array.length < 2)
        {
            if(location_array.length == 1)
@@ -91,7 +101,8 @@ function RedirectToLoginPage(data)
            }
            
            InitializeLocalStorage();
-           window.open("login.html", "_self");
+        //redirect to login page, if from index.html else navigate to a view           
+           InitializePage(fromLoginPage);
        }
        else
        {
@@ -115,6 +126,7 @@ function RedirectToLoginPage(data)
 
 function InitializeLocalStorage()
 {
+    console.log("Initialize local storage.." + $('#txtAccessKey').val());
     var jsonobj = JSON.parse(localStorage.getItem("newAppData"));
     
     localStorage.setItem("key", $('#txtAccessKey').val());
@@ -139,6 +151,32 @@ function InitializeLocalStorage()
     localStorage.setItem("eligibilitytype", jsonobj.Data.EligibilityType);
     localStorage.setItem("locations", JSON.stringify(jsonobj.Data.Locations));
     localStorage.setItem("intakeID", -1);
+}
+
+var isCardReaderStarted = false;
+function InitializePage(fromLoginPage){
+    if(fromLoginPage == "true"){
+        HideReconfigureLobbyDialog();
+        //if(localStorage.getItem("rsvp") == "false" && localStorage.getItem("enforcedeligibility") == "false")
+        {
+            app.startCardReader();
+        }
+        //call login page initialize
+        //               Initialize();
+        ResetLobby();
+        isCardReaderStarted = true;
+    }
+    else{
+        window.open("login.html", "_self");
+    }
+}
+
+function IsCardReaderStarted(){
+    return isCardReaderStarted;
+}
+
+function SetCardReaderStatus(status){
+    isCardReaderStarted = status;
 }
 
 function SetTestData()
