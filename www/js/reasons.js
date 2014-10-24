@@ -204,77 +204,104 @@ function ValidateReasons2(q_array){
     {
         question = q_array[i];
 		responseContainer = $('#divResponse'+ question.ID);
-		
-		if (responseContainer.children().length == 1)
-		{
-            //button group
-            if(responseContainer.find('ul'))
+		if(!$("#div" + question.ID).hasClass("invisible"))
+        {
+            if (responseContainer.children().length == 1)
             {
-                if(responseContainer.children().data("kendoMobileButtonGroup").current().attr('id') == undefined)
+                //button group
+                if(responseContainer.find('ul'))
                 {
-                    responseContainer.find('ul').parent().addClass("Error");
-                    responseContainer.find('ul').addClass("Error");
-                    SetUserResponseForQuestionId(question.ID, responseContainer.children().data("kendoMobileButtonGroup").current().attr('id'), "");
+                    if(responseContainer.children().data("kendoMobileButtonGroup").current().attr('id') == undefined)
+                    {
+                        responseContainer.find('ul').parent().addClass("Error");
+                        responseContainer.find('ul').addClass("Error");
+                        SetUserResponseForQuestionId(question.ID, responseContainer.children().data("kendoMobileButtonGroup").current().attr('id'), "");
+                        hasError = true;
+                    }
+                    else
+                    {
+                        responseContainer.find('ul').parent().removeClass("Error");
+                        responseContainer.find('ul').removeClass("Error");
+                        SetUserResponseForQuestionId(question.ID, responseContainer.children().data("kendoMobileButtonGroup").current().attr('id'), "");
+                    }
+                }
+                //input control
+                var txtBox = responseContainer.find('input');
+                if(txtBox.length != 0)
+                {
+                    response = txtBox.val();
+                    if ($.trim(response) == ""){
+                        //highlight the complete cell
+                        responseContainer.find('input').parent().addClass("Error");
+                        responseContainer.find('input').addClass("Error");
+                        SetUserResponseForQuestionId(question.ID, txtBox.attr('id'), "");
+                        hasError = true;
+                    }
+                    else
+                    {
+                        responseContainer.find('input').parent().removeClass("Error");
+                        responseContainer.find('input').removeClass("Error");
+                        SetUserResponseForQuestionId(question.ID, txtBox.attr('id'), responseContainer.find('input').val());
+                    }
+                }
+            }
+            else if ($('#divResponse'+ question.ID).children().length == 2)
+            {
+                //span control and caret
+                response = $('#divResponse'+ question.ID).find('span.Response').text();
+                response = response.replace("Required", "");
+                
+                if (response == ""){
+                    responseContainer.addClass("Error");
                     hasError = true;
                 }
                 else
                 {
-                    responseContainer.find('ul').parent().removeClass("Error");
-                    responseContainer.find('ul').removeClass("Error");
-                    SetUserResponseForQuestionId(question.ID, responseContainer.children().data("kendoMobileButtonGroup").current().attr('id'), "");
+                    responseContainer.removeClass("Error");
                 }
             }
-			//input control
-			var txtBox = responseContainer.find('input');
-            if(txtBox.length != 0)
-            {
-                response = txtBox.val();
-                if ($.trim(response) == ""){
-                    //highlight the complete cell
-                    responseContainer.find('input').parent().addClass("Error");
-                    responseContainer.find('input').addClass("Error");
-                    SetUserResponseForQuestionId(question.ID, txtBox.attr('id'), "");
-                    hasError = true;
-                }
-                else
-                {
-                    responseContainer.find('input').parent().removeClass("Error");
-                    responseContainer.find('input').removeClass("Error");
-                    SetUserResponseForQuestionId(question.ID, txtBox.attr('id'), responseContainer.find('input').val());
-                }
-            }
-		}
-		else if ($('#divResponse'+ question.ID).children().length == 2)
-		{
-			//span control and caret
-			response = $('#divResponse'+ question.ID).find('span.Response').text();
-			response = response.replace("Required", "");
-			
-			if (response == ""){
-				responseContainer.addClass("Error");
-				hasError = true;
-			}
-			else
-			{
-				responseContainer.removeClass("Error");
-			}
-		}
-	}
+        }//if not invisible
+        else
+        {
+            RemoveUserResponseForQuestionId(question.ID);
+        }
+	}//for
 	//console.log('has error..'+ hasError);
 		return hasError;
 }
 
-function SetUserResponseForQuestionId(questionId, reasonId, value)
+function RemoveUserResponseForQuestionId(questionId)
 {
 	var collResponses = JSON.parse(localStorage.getItem("CollectedResponses"));
 	for (var idx = 0; idx < collResponses.length; idx++)
 	{
 		if(collResponses[idx].QuestionId == questionId)
 		{
+			collResponses.splice(idx, 1);
+		}
+	}
+	localStorage.setItem("CollectedResponses", JSON.stringify(collResponses));
+}
+
+function SetUserResponseForQuestionId(questionId, reasonId, value)
+{
+	var collResponses = JSON.parse(localStorage.getItem("CollectedResponses"));
+    var found = false;
+	for (var idx = 0; idx < collResponses.length; idx++)
+	{
+		if(collResponses[idx].QuestionId == questionId)
+		{
+            found = true;
 			collResponses[idx].ReasonId = reasonId;
 			collResponses[idx].ReasonDetails = value;
 		}
 	}
+    
+    if(!found)
+    {
+        collectedResponses.push({QuestionId: question.ID, ReasonId: reasonId, ReasonDetails: value, OtherReasonId: ""});
+    }
+    
 	localStorage.setItem("CollectedResponses", JSON.stringify(collResponses));
 }
 
@@ -762,7 +789,15 @@ function BuildQuestionsAndResponses(q_array, e){
             
             collectedResponses.push({QuestionId: question.ID, ReasonId: "", ReasonDetails: "", OtherReasonId: ""});
             
-            var divContainer = '<div id="div'+ question.ID + '" class="QuestionAndResponseContainer">{0}</div>';
+            var divContainer;
+            if(question.IsConditionalQuestion)
+            {
+                divContainer = '<div id="div'+ question.ID + '" class="QuestionAndResponseContainer invisible">{0}</div>';
+            }
+            else
+            {
+                divContainer = '<div id="div'+ question.ID + '" class="QuestionAndResponseContainer">{0}</div>';
+            }
             var divQuestionText = '<div class="span8"> <span class="QuestionText"><br/>' + question.QuestionText + '</span> </div>';
             //add ul view here and append here..
             var divResponse = '<div class="span4" id="divResponse'+ question.ID + '"><ul id="ul_' + question.ID + '"></ul></div>';
@@ -853,7 +888,22 @@ function BuildQuestionsAndResponses(q_array, e){
             }
             else if(inputtype == "buttongroup")
             {
-                e.view.element.find("#ul-" + question.ID).kendoMobileButtonGroup();
+                e.view.element.find("#ul-" + question.ID).kendoMobileButtonGroup({
+                                                                                 select: function(e){
+                                                                                 //console.log(e.sender.element.attr('id'));
+                                                                                    var qid = e.sender.element.attr('id');
+                                                                                     var rid = "";
+                                                                                     var buttons = e.sender.element.children();
+                                                                                     for(var i = 0 ; i < buttons.length ; i++)
+                                                                                     {
+                                                                                        if($(buttons[i]).hasClass("km-state-active"))
+                                                                                        {
+                                                                                            rid = $(buttons[i]).attr("id");
+                                                                                        }
+                                                                                     }
+                                                                                     HandleConditionalQuestions(qid.match(/\d+$/)[0], rid);
+                                                                                 }
+                });
             }
         }//for
         
@@ -926,6 +976,38 @@ function BuildQuestionsAndResponses(q_array, e){
     
     //if all the questions are constructed, ListView will also be constructed new
     canReconstructListView = canConstructQuestions;
+}
+
+function HandleConditionalQuestions(questionID, selectedResponse)
+{
+    //alert("Cond Question: " + questionID + " " + selectedResponse);
+    
+    var questionsObj = JSON.parse(localStorage.getItem("questions"));
+    var questions = questionsObj.Questions;
+    
+    var q;
+    for (var idx = 0; idx < questions.length; idx++)
+    {
+        if(questions[idx].ID == questionID){
+            q = questions[idx]; //grab question object
+        }
+    }
+    
+    for (var idx = 0 ; idx < q.Responses.length ; idx++)
+    {
+        for(var condidx = 0 ; condidx < q.Responses[idx].ConditionalQuestions.length ; condidx++)
+        {
+            if(q.Responses[idx].ID == selectedResponse)
+            {
+                $("#div" + q.Responses[idx].ConditionalQuestions[condidx].ID).removeClass("invisible");
+            }
+            else
+            {
+                $("#div" + q.Responses[idx].ConditionalQuestions[condidx].ID).addClass("invisible");
+            }
+        }
+    }
+    
 }
 
 //function to check length of input. If greater than 4, first 4 chars are retained

@@ -245,7 +245,7 @@ function SignIn(logon, isCardreader){
                         //showDialog("Invalid UCLA logon");
                         ShowFlashMessage("Invalid UCLA logon");
                         app.startCardReader();
-                        alert(jqXHR.responseText + ";\n\n" + textStatus + ";\n\n" + errorThrown);
+                        //alert(jqXHR.responseText + ";\n\n" + textStatus + ";\n\n" + errorThrown);
 				   },
 				   complete: function(){
                             endLoading();
@@ -470,7 +470,7 @@ function CheckIn(logon, isoverride, isCardreader){
                 //showDialog("Invalid UCLA logon");
 				ShowFlashMessage("Invalid UCLA logon");
                 app.startCardReader();
-           alert(jqXHR.responseText + ";\n\n" + textStatus + ";\n\n" + errorThrown);
+           //alert(jqXHR.responseText + ";\n\n" + textStatus + ";\n\n" + errorThrown);
            },
            complete: function(){
                     endLoading();
@@ -772,5 +772,5 @@ function StartCardReader(){
 }
 
 window.onerror = function(msg, url, line){
-               alert('login.js Error:' + msg + " -- " + line);
+               //alert('login.js Error:' + msg + " -- " + line);
                };
