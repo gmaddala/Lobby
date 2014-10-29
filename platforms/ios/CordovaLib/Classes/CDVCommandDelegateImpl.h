@@ -33,7 +33,6 @@
 }
 - (id)initWithViewController:(CDVViewController*)viewController;
 - (void)flushCommandQueueWithDelayedJs;
-
 //Added by Ananth
 //Issue: when upgraded XCode to 6.1 and upgraded cordova to 4.0.0, build error showed up in - (BOOL)execute:(CDVInvokedUrlCommand*)command method in Classes > MainViewController.m file
 //Fix: Added to fix the build error in MainViewController.m file in - (BOOL)execute:(CDVInvokedUrlCommand*)command method

@@ -367,7 +367,6 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Yadira Cano (DTJ55R92M7)";
 				COPY_PHASE_STRIP = NO;
 				DSTROOT = "/tmp/$(PROJECT_NAME).dst";
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -379,11 +378,9 @@
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";
 				INSTALL_PATH = /usr/local/lib;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				PRODUCT_NAME = Cordova;
-				PROVISIONING_PROFILE = "56b9e922-d966-494c-b8db-1db42b7f9152";
 				PUBLIC_HEADERS_FOLDER_PATH = include/Cordova;
-				SDKROOT = iphoneos8.1;
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -393,7 +390,6 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Yadira Cano (DTJ55R92M7)";
 				DSTROOT = "/tmp/$(PROJECT_NAME).dst";
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -402,11 +398,9 @@
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";
 				INSTALL_PATH = /usr/local/lib;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				PRODUCT_NAME = Cordova;
-				PROVISIONING_PROFILE = "56b9e922-d966-494c-b8db-1db42b7f9152";
 				PUBLIC_HEADERS_FOLDER_PATH = include/Cordova;
-				SDKROOT = iphoneos8.1;
 				SKIP_INSTALL = YES;
 			};
 			name = Release;

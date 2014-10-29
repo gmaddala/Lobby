@@ -128,6 +128,25 @@ function SignInWithUclaLogon(){
 
 function HandleMultipleForms()
 {
+    $("#singlePostForm").addClass("invisible");
+    $("#multPostForms").addClass("invisible");
+    
+    var postFormsList = JSON.parse(localStorage.getItem("postformidlist"));
+    if(postFormsList.length == 1)
+    {
+        $("#singlePostForm").removeClass("invisible");
+    }
+    else if(postFormsList.length > 1)
+    {
+        $("#multPostForms").removeClass("invisible");
+        
+        
+        for(var i = 0 ; i < postFormsList.length ; i++)
+        {
+            $("#multPostFormsDropdown").append("<option value='" + postFormsList[i].IntakeID + "'>" +  postFormsList[i].LastUpdated + "</option>");
+        }
+        $("#multPostFormsDropdown").kendoDropDownList();
+    }
     app1.navigate("#viewFormSelection");
 }
 
@@ -140,6 +159,27 @@ function StartPreSession()
 
 function StartPostSession()
 {
+    var postFormsList = JSON.parse(localStorage.getItem("postformidlist"));
+    var formID;
+    if(postFormsList.length == 1)
+    {
+        formID = postFormsList[0].FormID;
+        localStorage.setItem("intakeID", postFormsList[0].IntakeID);
+    }
+    else if(postFormsList.length > 1)
+    {
+        localStorage.setItem("intakeID", $("#multPostFormsDropdown").val());
+        for(var i = 0 ; i < postFormsList.length ; i++)
+        {
+            if(postFormsList[i].IntakeID == localStorage.getItem("intakeID"))
+            {
+                formID = postFormsList[i].FormID;
+                break;
+            }
+        }
+    }
+    
+    SetQuestions(formID);
     app1.navigate("#questions-body");
 }
 
@@ -150,7 +190,7 @@ function SetQuestions(formid)
     {
         if(forms.Questions[i].ID.trim() == formid)
         {
-            localStorage.setItem("questions", forms.Questions[i].Questions);
+            localStorage.setItem("questions", JSON.stringify(forms.Questions[i]));
             return;
         }
     }
@@ -183,9 +223,7 @@ function SignIn(logon, isCardreader){
 				   url: getAPIUrl() + "/api/validlogon",
 				   data: {"logon": logon, "submitIntake": submitIntake, "appkey": localStorage.getItem("key"), "initialintakestatus": localStorage.getItem("initialintakestatus"), "locationID": localStorage.getItem("selLocationID"), "cardSwiped": localStorage.getItem("cardswiped"), "intakeid": localStorage.getItem("intakeID")},
 				   beforeSend: function(){
-//ananth
 				   app.stopCardReader();
-                   
 //				   console.log('before send..');
 				   loading();
 				   },
@@ -207,7 +245,7 @@ function SignIn(logon, isCardreader){
                         //showDialog("Invalid UCLA logon");
                         ShowFlashMessage("Invalid UCLA logon");
                         app.startCardReader();
-                        alert(jqXHR.responseText + ";\n\n" + textStatus + ";\n\n" + errorThrown);
+                        //alert(jqXHR.responseText + ";\n\n" + textStatus + ";\n\n" + errorThrown);
 				   },
 				   complete: function(){
                             endLoading();
@@ -281,10 +319,17 @@ function SetStudentData(jsonobj, submitIntake)
                 var allquestionsjsonobj = JSON.parse(localStorage.getItem("allquestions"));
                 if(allquestionsjsonobj.Questions.length > 1) //multiple forms
                 {
-                    localStorage.setItem("postformidlist", jsonobj.Data.FormsToDisplay.PostEvaluationForms); //jsonarray
+                    localStorage.setItem("postformidlist", JSON.stringify(jsonobj.Data.FormsToDisplay.PostEvaluationForms)); //jsonarray
                     localStorage.setItem("preformid", jsonobj.Data.FormsToDisplay.PreEvaluationFormID);
                     
-                    HandleMultipleForms();
+                    if(jsonobj.Data.FormsToDisplay.PostEvaluationForms.length > 0)
+                    {
+                        HandleMultipleForms();
+                    }
+                    else
+                    {
+                        StartPreSession(); //no post eval forms, go directly to pre eval
+                    }
                 }
                 else
                 {
@@ -321,7 +366,6 @@ function OverrideCheckIn(){
 	CheckIn(localStorage.getItem('uid'), true, localStorage.getItem('cardswiped'));
 }
 var isManualRSVPCheckIn = false;
-//function to check in a user after RSVP search
 function RSVPCheckIn(){
     var logon = $('#spanSearchUid').text()
     CheckIn(logon, false);
@@ -545,14 +589,13 @@ function ValidateAppKey(){
           $("#txtAccessKey").removeClass("Error");
           //$('#divAppKeyError').addClass("DisplayNone");
 //          $("#txtAccessKey").next().addClass("DisplayNone");
-          //app.stopCardReader();
+          app.stopCardReader();
 
           //localStorage.setItem("key", "null");
           //call launchkiosk method to launch the new kiosk / relaunch existing kiosk
-          LaunchKiosk();
+          LaunchKiosk(true);
           //window.open("index.html", "_self");
 	  }
-	  
 }
 
 function NavigateToReasonsPage(){
@@ -611,8 +654,46 @@ function Initialize(){
     {
         $("#btn-register").addClass("invisible");
     }
+    else{
+        $("#btn-register").removeClass("invisible");
+    }
     
     app1 = new kendo.mobile.Application(document.body, {useNativeScrolling: true, initial: initialView}); //, transition: 'overlay:up'
+};
+
+function ResetLobby(){
+    $('#txtAccessKey').bind("keyup", function(){
+                            //convert the text to uppercase
+                            var key = $(this).val();
+                            //                            $(this).val(key.toUpperCase());
+                            });
+    //Reset CollectedResponses
+    localStorage.setItem("CollectedResponses", JSON.stringify(""));
+    //app1 = new kendo.mobile.Application(document.body, {useNativeScrolling: true}); //, transition: 'overlay:up'
+    
+    //debugger;
+    if(localStorage.getItem("anon") != "true")
+    {
+        //app.initialize();
+    }
+    
+    //$("#welcome_text1").text("Welcome to " + localStorage.getItem("deptname"));
+    InitForm();
+    if(localStorage.getItem("allowregistration") == "false")
+    {
+        $("#btn-register").addClass("invisible");
+    }
+    else
+    {
+        $("#btn-register").removeClass("invisible");
+    }
+    
+    //app1 = new kendo.mobile.Application(document.body, {useNativeScrolling: true, initial: initialView}); //, transition: 'overlay:up'
+    app1.navigate('#' + initialView);
+    
+    //reset RSVP related fields when the app is reset
+    $('#spanSearchLastCheckIn').text("");
+    $('#spanSwipeLastCheckIn').text("");
 };
 
 //not used
@@ -702,6 +783,12 @@ function DisplayReconfigureLobbyDialog(){
 //RSVP methods
 function InitRSVPSwipe(){
     //start card reader to read swipe data
+    //var isCardreader1 = typeof isCardreader != 'undefined' ? isCardreader : false;
+
+    //alert('starting card reader in RSVP');
+//    if(!IsCardReaderStarted()){
+//        SetCardReaderStatus(true);
+//    }
     app.startCardReader();
     isManualRSVPCheckIn = false;
     $('#liRsvpSwipe').addClass('RSVPInputTypeHighlight');
@@ -736,5 +823,5 @@ function StartCardReader(){
 }
 
 window.onerror = function(msg, url, line){
-               alert('login.js Error:' + msg + " -- " + line);
+               //alert('login.js Error:' + msg + " -- " + line);
                };

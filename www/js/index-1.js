@@ -144,6 +144,10 @@ function InitializeLocalStorage()
     {
         localStorage.setItem("questions", JSON.stringify(jsonobj.Data.Questions.Questions[0])); //does not have multiple forms
     }
+    if(jsonobj.Data.Questions.Questions.length == 0)
+    {//when no questions are available for the lobby/event, rest the questions
+        localStorage.setItem("questions", null);
+    }
     
     localStorage.setItem("allowregistration", jsonobj.Data.AllowRegistration);
     localStorage.setItem("confirmation", jsonobj.Data.ConfirmationMessage);

@@ -1,9 +1,9 @@
 var phoneNumber, phoneNumberFormatted;
 function InitRegisterControls(){
     //9 digit UID
-    $('#txt_uid').mask("999999999");
+    $('#txt_uid').mask("?999999999");
     //Phone number format : (999)999-9999 where all the digits are required
-    $('#txt_phone').mask('(999)999-9999');
+    $('#txt_phone').mask('?(999)999-9999');
 }
 
 function SetDefaultRegisterFocus(){//set default focus on first name control
@@ -104,6 +104,9 @@ function Register()
 			//$('#phone_error').text('Please enter valid Phone Number');
 			$('#txt_phone').addClass('Error');
 		}
+        else{
+            $('#txt_phone').removeClass('Error');
+        }
 	}
     else
     {
@@ -145,7 +148,14 @@ function DisplayLogin(){
 //    console.log('navigating to login page..');
     ResetUserResponses();
     app.startCardReader();
-    app1.navigate("#");//, "slide:left");
+    if(localStorage.getItem("anon") == "true")
+    {
+        app1.navigate("#anon", "slide:left");
+    }
+    else
+    {
+        app1.navigate("#");//, "slide:left");
+    }
 }
 
 function SwitchSplitView(){

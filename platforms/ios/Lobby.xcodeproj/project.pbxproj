@@ -534,8 +534,8 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = Lobby/Lobby.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Yadira Cano (DTJ55R92M7)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Yadira Cano (DTJ55R92M7)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -566,7 +566,7 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = Lobby;
-				PROVISIONING_PROFILE = "56b9e922-d966-494c-b8db-1db42b7f9152";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -577,8 +577,8 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = Lobby/Lobby.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Yadira Cano (DTJ55R92M7)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Yadira Cano (DTJ55R92M7)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Lobby/Lobby-Prefix.pch";
@@ -607,7 +607,7 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = Lobby;
-				PROVISIONING_PROFILE = "56b9e922-d966-494c-b8db-1db42b7f9152";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

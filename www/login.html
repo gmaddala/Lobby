@@ -80,14 +80,21 @@
                 <div id="div_choose_form" class="panel-button-div">
                     <a data-role="button" class="LoginPageButton" data-click="StartPreSession" data-transition="slide"><span><br/>Start new session</span> <span class="ArrowPadding"><i class="icon-circle-arrow-right AlignArrows"></i></span></a>
                     
-                    <a data-role="button" class="LoginPageButton" data-click="StartPostSession" data-transition="slide"><span><br/>Complete post session</span> <span class="ArrowPadding"><i class="icon-circle-arrow-right AlignArrows"></i></span></a>
+                    <a id="singlePostForm" data-role="button" class="LoginPageButton invisible" data-click="StartPostSession" data-transition="slide"><span><br/>Complete post session</span> <span class="ArrowPadding"><i class="icon-circle-arrow-right AlignArrows"></i></span></a>
+                    
+                    <label class="LoginPageButton invisible" id="multPostForms">Complete post session
+                        <select id="multPostFormsDropdown">
+                            
+                        </select>
+                        <a data-role="button" class="LoginPageButton" data-click="StartPostSession" data-transition="slide" style="width:initial !important;"><span><span class="ArrowPadding"><i class="icon-circle-arrow-right AlignArrows"></i></span></a>
+                    </label>
                 </div>
             </div>
 		</div>
         
 		<!-- Anonymous view -->
 		<div data-role="view" id="anon" class="white-button" data-layout="LayoutWithUclaLogo">
-            <div class="DivAnonymousContinueButton">
+            <div class="xDivAnonymousContinueButton absolute-center">
                 <a data-role="button" class="AnonymousContinueButton" data-click="NavigateToReasonsPage">Continue</a>
             </div>
         </div>
@@ -432,14 +439,14 @@
 		<div data-role="modalview" id="dialog-modal">
 			<div data-role="header">
 				<div data-role="navbar" class="TitleWithRoundedCorners">
-					<span data-title="view-title">Exiting Kiosk</span>
+					<span data-title="view-title">Open a new Kiosk</span>
 				</div>
 			</div>
             <div class="horizontal-center ReconfigureLobby">
                 <!--               <div>
                  <span>Reconfigure Lobby</span>
                  </div> -->
-                <span class="text-align-cener">Please provide key to exit kiosk</span>
+                <span class="text-align-cener">Enter the new kiosk app key</span>
                 <div id="divAppKey" class="inner-addon right-addon"> <!--class="inner-addon right-addon" -->
                     <ul data-role="listview" id="ulReconfigureApp" class="reconfigure-app">
                         <li>
@@ -533,7 +540,7 @@
         <script type="text/javascript">
             window.onload = Initialize();
             window.onerror = function(msg, url, line){
-                           alert('login.html Error:' + msg + " -- " + line);
+                           //alert('login.html Error:' + msg + " -- " + line);
                            };
             </script>
         

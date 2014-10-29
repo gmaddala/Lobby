@@ -261,7 +261,7 @@ div.gray-div{
 }
 
 .DivAnonymousContinueButton{
-	background-color: #fff;
+/*	background-color: #fff;*/
 	height:50%;
     position:fixed;
     width:100%;
@@ -271,9 +271,11 @@ div.gray-div{
 .AnonymousContinueButton
 {
 	margin-left: 22%;	
-	padding:1% !important;
+/*	padding:1% !important;*/
 	width: 55% !important;
-	margin-top: 15%;
+/*	margin-top: 15%;*/
+/*    height: 4%;*/
+    color: white !important;
 }
 
 .override-button-fix{
@@ -487,7 +489,7 @@ div.km-listview-wrapper input[type="search"]
 }
 
 #spanClear{
-    width:4%;
+    width:3%;
     padding-bottom:1%;
     display:inline-block;
 }
@@ -1179,4 +1181,8 @@ font-size:large;
 
 .exit-locations{
     font-size: 100% !important;
+}
+
+.big-font > span.km-text{
+    font-size: 1.2em;
 }
