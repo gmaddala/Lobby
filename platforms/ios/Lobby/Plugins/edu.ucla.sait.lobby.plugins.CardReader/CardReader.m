@@ -380,19 +380,28 @@
 //ananth
 //Method to log error message through an Web API call
 - (void) logError:(NSString *) message{
-    NSString *post = [NSString stringWithFormat:@"Message=%@", message];
-    NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
-    NSString *postLength = [NSString stringWithFormat:@"%lu", (long)[postData length]];
+    @try{
+        NSString *post = [NSString stringWithFormat:@"Message=%@", message];
+        NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+        NSString *postLength = [NSString stringWithFormat:@"%lu", (long)[postData length]];
+        NSString *authKey = @"AB2EC57B8891ED2DAD4C27D6DF5BD";
+        
+        //create mutable URL request
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+        [request setURL:[NSURL URLWithString:@"http://sait-test.uclanet.ucla.edu/lobbyapi/api/errorlog"]];
+        [request setHTTPMethod:@"POST"];
+        [request setValue: postLength forHTTPHeaderField:@"Content-Length"];
+        [request setValue: authKey forHTTPHeaderField:@"Auth-Key"];
+        [request setValue: @"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+        [request setHTTPBody:postData];
+        
+        currentConnection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
 
-    //create mutable URL request
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:[NSURL URLWithString:@"http://sait-test.uclanet.ucla.edu/sawebnew2/api/errorlog"]];
-    [request setHTTPMethod:@"POST"];
-    [request setValue: postLength forHTTPHeaderField:@"Content-Length"];
-    [request setValue: @"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
-    [request setHTTPBody:postData];
-
-    currentConnection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    }
+    @catch(NSException *exception){
+        //
+        NSLog(@"Unable to write log to remote database");
+    }
 
 }
 @end

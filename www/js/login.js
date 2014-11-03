@@ -433,6 +433,13 @@ function CheckIn(logon, isoverride, isCardreader){
                             $('#divSearchFail').addClass('DisplayNone');
                             $('#divSearchLastCheckIn').removeClass('DisplayNone');
                             $('#spanSearchLastCheckIn').text(fullName);
+                               if(isoverride)
+                               {
+                                    $('#divSearchSuccess span').text('Override Successful');
+                               }
+                               else{
+                                    $('#divSearchSuccess span').text('Checkin Successful');
+                               }
                             DisplayRSVPCheckInButton(false);
                         }
                         else
@@ -442,6 +449,13 @@ function CheckIn(logon, isoverride, isCardreader){
                             $('#divSwipeLastCheckIn').removeClass('DisplayNone');
                             $('#spanSwipeLastCheckIn').text(fullName);
                             DisplayRSVPCheckInButton(false);
+                           if(isoverride)
+                           {
+                               $('#divSwipeSuccess span').text('Override Successful');
+                           }
+                           else{
+                               $('#divSwipeSuccess span').text('Checkin Successful');
+                           }
                         }
            
                         ClearRSVPFields(false);
@@ -496,7 +510,7 @@ function CheckIn(logon, isoverride, isCardreader){
 function ClearRSVPFields(isRSVPFailed){
     var timeout = 3000;
     if(isRSVPFailed){
-        timeout = 6000;
+        timeout = 50000; //if swipe fails, display override button for 5 mins
     }
     //clear the fields collected through swipe/search after Successful check-in/override check-in
     setTimeout(function(){
@@ -740,6 +754,19 @@ function InitForm(){
         $('#liRsvpSwipe').addClass('RSVPInputTypeHighlight');
         $('#liRsvpUidSearch').removeClass('RSVPInputTypeHighlight');
         $('span[canDisplayEventName="true"]').text(localStorage.getItem("appdescription"));
+        
+        //get locations
+        var lobbyLocations = JSON.parse(localStorage.getItem("locations"));
+        var selectedLocationId = localStorage.getItem("selLocationID");
+        var locationName = "";
+        if(lobbyLocations != null && lobbyLocations != undefined){
+            for (var index = 0; index < lobbyLocations.length; index++){
+                if(selectedLocationId == lobbyLocations[index].ID){
+                    locationName =lobbyLocations[index].Name;
+                }
+            }
+        }
+        $('span[canDisplayLocation="true"]').text(locationName);
         //app1.navigate("#rsvp_eleg");
     }
     else

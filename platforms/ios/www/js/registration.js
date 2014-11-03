@@ -1,20 +1,99 @@
-var phoneNumber, phoneNumberFormatted;
+var phoneNumber, phoneNumberFormatted, canClearMaskedPhone = false, canClearMaskedUID = false;
 function InitRegisterControls(){
     //9 digit UID
-    $('#txt_uid').mask("?999999999");
+    //$('#txt_uid').mask("?999999999");
     //Phone number format : (999)999-9999 where all the digits are required
     $('#txt_phone').mask('?(999)999-9999');
+    
+    $('#txt_uid').bind('keypress', FormatUid);
+    //$('#txt_phone').bind('keydown', FormatPhone);
+}
+
+function FormatUid(e){
+    var code = e.keyCode || e.which;
+    console.log(code);
+    if(code < 48 || code > 57){
+        e.preventDefault();
+    }
+}
+
+function FormatPhone(e){
+    var code = e.keyCode || e.which;
+    var isBackSpace = false;
+    console.log(code);
+    isBackSpace = code == 8;
+    if(code != 8 && (code < 48 || code > 57)){
+        e.preventDefault();
+    }
+    else {
+        var digit = String.fromCharCode(code);
+        //alert(code + ' ' + digit);
+        if(!isNaN(digit))
+        {
+        
+        var phone = $("#txt_phone").val();
+        phone = phone.replace("(", "");
+        phone = phone.replace(")", "");
+        phone = phone.replace("-", "");
+        var formattedPhone = "(";
+        
+        for (var index = 0; index < phone.length; index++){
+            if(index == 0){
+                formattedPhone = "(" + phone[index];
+            }
+            else{
+                formattedPhone = formattedPhone + phone[index];
+                if(index == 2){
+                    formattedPhone = formattedPhone + ")";
+                }
+                if(index == 5){
+                    formattedPhone = formattedPhone + "-";
+                }
+            }
+        }//for
+        $('#txt_phone').val(formattedPhone);
+        }
+       
+        
+    }
 }
 
 function SetDefaultRegisterFocus(){//set default focus on first name control
     //$('#txt_firstname').focus();
+    //Reset all the input fields
+    $("#txt_firstname").val("");
+    $("#txt_lastname").val("");
+    $("#txt_email").val("");
+    $("#txt_phone").val("");
+    $("#txt_uid").val("");
+    
+//    $('#txt_phone').bind("focus", function() {
+//         if(canClearMaskedPhone){
+//            ClearField(this);
+//            $('#txt_phone').mask('?(999)999-9999');
+//            canClearMaskedPhone = false;
+//         }
+//     });
+//    
+//    $('#txt_uid').bind("focus", function() {
+//         if(canClearMaskedUID){
+//             ClearField(this);
+//            $('#txt_uid').mask("?999999999");
+//             canClearMaskedUID = false;
+//         }
+//    });
+}
+
+function ClearField(ctl)
+{
+    $(ctl).val("");
 }
 
 function NavigateBack(){
     //navigate back to login.html; sliding animation will not take effect since the navigation is to a different html
 //    loading();
 //    $("body").data().kendoMobilePane.navigate("#:back", "slide:left");
-    console.log('navigating back to registration page');
+//    console.log('navigating back to registration page');
     app1.navigate("#divRegistrationView");
 }
 
@@ -159,10 +238,10 @@ function DisplayLogin(){
 }
 
 function SwitchSplitView(){
-    console.log('switch view..');
+//    console.log('switch view..');
     var data = e.button.data();
     var view = data.param;
-    console.log('param..' + param);
+//    console.log('param..' + param);
     switch(view){
         case "Swipe":
             $('#divDetailPane').data("kendoMobilePane");
@@ -188,7 +267,7 @@ function DisplayRSVPSearchResults(canShow)
 }
 
 function ResetRSVPInput(){
-    console.log('resetting..');
+//    console.log('resetting..');
     $('#txt_rsvp_eleg_uid').val("");
     //hide RSVP search results
     DisplayRSVPSearchResults(false);

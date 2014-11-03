@@ -104,7 +104,7 @@
             <div data-role="pane" id="divSidePane" data-layout="LayoutLeftSideRSVP" class="SplitViewLeftPane">
                 <div data-role="view" data-title="RSVPCheckIn" id="divLeftPaneContainer" class="LeftPaneContainer">
                     <span populateDeptName="true" class="header-text1"></span>
-                    <ul data-role="listview" class="Divider" id="ulRsvpInputTypes">
+                    <ul data-role="listview" class="Divider rsvp-left-pane-font" id="ulRsvpInputTypes">
                         <li id="liRsvpSwipe"><a data-role="button" data-target="divDetailPane" href="#divCheckInView">Swipe</a></li>
                         <li id="liRsvpUidSearch"><a data-role="button" data-target="divDetailPane" href="#divSearchView">Search </i></a></li>
                     </ul>
@@ -126,20 +126,21 @@
                 <div data-role="view" id="divCheckInView" class="RightPaneContainer" data-show="InitRSVPSwipe">
                     <div class="event-name-container">
                         <span canDisplayEventName="true" class="event-name"></span>
+                        <span canDisplayLocation="true" class="location-text"></span>
                     </div>
                     <div class="rsvp-instruction">
                         <span>Please swipe your Bruincard</span>
                     </div>
                     <div class="RSVPCheckInPadding" id="divCheckInViewContainer">
-                         <div class="row-fluid">
+                         <div class="row-fluid rsvp-row-padding">
                              <div class="span4 align-right"><span>Name:</span></div>
-                             <div class="span4"><span id="spanSwipeName" canDisplayName="true"></span></div>
+                             <div class="span6"><span id="spanSwipeName" canDisplayName="true"></span></div>
                          </div>
-                         <div class="row-fluid">
+                         <div class="row-fluid rsvp-row-padding">
                              <div class="span4 align-right"><span>University ID:</span></div>
                              <div class="span4"><span id="spanSwipeUid"  canDisplayUID="true"></span></div>
                          </div>
-                         <div class="row-fluid">
+                         <div class="row-fluid rsvp-row-padding">
                              <div class="span4 align-right"><span>Check in Status:</span></div>
                              <div class="span6">
                                  <div displayStatus="Success" class="DisplayNone" id="divSwipeSuccess">
@@ -147,12 +148,14 @@
                                  </div>
                                  <div displayStatus="Fail" class="DisplayNone override-fail-align" id="divSwipeFail">
                                  <span class="status-rounded-corner failure">Failed</span><a data-role="button" id="btn_override" class="button large small-button override-button-fix" data-click="OverrideCheckIn">Override</a>
-                                 <span id="spanOverride" class="override-help-container"><a href="" onclick="OverrideHelp(event);" class="OverrideHelpLink"><i class="icon-question-sign OverrideHelpIcon"></i></a></span>
+                                 <!--<span id="spanOverride" class="override-help-container"><a href="" onclick="OverrideHelp(event);" class="OverrideHelpLink"><i class="icon-question-sign OverrideHelpIcon"></i></a></span>-->
+                                <span class="override-instruction help-text">Touch 'Override' button to continue checking in attendee</span>
                                  </div>
+
                              </div>
                          </div>
                          <div class="DisplayNone last-successful-rsvp-checkin" id="divSwipeLastCheckIn">
-                             <span>Last successful check in: </span><span id="spanSwipeLastCheckIn" canDisplayLastCheckIn="true"></span>
+                             <span>Recent 5 check in: </span><span id="spanSwipeLastCheckIn" canDisplayLastCheckIn="true"></span>
                         </div>
                     </div>
                 </div>
@@ -160,28 +163,29 @@
                     <div id="divRSVPSearchContainer"> <!-- class="rsvp-search-container" -->
                         <div class="event-name-container">
                             <span canDisplayEventName="true" class="event-name"></span>
+                            <span canDisplayLocation="true" class="location-text"></span>
                         </div>
-                        <div class="rsvp-search-instruction">
+                        <div class="rsvp-search-instruction rsvp-content-font">
                             <span>Please enter Ucla logon / UID to search and check in</span>
                         </div>
-                        <div class="row-fluid rsvp-search-controls">
+                        <div class="row-fluid rsvp-search-controls rsvp-content-font">
                             <div class="span6">
                                 <input id="txt_rsvp_eleg_uid" type="text" class="horizontal-center rsvp-logon-input" placeholder="Enter Ucla logon/UID" style="display:block;" maxlength="25" onfocus="ResetRSVPInput()"/>
                             </div>
                             <div class="span2" id="divSearch">
-                                <a data-role="button" data-click="SearchUser">Search</a>
+                                <a data-role="button" data-click="SearchUser" class="rsvp-search-button">Search</a>
                             </div>
                         </div>
                         <div class="RSVPCheckInPadding" id="divRSVPSearchResults">
-                            <div class="row-fluid">
+                            <div class="row-fluid rsvp-row-padding">
                                 <div class="span4 align-right"><span>Name:</span></div>
-                                <div class="span4"><span id="spanSearchName" canDisplayName="true"></span></div>
+                                <div class="span6"><span id="spanSearchName" canDisplayName="true"></span></div>
                             </div>
-                            <div class="row-fluid">
+                            <div class="row-fluid rsvp-row-padding">
                                 <div class="span4 align-right"><span>University ID:</span></div>
                                 <div class="span4"><span id="spanSearchUid" canDisplayUID="true"></span></div>
                             </div>
-                            <div class="row-fluid">
+                            <div class="row-fluid rsvp-row-padding">
                                 <div class="span4 align-right"><span>Check in Status:</span></div>
                                 <div class="span6">
                                     <div displayStatus="Success" class="DisplayNone" id="divSearchSuccess">
@@ -189,17 +193,18 @@
                                     </div>
                                     <div displayStatus="Fail" class="DisplayNone override-fail-align" id="divSearchFail">
                                         <span class="status-rounded-corner failure">Failed</span><a data-role="button" id="btn_override" class="button large small-button override-button-fix" data-click="OverrideCheckIn">Override</a>
-                                        <span id="spanOverride" class="override-help-container"><a href="" onclick="OverrideHelp(event);" class="OverrideHelpLink"><i class="icon-question-sign OverrideHelpIcon"></i></a></span>
+                                        <!--<span id="spanOverride" class="override-help-container"><a href="" onclick="OverrideHelp(event);" class="OverrideHelpLink"><i class="icon-question-sign OverrideHelpIcon"></i></a></span>-->
+                                        <span class="override-instruction help-text">Touch 'Override' button to continue checking in attendee</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="row-fluid">
-                                <div class="span10 text-align-center" id="divRSVPCheckIn">
+                                <div class="span10 text-align-center rsvp-content-font" id="divRSVPCheckIn">
                                     <a data-role="button" data-click="RSVPCheckIn">Check In</a>
                                 </div>
                             </div>
                         </div>
-                        <div class="DisplayNone last-successful-rsvp-checkin" id="divSearchLastCheckIn">
+                        <div class="DisplayNone last-successful-rsvp-checkin rsvp-content-font" id="divSearchLastCheckIn">
                             <span>Last successful check in: </span><span id="spanSearchLastCheckIn" canDisplayLastCheckIn="true"></span>
                         </div>
                     </div>
@@ -244,7 +249,7 @@
                         </li>
                         <li>
                             <label>
-                                <span class="Label">Mobile Phone</span><input id="txt_phone" type="tel" class="textbox RemoveBoxShadow" placeholder="(999)999-9999" style="display:block;"/><span class="SpanError DisplayNone"><i class="icon-warning-sign WarningSign"></i></span>
+                                <span class="Label">Mobile Phone</span><input id="txt_phone" type="tel" class="textbox RemoveBoxShadow" placeholder="(999)999-9999" style="display:block;" maxlength="13"/><span class="SpanError DisplayNone"><i class="icon-warning-sign WarningSign"></i></span>
                             </label>
                         </li>
                         <li>
