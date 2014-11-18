@@ -765,18 +765,43 @@ function DisplayResponses(e){
             
             for(var index = 0; index < responses.length; index++){
                 
-                if(responses[index].OpensTextbox == true)
-                {
+                if(inputtype == "checkbox"){
+                    if(responses[index].OpensTextbox == true)
+                    {
+                        txtId = responses[index].ID;
+                        $("input[id='" + txtId + "']").change(function(){
+                                if(this.checked){
+                                    $("#ul_" + question.ID).after("<div class='OtherDiv'><input type='text' id='" + txtId + "-txtother'/></div>");
+    //                $('div.OtherDiv input').val(responseText);
+                                }
+                                else{
+                                    $('div.OtherDiv').remove();
+                                }
+                              });
+                    }
+                }
+                if(inputtype == "radio"){
                     txtId = responses[index].ID;
+                    if(responses[index].OpensTextbox == true){
                     $("input[id='" + txtId + "']").change(function(){
-                            if(this.checked){
-                                $("#ul_" + question.ID).after("<div class='OtherDiv'><input type='text' id='" + txtId + "-txtother'/></div>");
-//                $('div.OtherDiv input').val(responseText);
-                            }
-                            else{
-                                $('div.OtherDiv').remove();
-                            }
-                          });
+                          if(this.checked){
+                          $("#ul_" + question.ID).after("<div class='OtherDiv'><input type='text' id='" + txtId + "-txtother'/></div>");
+                          //                $('div.OtherDiv input').val(responseText);
+                          }
+                          else{
+//                          $('div.OtherDiv').remove();
+                          }
+                      });
+                    }
+                    
+                    if(responses[index].OpensTextbox == false){
+                    //remove Other textbox if any other options are selected
+                    $("input[id='" + txtId + "']").change(function(){
+                                                          if(this.checked){
+                                                          $('div.OtherDiv').remove();
+                                                          }
+                                                          });
+                    }
                 }
             }
         }//for

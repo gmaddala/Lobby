@@ -612,6 +612,25 @@ div.km-listview-wrapper input[type="search"]
     .Divider{
         height:92vh !important;
     }
+    
+    /*fix text movement from top to center in iOS 8.1*/
+    .absolute-center-fix{
+        height: 0% !important;
+/*        padding-top: 58% !important;*/
+        margin-top: 58% !important;
+    }
+    
+    .rsvp-checkin-btn-padding{
+        padding-top: 3% !important;
+    }
+    
+    .span-word-wrap{
+        width: 40% !important;
+    }
+    
+    .rsvp-last-checkin{
+        width: 50% !important;
+    }
 }/*portrait */
 
     .header-text-fix{
@@ -1002,8 +1021,10 @@ font-size:large;
 .RightPaneContainer > div[data-role="content"], .right-pane-search-container > div[data-role="content"]{
     background-color: #fff !important;
 }
+/*Used in rsvp page*/
 .align-right{
   text-align:right;
+  padding-right: 3%;
 }
 .RSVPCheckInPadding{
     padding-left:15%;
@@ -1188,11 +1209,14 @@ font-size:large;
 .exit-access-key{
     height: initial !important;
     font-size: 100% !important;
+/*    change done when having access key textbox alone in one line*/
+/*    width: 85% !important; /*53% */
     width: 53% !important;
 }
 
 .exit-locations{
     font-size: 100% !important;
+    padding-bottom: 2%;
 }
 
 .big-font > span.km-text{
@@ -1226,4 +1250,47 @@ font-size:large;
 .help-text{
     color: #aaa;
     font-size: large;
+}
+
+.fixed-background{
+    position: fixed !important;
+}
+
+/*fix text movement from top to center in iOS 8.1*/
+.absolute-center-fix{
+    height: 0% !important;
+/*    padding-top: 35%;*/
+    margin-top: 35%;
+}
+
+.center-align-div{
+    margin-left: auto;
+    margin-right: auto;
+    width:100px;
+    display: block;
+}
+
+.no-border{
+    border:none !important;
+}
+
+.rsvp-checkin-btn-padding{
+    padding-top: 1%;
+}
+
+.rsvp-column-indent{
+    padding-right: 3%;
+}
+
+.span-word-wrap{
+    display: block;
+    width: 55%;
+    vertical-align: middle;
+}
+
+.rsvp-last-checkin{
+    display: block;
+    width: 40%;
+    vertical-align: middle;
+    float:left;
 }

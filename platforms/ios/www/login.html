@@ -53,7 +53,7 @@
                     </head>
     <body class="molecules-bg" id="body">
 		<div id="not_anon" class="login-textbox invisible" data-role="view" data-layout="LayoutWithUclaLogo">
-            <div id="div_bruincard" class="absolute-center">
+            <div id="div_bruincard" class="absolute-center absolute-center-fix">
                 <p class="bold-instruction extra-large"><span class="SwipeBruinCard">Swipe your BruinCard</span></p>
             </div>
             
@@ -100,7 +100,7 @@
         </div>
 		
 		<!-- RSVP -->
-		<div data-role="splitview" id="rsvp_eleg" class="WhiteBackground">
+		<div data-role="splitview" id="rsvp_eleg" class="WhiteBackground fixed-background">
             <div data-role="pane" id="divSidePane" data-layout="LayoutLeftSideRSVP" class="SplitViewLeftPane">
                 <div data-role="view" data-title="RSVPCheckIn" id="divLeftPaneContainer" class="LeftPaneContainer">
                     <span populateDeptName="true" class="header-text1"></span>
@@ -129,19 +129,19 @@
                         <span canDisplayLocation="true" class="location-text"></span>
                     </div>
                     <div class="rsvp-instruction">
-                        <span>Please swipe your Bruincard</span>
+                        <span>Please swipe the Bruincard</span>
                     </div>
                     <div class="RSVPCheckInPadding" id="divCheckInViewContainer">
                          <div class="row-fluid rsvp-row-padding">
-                             <div class="span4 align-right"><span>Name:</span></div>
+                             <div class="span4 align-right rsvp-column-indent"><span>Name:</span></div>
                              <div class="span6"><span id="spanSwipeName" canDisplayName="true"></span></div>
                          </div>
                          <div class="row-fluid rsvp-row-padding">
-                             <div class="span4 align-right"><span>University ID:</span></div>
+                             <div class="span4 align-right rsvp-column-indent"><span>UID:</span></div>
                              <div class="span4"><span id="spanSwipeUid"  canDisplayUID="true"></span></div>
                          </div>
                          <div class="row-fluid rsvp-row-padding">
-                             <div class="span4 align-right"><span>Check in Status:</span></div>
+                             <div class="span4 align-right rsvp-column-indent"><span>Check-in Status:</span></div>
                              <div class="span6">
                                  <div displayStatus="Success" class="DisplayNone" id="divSwipeSuccess">
                                      <span class="status-rounded-corner success">Success</span>
@@ -149,13 +149,13 @@
                                  <div displayStatus="Fail" class="DisplayNone override-fail-align" id="divSwipeFail">
                                  <span class="status-rounded-corner failure">Failed</span><a data-role="button" id="btn_override" class="button large small-button override-button-fix" data-click="OverrideCheckIn">Override</a>
                                  <!--<span id="spanOverride" class="override-help-container"><a href="" onclick="OverrideHelp(event);" class="OverrideHelpLink"><i class="icon-question-sign OverrideHelpIcon"></i></a></span>-->
-                                <span class="override-instruction help-text">Touch 'Override' button to continue checking in attendee</span>
+                                <span class="override-instruction help-text">Select 'Override' button to continue checking in attendee</span>
                                  </div>
 
                              </div>
                          </div>
                          <div class="DisplayNone last-successful-rsvp-checkin" id="divSwipeLastCheckIn">
-                             <span>Recent 5 check in: </span><span id="spanSwipeLastCheckIn" canDisplayLastCheckIn="true"></span>
+                             <span class="rsvp-last-checkin">Last successful check-in: </span><span id="spanSwipeLastCheckIn" class="span-word-wrap" canDisplayLastCheckIn="true"></span>
                         </div>
                     </div>
                 </div>
@@ -166,11 +166,11 @@
                             <span canDisplayLocation="true" class="location-text"></span>
                         </div>
                         <div class="rsvp-search-instruction rsvp-content-font">
-                            <span>Please enter Ucla logon / UID to search and check in</span>
+                            <span>Please enter UCLA Logon/UID to search and check-in</span>
                         </div>
                         <div class="row-fluid rsvp-search-controls rsvp-content-font">
                             <div class="span6">
-                                <input id="txt_rsvp_eleg_uid" type="text" class="horizontal-center rsvp-logon-input" placeholder="Enter Ucla logon/UID" style="display:block;" maxlength="25" onfocus="ResetRSVPInput()"/>
+                                <input id="txt_rsvp_eleg_uid" type="text" class="horizontal-center rsvp-logon-input" placeholder="Enter UCLA Logon/UID" style="display:block;" maxlength="25" onfocus="ResetRSVPInput()"/>
                             </div>
                             <div class="span2" id="divSearch">
                                 <a data-role="button" data-click="SearchUser" class="rsvp-search-button">Search</a>
@@ -178,15 +178,15 @@
                         </div>
                         <div class="RSVPCheckInPadding" id="divRSVPSearchResults">
                             <div class="row-fluid rsvp-row-padding">
-                                <div class="span4 align-right"><span>Name:</span></div>
+                                <div class="span4 align-right rsvp-column-indent"><span>Name:</span></div>
                                 <div class="span6"><span id="spanSearchName" canDisplayName="true"></span></div>
                             </div>
                             <div class="row-fluid rsvp-row-padding">
-                                <div class="span4 align-right"><span>University ID:</span></div>
+                                <div class="span4 align-right rsvp-column-indent"><span>UID:</span></div>
                                 <div class="span4"><span id="spanSearchUid" canDisplayUID="true"></span></div>
                             </div>
-                            <div class="row-fluid rsvp-row-padding">
-                                <div class="span4 align-right"><span>Check in Status:</span></div>
+                            <div class="row-fluid rsvp-row-padding rsvp-column-indent">
+                                <div class="span4 align-right"><span>Check-in Status:</span></div>
                                 <div class="span6">
                                     <div displayStatus="Success" class="DisplayNone" id="divSearchSuccess">
                                         <span class="status-rounded-corner success">Success</span>
@@ -194,18 +194,18 @@
                                     <div displayStatus="Fail" class="DisplayNone override-fail-align" id="divSearchFail">
                                         <span class="status-rounded-corner failure">Failed</span><a data-role="button" id="btn_override" class="button large small-button override-button-fix" data-click="OverrideCheckIn">Override</a>
                                         <!--<span id="spanOverride" class="override-help-container"><a href="" onclick="OverrideHelp(event);" class="OverrideHelpLink"><i class="icon-question-sign OverrideHelpIcon"></i></a></span>-->
-                                        <span class="override-instruction help-text">Touch 'Override' button to continue checking in attendee</span>
+                                        <span class="override-instruction help-text">Select 'Override' button to continue checking in attendee</span>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row-fluid">
+                            <div class="row-fluid rsvp-checkin-btn-padding">
                                 <div class="span10 text-align-center rsvp-content-font" id="divRSVPCheckIn">
-                                    <a data-role="button" data-click="RSVPCheckIn">Check In</a>
+                                    <a data-role="button" data-click="RSVPCheckIn">Check-In</a>
                                 </div>
                             </div>
                         </div>
                         <div class="DisplayNone last-successful-rsvp-checkin rsvp-content-font" id="divSearchLastCheckIn">
-                            <span>Last successful check in: </span><span id="spanSearchLastCheckIn" canDisplayLastCheckIn="true"></span>
+                            <span class="rsvp-last-checkin">Last successful check-in: </span><span id="spanSearchLastCheckIn" class="span-word-wrap"  canDisplayLastCheckIn="true"></span>
                         </div>
                     </div>
                 </div>
@@ -234,7 +234,7 @@
                     <ul data-role="listview">
                         <li>
                             <label>
-                                <span class="Label">First Name<span class="RequiredField">*</span></span><input id="txt_firstname" type="text" class="textbox RemoveBoxShadow" placeholder="First (Required)" style="display:block;"/> <span class="SpanError DisplayNone"><i class="icon-warning-sign WarningSign"></i></span>
+                                <span class="Label">First Name<span class="RequiredField">*</span></span><input id="txt_firstname" type="text" class="textbox RemoveBoxShadow" onkeyup="CapitalizeFirstLetter(this)" placeholder="First (Required)" style="display:block;"/> <span class="SpanError DisplayNone"><i class="icon-warning-sign WarningSign"></i></span>
                             </label>
                         </li>
                         <li>
@@ -252,12 +252,12 @@
                                 <span class="Label">Mobile Phone</span><input id="txt_phone" type="tel" class="textbox RemoveBoxShadow" placeholder="(999)999-9999" style="display:block;" maxlength="13"/><span class="SpanError DisplayNone"><i class="icon-warning-sign WarningSign"></i></span>
                             </label>
                         </li>
-                        <li>
+                        <!--<li>
                             <label>
-                                <!-- having UID as 'number' type field interferes with masking -->
+                                <!-- having UID as 'number' type field interferes with masking 
                                 <span class="Label">UID</span><input id="txt_uid" type="tel" class="textbox RemoveBoxShadow" placeholder="Enter 9 digit UID" style="display:block;" maxlength="9"/><span class="SpanError DisplayNone"><i class="icon-warning-sign WarningSign"></i></span>
                             </label>
-                        </li>
+                        </li>-->
                     </ul>
                     
                     <!-- <button class="button large horizontal-center big-blue-button" onclick="Register();" style="">Register</button> -->
@@ -444,19 +444,20 @@
 		<div data-role="modalview" id="dialog-modal">
 			<div data-role="header">
 				<div data-role="navbar" class="TitleWithRoundedCorners">
-					<span data-title="view-title">Open a new Kiosk</span>
+					<span data-title="view-title">Open New Kiosk</span>
 				</div>
 			</div>
             <div class="horizontal-center ReconfigureLobby">
                 <!--               <div>
                  <span>Reconfigure Lobby</span>
                  </div> -->
-                <span class="text-align-cener">Enter the new kiosk app key</span>
-                <div id="divAppKey" class="inner-addon right-addon"> <!--class="inner-addon right-addon" -->
+<!--                <span class="text-align-cener">Enter the new kiosk access key</span>-->
+                <div id="divAppKey" class="inner-addon right-addon xcenter-align-div"> <!--class="inner-addon right-addon" -->
+<!--                    <input id="txtAccessKey" type="text" MaxLength="6" class="RemoveBoxShadow exit-access-key no-border" placeholder="Access Key"/>-->
+
                     <ul data-role="listview" id="ulReconfigureApp" class="reconfigure-app">
                         <li>
-                            <label>Key <input id="txtAccessKey" type="text" MaxLength="6" class="RemoveBoxShadow exit-access-key" placeholder="Enter a app key"/>
-                            <i class="glyphicon icon-warning-sign WarningSign DisplayNone"></i>
+                            <label>New kiosk access key                     <input id="txtAccessKey" type="text" MaxLength="6" class="RemoveBoxShadow exit-access-key" placeholder="Access Key"/>                            <i class="glyphicon icon-warning-sign WarningSign DisplayNone"></i>
                             </label>
                         </li>
                         <li id="liLocations" class="invisible">
@@ -466,7 +467,7 @@
                             </label>
                         </li>
                     </ul>
-                    
+
                 </div>
                 <div class="DisplayNone" id="divAppKeyError">
                     <i class="icon-warning-sign WarningSign"></i><span class="RequiredField">Please enter a valid application key</span>

@@ -216,11 +216,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Lobby/Plugins/edu.ucla.sait.lobby.plugins.CardReader/CardReader.m"
-            timestampString = "436378589.274856"
+            timestampString = "437348321.907534"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "403"
-            endingLineNumber = "403"
+            startingLineNumber = "408"
+            endingLineNumber = "408"
             landmarkName = "-logError:"
             landmarkType = "5">
          </BreakpointContent>
@@ -232,7 +232,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Lobby/Plugins/edu.ucla.sait.lobby.plugins.CardReader/CardReader.m"
-            timestampString = "436378624.336251"
+            timestampString = "437348321.907534"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "390"

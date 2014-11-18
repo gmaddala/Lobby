@@ -44,6 +44,8 @@ var app = {
             var success = function(uid) {
                 if(localStorage.getItem("rsvp") == "true" || localStorage.getItem("enforcedeligibility") == "true")
                 {
+                    //reset intakeId for RSVP
+                    localStorage.setItem("intakeid", -1);
                     CheckIn(uid, false, true);
                 }
                 else
@@ -221,7 +223,7 @@ function SignIn(logon, isCardreader){
 			$.ajax({
 				   type: "GET",
 				   url: getAPIUrl() + "/api/validlogon",
-				   data: {"logon": logon, "submitIntake": submitIntake, "appkey": localStorage.getItem("key"), "initialintakestatus": localStorage.getItem("initialintakestatus"), "locationID": localStorage.getItem("selLocationID"), "cardSwiped": localStorage.getItem("cardswiped"), "intakeid": localStorage.getItem("intakeID")},
+				   data: {"logon": logon, "submitIntake": submitIntake, "appkey": localStorage.getItem("key"), "initialintakestatus": localStorage.getItem("initialintakestatus"), "locationID": localStorage.getItem("selLocationID"), "cardSwiped": localStorage.getItem("cardswiped"), "intakeid": localStorage.getItem("intakeID"), "isrsvp": isRSVP},
 				   beforeSend: function(){
 				   app.stopCardReader();
 //				   console.log('before send..');
@@ -242,6 +244,7 @@ function SignIn(logon, isCardreader){
 					//window.open("login.html?key=" + $('#txtAccessKey').val() + "&deptname=" + jsonobj.Data.DeptName ,"_self");
 				   },
 				   error: function (jqXHR, textStatus, errorThrown) {
+                   //alert(jqXHR.responseText);
                         //showDialog("Invalid UCLA logon");
                         ShowFlashMessage("Invalid UCLA logon");
                         app.startCardReader();
@@ -263,6 +266,9 @@ function SignIn(logon, isCardreader){
 
 function SearchUser()
 {//RSVP user search
+    //reset IntakeId
+    localStorage.setItem("intakeid", -1);
+    
     var logonId =$('#txt_rsvp_eleg_uid').val();
     logonId = $.trim(logonId);
     //reset the controls which display student name, UID and status
@@ -386,10 +392,11 @@ function CheckIn(logon, isoverride, isCardreader){
     {
         type = 1;
     }
+    console.log('checking in.. type:' + type + ' isoverride:' + isoverride);
     $.ajax({
            type: "GET",
            url: getAPIUrl() + "/api/checkineventuser",
-           data: {"appid": localStorage.getItem("appid"), "uid": logon, "overrideRegistration": isoverride, "type": type, "initialintakestatus": localStorage.getItem("initialintakestatus"), "locationID": localStorage.getItem("selLocationID"), "appKey": localStorage.getItem("key"), "cardswiped": localStorage.getItem("cardswiped")},
+           data: {"appid": localStorage.getItem("appid"), "uid": logon, "overrideRegistration": isoverride, "type": type, "initialintakestatus": localStorage.getItem("initialintakestatus"), "locationID": localStorage.getItem("selLocationID"), "appKey": localStorage.getItem("key"), "cardswiped": localStorage.getItem("cardswiped"), "intakeId": localStorage.getItem("intakeid")},
            beforeSend: function(){
                 app.stopCardReader();
            loading();
@@ -410,6 +417,7 @@ function CheckIn(logon, isoverride, isCardreader){
                    localStorage.setItem("lastname", jsonobj.Data.UserInfo.DictionaryUserInfo.LastName);
                    localStorage.setItem("phone", jsonobj.Data.UserInfo.DictionaryUserInfo.Phone);
                    localStorage.setItem("email", jsonobj.Data.UserInfo.DictionaryUserInfo.Email);
+                   localStorage.setItem("intakeid", jsonobj.Data.IntakeId);
 //                    $('#student_name').text(localStorage.getItem("firstname") + " " + localStorage.getItem("lastname"));
                     var fullName = localStorage.getItem("firstname") + " " + localStorage.getItem("lastname");
            
@@ -438,7 +446,7 @@ function CheckIn(logon, isoverride, isCardreader){
                                     $('#divSearchSuccess span').text('Override Successful');
                                }
                                else{
-                                    $('#divSearchSuccess span').text('Checkin Successful');
+                                    $('#divSearchSuccess span').text('Check-in Successful');
                                }
                             DisplayRSVPCheckInButton(false);
                         }
@@ -454,11 +462,11 @@ function CheckIn(logon, isoverride, isCardreader){
                                $('#divSwipeSuccess span').text('Override Successful');
                            }
                            else{
-                               $('#divSwipeSuccess span').text('Checkin Successful');
+                               $('#divSwipeSuccess span').text('Check-in Successful');
                            }
                         }
            
-                        ClearRSVPFields(false);
+                        ClearRSVPFields(true);
                     }
                     else
                     {
@@ -507,11 +515,23 @@ function CheckIn(logon, isoverride, isCardreader){
            });
 }
 
-function ClearRSVPFields(isRSVPFailed){
-    var timeout = 3000;
-    if(isRSVPFailed){
-        timeout = 50000; //if swipe fails, display override button for 5 mins
+function ClearRSVPFields(canAddDelay){
+    var timeout = 320000;//display the status message for 5 mins (300s) when displaying success/failed status
+
+    if(!canAddDelay){
+        if(!isManualRSVPCheckIn){
+            $('#spanSwipeName').text("");
+            $('#spanSwipeUid').text("");
+            //                    $('#divOverrideSuccess').addClass('DisplayNone');
+            $('#divSwipeSuccess').addClass('DisplayNone');
+            //                    $('#divOverrideFail').addClass('DisplayNone');
+            $('#divSwipeFail').addClass('DisplayNone');
+        }
+        else{
+            DisplayRSVPSearchResults(false);
+        }
     }
+    else{
     //clear the fields collected through swipe/search after Successful check-in/override check-in
     setTimeout(function(){
                console.log('isManualRSVPCheckIn:'+ isManualRSVPCheckIn);
@@ -527,7 +547,7 @@ function ClearRSVPFields(isRSVPFailed){
                     DisplayRSVPSearchResults(false);
                 }
                }, timeout);
-    
+    }
 }
 
 function CloseApp(e)
@@ -587,8 +607,6 @@ function ClickRegistration()
     //reset input controls
     $('#divRegistration input').removeClass("Error").val("").addClass("RemoveBoxShadow");
     $('span.SpanError').addClass('DisplayNone')
-    //suggested by Telerik team; Ticket# 856962
-    kendo.UserEvents.defaultThreshold(12);
     app1.navigate("#divRegistrationView", "slide:left");
 }
 
@@ -671,7 +689,8 @@ function Initialize(){
     else{
         $("#btn-register").removeClass("invisible");
     }
-    
+    //suggested by Telerik team; Ticket# 856962
+    kendo.UserEvents.defaultThreshold(9);
     app1 = new kendo.mobile.Application(document.body, {useNativeScrolling: true, initial: initialView}); //, transition: 'overlay:up'
 };
 
@@ -825,6 +844,8 @@ function InitRSVPSwipe(){
 function InitRSVPSearch(){
     //stop reading swipe data
     app.stopCardReader();
+    //hide RSVP Swipe results
+    ClearRSVPFields(false);
     isManualRSVPCheckIn = true;
     //Highlight 'Search' pane in the left hand pane
     $('#liRsvpSwipe').removeClass('RSVPInputTypeHighlight');
@@ -832,6 +853,10 @@ function InitRSVPSearch(){
     //hide RSVP search results
     DisplayRSVPSearchResults(false);
     DisplayRSVPCheckInButton(true);
+    
+    //clear the search field text
+    $('#txt_rsvp_eleg_uid').val('');
+
 }
 
 function DisplayRSVPCheckInButton(canDisplay){
@@ -852,3 +877,8 @@ function StartCardReader(){
 window.onerror = function(msg, url, line){
                //alert('login.js Error:' + msg + " -- " + line);
                };
+
+function CapitalizeFirstLetter(ctl){
+    var ctlText = $(ctl).val();
+    return string.charAt(0).toUpperCase() + ctlText.slice(1);
+}

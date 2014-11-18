@@ -156,21 +156,21 @@ function Register()
 		$('#txt_email').removeClass('Error');
 	}
     
-    var numbers = /^[0-9]+$/;
-    if($('#txt_uid').val().length > 0)
-	{
-		if($('#txt_uid').val().length != 9 || !$('#txt_uid').val().match(numbers))
-		{
-			hasError = true;
-			//$('#uid_error').text('Please enter valid UID');
-			$('#txt_uid').addClass('Error');
-		}
-	}
-    else
-    {
-        //$('#uid_error').text('');
-		$('#txt_uid').removeClass('Error');
-    }
+//    var numbers = /^[0-9]+$/;
+//    if($('#txt_uid').val().length > 0)
+//	{
+//		if($('#txt_uid').val().length != 9 || !$('#txt_uid').val().match(numbers))
+//		{
+//			hasError = true;
+//			//$('#uid_error').text('Please enter valid UID');
+//			$('#txt_uid').addClass('Error');
+//		}
+//	}
+//    else
+//    {
+//        //$('#uid_error').text('');
+//		$('#txt_uid').removeClass('Error');
+//    }
     
 	phoneNumberFormatted = $('#txt_phone').val();
 	if(phoneNumberFormatted.length > 0)
@@ -197,13 +197,14 @@ function Register()
     if(!hasError)
     {
         var submitIntake = false; //if no reasons list, immediately submit intake
-		if(typeof localStorage.getItem("questions") == "undefined")
+		if(typeof localStorage.getItem("questions") == "undefined" || localStorage.getItem("questions") == "null")
         {
             submitIntake = true;
         }
 
         localStorage.setItem("cardswiped", false);
-        localStorage.setItem("uid", $('#txt_uid').val());
+        //localStorage.setItem("uid", $('#txt_uid').val());
+        localStorage.setItem("uid", "");
         localStorage.setItem("firstname", $('#txt_firstname').val())
         localStorage.setItem("lastname", $('#txt_lastname').val());
         //localStorage.setItem("phone", $('#txt_phone').val());
@@ -275,5 +276,5 @@ function ResetRSVPInput(){
 
 function NavigateToLoginPage(){
     StartCardReader();
-    app1.navigate("#");
+    app1.navigate("#", "slide:reverse");
 }
