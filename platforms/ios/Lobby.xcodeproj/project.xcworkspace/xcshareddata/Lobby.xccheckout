@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>602C8842-C356-4C82-8802-E019BFF4A5AE</string>
 	<key>IDESourceControlProjectName</key>
-	<string>Lobby</string>
+	<string>project</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>4C9455508043CA779D5FE1D26167F448CB7C702E</key>
 		<string>https://github.com/UCLA-SAIT/Lobby.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>platforms/ios/Lobby.xcodeproj</string>
+	<string>platforms/ios/Lobby.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>4C9455508043CA779D5FE1D26167F448CB7C702E</key>
@@ -34,7 +34,7 @@
 			<key>IDESourceControlWCCIdentifierKey</key>
 			<string>4C9455508043CA779D5FE1D26167F448CB7C702E</string>
 			<key>IDESourceControlWCCName</key>
-			<string>GiriLobbyDev</string>
+			<string>EddyEngineering</string>
 		</dict>
 	</array>
 </dict>

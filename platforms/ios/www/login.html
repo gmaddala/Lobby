@@ -466,6 +466,216 @@
 				</div>
 			</div>
 		</div>
+        
+        <!-- Layouts for CheckIn / Check Out: prefix: cico lobby-->
+        
+        <!-- Views -->
+        
+        <div id="viewCheckInCheckOutStartPage" class="login-textbox invisible " data-role="view" data-layout="HeaderFullTopWithCancelBtn">
+            
+            <div class="cico-header2">
+                <p class="white text-size-400 text-align-left"><span>Start Here...</span></p>
+            </div>
+            
+            <div class="absolute-center">
+                <p class="cntr white text-size-250"><span>Please select one of the options</span></p>
+                
+                <div class="cntr large_blank_line">
+                    <p>
+                    <a data-role="button" class="cico-Button-DarkBlue-Squared text-bold" data-click="SetAsCheckedIn" data-transition="slide">
+                        <span class="ArrowPadding"><i class="icon-check"></i></span> Check-IN
+                    </a>
+                    <a data-role="button" class="cico-Button-DarkBlue-Squared text-bold" data-click="SetAsCheckedOut">
+                        <span class="ArrowPadding"><i class="icon-signout"></i></span> Check-OUT
+                    </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        
+        <div id="viewRoomFull" class="login-textbox invisible" data-role="view" data-layout="HeaderFullTopWithCancelBtn">
+            
+            <div class="cico-header2">
+                <p class="white text-size-400 text-align-left"><span>Sorry...</span></p>
+            </div>
+            
+            <div class="absolute-center">
+                <p class="cntr white text-size-250"><span>The student shop is full.</span></p>
+            </div>
+        </div>
+        
+        
+        <div id="viewCheckOutOptions" class="invisible" data-role="view" data-layout="HeaderFullTopWithCancelBtn">
+            <div class="cico-header2">
+                <p class="white text-size-400 text-align-center"><span>CHECK-OUT</span></p>
+            </div>
+            
+            <div class="absolute-center">
+                <p class="cntr white text-size-250"><span>There are two ways to check out :</span></p>
+                
+                <div id="checkInOptions" class="molecules-bg sea-bg full-width cico-panel">
+                    <div style="padding-left: 25%">
+                        <p style="display: block;" class="text-align-left">
+                        <a class="cico-btn-link DarkBlue" data-click="SignOutWithCardSwipe" data-transition="slide">
+                            <span class="digit-in-cirle text-size-150"> 1 </span> <span class="text-size-250">SWIPE your BruinCard</span> <span style="color: InactiveCaptionText;" class="text-size-300"><i class="icon-circle-arrow-right"></i></span>
+                        </a>
+                        </p>
+                        
+                        <p style="display: block;" class="text-align-left">
+                        <span class="digit-in-cirle text-size-150"> 2 </span> <input id="txt_logon" type="text" class="horizontal-center textbox LoginTextBox" placeholder="Type in your UCLA Logon ID or UID" />
+                        <a data-role="button" class="cico-Button-DarkBlue" data-click="SignOutWithUclaLogon">Check-OUT</a>
+                        </p>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div id="viewCheckInOptions" class="invisible" data-role="view" data-layout="HeaderFullTopWithCancelBtn">
+            <div class="cico-header2">
+                <p class="white text-size-400 text-align-center"><span>CHECK-IN</span></p>
+            </div>
+            
+            <div class="absolute-center">
+                <p class="cntr white text-size-250"><span>There are two ways to check in :</span></p>
+                
+                <div id="checkInOptions" class="molecules-bg sea-bg full-width cico-panel">
+                    <div style="padding-left: 25%">
+                        <p style="display: block;" class="text-align-left">
+                        <a class="cico-btn-link DarkBlue" href="#SignInCardSwipe" data-transition="slide">
+                            <span class="digit-in-cirle text-size-150"> 1 </span> <span class="text-size-250">SWIPE your BruinCard</span>
+                            <span style="color: InactiveCaptionText;" class="text-size-300"><i class="icon-circle-arrow-right"></i></span>
+                        </a>
+                        </p>
+                        
+                        <p style="display: block;" class="text-align-left">
+                        <span class="digit-in-cirle text-size-150"> 2 </span> <input id="txt_logon" type="text" class="horizontal-center textbox LoginTextBox" placeholder="Type in your UCLA Logon ID or UID" />
+                        <a data-role="button" class="cico-Button-DarkBlue" data-click="SignInWithUclaLogon">Check-IN</a>
+                        </p>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div id="viewNotCheckedIn" class="invisible" data-role="view" data-layout="HeaderFullTopWithCancelBtn">
+            
+            <div class="cico-header2">
+                <p class="white text-size-400 text-align-left"><span>Wait...</span></p>
+            </div>
+            
+            <div class="absolute-center">
+                <p class="cntr white text-size-250"><span>We do not have a record of you checking in.<br /> Please check in first.</span></p>
+                
+                <div class="cntr large_blank_line">
+                    <p>
+                    <a data-role="button" class="cico-Button-DarkBlue-Squared text-bold" data-click="SetAsCheckedIn" data-transition="slide">
+                        <span class="ArrowPadding"><i class="icon-check"></i></span> Check-IN
+                    </a>
+                    </p>
+                </div>
+            </div>
+            
+        </div>
+        
+        
+        <div id="viewNotCheckedOut" class="invisible" data-role="view" data-layout="HeaderFullTopWithCancelBtn">
+            
+            <div class="cico-header2">
+                <p class="white text-size-400 text-align-left"><span>Wait...</span></p>
+            </div>
+            
+            <div class="absolute-center">
+                <p class="text-align-left white text-size-250"><span class="sea">Did you check out</span> the last time you were here?</p>
+                
+                
+                <p class="text-align-left white text-size-250"><span>Please make sure you check out before leaving the student shop.</span></p>
+                
+                <div class="cntr blank_line">
+                    <p>
+                    <a data-role="button" class="cico-Button-DarkBlue text-bold" data-click="CheckInOnConfirmedClick" data-transition="slide">
+                        <span class="ArrowPadding"><i class="icon-check"></i></span> Got it.  Continue checking in.
+                    </a>
+                    </p>
+                </div>
+            </div>
+            
+        </div>
+        
+        <div id="viewTrainingNotComplete" class="invisible" data-role="view" data-layout="HeaderFullTopWithCancelBtn">
+            
+            <div class="cico-header2">
+                <p class="white text-size-400 text-align-left"><span>Sorry...</span></p>
+            </div>
+            
+            <div class="absolute-center">
+                <p class="text-align-left white text-size-250">
+                Your training has expired please contact Student Shop personnel in 1763 Boelter Hall to schedule an appointment for retraining. You will be unable to use the facility until this training has been completed.
+                </p>
+            </div>
+            
+        </div>
+        
+        <div id="viewSuccessCheckOut" class="invisible" data-role="view" data-layout="HeaderFullTopBlank">
+            <div class="absolute-center">
+                <p class="cntr white text-size-250"><span>You have successfully checked out.</span></p>
+            </div>
+        </div>
+        
+        <div id="viewSuccessCheckIn" class="<!--invisible-->" data-role="view" data-layout="HeaderFullTopBlank">
+            <div class="absolute-center">
+                <p class="text-align-left white text-size-250"><span>You have successfully checked in.</span></p>
+                <p class="text-align-left white text-size-250"><span>Please remember to
+                    <span class="sea">check out</span> before leaving the shop.</span></p>
+            </div>
+        </div>
+        
+        <!-- End Views -->
+        
+        <!-- Headers -->
+        
+        <div data-role="layout" data-id="HeaderFullTopWithCancelBtn">
+            <div data-role="header">
+                <div id="welcome_text_div" class="top-text cico-header-container">
+                    <p class="cico-header-container-1">
+                    <span class="header-text header-text-fix">
+                        <a data-role="button" class="cico-btn-link" data-click="StartOverOnCancelClick" data-transition="slide:reverse">Cancel</a>
+                    </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div data-role="layout" data-id="HeaderFullTopWithLogo">
+            <div data-role="header">
+                <div id="welcome_text_div" class="top-text cico-header-container">
+                    <p class="cico-header-container-1">
+                    <img src="img/logo-ucla.png" class="header-logo HeaderLogoFix ucla-logo-center" />
+                    <span populatedeptname="true" class="header-text header-text-fix"></span>
+                    </p>
+                    <span populatewelcomemessage="true" class="clear-margin-padding header-text"></span>
+                </div>
+            </div>
+        </div>
+        
+        
+        <div data-role="layout" data-id="HeaderFullTopBlank">
+            <div data-role="header">
+                <div id="welcome_text_div" class="top-text cico-header-container">
+                    <p class="cico-header-container-1">
+                    <span class="header-text header-text-fix">
+                    </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- End Headers -->
+        
+        <!-- End Layouts for Check In / Check Out Lobby operations -->
+        
+
 
 		<!-- modal dialog to reconfigure lobby -->
 		<div data-role="modalview" id="dialog-modal">

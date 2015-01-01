@@ -20,11 +20,12 @@ function getUrlParameter(sParam)
 
 function getAPIUrl()
 {
-    return "http://sait-test.uclanet.ucla.edu/lobbyapi";
+    //return "http://sait-test.uclanet.ucla.edu/lobbyapi";
     //QA
-//    return "https://api-qa.sa.ucla.edu/lobbyapi";
+    //return "https://api-qa.sa.ucla.edu/lobbyapi_new";
     //Prod
     //return "https://api.sa.ucla.edu/lobbyapi";
+    return "https://api.sa.ucla.edu/v2/lobbyapi";
     
     
 }

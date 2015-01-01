@@ -162,6 +162,9 @@ function InitializeLocalStorage()
     localStorage.setItem("eligibilitytype", jsonobj.Data.EligibilityType);
     localStorage.setItem("locations", JSON.stringify(jsonobj.Data.Locations));
     localStorage.setItem("intakeID", -1);
+    
+    localStorage.setItem("LobbyTypeId", JSON.stringify(jsonobj.Data.LobbyTypeId));
+    localStorage.setItem("CheckOutIntakeStatus", JSON.stringify(jsonobj.Data.CheckOutIntakeStatus));
 }
 
 var isCardReaderStarted = false;
