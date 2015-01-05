@@ -17,7 +17,7 @@
  * under the License.
  */
 * {
-    -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
+    /*-webkit-tap-highlight-color: rgba(0,0,0,0);*/ /* make transparent link selection, adjust last value opacity 0 to 1.0 */
 }
 
 body {
@@ -158,8 +158,9 @@ div.ui-dialog-buttonpane button.important{
 
 .molecules-bg{
     background-image:url(../img/molecules-combined.png) !important;
-    background-repeat:no-repeat;
-    background-position:center top;
+    /*ios 5.1 fix - !important*/
+    background-repeat:no-repeat !important;
+    background-position:center top !important;
 }
 
 /* Portrait layout (default) */
@@ -255,13 +256,13 @@ h1 {
     border-width:1px;
     border-color:#bfbfbf;
     margin:auto;
-    width:40%;
+    width:80%;
     padding:3%;
     display:block;
 }
 
 .div-white-body-interior{
-    width:50%;
+    /*width:50%;*/
     margin-left:auto;
     margin-right:auto;
 }
@@ -273,7 +274,7 @@ h1 {
 @media screen and (max-width: 768px)
 {
     .gray-div{
-        width:400px;
+        /*width:400px;*/
     }
     
     .div-white-body{
@@ -397,7 +398,7 @@ div.div-white-body-interior .textbox{
     background-color: #f2f2f2 !important;
 }
 
-div.div-white-body span,p,div{
+div.div-white-body span,p,div, ^span.km-text{
     color:#000;
 }
 
@@ -564,7 +565,8 @@ div.gray-div + div.gray-div{
     background-color:#BBBFC4 !important;
 }
 
-.arrow{
+/* was used in login page */
+.xarrow{
     float:right;
     font-size:xx-large;
 }
@@ -596,7 +598,8 @@ div.gray-div + div.gray-div{
 
 .panel-button-div{
     position:fixed;
-    bottom:0;
+ /*   bottom:0;  */
+    bottom: 10vh;
     width:100%;
 }
 
@@ -616,6 +619,12 @@ div.dialog-modal-container .textbox{
     margin-right:0 !important;
     margin-left:0 !important;
 }
+
+table#event_table.form-table
+{
+    font-size:1.5em;
+}
+
 
 
 

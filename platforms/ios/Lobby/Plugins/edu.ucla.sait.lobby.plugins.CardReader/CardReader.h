@@ -15,6 +15,9 @@
 @class MTSCRA;
 
 @interface CardReader : CDVPlugin
+{//ananth
+    NSURLConnection *currentConnection;
+}//ananth
 
 - (void) RunCardReaderListener:(CDVInvokedUrlCommand *)command;
 
@@ -34,5 +37,6 @@
 
 - (void)openDevice;
 - (void)closeDevice;
+- (BOOL)isHeadsetPluggedIn;
 
 @end

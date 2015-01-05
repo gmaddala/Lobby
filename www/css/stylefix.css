@@ -1,0 +1,1296 @@
+.km-ios5, .km-ios5.km-pane .km-content, .km-ios7, .km-ios7.km-pane .km-content{
+	background-color: #3284bf;
+}
+
+.km-ios5, .km-ios5 *, .km-ios7, .km-ios7 *{
+	box-sizing : content-box;
+	-webkit-background-clip: border-box;
+	background-clip: border-box;
+}
+
+a{
+    text-decoration: none;
+}
+
+.invisible{
+    display:none;
+}
+
+[data-role="modalview"]
+{
+    display:none;
+}
+
+.upperRightIcon{
+    text-align:right;
+    padding-bottom:10px;
+    width:100%;
+    padding-right:3%;
+}
+
+.helpIcon{
+	font-size:1.5em;
+	color: #bfbfbf !important;
+}
+
+.access-key-help{
+    display: inline-block;
+    float: right;
+    text-align:right;
+    z-index: 1;
+}
+
+.textbox{
+	font-size: 130% !important;
+}
+
+.ReasonsAlert{
+	width: 50%;font-size:1em !important;
+}
+
+div.div-white-body-interior button, div.gray-div button{
+  width: 85%;
+  font-size: 120% !important;
+  height: 2.9em;
+}
+
+div#modalviewAlert.km-widget.km-modalview.km-view,div#modalviewAlert.ReasonsAlert.km-widget.km-modalview.km-view  , #dialog-modal.km-widget.km-modalview.km-view, #modalviewFlash.km-widget.km-modalview.km-view{ 
+    position:fixed;
+    width:40%; /*!important; */
+    left:32%;
+    top:40%;
+}
+
+/* Alert modal box fix. Since useNativeScrolling is off for Reasons page, this fix is needed */
+div#modalviewAlert.ReasonsAlert.km-widget.km-modalview.km-view
+{
+	height:12%;
+}
+
+#dialog-modal:before{
+  vertical-align:top;
+}
+
+.modalContent{
+    background-color: #fff;
+ /*   padding:15px; */
+    padding-bottom: 1%;
+    text-align:center;
+}
+
+.FlexFix{
+    -webkit-flex: none !important;
+}
+
+.closeModal{
+    background:none;
+    color:#3284bf;
+    font-size:0.9em;
+}
+
+.HelpText{
+  color: #073198 !important;
+  font-size: 12px;
+}
+
+/* can be moved to local style class within index.html to prevent these styles interfering with other pages */
+.largeButton{
+    width:90%;
+    font-size:1.1em !important;
+    margin-left:auto;
+    margin-right:auto;
+    margin-bottom:15px;
+	margin-top:35px;
+    display:block;
+}
+
+.km-ios7 .k-list, .km-ios7 .k-slider, .km-ios7 .km-widget{
+  /* color:white; */
+}
+
+.AlertText{
+  /* padding: 5px !important; */
+  /* word-wrap: break-word; */
+}
+
+/* Hide the shadow when dropdown control is displayed */
+#div-locations>li:last-child {
+ box-shadow: inset 0 0px 0 rgba(180,180,180,0.5); 
+-webkit-box-shadow: inset 0 0px 0 rgba(180,180,180,0.5);
+}
+
+/* Login page */
+.HeaderLogoFix{
+  /* padding-bottom: 5px; */
+}
+.WelcomeText{
+  /* padding:12.5%; */
+}
+
+.xarrowFix{
+   padding-right:4%;
+}
+
+.cancelLinkFix{
+  border: none !important;
+  font-size: large !important;
+  color: #fff !important;
+}
+
+.ReconfigureLobby{
+/*padding-left: 3% !important; */
+padding-bottom: 3%;
+padding-top: 0%;
+/* custom background style */
+background: #fff;
+}
+
+.ReconfigureLobbyButton{
+    width: 42%;
+    height: 20px;
+    padding: 2%;
+    color: #3284bf !important;
+/* border:none !important; */
+}
+
+.SubmitButton{
+  font-weight: bold !important;
+}
+
+.SignInFix{
+  padding-top: 3%;
+}
+.SignInFix1{
+  padding-top: 2%;
+}
+
+.WhiteBodyFix{
+  z-Index: 0 !important;
+  margin-top:2%;
+}
+
+#ddl-locations{
+    padding:0;
+    width:52%;
+    padding-top: 1%;
+}
+
+#xlbl-locations{
+    width:95%;
+    display:block;
+    margin-left:auto;
+    margin-right:auto;
+    font-size:1em;
+}
+
+.LoginButton > span.km-text
+{
+    font-size:2em;
+    font-weight:normal;
+}
+
+/* re-position RSVP event info box */
+div.gray-div.eventInfo{
+  margin-top:-7%;
+  /* top:30%; */
+}
+
+div.gray-div{
+    width:80%;
+    top:40%;
+    left:7%;
+    position: fixed;
+    margin:0;
+}
+
+#splash{
+    top:25%;
+    position:fixed;
+    left:0;
+    right:0;
+}
+
+/* Registration page style fix */
+.Error{
+	background: #EEB4B4 !important;
+	border-color: #C75D4D !important;
+}
+
+.div-white-body-interior a[data-role="button"], .LongButton{
+	width: 87%;
+	display: block;
+	margin-bottom: 3%;
+	margin-top: 5%;
+	/* height: 3.5em; */
+	/* background-color: #3284bf !important; */
+	/* border: none !important; */
+	/* color: #fff !important; */
+	/* background-image: none !important; */
+	font-size: 150% !important;
+	margin-right: 8%;
+	/* padding: 3%; */
+	font-size:large !important;
+}
+
+.SignInButton{
+/*	margin-left:3.0%;  *//*4.7%;*/
+	width:11%;
+    background-color: #fff !important;
+    border-radius: 10px !important;
+    padding:1.5% !important;
+}
+
+.ButtonFix{
+  color: #2f2f2f !important;
+}
+
+.UseUclaLogonButton{
+	border-bottom:0;
+	margin-bottom:-1%;
+}
+
+.CheckInButtonFix{
+  margin-left: 3.5%;  
+  padding:1.5% !important;
+}
+
+.CenterAlignModal{
+	width: 200%;	
+	/* vertical-align:middle; */
+	display:inline-block !important;
+}
+
+.DivAnonymousContinueButton{
+/*	background-color: #fff;*/
+	height:50%;
+    position:fixed;
+    width:100%;
+    bottom:0;
+}
+
+.AnonymousContinueButton
+{
+	margin-left: 22%;	
+/*	padding:1% !important;*/
+	width: 55% !important;
+/*	margin-top: 15%;*/
+/*    height: 4%;*/
+    color: white !important;
+}
+
+.override-button-fix{
+	height: 80% !important;
+/* 	padding-top: 1% !important; */
+    padding: 1.4% 4.5% !important;
+}
+
+
+
+/* Proposed fix from Telerik Form to make a modal center aligned. Didn't work as expected. Have to try it again */
+/* http://www.telerik.com/forums/can't-get-modal-view-to-appear-at-top#iMEmd0SZ_0KH6H7SBhLtuw */
+/* *** start *** */
+#xdialog-modal .km-modalview-root:before {
+    vertical-align: middle;
+	display:inline-block;
+}
+
+.MiddleModalView:before {
+      vertical-align: middle;
+    }
+.MiddleModalView1, .MiddleModalView1:before	{
+  display: inline-block !important;
+  vertical-align: middle !important;
+}
+
+.MiddleModalView1:before{
+  height: 100% !important;
+}
+/* *** End *** */
+
+input[type="text"], input[type="number"]{
+	display: inline-block; 
+	/* height: 20px; */
+	/* padding: 4px 6px; */
+	margin-bottom: 10px;
+	/* font-size: 14px; */
+	line-height: 20px;
+	color: #555;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	vertical-align: middle;
+	background-color: #fff;
+
+	border: 1px solid #ccc;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+	-moz-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+	box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+	-webkit-transition: border linear .2s,box-shadow linear .2s;
+	-moz-transition: border linear .2s,box-shadow linear .2s;
+	-o-transition: border linear .2s,box-shadow linear .2s;
+	transition: border linear .2s,box-shadow linear .2s;
+}
+
+.NameTable{
+	width:95%;
+	border-spacing:0;
+}
+
+.RequiredField{
+ color: red;
+}
+
+.ListViewContainer>li{
+	box-shadow:none !important;
+	web-box-shadow: none !important;
+}
+
+.ContinueButtonPadding{
+	padding-top:2%;
+}
+.QuestionAndResponseContainer
+{
+	clear:both;	
+	padding-bottom: 1%;
+	display:flex;
+	display:-webkit-flex; /* Safari */
+	box-shadow: inset 0 -1px 0 rgba(180,180,180,0.5);
+	-webkit-box-shadow: inset 0 -1px 0 rgba(180,180,180,0.5);
+}
+.QuestionAndResponseContainer div {
+    -webkit-flex: 1; /* Safari 6.1+ */
+    -ms-flex: 1; /* IE 10 */ 
+    flex: 1;
+}
+
+.FormIndentation{
+	padding-left:0.5%;
+	padding-right: 0.5%;
+}
+.ResponseDetailButton{
+	border:none !important;
+	padding:none !important;
+	color: #606060 !important;
+	/* padding-left: 75% !important; */
+}
+
+.Response{
+	width: 85%;
+	display: inline-block;
+	font-style: italic;
+	text-align: right;
+}
+
+.ResponseDetailContainer{
+	padding-top: 2%;
+	padding-left:1%;
+	padding-right: 1%;
+}
+
+#divCompleteResponseView div.km-listview-wrapper
+{
+	padding-right: 1%;
+}
+
+.AppBackgroundColor{
+	padding-top:2%;
+	background-color:#3284bf !important;
+}
+
+.OtherDiv{
+	padding-top:1%;
+	padding-left: 1%;
+}
+.OtherDiv>input{
+	width: 90%;
+	padding-top:1%;
+	
+}
+.ResponseContainer{
+	padding-top: 0.7% !important;
+}
+#questions-body input[type="text"], #questions-body input[type="number"], #divCompleteResponseView input[type="text"]:not(.k-input), div.km-listview-wrapper input[type="search"]{
+	height: initial !important;	
+}
+
+.TextBox{
+	font-style: italic;
+	margin-right: 9%;
+}
+.FloatRight{
+	float:right;
+}
+.Required{
+	color:#aaa;	
+}
+
+input[type="radio"]:focus, input[type="checkbox"]:focus{
+	outline:inherit !important;
+}
+
+.ResponseDetailButton>span>i
+{
+	zoom:1.2;
+	/* color:#aaa; */
+	color: #666;
+}
+.DisplayNone{
+	display: none !important;
+}
+.DisplayHidden{
+    visibility: hidden !important;
+}
+div.km-listview-wrapper input[type="search"]
+{
+	webkit-box-sizing: border-box !important;
+	-moz-box-sizing: border-box !important;
+	box-sizing: border-box !important;
+	margin-bottom: auto !important;
+	-webkit-box-shadow: none !important;
+	box-shadow: none !important;
+	border: none !important;
+}
+
+.RegisterFormLabel{
+	padding-top:3%;
+}
+
+.LoadMore{
+/*  background-color: #589FD3 !important;*/
+  cursor: pointer;  
+}
+.LoadMore a, .LoadMore a:hover{
+	text-decoration:none;
+/*	font-weight:bold; */
+}
+.LoadMore a{
+    margin-left: 45%;
+}
+.AdjustLoadMoreMargin{
+    margin-left: 37% !important;
+}
+
+/* listview filter styles used for standalone reasons.html */
+#xdivFilterWrap{
+ background-color: #d6d6d6;
+ border-radius: 25px;
+ margin-left:3%;
+ margin-right:2%;
+ height:70%;
+}
+/* listview filter styles used for standalone reasons.html */
+#xdivFilterWrap:before{
+	font-family: 'Kendo UI';
+	content: "\e21e";
+	/*content: "\f002"; -- font-family: iwe fonts*/
+    padding-left:0.5%;
+    color: #aaa !important;
+    vertical-align:middle;
+}
+
+#spanClear{
+    width:3%;
+    padding-bottom:1%;
+    display:inline-block;
+}
+
+/* style used in standalone reasons.html */
+/*#divFilterWrap:after{ */
+#xspanClear:before{
+	font-family: 'Kendo UI';
+	content: "\e031";
+	/*content: "\f002"; -- font-family: iwe fonts*/
+    color: #aaa !important;
+    vertical-align:middle;
+    zoom:1.2;
+}
+
+@media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait) {
+
+    #divFilterWrap > input{
+        width: 90% !important;
+    }
+
+    #divScrollableListView{
+        height:85vh !important;
+    }
+
+    .inner-addon .glyphicon {
+    padding-top: 3.3% !important;
+    }
+
+    .ReconfigureLobbyButton{
+        width: 40.5% !important;
+    }
+
+    #spanClear:before{
+        margin-top:-0.8% !important;
+    }
+    
+    .SignInContainer{
+        padding-top:25% !important;
+    }
+    
+    .SignInButton{
+        width: 16%;
+    }
+    
+    .RegistrationContainer{
+        margin-top:25%;
+    }
+    
+    .header-text1
+    {
+        top:2.9% !important;
+    }
+
+    .SplitViewLeft{
+        height:4.35em !important;
+    }
+    #divLeftPaneContainer>div[data-role="content"]{
+        margin-top:5% !important;
+    }
+    
+    .rsvp-search-instruction, .rsvp-search-controls{
+        padding-left: 10% !important;
+    }
+    
+    .last-successful-rsvp-checkin{
+        padding-left: 11% !important;
+    }
+    
+    .event-name-container{
+        /* padding-left: 35% !important; */
+    }
+    
+    .rsvp-instruction{
+/*        padding-left: 30% !important;*/
+       padding-left: 22% !important;
+       font-size: x-large !important;
+    }
+    
+    .signout{
+        line-height: 1 !important;
+    }
+    
+    .header-button-close, .rsvp-header-button-close{
+        padding: 0 1% !important;
+    }
+    
+    .rsvp-header-button-close{
+        margin-top: 2.4% !important;
+    }
+    
+    div#modalviewAlert.km-widget.km-modalview.km-view,div#modalviewAlert.ReasonsAlert.km-widget.km-modalview.km-view  , #dialog-modal.km-widget.km-modalview.km-view, #modalviewFlash.km-widget.km-modalview.km-view{ 
+    position:fixed;
+    width:50%; /* !important */
+    left:25%;
+    top:40%;
+    }
+    
+    .ReconfigureLobbyButton{
+        width: 44%;
+    }
+    
+    .LoginTextBox{
+        width: 38% !important;
+    }
+
+    .response-container-lt-2Q{
+        padding-top: 2%;
+    }
+    
+    .rsvp-signout{
+        margin-top: -2%;
+        padding-bottom: 10.6%;
+    }
+    
+    .RSVPCheckInPadding{
+        font-size: 1.2em !important;
+    }
+    
+    .Divider{
+        height:92vh !important;
+    }
+    
+    /*fix text movement from top to center in iOS 8.1*/
+    .absolute-center-fix{
+        height: 0% !important;
+/*        padding-top: 58% !important;*/
+        margin-top: 58% !important;
+    }
+    
+    .rsvp-checkin-btn-padding{
+        padding-top: 3% !important;
+    }
+    
+    .span-word-wrap{
+        width: 40% !important;
+    }
+    
+    .rsvp-last-checkin{
+        width: 50% !important;
+    }
+}/*portrait */
+
+    .header-text-fix{
+        vertical-align:middle;
+    }
+
+
+#divFilterWrap > input{
+    border: 0;
+    padding-top: 0.5%;
+    height: 25px;
+    width: 91%;
+    text-align:center;
+    margin-bottom:0.1%;
+    background-color: #d6d6d6;
+    -webkit-box-shadow:none;
+    box-shadow:none;
+    margin-top:0.5%;
+}
+
+#divFilterWrap > input:focus{
+ text-align: left;
+ border:0;
+ -webkit-box-shadow:none;
+ box-shadow: none;
+}
+
+.FloatTop{
+    -webkit-transform: translateZ(100px);
+    background-color: #ccc;
+    -webkit-backface-visibility: hidden;
+    -webkit-overflow-scrolling: touch;
+}
+
+.ListViewQuestion{
+    width: 50%;
+    display:inline-block !important;
+}
+
+#spanListViewResponse{
+    display: inline-block;
+    width: 45%;
+    padding-top:0.5%;
+    font-style: italic;
+}
+
+#txtAccessKey{
+    display:block;
+}
+
+#txt_app_key{
+    padding:10px;
+    font-size:100% !important;
+}
+
+.Borderless{
+    border:0 !important;
+    text-align:right;
+    -webkit-box-shadow:none !important;
+    box-shadow: none !important;
+    margin-right:13.5%;
+    font-size:100% !important;
+}
+
+/*Filter textbox - listview*/
+#txtSearchOrg{
+    padding-top:1.2%;
+}
+
+#divScrollableListView{
+    overflow-y:scroll;
+    height:75vh;
+    -webkit-overflow-scrolling: touch;
+}
+
+.LoginTextBox{
+    font-size: 100% !important;
+/*    height:1em !important; */
+    /* to override bootstrap border color */
+    border-color:#ccc !important;
+   /* width:93%; */
+   width: 28%;
+}
+
+/* Modal box title with rounded corners */
+.TitleWithRoundedCorners
+{
+    border-radius:10px !important;
+    border-bottom-left-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+/* styles to make it iOS7 like */
+    border-top:solid 1px #ddd;
+    padding-bottom:0px;
+}
+/* styles to make it iOS7 like */
+.TitleWithRoundedCorners.km-widget.km-navbar{
+    background-color: #fff;
+    border-width: 0px;
+}
+/* Modal box content with rounded corners */
+.ContentWithRoundedCorners{
+    border-radius:10px !important;
+    border-top-left-radius: 0px !important;
+    border-top-right-radius: 0px !important;
+}
+
+.iOSLikeContainer{
+    border-top:solid 1px #ddd !important;
+    padding-bottom:0px;
+}
+.iOSLikeButtonLeft{
+    border:0px !important;
+    border-right:solid 1px #ddd !important;
+    border-top-right-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+    -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
+}
+
+.iOSLikeButtonLeft:active, .iOSLikeButtonRight:active, .iOSLikeOkContainer:active{
+    background: #eee;
+    color: #3284bf !important;
+}
+.iOSLikeButtonRight{
+    border:0px !important;
+    -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
+}
+
+.TextBoxFix{
+    height: 100% !important;
+}
+
+
+/* enable absolute positioning */
+.inner-addon { 
+    position: relative; 
+}
+
+/* style icon */
+.inner-addon .glyphicon {
+  position: absolute;
+  padding-top: 2.5%;
+  pointer-events: none;
+}
+
+/* align icon */
+.left-addon .glyphicon  { left:  0px;}
+.right-addon .glyphicon { right: 7%;}
+
+/* add padding  */
+.left-addon input  { padding-left:  30px; }
+.right-addon input { padding-right: 2%; }
+
+.WarningSign{
+    color:#FF6666;
+/*    zoom:1.2; */
+    padding-right:1%;
+}
+
+.TitleWithRoundedCorners > div{
+    line-height:2em !important;
+}
+
+.iOSLikeOkButton{
+    width:100% !important;
+/*    padding-bottom:5% !important; */
+    border:0px !important;
+
+}
+
+.iOSLikeOkContainer{
+    padding-left:0% !important;
+    padding-bottom: 0% !important;
+    border-top:solid 1px #ccc;
+    border-radius:10px !important;
+    border-top-left-radius: 0px !important;
+    border-top-right-radius: 0px !important;
+    background-color:#fff;
+}
+
+.RemoveBoxShadow{
+	-webkit-box-shadow: none !important;
+	box-shadow: none !important;
+
+}
+
+.SpanError{
+    display: inline-block;
+    float: right;
+    position: absolute;
+    padding-left: 55%;
+    padding-top:1%;
+    z-index:1;
+}
+
+.Label{
+    display:inline-block;
+    width:40%;
+}
+
+/* to override icon-* styles imposed by bootstrap */
+[class^="icon-"], [class*=" icon-"]{
+  display:inline;
+  background-image:none !important;
+  line-height:initial !important;
+}
+
+/* --- Styles added to fix Reasons page display after integration with login.html --- */
+.WhiteBackground, .WhiteBackground>div[data-role="content"]{
+    background-color: #fff !important;
+}
+
+.ReasonsContainer{
+    padding-left:1.5%;
+    padding-top:8%;
+}
+
+.ResponseDetailContainer{
+    padding-top:10%;
+}
+
+#divFilterWrap{
+ background-color: #d6d6d6;
+ border-radius: 25px;
+ margin-left:3%;
+/* margin-right:2%; */
+ height:70%;
+ width: 100%;
+}
+
+#divFilterWrap:before{
+    font-family: 'Kendo UI';
+    content: "\e21e";
+/*content: "\f002"; -- font-family: iwe fonts*/
+   padding-left:1%;
+   padding-top:1.2%;
+   position: absolute;
+   color: #aaa !important;
+   vertical-align:middle;
+}
+
+#spanClear:before{
+	font-family: 'Kendo UI';
+	content: "\e031";
+	/*content: "\f002"; -- font-family: iwe fonts*/
+    color: #aaa !important;
+    vertical-align:middle;
+    zoom:1.2;
+    position: absolute;
+    margin-left: -4%;
+    margin-top:-0.3%;
+}
+
+#divFilterWrap > input{
+    padding-left:4%;
+}
+
+/* --- Reasons page style fix end ---  */
+
+/* Login page */
+.LoginPageButton{
+    margin:0;
+    width:100%;
+    border-radius:0 !important;
+    color:#fff !important;
+    border:0 !important;
+    text-align:center !important;
+    font-weight:bold !important;
+    font-size:150% !important;
+}
+.SwipeBruinCard{
+    margin-left:2%;
+    color:#fff000;
+}
+.ArrowPadding
+{
+    padding-left:1%;
+}
+.HorizontalCenter{
+    text-align:center;
+}
+.LoginInstruction{
+    padding-bottom:2%;
+    display:inline-block;
+    color:#fff;
+}
+.AlignArrows{
+    margin-left:2.9%;
+}
+.SignInContainer{
+    padding-top:5%;
+}
+.SignInButtons{
+    padding-top:3%;
+}
+
+/* Registration */
+.RegistrationContainer{
+    background-color:#ffffff;
+    padding:1%;
+    font-size:medium;
+    color:#000;
+    width:50%;
+    border-radius: 10px;
+}
+.font-bold{
+    font-weight: bold;
+}
+
+.CenterAlign{
+    text-align:center;
+}
+.RegisterButtonContainer{
+    padding-top:2%;
+}
+
+#viewSigninWithUclaLogon>div[data-role="content"]{
+    background-color: transparent;
+}
+
+/* RSVP */
+.RSVPLeftHandPane, .RSVPRightHandPane{
+    /*margin-top: 5%;*/
+    background-color: #fff;
+}
+
+.RSVPRightHandPane{
+    margin-top:0%;
+}
+
+.SplitViewLeft{
+/*    margin-top: -4%;
+    position: fixed;*/
+    padding-left: 1%;
+    position: relative;
+    background-color:#3284bf;
+    height: 4.9em;
+}
+
+.SplitViewLeftPane{
+/*    margin-top: 10.8%;*/
+}
+
+.SplitViewRightHeader{
+    position:relative;
+    display: inline-block;
+    background-color: #3284bf;
+}
+.SplitViewRightPadding{
+    padding-top: 5%;
+}
+
+#divLeftPaneContainer>div[data-role="content"]{
+    background-color: #fff;
+    position: relative;
+    display:inline-block;
+    padding-top: 25% !important;
+}
+
+.LeftPaneContainer{
+    position: relative;
+    display: inline-block;
+    background-color: #3268bf;
+}
+.HeaderLogoSplitView{
+    width:16%;
+    padding-top:13%;
+    padding-left:3%;
+    height:auto;
+}
+
+.header-text1{
+position: fixed;
+top:5.5%;
+left: 8%;
+z-index:3;
+color:#fff;
+font-size:large;
+}
+
+.Divider{
+    height:89vh;
+    border-right: solid 1px #ccc;
+}
+
+#divDetailPane > div[data-role="view"]{
+    padding-top:15%;
+}
+.RightPaneContainer > div[data-role="content"], .right-pane-search-container > div[data-role="content"]{
+    background-color: #fff !important;
+}
+/*Used in rsvp page*/
+.align-right{
+  text-align:right;
+  padding-right: 3%;
+}
+.RSVPCheckInPadding{
+    padding-left:15%;
+    padding-top:8%;
+    font-size: 1.2em;
+}
+.status-rounded-corner{
+    color:#fff;
+    display:inline-block;
+    width:auto;
+    border-radius:10px;
+    padding:4px;
+    margin-top:-2%;
+}
+.success{
+    background-color: green;
+}
+.failure{
+    background-color: red;
+}
+.RSVPInputTypeHighlight{
+    background-color: #eee !important;
+}
+.OverrideHelpIcon{
+    zoom:1.3;
+}
+.OverrideHelpLink{
+	color: #bfbfbf !important;
+}
+.OverrideHelpLink:active{
+    text-decoration:none;
+}
+.override-fail-align{
+    margin-top:-1%;
+}
+.override-help-container{
+    margin-left:-3%;
+}
+.right-pane-search-container{
+    background-color: #fff !important;
+}
+.rsvp-logon-input{
+    width:90%;
+    height:2.5em !important;
+}
+.rsvp-search-container{
+    margin-left: 5%;
+    margin-top: 5%;
+}
+.text-align-right{
+    text-align: right;
+}
+.text-align-center{
+    text-align: center;
+}
+.last-successful-rsvp-checkin{
+    padding-top:5%;
+    padding-left:17%;
+}
+.event-name-container{
+ /*   padding-left:40%; */
+ text-align : center;
+}
+.event-name{
+    font-size:x-large;
+}
+.rsvp-instruction{
+    padding-left:25%; /*35%;*/
+    padding-top:10%;
+/*    font-size: large;*/
+    font-size: xx-large;
+}
+.rsvp-search-instruction{
+    padding-left: 16%;
+    padding-bottom: 2%;
+    padding-top:10%;
+    font-size: large;
+}
+.rsvp-search-controls{
+    padding-left:15%;
+}
+
+.response-detail-chevron-container{
+    padding-left: 2.5%;
+}
+.response-detail-chevron{
+    color: #666;
+    zoom: 1.2;
+}
+
+.extra-large{
+    font-size: 250%;
+}
+
+/* fix for header in layouts */
+.welcome-container{
+    padding-top: 0;
+}
+.dept-name{
+    display: block;
+}
+.welcome-container-1{
+    padding:1%;
+    background:-webkit-radial-gradient(circle, #3284bf,#1e4b87);
+    margin-bottom: 7%;
+    margin-top:5%;
+    margin-left: -8.5%;
+    width:115%;
+}
+
+.header-button-close, .rsvp-header-button-close{
+    height:initial;
+    border:none !important;
+    color:#fff !important;
+/*    font-size:large !important;*/
+    float:right;
+    padding: 0.6% 1%;
+}
+.rsvp-header-button-close{
+    margin-top: -0.2%;
+}
+
+.ucla-logo-center{
+    width: 10%;
+}
+.signout{
+    zoom: 1.5;
+}
+
+/* Reasons detail page back button */
+.back-btn-div{
+    text-align:left;
+    position:relative;
+    float:left;
+    width:12%; 
+    margin-left:-14px;
+}
+
+.header-div-fix{
+    margin-bottom: 0%;
+}
+
+.text-align-cener{
+    text-align:center;
+    display: inline-block;
+    width: 100%;
+}
+
+.back-icon{
+    zoom:0.9;
+    vertical-align: baseline;
+    padding-right: 4%;
+}
+
+.slider{
+    width:30% !important;
+}
+
+/* ThankYou page */
+.thankyou-container{
+    padding-top: 15%;
+}
+
+
+
+/* index.html */
+.access-key-box{
+    font-size:100% !important;
+    width: 50%;
+    display: inline-block;
+    margin-right: 3%;
+}
+
+.reconfigure-app{
+    padding-top: 2%;
+}
+
+#txtAccessKey:focus{
+    -webkit-box-shadow: none;
+}
+
+.exit-access-key{
+    height: initial !important;
+    font-size: 100% !important;
+/*    change done when having access key textbox alone in one line*/
+/*    width: 85% !important; /*53% */
+    width: 53% !important;
+}
+
+.exit-locations{
+    font-size: 100% !important;
+    padding-bottom: 2%;
+}
+
+.big-font > span.km-text{
+    font-size: 1.2em;
+}
+
+.override-instruction{
+    display: block;
+    padding-top:3%;
+/*    padding-left: 15%;*/
+}
+
+.location-text{
+    display: block;
+}
+
+.rsvp-left-pane-font{
+    font-size: larger;
+}
+.rsvp-content-font{
+/*    font-size: larger;*/
+   font-size: 1.2em;
+}
+.rsvp-search-button{
+    font-size: 1.0em !important;
+}
+.rsvp-row-padding{
+    padding-bottom: 1%;
+}
+
+.help-text{
+    color: #aaa;
+    font-size: large;
+}
+
+.fixed-background{
+    position: fixed !important;
+}
+
+/*fix text movement from top to center in iOS 8.1*/
+.absolute-center-fix{
+    height: 0% !important;
+/*    padding-top: 35%;*/
+    margin-top: 35%;
+}
+
+.center-align-div{
+    margin-left: auto;
+    margin-right: auto;
+    width:100px;
+    display: block;
+}
+
+.no-border{
+    border:none !important;
+}
+
+.rsvp-checkin-btn-padding{
+    padding-top: 1%;
+}
+
+.rsvp-column-indent{
+    padding-right: 3%;
+}
+
+.span-word-wrap{
+    display: block;
+    width: 55%;
+    vertical-align: middle;
+}
+
+.rsvp-last-checkin{
+    display: block;
+    width: 40%;
+    vertical-align: middle;
+    float:left;
+}

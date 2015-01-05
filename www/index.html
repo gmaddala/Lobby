@@ -23,56 +23,123 @@
         <meta name="format-detection" content="telephone=no" />
         <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
-        <link rel="stylesheet" type="text/css" href="css/blocks.css" />
+
+        <script type="text/javascript">
+            //$(document).ready(function(){
+                              if(localStorage.getItem("key") != "null" && localStorage.getItem("key") != null)
+                              {
+                              window.open("login.html", "_self");
+                              }
+        
+        window.onload = function(){
+            var app = new kendo.mobile.Application(document.body, {useNativeScrolling: true, transition: 'fade'});
+            //localStorage.clear();
+            $("#txtAccessKey").focus();
+        };
+        
+                              //});
+    
+            </script>
+
         <link rel="stylesheet" type="text/css" href="css/lobby.css" />
-        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" />
+        <link rel="stylesheet" type="text/css" href="css/stylefix.css" />
+        <!-- <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" /> -->
         
-        
+		<!-- <link href="styles/kendo.common.min.css" rel="stylesheet" /> -->
+        <!-- <link href="styles/kendo.default.min.css" rel="stylesheet" /> -->
+        <!-- <link href="styles/kendo.dataviz.min.css" rel="stylesheet" /> -->
+        <!-- <link href="styles/kendo.dataviz.default.min.css" rel="stylesheet" /> -->
+        <link rel="stylesheet" type="text/css" href="css/iwe_icon_fonts.css" />
+        <link href="styles/kendo.mobile.all.min.css" rel="stylesheet" />
+		<link href="css/stylefix.css" rel="stylesheet" />
+        <script src="js/jquery.min.js"></script>
+        <!-- <script src="js/angular.min.js"></script> -->
+        <script src="js/kendo.all.min.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>        
+        <script type="text/javascript" src="js/index-1.js"></script>
+        <!-- <script type="text/javascript" src="js/blocks.js"></script> -->
+        <!-- <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script> -->
         <title>Lobby</title>
     </head>
-    <body class="molecules-bg">
-        <div class="container">
-            <!--<div class="app">
-                <h1>PhoneGap</h1>
-                <div id="deviceready" class="blink">
-                    <p class="event listening">Connecting to Device</p>
-                    <p class="event received">Device is Ready</p>
-                </div>
-            </div>-->
-            
-            <div id="splash" style="width:100%;" class="absolute-center">
-                <p><img src="img/logo-ucla.png" class="horizontal-center splash-logo" /></p>
-                <!--<p><img src="img/BG-spinner.gif" id="splash_spinner" class="horizontal-center spinner"/></p>-->
-                <div id="div_access_key" class="gray-div horizontal-center" style="">
+    <body class="molecules-bg" id="body">
+        
+		<div id="questions-body" data-role="view" data-title="Lobby">
+			
+			<div id="splash">
+				<p><img src="img/logo-ucla.png" class="horizontal-center" /></p>
+			</div>
+			<div id="div_access_key" class="gray-div horizontal-center">
+                <ul data-role="listview" data-style="inset" id="divIndexView">
+                    <li>
+                        <label>Kiosk access key<input id="txtAccessKey" type="text" class="horizontal-center access-key-box RemoveBoxShadow" placeholder="Enter your kiosk access key" maxlength="6"/>
+                            <div class="helpIcon access-key-help"><a href="" style="" onclick="AccessKeyHelp(event);" class=""><i class="icon-question-sign"></i></a></div>
+                            </label>
+                    </li>
+                    <li id="liLocations" class="invisible">
+                        <label id="lbl-locations">Select a Location
+                            <select id="ddl-locations">
+                            </select>
+                        </label>
+                    </li>
+                </ul>
+                <!--<div class="upperRightIcon helpIcon"><a href="" style="" onclick="AccessKeyHelp(event);" class=""><i class="icon-question-sign"></i></a></div>
                     <div>
-                        <input id="txtAccessKey" type="text" class="horizontal-center textbox" placeholder="Enter your kiosk access key" style="display:block;"/>
-                    </div>
+                        
+                    </div>-->
                     
-                    <div id="div-locations" class="control horizontal-center invisible" style="width:90%;">
+                    <!-- <div id="div-locations" class="control horizontal-center invisible" style="width:90%;">
                         <label for="ddl-locations">Select a Location</label>
-                        <select id="ddl-locations">
-                        </select>
-                    </div>
-                    <button class="button large horizontal-center" onclick="LaunchKiosk();">Continue</button>
-                    <a href="" style="margin:4.5%;" onclick="AccessKeyHelp(event);">Need Help?</a>
+                        <!-- <select id="ddl-locations">
+                        </select> 
+                    </div> -->
+					<ul data-role="listview" data-style="inset" id="div-locations" class="invisible" style="width: 94%;padding-left: 3%;">
+            <li>
+                
+            </li>
+			</ul>
+                    <!-- <button class="button large horizontal-center" onclick="LaunchKiosk();" >Continue</button> -->
+					<a data-role="button" class="largeButton" data-click="LaunchKioskFromIndex" data-fromloginpage="false">Continue</a>
+					<!-- <a data-role="button" class="LoginButton" data-click="showNativeDialog">Continue</a> -->
+                    
+                    
                 </div>
-            </div>
+			
+			
         </div>
-        <script type="text/javascript" src="phonegap.js"></script>
-        <script type="text/javascript" src="js/global.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
-        <script type="text/javascript" src="js/blocks.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
-        <script type="text/javascript">
-            app.initialize();
+		<div data-role="modalview" id="modalviewAlert">
+				<div data-role="header">
+					<div data-role="navbar" class="TitleWithRoundedCorners">
+						<span>Alert</span>
+						<!-- <a data-click="HideNativeDialog" data-role="button" data-align="right" class="closeModal">Close</a> -->
+					</div>
+				</div>					   
+			   <div class="modalContent">
+					<span id="spanAlertMessage" class="AlertText"></span> 
+			   </div>
+				   <!--Style to change styling of display message: style="background:#fff;color:#3284bf;" -->
+                   <div data-role="footer">
+                       <div class="ContentWithRoundedCorners iOSLikeOkContainer">
+                           <a data-role="button" class="modal-double-button-left iOSLikeOkButton" data-click="HideNativeDialog">OK</a>
+                       </div>
+                   </div>
+		</div>
 
-            window.onload = function(){
-                if(localStorage.getItem("key") != "null" && localStorage.getItem("key") != null)
-                {
-                    window.open("login.html", "_self");
-                }
-            };
+        <!-- <script type="text/javascript" src="phonegap.js"></script> -->
+        <script type="text/javascript" src="js/global.js"></script>
+        
+        <script>
             
+        
+        
+		   if (kendo.ui.DropDownList) {
+            $("#ddl-locations").kendoDropDownList({
+                // The options are needed only for the desktop demo, remove them for mobile.
+                popup: { appendTo: body },
+                animation: { open: { effects: body.hasClass("km-android") ? "fadeIn" : body.hasClass("km-ios") || body.hasClass("km-wp") ? "slideIn:up" : "slideIn:down" } }
+            });
+        }
+		   
+			
         
             var splashAnimation = function(){
                 $('#splash_spinner').css('display', 'none');
@@ -80,6 +147,17 @@
                 $('#div_access_key').removeClass('invisible');
                 $('#splash').animate({'margin-top': '10%'}, 1000);
             };
+//		   $('#txtAccessKey').
+            $('#txtAccessKey').bind("keyup", function(){
+                       //convert the text to uppercase
+                       var key = $(this).val();
+                       $(this).val(key.toUpperCase());
+                       });
+		</script>
+		<script type="text/javascript">
+		     //uncomment when including phonegap.js
+            //app.initialize();
+
         </script>
     
     </body>

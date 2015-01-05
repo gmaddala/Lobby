@@ -11,13 +11,33 @@
 #import "MediaPlayer/MPMusicPlayerController.h"
 
 #define _DGBPRNT
+#define PROTOCOLSTRING @"com.magtek.idynamo"
 
 @implementation CardReader
 -(void) RunCardReaderListener:(CDVInvokedUrlCommand *)command{
     self.cordovaCommand = command;
     self.mtSCRALib = [[MTSCRA alloc] init];
     [self.mtSCRALib listenForEvents:(TRANS_EVENT_OK|TRANS_EVENT_START|TRANS_EVENT_ERROR)];
-    [self.mtSCRALib setDeviceType:(MAGTEKAUDIOREADER)];
+
+    //ananth
+//    NSString *restCallString = [NSString stringWithFormat:@"http://sait-test.uclanet.ucla.edu/sawebnew2/api/errorlog?Message=%@", testString];
+//    NSURL *restURL = [NSURL URLWithString:restCallString];
+//    NSURLRequest *restRequest = [NSURLRequest requestWithURL:restURL];
+    
+    
+//    currentConnection = [[NSURLConnection alloc] initWithRequest:restRequest delegate:self];
+    //ananth
+    
+    if([self isHeadsetPluggedIn])
+    {
+        [self.mtSCRALib setDeviceType:(MAGTEKAUDIOREADER)];
+    }
+    else{
+        [self.mtSCRALib setDeviceType:(MAGTEKIDYNAMO)];
+        [self.mtSCRALib setDeviceProtocolString:(@"com.magtek.idynamo")];
+    }
+    
+    
     [self openDevice];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -51,6 +71,7 @@
 
 - (void)onDataEvent:(id)status
 {
+    
 #ifdef _DGBPRNT
     NSLog(@"onDataEvent: %i", [status intValue]);
 #endif
@@ -106,6 +127,11 @@
             }
             @catch(NSException *e)
             {
+                NSArray *backtrace = [e callStackSymbols];
+                NSString *message = [NSString stringWithFormat:@"onDataEvent: Backtrace:\n%@.", backtrace];
+                
+                
+                [self logError:(message)];
             }
             
             if(bTrackError == NO)
@@ -151,6 +177,8 @@
 
 - (void)returnData
 {
+    @try {
+    
     if(self.self.mtSCRALib != NULL)
     {
         NSString *pResponse = [NSString stringWithFormat:@"Response.Type: %@\n"
@@ -248,15 +276,45 @@
             [self.commandDelegate sendPluginResult:pluginResult callbackId:self.cordovaCommand.callbackId];
         }
     }
+    }
+    @catch (NSException *exception) {
+        NSArray *backtrace = [exception callStackSymbols];
+        NSString *message = [NSString stringWithFormat:@"returnData: Backtrace:\n%@.", backtrace];
+        
+        
+        [self logError:(message)];
+        
+        //ananth
+        //in case of an exception, set the card read status as ERROR
+        CDVPluginResult *pluginResult = [CDVPluginResult
+                                         resultWithStatus: CDVCommandStatus_ERROR                                     messageAsString: @"Did not capture UID"];
+        
+        [self.mtSCRALib clearBuffers];
+        
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:self.cordovaCommand.callbackId];
+    }
 }
 
 
 - (void)openDevice
 {
+    
+    
     if(![self.mtSCRALib isDeviceOpened])
     {
         [self.mtSCRALib openDevice];
     }
+    /*
+    if(![self.mtSCRALib isDeviceConnected])
+    {
+        CDVPluginResult *pluginResult = [CDVPluginResult
+                                         resultWithStatus: CDVCommandStatus_ERROR
+                                         messageAsString: @"Device not connected"];
+        
+        [self.mtSCRALib clearBuffers];
+        
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:self.cordovaCommand.callbackId];
+    }*/
 }
 
 - (void)closeDevice
@@ -270,5 +328,85 @@
     
 }
 
+- (BOOL)isHeadsetPluggedIn {
+    UInt32 routeSize = sizeof (CFStringRef);
+    CFStringRef route;
+    
+    OSStatus error = AudioSessionGetProperty (kAudioSessionProperty_AudioRoute,
+                                              &routeSize,
+                                              &route);
+    
+    /* Known values of route:
+     * "Headset"
+     * "Headphone"
+     * "Speaker"
+     * "SpeakerAndMicrophone"
+     * "HeadphonesAndMicrophone"
+     * "HeadsetInOut"
+     * "ReceiverAndMicrophone"
+     * "Lineout"
+     */
+    
+    if (!error && (route != NULL)) {
+        
+        NSString* routeStr = (NSString*)CFBridgingRelease(route);
+        
+        NSRange headphoneRange = [routeStr rangeOfString : @"Head"];
+        
+        if (headphoneRange.location != NSNotFound) return YES;
+        
+    }
+    
+    return NO;
+}
 
+//ananth
+- (void)connection:(NSURLConnection*)connection didReceiveData:(NSData *)data{
+    
+}
+
+//ananth
+- (void)connection:(NSURLConnection*)connection didFailWithError:(NSError *)error{
+    NSLog(@"Connection failed");
+    [self logError:@"Unable to access API/API server. Connection failed"];
+    currentConnection = nil;
+}
+
+//ananth
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection{
+    currentConnection = nil;
+}
+
+//ananth
+//Method to log error message through an Web API call
+- (void) logError:(NSString *) message{
+    @try{
+        NSString *post = [NSString stringWithFormat:@"Message=%@", message];
+        NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+        NSString *postLength = [NSString stringWithFormat:@"%lu", (long)[postData length]];
+        NSString *authKey = @"AB2EC57B8891ED2DAD4C27D6DF5BD";
+        
+        //create mutable URL request
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+        //Test
+        [request setURL:[NSURL URLWithString:@"http://sait-test.uclanet.ucla.edu/lobbyapi/api/errorlog"]];
+        //QA
+//        [request setURL:[NSURL URLWithString:@"https://api-qa.sa.ucla.edu/lobbyapi/api/errorlog"]];
+        //Prod
+//        [request setURL:[NSURL URLWithString:@"https://api.sa.ucla.edu/lobbyapi/api/errorlog"]];
+        [request setHTTPMethod:@"POST"];
+        [request setValue: postLength forHTTPHeaderField:@"Content-Length"];
+        [request setValue: authKey forHTTPHeaderField:@"Auth-Key"];
+        [request setValue: @"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+        [request setHTTPBody:postData];
+        
+        currentConnection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+
+    }
+    @catch(NSException *exception){
+        //
+        NSLog(@"Unable to write log to remote database");
+    }
+
+}
 @end

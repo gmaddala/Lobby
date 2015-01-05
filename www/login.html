@@ -1,188 +1,554 @@
 <!DOCTYPE html>
 <!--
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-     KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
--->
+ Licensed to the Apache Software Foundation (ASF) under one
+ or more contributor license agreements.  See the NOTICE file
+ distributed with this work for additional information
+ regarding copyright ownership.  The ASF licenses this file
+ to you under the Apache License, Version 2.0 (the
+ "License"); you may not use this file except in compliance
+ with the License.  You may obtain a copy of the License at
+ 
+ http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing,
+ software distributed under the License is distributed on an
+ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ KIND, either express or implied.  See the License for the
+ specific language governing permissions and limitations
+ under the License.
+ -->
 <html>
     <head>
         <meta charset="utf-8" />
         <meta name="format-detection" content="telephone=no" />
         <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
-        <link rel="stylesheet" type="text/css" href="css/blocks.css" />
+        <!-- <link rel="stylesheet" type="text/css" href="css/blocks.css" /> -->
         <link rel="stylesheet" type="text/css" href="css/lobby.css" />
-        <!--<link rel="stylesheet" type="text/css" href="css/iwe.css" />-->
         <link rel="stylesheet" type="text/css" href="css/iwe_icon_fonts.css" />
-        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" />
-        <script type="text/javascript">
+        
+        <style>
             
-            
-            window.onload = function(){
-                //debugger;
-                if(localStorage.getItem("anon") != "true")
-                {
-                    app.initialize();
-                }
-                $("#DeptName").text(localStorage.getItem("deptname"));
-                $("#welcome_text").text("Welcome to " + localStorage.getItem("deptname"));
-                
-                if(localStorage.getItem("allowregistration") == "false")
-                {
-                    $("#div_register").addClass("invisible");
-                }
-                if(localStorage.getItem("anon") == "true")
-                {
-                    $("#anon").removeClass("invisible");
-                    $("#not_anon").addClass("invisible");
-                }
-                else if(localStorage.getItem("rsvp") == "true" || localStorage.getItem("enforcedeligibility") == "true")
-                {
-                    $("#body").removeClass("molecules-bg");
-                    $("#rsvp_eleg").removeClass("invisible");
-                    $("#not_anon").addClass("invisible");
-                    $("#welcome_text_div").addClass("invisible");
-                    $("#event_name").text(localStorage.getItem("appdescription"));
-                }
-                else
-                {
-                    $("#not_anon").removeClass("invisible");
-                }
-            };
+            div.km-content{
+                padding-top:0 !important;
+            }
+        </style>
         
-        
-            </script>
-        
-        <title>Login</title>
-    </head>
+        <script src="js/jquery.min.js"></script>
+        <!--<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>->
+         <!-- <script src="js/angular.min.js"></script> -->
+        <script src="js/kendo.all.min.js"></script>
+        <!--masked input -->
+        <script src="js/jquery.maksedinput.min.js"></script>
+		<!-- Bootstrap -->
+		<link href="css/bootstrap.min.css" rel="stylesheet">  <!-- media="screen" -->
+            <link href="css/lobby-kendoui.css" rel="stylesheet" />
+            <link rel="stylesheet" href="styles/kendo.common.min.css">
+                <link rel="stylesheet" href="styles/kendo.default.min.css">
+                    <link href="styles/kendo.mobile.all.min.css" rel="stylesheet" />
+                    
+                    <link href="css/stylefix.css" rel="stylesheet" />
+                    
+                    <title>Login</title>
+                    </head>
     <body class="molecules-bg" id="body">
-        <div class="container">
-            <div id="dialog-modal" title="Reconfiguring Lobby" style="display: none;">
-                <div class="dialog-modal-container">
-                    Please enter Application Key
-                    <input id="txt_app_key" type="text" class="horizontal-center textbox" style="display:block;"/>
+		<div id="not_anon" class="login-textbox invisible" data-role="view" data-layout="LayoutWithUclaLogo">
+            <div id="div_bruincard" class="absolute-center absolute-center-fix">
+                <p class="bold-instruction extra-large"><span class="SwipeBruinCard">Swipe your BruinCard</span></p>
+            </div>
+            
+            <div id="div_signin_method" class="panel-button-div">
+                <a data-role="button" class="LoginPageButton" href="#viewSigninWithUclaLogon" data-transition="slide"><span><br/>Don't have a BruinCard? Sign in here</span> <span class="ArrowPadding"><i class="icon-circle-arrow-right"></i></span></a> <!-- AlignArrows-->
+                
+                <a data-role="button" class="LoginPageButton" data-click="ClickRegistration" id="btn-register" data-transition="slide"><span><br/>Don't have a UCLA ID? Register here</span> <span class="ArrowPadding"><i class="icon-circle-arrow-right"></i></span></a>
+            </div>
+        </div>
+		<div data-role="view" id="viewSigninWithUclaLogon" data-layout="LayoutWithUclaLogoNoClose" data-show="InitForm" data-transition-end="FocusLoginControl">
+            <div id="div_logon1" class="HorizontalCenter SignInContainer">
+                <span class="LoginInstruction">Please provide your UCLA Logon ID or UID</span>
+                <input id="txt_logon" type="text" class="horizontal-center textbox LoginTextBox" placeholder="Enter your UCLA Logon ID Or UID" style="display:block;"/>
+                <div class="SignInButtons">
+                    <a data-role="button" class="SignInButton big-font" href="#" data-transition="slide:reverse">Cancel</a>
+                    <a data-role="button" class="SignInButton big-font font-bold" data-click="SignInWithUclaLogon">Sign In</a>
                 </div>
             </div>
-            <!--<div class="app">
-                <h1>PhoneGap</h1>
-                <div id="deviceready" class="blink">
-                    <p class="event listening">Connecting to Device</p>
-                    <p class="event received">Device is Ready</p>
+		</div>
+        <div data-role="view" id="viewFormSelection" data-layout="LayoutWithUclaLogoNoClose" data-show="InitForm" data-transition-end="FocusLoginControl">
+            <div id="div_select_form" class="HorizontalCenter SignInContainer">
+                <span class="LoginInstruction">Please select which session you are checking in for</span>
+
+                <div id="div_choose_form" class="panel-button-div">
+                    <a data-role="button" class="LoginPageButton" data-click="StartPreSession" data-transition="slide"><span><br/>Start new session</span> <span class="ArrowPadding"><i class="icon-circle-arrow-right AlignArrows"></i></span></a>
+                    
+                    <a id="singlePostForm" data-role="button" class="LoginPageButton invisible" data-click="StartPostSession" data-transition="slide"><span><br/>Complete post session</span> <span class="ArrowPadding"><i class="icon-circle-arrow-right AlignArrows"></i></span></a>
+                    
+                    <label class="LoginPageButton invisible" id="multPostForms">Complete post session
+                        <select id="multPostFormsDropdown">
+                            
+                        </select>
+                        <a data-role="button" class="LoginPageButton" data-click="StartPostSession" data-transition="slide" style="width:initial !important;"><span><span class="ArrowPadding"><i class="icon-circle-arrow-right AlignArrows"></i></span></a>
+                    </label>
                 </div>
-            </div>-->
-            <div id="div_header" class="header-div">
-                <div>
-                    <img src="img/logo-ucla.png" class="header-logo"/>
-                    <span id="DeptName" class="header-text"></span>
-                    <!--<a href="" id="close-link" onclick="CloseApp(event);">Close</a>-->
-                    <button class="button large link-button" onclick="CloseApp(event);">Close</button>
+            </div>
+		</div>
+        
+		<!-- Anonymous view -->
+		<div data-role="view" id="anon" class="white-button" data-layout="LayoutWithUclaLogo">
+            <div class="xDivAnonymousContinueButton absolute-center">
+                <a data-role="button" class="AnonymousContinueButton" data-click="NavigateToReasonsPage">Continue</a>
+            </div>
+        </div>
+		
+		<!-- RSVP -->
+		<div data-role="splitview" id="rsvp_eleg" class="WhiteBackground fixed-background">
+            <div data-role="pane" id="divSidePane" data-layout="LayoutLeftSideRSVP" class="SplitViewLeftPane">
+                <div data-role="view" data-title="RSVPCheckIn" id="divLeftPaneContainer" class="LeftPaneContainer">
+                    <span populateDeptName="true" class="header-text1"></span>
+                    <ul data-role="listview" class="Divider rsvp-left-pane-font" id="ulRsvpInputTypes">
+                        <li id="liRsvpSwipe"><a data-role="button" data-target="divDetailPane" href="#divCheckInView">Swipe</a></li>
+                        <li id="liRsvpUidSearch"><a data-role="button" data-target="divDetailPane" href="#divSearchView">Search </i></a></li>
+                    </ul>
+                </div>
+                <!-- Split view left side layout -->
+                <div data-role="layout" data-id="LayoutLeftSideRSVP">
+                    <div data-role="header">
+                        <div id="div_header" class="SplitViewLeft">
+                            <div>
+                                <img src="img/logo-ucla.png" class="HeaderLogoSplitView" />
+                                <!--<a data-role="button" class="button large link-button" data-click="DisplayReconfigureLobbyDialog">Close</a> -->
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div data-role="pane" id="divDetailPane" data-layout="LayoutRightSideRSVP" class="RSVPRightHandPane">
+                <div data-role="view" id="divCheckInView" class="RightPaneContainer" data-show="InitRSVPSwipe">
+                    <div class="event-name-container">
+                        <span canDisplayEventName="true" class="event-name"></span>
+                        <span canDisplayLocation="true" class="location-text"></span>
+                    </div>
+                    <div class="rsvp-instruction">
+                        <span>Please swipe the Bruincard</span>
+                    </div>
+                    <div class="RSVPCheckInPadding" id="divCheckInViewContainer">
+                         <div class="row-fluid rsvp-row-padding">
+                             <div class="span4 align-right rsvp-column-indent"><span>Name:</span></div>
+                             <div class="span6"><span id="spanSwipeName" canDisplayName="true"></span></div>
+                         </div>
+                         <div class="row-fluid rsvp-row-padding">
+                             <div class="span4 align-right rsvp-column-indent"><span>UID:</span></div>
+                             <div class="span4"><span id="spanSwipeUid"  canDisplayUID="true"></span></div>
+                         </div>
+                         <div class="row-fluid rsvp-row-padding">
+                             <div class="span4 align-right rsvp-column-indent"><span>Check-in Status:</span></div>
+                             <div class="span6">
+                                 <div displayStatus="Success" class="DisplayNone" id="divSwipeSuccess">
+                                     <span class="status-rounded-corner success">Success</span>
+                                 </div>
+                                 <div displayStatus="Fail" class="DisplayNone override-fail-align" id="divSwipeFail">
+                                 <span class="status-rounded-corner failure">Failed</span><a data-role="button" id="btn_override" class="button large small-button override-button-fix" data-click="OverrideCheckIn">Override</a>
+                                 <!--<span id="spanOverride" class="override-help-container"><a href="" onclick="OverrideHelp(event);" class="OverrideHelpLink"><i class="icon-question-sign OverrideHelpIcon"></i></a></span>-->
+                                <span class="override-instruction help-text">Select 'Override' button to continue checking in attendee</span>
+                                 </div>
+
+                             </div>
+                         </div>
+                         <div class="DisplayNone last-successful-rsvp-checkin" id="divSwipeLastCheckIn">
+                             <span class="rsvp-last-checkin">Last successful check-in: </span><span id="spanSwipeLastCheckIn" class="span-word-wrap" canDisplayLastCheckIn="true"></span>
+                        </div>
+                    </div>
+                </div>
+                <div data-role="view" id="divSearchView" class="right-pane-search-container" data-show="InitRSVPSearch">
+                    <div id="divRSVPSearchContainer"> <!-- class="rsvp-search-container" -->
+                        <div class="event-name-container">
+                            <span canDisplayEventName="true" class="event-name"></span>
+                            <span canDisplayLocation="true" class="location-text"></span>
+                        </div>
+                        <div class="rsvp-search-instruction rsvp-content-font">
+                            <span>Please enter UCLA Logon/UID to search and check-in</span>
+                        </div>
+                        <div class="row-fluid rsvp-search-controls rsvp-content-font">
+                            <div class="span6">
+                                <input id="txt_rsvp_eleg_uid" type="text" class="horizontal-center rsvp-logon-input" placeholder="Enter UCLA Logon/UID" style="display:block;" maxlength="25" onfocus="ResetRSVPInput()"/>
+                            </div>
+                            <div class="span2" id="divSearch">
+                                <a data-role="button" data-click="SearchUser" class="rsvp-search-button">Search</a>
+                            </div>
+                        </div>
+                        <div class="RSVPCheckInPadding" id="divRSVPSearchResults">
+                            <div class="row-fluid rsvp-row-padding">
+                                <div class="span4 align-right rsvp-column-indent"><span>Name:</span></div>
+                                <div class="span6"><span id="spanSearchName" canDisplayName="true"></span></div>
+                            </div>
+                            <div class="row-fluid rsvp-row-padding">
+                                <div class="span4 align-right rsvp-column-indent"><span>UID:</span></div>
+                                <div class="span4"><span id="spanSearchUid" canDisplayUID="true"></span></div>
+                            </div>
+                            <div class="row-fluid rsvp-row-padding rsvp-column-indent">
+                                <div class="span4 align-right"><span>Check-in Status:</span></div>
+                                <div class="span6">
+                                    <div displayStatus="Success" class="DisplayNone" id="divSearchSuccess">
+                                        <span class="status-rounded-corner success">Success</span>
+                                    </div>
+                                    <div displayStatus="Fail" class="DisplayNone override-fail-align" id="divSearchFail">
+                                        <span class="status-rounded-corner failure">Failed</span><a data-role="button" id="btn_override" class="button large small-button override-button-fix" data-click="OverrideCheckIn">Override</a>
+                                        <!--<span id="spanOverride" class="override-help-container"><a href="" onclick="OverrideHelp(event);" class="OverrideHelpLink"><i class="icon-question-sign OverrideHelpIcon"></i></a></span>-->
+                                        <span class="override-instruction help-text">Select 'Override' button to continue checking in attendee</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row-fluid rsvp-checkin-btn-padding">
+                                <div class="span10 text-align-center rsvp-content-font" id="divRSVPCheckIn">
+                                    <a data-role="button" data-click="RSVPCheckIn">Check-In</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="DisplayNone last-successful-rsvp-checkin rsvp-content-font" id="divSearchLastCheckIn">
+                            <span class="rsvp-last-checkin">Last successful check-in: </span><span id="spanSearchLastCheckIn" class="span-word-wrap"  canDisplayLastCheckIn="true"></span>
+                        </div>
+                    </div>
                 </div>
                 
+                <!-- Split view right side layout -->
+                <div data-role="layout" data-id="LayoutRightSideRSVP">
+                    <div data-role="header" class="SplitViewRightHeader">
+                        <div id="div_header" class="SplitViewRightPadding">
+                            <div class="rsvp-signout">
+                                <!-- <a data-role="button" class="button large link-button" data-click="DisplayReconfigureLobbyDialog">Close</a> -->
+                                <a data-role="button" class="button large rsvp-header-button-close" data-click="DisplayReconfigureLobbyDialog"><i class="icon-signout signout"></i></a>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+
             </div>
-            <div id="div_header_cancel" class="header-div invisible">
-                <div>
-                    <a href="" class="cancel-link" onclick="ClickBruincard();">Cancel</a>
+        </div>
+        
+        <!-- Register page controls -->
+        <div data-role="view" data-layout="LayoutWithUclaLogoNoClose" style="height:75%;" data-init="InitRegisterControls" data-show="SetDefaultRegisterFocus" id="divRegistrationView"> <!--  class="div-white-body" -->
+
+            <div class="RegistrationContainer horizontal-center" id="divRegistration">
+                <div class="div-white-body-interior">
+                    <ul data-role="listview">
+                        <li>
+                            <label>
+                                <span class="Label">First Name<span class="RequiredField">*</span></span><input id="txt_firstname" type="text" class="textbox RemoveBoxShadow" onkeyup="CapitalizeFirstLetter(this)" placeholder="First (Required)" style="display:block;"/> <span class="SpanError DisplayNone"><i class="icon-warning-sign WarningSign"></i></span>
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <span class="Label">Last Name<span class="RequiredField">*</span></span><input id="txt_lastname" type="text" class="textbox RemoveBoxShadow" placeholder="Last (Required)" style="display:block;"/><span class="SpanError DisplayNone"><i class="icon-warning-sign WarningSign"></i></span>
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <span class="Label">Email Address</span><input id="txt_email" type="text" class="textbox RemoveBoxShadow" placeholder="yourname@domain.com" style="display:block;"/><span class="SpanError DisplayNone"><i class="icon-warning-sign WarningSign"></i></span>
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <span class="Label">Mobile Phone</span><input id="txt_phone" type="tel" class="textbox RemoveBoxShadow" placeholder="(999)999-9999" style="display:block;" maxlength="13"/><span class="SpanError DisplayNone"><i class="icon-warning-sign WarningSign"></i></span>
+                            </label>
+                        </li>
+                        <!--<li>
+                            <label>
+                                <!-- having UID as 'number' type field interferes with masking 
+                                <span class="Label">UID</span><input id="txt_uid" type="tel" class="textbox RemoveBoxShadow" placeholder="Enter 9 digit UID" style="display:block;" maxlength="9"/><span class="SpanError DisplayNone"><i class="icon-warning-sign WarningSign"></i></span>
+                            </label>
+                        </li>-->
+                    </ul>
+                    
+                    <!-- <button class="button large horizontal-center big-blue-button" onclick="Register();" style="">Register</button> -->
+                    <!-- <a data-role="button" class="button large horizontal-center big-blue-button" data-click="Register" style="">Register</a> -->
                 </div>
-                
             </div>
-            <div id="welcome_text_div" class="center-text">
-                <span id="welcome_text" class="clear-margin-padding header-text"></span>
+            <div class="CenterAlign RegisterButtonContainer">
+                <a data-role="button" class="SignInButton big-font" data-click="NavigateToLoginPage" data-transition="slide:reverse">Cancel</a>
+                <a data-role="button" data-click="SubmitRegistrationForm" class="SignInButton font-bold big-font">Register</a>
             </div>
-            <div id="not_anon" class="login-textbox invisible">
-                <div id="div_bruincard" class="absolute-center">
-                    <p class="bold-instruction"><i class="icon-credit"></i> <span style="margin-left:2%;">Swipe your Bruincard</span></p>
+        </div>
+        
+        <!-- Reasons page controls -->
+        <div id="questions-body" data-role="view" data-title=" " data-layout="checklayout" data-show="DisplayResponses" class="WhiteBackground">
+            <div class="ReasonsContainer">
+                <span class="span-question-text DisplayNone" style="margin:0;" id="spanMsgAnyQuestion">Please answer the following questions:</span>
+                <span class="span-question-text DisplayNone" style="margin:0;" id="spanMsgNoQuestion">Please wait...</span>
+                <ul data-role="listview" data-style="inset" id="ulResponses" data-type="group" class="response-container-lt-2Q">
+                </ul>
+                <div class="row-fluid FormIndentation" id="divQuestions" style="padding-left:2%;">
+                    
                 </div>
-                <!--
-                <div>
-                    <img src="img/DAY2_SHOT1_SCULPTUREGARDEN_login.jpg" class="login-image" />
-                </div>
-                 -->
-                <div id="div_logon" class="gray-div horizontal-center" style="display:none;">
-                    <input id="txt_logon" type="text" class="horizontal-center textbox" placeholder="Enter your UCLA Logon ID" style="display:block;"/>
-                    <button class="button large horizontal-center long-button" style="" onclick="SignIn($('#txt_logon').val());">Sign In</button>
-                </div>
-                
-                <div id="div_signin_method" class="panel-button-div">
-                    <button class="button large panel-button horizontal-center" onclick="ClickLogon();" style="border-bottom:0;">Press here to use your UCLA Logon ID <span class="arrow">></span></button>
-                    <button class="button large panel-button horizontal-center" onclick="ClickRegistration();">Press here to register <span class="arrow">></span></button>
-                    <!--
-                    <span style="margin-right:1%;">Check in with:</span>
-                    <span class="group">
-                        <a id="btn_bruincard" class="button primary active" onclick="ClickBruincard();">Bruincard</a>
-                        <a id="btn_logon" class="button" onclick="ClickLogon();">UCLA Logon ID</a>
-                    </span>-->
-                </div>
-                <!--<div style="margin-top:20px;" id="div_register">
-                    Don't have a UCLA Logon? <a href="registration.html" class="link-gold">Register</a>
-                </div>-->
-                
-            </div>
-            <div id="anon" class="invisible center-text white-button">
-                <button class="button large horizontal-center long-button absolute-center" style="margin:auto;" onclick="window.open('reasons.html', '_self');">Continue</button>
-            </div>
-            <div id="rsvp_eleg" class="invisible div-white-body">
-                <div class="center-text">
-                    <span class="clear-margin-padding header-text">Swipe Bruincard or enter UID to check in</span>
-                </div>
-                <div class="gray-div horizontal-center">
-                    <table id="event_table" class="form-table">
-                            <tr>
-                                <td class="form-table-label">Event:</td>
-                                <td id="event_name"></td>
-                            </tr>
-                            <tr>
-                                <td class="form-table-label">Name:</td>
-                                <td id="student_name"></td>
-                            </tr>
-                            <tr>
-                                <td class="form-table-label">Status:</td>
-                                <td id="">
-                                    <span id="success" class="invisible">SUCCESS</span>
-                                    <span id="failed" class="invisible">FAILED
-                                        <a id="btn_override" class="button large small-button" onclick="CheckIn(localStorage.getItem('uid'), true, localStorage.getItem('cardswiped'));">Override</a>
-                                            <span><a href="" class="link-blue text-right" onclick="OverrideHelp(event);"><small>What is this?</small></a></span>
-                                            </span>
-                                </td>
-                            </tr>
-                    </table>
-                    <!--
-                    <p><span class="rsvp-label">Event:</span><span id="event_name"/></p>
-                    <p><span class="rsvp-label">Name:</span><span id="student_name"/></p>
-                    <p>
-                        <span class="rsvp-label">Status:</span>
-                        <span id="success" class="invisible">SUCCESS</span>
-                        <span id="failed" class="invisible">FAILED
-                            <a id="btn_override" class="button small">Override</button>
-                            <span><a href="http://wwww.ucla.edu" class="link-blue text-right"><small>What is this?</small></a></span>
-                        </span>
-                        
-                    </p>
-                    -->
-                    <input id="txt_rsvp_eleg_uid" type="text" class="horizontal-center textbox" placeholder="Enter UID" style="display:block;"/>
-                    <button class="button large horizontal-center long-button" style="" onclick="CheckIn($('#txt_rsvp_eleg_uid').val(), false);">Check In</button>
+                <div style="padding-left:6%;">
+                    <div id="divContinueButton" class="ContinueButtonPadding"><a data-role="button" id="continueBtn" class="button1" data-click="SubmitReasons">Continue</a></div>
                 </div>
             </div>
         </div>
-        <script type="text/javascript" src="phonegap.js"></script>
-        <script type="text/javascript" src="js/blocks.js"></script>
-        <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>-->
-        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
         
+        <div id="divCompleteResponseView" data-role="view" data-title="" data-layout="ResponseDetailsLayout" data-show="DisplayQuestionResponses" class="WhiteBackground">
+            <div class="ResponseDetailContainer">
+                <span id="spanQuestionText"></span>
+                
+            </div>
+        </div>
+        
+        <div id="LocalListView" data-role="view" data-show="mobileListViewIncremental" data-layout="ResponseDetailsLayout" class="WhiteBackground">
+            <div class="ResponseDetailContainer">
+                <span id="spanQuestionText1" class="ListViewQuestion"></span><span id="spanListViewResponse"></span>
+            </div>
+            <div id="divFilterWrap" class="WhiteBackground">
+                <input type="search" id="txtSearchOrg" placeholder="Search.." onkeyup="SearchOrg()"></input>
+                <span id="spanClear" onclick="ClearSearch()"></span>
+            </div>
+            
+            <div id="divScrollableListView">
+                <ul id="local-filterable-listview1"></ul>
+            </div>
+        </div>
+        
+        <!--Thank You page -->
+        <div data-role="view" data-layout="LayoutWithUclaLogoWithoutClose" id="divThankYouView" data-show="InitializeThankYou">
+            <div class="div-white-body center-text WhiteBodyFix thankyou-container">
+                <span class="clear-margin-padding header-text" style="color:#000" id="thankyoumsg"></span>
+            </div>
+            
+        </div>
+        
+        <!-- Layout with Ucla logo : page header with close and UCLA logo, department name and welcome message-->
+		<div data-role="layout" data-id="LayoutWithUclaLogo">
+			<div data-role="header">
+                <div id="div_header" class="header-div" >
+					<div>
+						<!--<img src="img/logo-ucla.png" class="header-logo HeaderLogoFix" />
+						<span populateDeptName="true" class="header-text header-text-fix"></span>-->
+						<a data-role="button" class="button large header-button-close" data-click="DisplayReconfigureLobbyDialog"><i class="icon-signout signout"></i></a>
+					</div>
+					
+				</div>
+				<div id="welcome_text_div" class="center-text welcome-container">
+                    <p class="welcome-container-1">
+                        <img src="img/logo-ucla.png" class="header-logo HeaderLogoFix ucla-logo-center" />
+                        <span populateDeptName="true" class="header-text header-text-fix dept-name"></span>
+                    </p>
+					<span populateWelcomeMessage="true" class="clear-margin-padding header-text"></span>
+				</div>
+			</div>
+		</div>
+        <!-- Layout with Ucla logo and Welcome text without Close button; Used in Register and SignIn pages -->
+		<div data-role="layout" data-id="LayoutWithUclaLogoNoClose">
+			<div data-role="header" style="position:relative">
+                <div id="div_header" class="header-div" >
+					<div>
+						<!-- <img src="img/logo-ucla.png" class="header-logo HeaderLogoFix" />
+						<span populateDeptName="true" class="header-text"></span> -->
+					</div>
+					
+				</div>
+				<div id="welcome_text_div" class="center-text welcome-container">
+                    <p class="welcome-container-1">
+                        <img src="img/logo-ucla.png" class="header-logo HeaderLogoFix ucla-logo-center" />
+                        <span populateDeptName="true" class="header-text header-text-fix dept-name"></span>
+                    </p>
+					<span populateWelcomeMessage="true" class="clear-margin-padding header-text"></span>
+				</div>
+			</div>
+		</div>
+		<!-- Layout without Ucla logo; just 'cancel' link in the header -->
+		<div data-role="layout" data-id="LayoutWithoutUclaLogo">
+			<div data-role="header">
+                <div id="div_header_cancel" class="header-div">
+                    <a href="#not_anon" class="cancel-link cancelLinkFix" data-role="button">Cancel</a>
+                    <div>
+                    </div>
+                </div>
+				<div id="welcome_text_div1" class="center-text WelcomeText">
+					<span populateWelcomeMessage="true" class="clear-margin-padding header-text"></span>
+				</div>
+			</div>
+		</div>
+		<!-- Layout with Welcome message; -->
+		<!-- When trying to hide the welcome message from LayoutWithUclaLogo layout, the padding is maintained to the top of content. So, creating new layout. -->
+		<div data-role="layout" data-id="LayoutWithoutWelcomeMessage">
+			<div data-role="header">
+                <div id="div_header" class="header-div" >
+					<div>
+						<img src="img/logo-ucla.png" class="header-logo HeaderLogoFix" />
+						<span populateDeptName="true" class="header-text"></span>
+						<!--<a data-role="button" class="button large link-button" data-click="DisplayReconfigureLobbyDialog">Close</a> -->
+                        <a data-role="button" class="button large header-button-close" data-click="DisplayReconfigureLobbyDialog"><i class="icon-signout signout"></i></a>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+		
+        <!-- Layout with Cancel button - used in Register page -->
+		<div data-role="layout" data-id="LayoutRegisterCancelOnly">
+            <div data-role="header">
+                <div id="div_register_header" class="header-div" >
+					<a data-role="button" class="cancel-link cancelLinkFix" data-click="DisplayLogin">Cancel</a> <!-- href="login.html" -->
+				</div>
+            </div>
+        </div>
+        <!-- used by Reasons page -->
+        <div data-role="layout" data-id="ResponseDetailsLayout">
+			<div data-role="header" style="background-color:#3284bf;position: absolute;">
+                <div id="div_header_cancel" class="header-div header-div-fix">
+                    <div class="back-btn-div">
+                        <a class="cancel-link cancelLinkFix" data-role="button" data-click="NavigateToReasonSummary"><i class="icon-chevron-left back-icon"></i>Back</a>
+					</div>
+					<div style="text-align:right;position:relative;float:right;width:7%">
+                        <a class="cancel-link cancelLinkFix" data-role="button" data-click="CollectResponse">Done</a>
+                    </div>
+                    <div style="clear:both;"></div>
+				</div>
+			</div>
+        </div>
+        <!-- used by Reasons page -->
+        <div data-role="layout" data-id="checklayout">
+            <header data-role="header">
+                <div data-role="header" style="background-color:#3284bf">
+                    <div id="div_header_cancel" class="header-div">
+                        <div class="cancel-btn-div">
+                            <!-- Call DisplayLogin method in registration.js -->
+                            <a class="cancel-link cancelLinkFix" data-role="button" data-click="DisplayLogin">Cancel</a>
+                        </div>
+                        <div style="clear:both;"></div>
+                    </div>
+                    
+                </div>
+            </header>
+        </div>
+        
+        <!-- Layout used by ThankYou page -->
+		<div data-role="layout" data-id="LayoutWithUclaLogoWithoutClose">
+			<div data-role="header">
+                <div id="div_header" class="header-div" >
+					<div>
+						<!--<img src="img/logo-ucla.png" class="header-logo HeaderLogoFix" />
+						<span populateDeptName="true" class="header-text"></span> -->
+					</div>
+				</div>
+                <div id="welcome_text_div" class="center-text welcome-container">
+                    <p class="welcome-container-1">
+                        <img src="img/logo-ucla.png" class="header-logo HeaderLogoFix ucla-logo-center" />
+                        <span populateDeptName="true" class="header-text header-text-fix dept-name"></span>
+                    </p>
+
+				</div>
+			</div>
+		</div>
+
+		<!-- modal dialog to reconfigure lobby -->
+		<div data-role="modalview" id="dialog-modal">
+			<div data-role="header">
+				<div data-role="navbar" class="TitleWithRoundedCorners">
+					<span data-title="view-title">Open New Kiosk</span>
+				</div>
+			</div>
+            <div class="horizontal-center ReconfigureLobby">
+                <!--               <div>
+                 <span>Reconfigure Lobby</span>
+                 </div> -->
+<!--                <span class="text-align-cener">Enter the new kiosk access key</span>-->
+                <div id="divAppKey" class="inner-addon right-addon xcenter-align-div"> <!--class="inner-addon right-addon" -->
+<!--                    <input id="txtAccessKey" type="text" MaxLength="6" class="RemoveBoxShadow exit-access-key no-border" placeholder="Access Key"/>-->
+
+                    <ul data-role="listview" id="ulReconfigureApp" class="reconfigure-app">
+                        <li>
+                            <label>New kiosk access key                     <input id="txtAccessKey" type="text" MaxLength="6" class="RemoveBoxShadow exit-access-key" placeholder="Access Key"/>                            <i class="glyphicon icon-warning-sign WarningSign DisplayNone"></i>
+                            </label>
+                        </li>
+                        <li id="liLocations" class="invisible">
+                            <label id="lbl-locations">Select a Location
+                                <select id="ddl-locations" class="exit-locations">
+                                </select>
+                            </label>
+                        </li>
+                    </ul>
+
+                </div>
+                <div class="DisplayNone" id="divAppKeyError">
+                    <i class="icon-warning-sign WarningSign"></i><span class="RequiredField">Please enter a valid application key</span>
+                </div>
+
+			</div>
+            <div data-role="footer">
+                <div class="ReconfigureLobby ContentWithRoundedCorners iOSLikeContainer">
+                    <a data-role="button" class="modal-double-button-left ReconfigureLobbyButton iOSLikeButtonLeft" data-click="HideReconfigureLobbyDialog"> Cancel</a>
+                    <a data-role="button" class="modal-double-button-right important ReconfigureLobbyButton SubmitButton iOSLikeButtonRight" data-click="ValidateAppKey"> Submit</a>
+                </div>
+            </div>
+		</div>
+		
+		<!-- modal to display alert messages -->
+		<div data-role="modalview" id="modalviewAlert" style="width: 50%;">
+            <div data-role="header">
+                <div data-role="navbar" class="TitleWithRoundedCorners">
+                    <span>Alert</span>
+                    <!--<a data-click="HideNativeDialog" data-role="button" data-align="right" style="background:none;color:#3284bf;">Close</a> -->
+                </div>
+            </div>
+            <div class="modalContent">
+                <span id="spanAlertMessage" class="AlertText"></span>
+            </div>
+            <div data-role="footer">
+                <div class="ContentWithRoundedCorners iOSLikeOkContainer">
+                    <a data-role="button" class="modal-double-button-left iOSLikeOkButton" data-click="HideNativeDialog">OK</a>
+                </div>
+            </div>
+		</div>
+        <!-- modal to display alert message for failed card swipe -->
+		<div data-role="modalview" id="modalviewAlertCardReader" style="width: 50%;">
+            <div data-role="header">
+                <div data-role="navbar" class="TitleWithRoundedCorners">
+                    <span>Alert</span>
+                    <!-- <a data-click="FailedCardSwipe" data-role="button" data-align="right" style="background:none;color:#3284bf;">Close</a> -->
+                </div>
+            </div>
+            <div class="modalContent">
+                <span id="spanAlertMessageCardReader" class="AlertText"></span>
+            </div>
+            <div data-role="footer">
+                <div class="ContentWithRoundedCorners iOSLikeOkContainer">
+                    <a data-role="button" class="modal-double-button-left iOSLikeOkButton" data-click="FailedCardSwipe">OK</a>
+                </div>
+            </div>
+		</div>
+		<!-- modal to display flash message -->
+		<div data-role="modalview" id="modalviewFlash" style="width: 50%;">
+            <div data-role="header">
+                <div data-role="navbar" class="TitleWithRoundedCorners">
+                    <span>Error</span>
+                </div>
+            </div>
+			<div class="modalContent ContentWithRoundedCorners">
+				<span id="spanFlashMessage" class="AlertText"></span>
+			</div>
+		</div>
+		
+        <script type="text/javascript" src="phonegap.js"></script>
+		
+        <!-- <script type="text/javascript" src="js/blocks.js"></script> -->
         <script type="text/javascript" src="js/login.js"></script>
+<!--        Index.js -- needed to call relaunch kiosk-->
+        <script type="text/javascript" src="js/index-1.js"></script>
+        <!-- <script type="text/javascript" src="js/login.min.js"></script> -->
         <script type="text/javascript" src="js/global.js"></script>
+        <!-- <script type="text/javascript" src="js/blocks.js"></script> -->
+        <script type="text/javascript" src="js/registration.js"></script>
+		<script type="text/javascript" src="js/reasons.js"></script>
+        <script type="text/javascript" src="js/thankyou.js"></script>
+        <!--Bootstrap-->
+		<script src="js/bootstrap.min.js"></script>
+        
+        <script type="text/javascript">
+            window.onload = Initialize();
+            window.onerror = function(msg, url, line){
+                           //alert('login.html Error:' + msg + " -- " + line);
+                           };
+            </script>
         
         
     </body>

@@ -22,118 +22,154 @@
         <meta charset="utf-8" />
         <meta name="format-detection" content="telephone=no" />
         <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
-        <link rel="stylesheet" type="text/css" href="css/blocks.css" />
+        <!-- <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" /> -->
+		<!-- Removed device-width and device-height for iOS 7-->
+		<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, target-densitydpi=device-dpi" />
+        <!-- <link rel="stylesheet" type="text/css" href="css/blocks.css" /> -->
         <link rel="stylesheet" type="text/css" href="css/lobby.css" />
-        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" />
+		<link href="css/stylefix.css" rel="stylesheet" />
+        <!-- <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" /> -->
         
+        <link href="styles/kendo.common.min.css" rel="stylesheet" />
+        <link href="styles/kendo.default.min.css" rel="stylesheet" />
+        <link href="styles/kendo.mobile.all.min.css" rel="stylesheet" />
+        
+        <link href="css/lobby-kendoui.css" rel="stylesheet" />
+		<link href="css/iwe_icon_fonts.css" rel="stylesheet" />		
+        <script src="js/jquery.min.js"></script>
+        <!-- <script src="js/angular.min.js"></script> -->
+        <script src="js/kendo.all.min.js"></script>
+		<script src="js/jquery.maksedinput.min.js"></script>
+		<!-- Bootstrap -->
+		<link href="css/bootstrap.min.css" rel="stylesheet"> <!-- media="screen" -->
+		
         <title>Lobby</title>
     </head>
     <body class="scrollable">
-        <div class="container">
-            <div id="div_header" class="header-div">
-                <div><img src="img/logo-ucla.png" class="header-logo"/><span id="NameText" class="header-text"></span></div>
-                
+	
+	<div id="questions-body" data-role="view" data-title=" " data-layout="checklayout" data-show="DisplayResponses" >
+        <div style="padding-left:10px;">
+        <span class="span-question-text" style="margin:0;">Please answer the following questions:</span>
+	        <ul data-role="listview" data-style="inset" id="ulResponses" data-type="group">
+			</ul>
+            <div class="row-fluid FormIndentation" id="divQuestions" style="padding-left:15px;">
+			  
+			</div>
+            <div style="padding-left:15px;">
+                <div id="divContinueButton" class="ContinueButtonPadding"><a data-role="button" id="continueBtn" class="button" data-click="SubmitReasons">Continue</a></div>
             </div>
-            <div class="div-white-body scrollable">
-                <div class="div-white-body-interior">
-                    <div id="questions-body">
-                    <!--<form class="form">
-                        <div class="control reasons-form" id="div_reason_list">
-                            <label id="i-4" style="margin-bottom:3%;"><span id="prompt">Please provide the reason(s) for your visit.</span></label>
-                        </div>
-                        <div class="control">
-                     
-                                </div>
-                    </form>-->
-                    </div>
-                    <button class="button large horizontal-center" style="width:90%;display:block;margin-bottom:40px;" onclick="SubmitReasons();">Continue</button>
-                </div>
-                
             </div>
         </div>
-        <script type="text/javascript" src="phonegap.js"></script>
-        <script type="text/javascript" src="js/reasons.js"></script>
-        <script type="text/javascript" src="js/blocks.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
-        <script type="text/javascript" src="js/global.js"></script>
-        <script type="text/javascript">
-            window.onload = function(){
-                
-                $('#prompt').text(localStorage.getItem("question"));
-                /*
-                if(typeof localStorage.getItem("firstname") != "undefined" && typeof localStorage.getItem("lastname") != "undefined" && typeof localStorage.getItem("firstname") != "object" && typeof localStorage.getItem("lastname") != "object" )
-                {
-                    $("#NameText").text("Welcome, " + localStorage.getItem("firstname") + " " + localStorage.getItem("lastname"));
-                }
-                 */
-                var obj = JSON.parse(localStorage.getItem("questions"));
-                var q_array = obj.Questions;
-                /*
-                 if(typeof reason_array == "undefined")
-                 {
-                 SubmitNoReasons();
-                 }*/
-                
-                for(var i = 0; i < q_array.length; i++) {
-                    var question = q_array[i];
-                    $('#questions-body').append('<form class="form"><div class="control reasons-form" id="div_reason_list_' + question.ID +'"><label id="i-4" style="margin-bottom:3%;"><span id="' + question.ID +'_prompt"></span></label></div><div class="control">');
-                    $('#' + question.ID + '_prompt').text(question.QuestionText);
-                    
-                    var inputtype = "checkbox";
-                    
-                    
-                    if(question.ResponsesType == "1")
-                    {
-                        inputtype = "radio";
-                    }
-                    else if(question.ResponsesType == "2")
-                    {
-                        inputtype = "checkbox";
-                    }
-                    else if(question.ResponsesType == "3")
-                    {
-                        inputtype = "selectbox";
-                        SetUpComboBox(question.ID);
-                    }
-                    else if (question.ResponsesType == "4")
-                    {
-                        inputtype = "textbox";
-                        $('#div_reason_list_' + question.ID).append('<label><input type="' + inputtype +'" aria-labelledby="i-4" id="' + question.Responses[0].ID  + '" name="txt_' + question.ID + '" class="horizontal-center textbox small-textbox" style="width:93% !important;"></label>');
-                    }
-                    
-                    
-                    for(var j = 0 ; j < question.Responses.length ; j++)
-                    {
-                        var response = question.Responses[j];
-                        
-                        if(inputtype == "checkbox" || inputtype == "radio")
-                        {
-                            if(response.OpensTextbox)
-                            {
-                                $('#div_reason_list_' + question.ID).append('<label><input type="' + inputtype +'" aria-labelledby="i-4" id="' + response.ID + '" name="reasons" class="other">' + response.Text + '</label>');
-                                
-                                $('#div_reason_list_' + question.ID).append('<input id="' + response.ID + '_txt" type="text" class="horizontal-center textbox small-textbox invisible" maxlength="1000"/>');
-                            }
-                            else
-                            {
-                                $('#div_reason_list_' + question.ID).append('<label><input type="' + inputtype +'" aria-labelledby="i-4" id="' + response.ID  + '" name="reasons">' + response.Text + '</label>');
-                            }
-                        }
-                        else if(inputtype == "selectbox")
-                        {
-                            $('#combobox_' + question.ID).append('<option value="' + response.ID + '">' + response.Text + '</option>');
-                        }
-                    }
-                }
-                
-                $(".other").click(function (e) {
-                                        var id = $(this).attr('id');
-                                        $('#' + id + "_txt").removeClass("invisible");
-                                        
-                                        });
-            }
+        <div id="divCompleteResponseView" data-role="view" data-title="" data-layout="ResponseDetailsLayout" data-show="DisplayQuestionResponses">
+			<div class="ResponseDetailContainer">
+				<span id="spanQuestionText"></span>
+				
+			</div>
+		</div>
+
+		<div id="LocalListView" data-role="view" data-show="mobileListViewIncremental" data-layout="ResponseDetailsLayout">
+            <div class="ResponseDetailContainer">
+                <span id="spanQuestionText1" class="ListViewQuestion"></span><span id="spanListViewResponse"></span>
+            </div>
+			<div id="divFilterWrap">
+				<input type="search" id="txtSearchOrg" placeholder="Search.." onkeyup="SearchOrg()"></input>
+                <span id="spanClear" onclick="ClearSearch()"></span>
+			</div>
+			
+			<div id="divScrollableListView">
+				<ul id="local-filterable-listview1"></ul>
+			</div>
+		</div>
+		
         
+        <div data-role="view" data-layout="LayoutWithUclaLogo" id="divThankYouView" data-show="InitializeThankYou">
+            <div class="div-white-body center-text WhiteBodyFix">
+                <span class="clear-margin-padding header-text" style="color:#000" id="thankyoumsg"></span>
+            </div>
+            
+        </div>
+        
+		<div data-role="layout" data-id="checklayout">
+            <header data-role="header">
+                <div data-role="header" style="background-color:#3284bf">
+                    <div id="div_header_cancel" class="header-div">
+                        <div class="cancel-btn-div">
+                            <a class="cancel-link cancelLinkFix" data-role="button" data-click="CancelResponses">Cancel</a>
+                        </div>
+                        <div style="clear:both;"></div>
+                    </div>
+                    
+                </div>
+            </header>
+        </div>
+        
+		<div data-role="layout" data-id="ResponseDetailsLayout">
+			<div data-role="header" style="background-color:#3284bf">
+			   <div id="div_header_cancel" class="header-div">
+                    <div class="cancel-btn-div">
+                        <a class="cancel-link cancelLinkFix" data-role="button" href="#">Cancel</a>
+					</div>
+					<div style="text-align:right;position:relative;float:right;width:7%">
+                        <a class="cancel-link cancelLinkFix" data-role="button" data-click="CollectResponse">Done</a>
+                    </div>
+                    <div style="clear:both;"></div>
+				</div>
+			</div>
+        </div>
+		
+        <!-- Layout with Ucla logo -->
+		<div data-role="layout" data-id="LayoutWithUclaLogo">
+			<div data-role="header" style="background-color: #3284bf">
+                <div id="div_header" class="header-div" >
+					<div>
+						<img src="img/logo-ucla.png" class="header-logo HeaderLogoFix" />
+						<span id="DeptName" class="header-text"></span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- modal to display alert messages -->
+		<div data-role="modalview" id="modalviewAlert" class="ReasonsAlert">
+				<div data-role="header">
+					<div data-role="navbar" class="TitleWithRoundedCorners">
+						<span>Alert</span>
+						<!--<a data-click="HideNativeDialog" data-role="button" data-align="right" style="background:none;color:#3284bf;">Close</a> -->
+					</div>
+				</div>
+                    <div class="modalContent ContentWithRoundedCorners FlexFix" id="divContent">
+                        <span id="spanAlertMessage" class="AlertText"></span>
+                    </div>
+
+                <div data-role="footer">
+                    <div class="ContentWithRoundedCorners iOSLikeOkContainer">
+                        <a data-role="button" class="modal-double-button-left iOSLikeOkButton" data-click="HideNativeDialog">OK</a>
+                    </div>
+                </div>
+		</div>
+		
+        
+        <!-- ** blocks.js interfering when trying to use app variable of kendo ui after the page load **-->
+		<!-- <script type="text/javascript" src="js/blocks.js"></script> -->        
+		
+		<!-- <script type="text/javascript" src="js/reasons.js"></script> -->
+		<script type="text/javascript" src="js/reasons.js"></script>
+        <script type="text/javascript" src="js/thankyou.js"></script>
+        <script type="text/javascript" src="js/global.js"></script>
+		<script type="text/javascript" src="phonegap.js"></script>
+        <!-- TODO: Remove index.js reference, if not needed -->
+		<script type="text/javascript" src="js/index-1.js"></script>
+		
+		<!--Bootstrap-->
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/jquery.maksedinput.min.js"></script>
+        <script type="text/javascript">
+            app.initialize();
+        </script>
+		
+        <script type="text/javascript">
+			
+            window.onload = Initialize();
+		
         </script>
     </body>
 </html>

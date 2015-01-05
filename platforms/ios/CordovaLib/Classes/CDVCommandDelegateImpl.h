@@ -26,11 +26,17 @@
 @interface CDVCommandDelegateImpl : NSObject <CDVCommandDelegate>{
     @private
     __weak CDVViewController* _viewController;
-    NSRegularExpression *_callbackIdPattern;
+    NSRegularExpression* _callbackIdPattern;
     @protected
     __weak CDVCommandQueue* _commandQueue;
     BOOL _delayResponses;
 }
 - (id)initWithViewController:(CDVViewController*)viewController;
 - (void)flushCommandQueueWithDelayedJs;
+//Added by Ananth
+//Issue: when upgraded XCode to 6.1 and upgraded cordova to 4.0.0, build error showed up in - (BOOL)execute:(CDVInvokedUrlCommand*)command method in Classes > MainViewController.m file
+//Fix: Added to fix the build error in MainViewController.m file in - (BOOL)execute:(CDVInvokedUrlCommand*)command method
+//Reference: response by Łukasz Ksawery Rozbicki in http://stackoverflow.com/questions/25976033/ios-compile-error-no-visible-interface-for-cdvcommanddelegateimpl-declares-t
+//tiny url for the above link - http://tiny.cc/ah74nx
+- (BOOL)execute:(CDVInvokedUrlCommand*)command;
 @end
