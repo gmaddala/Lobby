@@ -94,8 +94,8 @@
         
 		<!-- Anonymous view -->
 		<div data-role="view" id="anon" class="white-button" data-layout="LayoutWithUclaLogo">
-            <div class="xDivAnonymousContinueButton absolute-center">
-                <a data-role="button" class="AnonymousContinueButton" data-click="NavigateToReasonsPage">Continue</a>
+            <div class="DivAnonymousContinueButton absolute-center">
+                <a data-role="button" class="Anonymousbutton km-widget km-button" data-click="NavigateToReasonsPage">Continue</a>
             </div>
         </div>
 		
@@ -125,7 +125,7 @@
             <div data-role="pane" id="divDetailPane" data-layout="LayoutRightSideRSVP" class="RSVPRightHandPane">
                 <div data-role="view" id="divCheckInView" class="RightPaneContainer" data-show="InitRSVPSwipe">
                     <div class="event-name-container">
-                        <span canDisplayEventName="true" class="event-name"></span>
+                        <span canDisplayEventName="true" class="event-name"></span><br><br>
                         <span canDisplayLocation="true" class="location-text"></span>
                     </div>
                     <div class="rsvp-instruction">
@@ -155,14 +155,16 @@
                              </div>
                          </div>
                          <div class="DisplayNone last-successful-rsvp-checkin" id="divSwipeLastCheckIn">
-                             <span class="rsvp-last-checkin">Last successful check-in: </span><span id="spanSwipeLastCheckIn" class="span-word-wrap" canDisplayLastCheckIn="true"></span>
+                             <span class="rsvp-last-checkin">Last successful check-in: </span><span class="span-word-wrap" id="swipeCurrentTimeStamp" currentTimeStamp="true">
+                             </span><br>
+                             </span><span class="span-word-wrap" id="swipeLastCheckIn" canDisplayLastCheckIn="true"></span>
                         </div>
                     </div>
                 </div>
                 <div data-role="view" id="divSearchView" class="right-pane-search-container" data-show="InitRSVPSearch">
                     <div id="divRSVPSearchContainer"> <!-- class="rsvp-search-container" -->
                         <div class="event-name-container">
-                            <span canDisplayEventName="true" class="event-name"></span>
+                            <span canDisplayEventName="true" class="event-name"></span><br><br>
                             <span canDisplayLocation="true" class="location-text"></span>
                         </div>
                         <div class="rsvp-search-instruction rsvp-content-font">
@@ -205,7 +207,10 @@
                             </div>
                         </div>
                         <div class="DisplayNone last-successful-rsvp-checkin rsvp-content-font" id="divSearchLastCheckIn">
-                            <span class="rsvp-last-checkin">Last successful check-in: </span><span id="spanSearchLastCheckIn" class="span-word-wrap"  canDisplayLastCheckIn="true"></span>
+                            <span class="rsvp-last-checkin">Last successful check-in:
+                            </span><span class="span-word-wrap" id="searchCurrentTimeStamp" currentTimeStamp="true">
+                            </span><br>
+                            </span><span class="span-word-wrap" id="searchLastCheckIn" canDisplayLastCheckIn="true"></span>
                         </div>
                     </div>
                 </div>
@@ -457,12 +462,12 @@
 
                     <ul data-role="listview" id="ulReconfigureApp" class="reconfigure-app">
                         <li>
-                            <label>New kiosk access key                     <input id="txtAccessKey" type="text" MaxLength="6" class="RemoveBoxShadow exit-access-key" placeholder="Access Key"/>                            <i class="glyphicon icon-warning-sign WarningSign DisplayNone"></i>
+                            <label>New Kiosk Access Key                     <input id="txtAccessKey" type="text" MaxLength="6" class="RemoveBoxShadow exit-access-key" placeholder="Access Key"/>                            <i class="glyphicon icon-warning-sign WarningSign DisplayNone"></i>
                             </label>
                         </li>
                         <li id="liLocations" class="invisible">
                             <label id="lbl-locations">Select a Location
-                                <select id="ddl-locations" class="exit-locations">
+                                <select id="ddl-locations" class="exit-locations" onchange="RemoveWaterMarkText(this)">
                                 </select>
                             </label>
                         </li>

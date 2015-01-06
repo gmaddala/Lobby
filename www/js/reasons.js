@@ -912,7 +912,7 @@ function BuildQuestionsAndResponses(q_array, e){
                     buttongroupInside += str;
                 }
                 
-                divResponse = '<div class="span4" id="divResponse'+ question.ID + '" style="padding-top:1.5%;"><ul data-role="buttongroup" data-index="0" id="ul-' + question.ID + '">' + buttongroupInside + '</ul></div>';
+                divResponse = '<div class="span4" id="divResponse'+ question.ID + '" style="padding-top:1.5%;"><ul data-role="buttongroup" style="float:right; padding-right: 9%;" data-index="0" id="ul-' + question.ID + '">' + buttongroupInside + '</ul></div>';
                 
             }
             

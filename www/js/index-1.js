@@ -110,7 +110,8 @@ function RedirectToLoginPage(data, fromLoginPage)
            $('#liLocations').removeClass('invisible');
            //$('#div-locations').empty();
            //clear all the locations that were already populated
-           $('#ddl-locations').empty();
+           $('#ddl-locations').empty().addClass("water-mark-text");
+           $('#ddl-locations').append($('<option></option>').val('-1').html('Please select'));
            for(var i = 0 ; i < location_array.length ; i++)
            {
                $('#ddl-locations').append($('<option></option>').val(location_array[i].ID).html(location_array[i].Name));
@@ -202,4 +203,18 @@ function AccessKeyHelp(e)
     //showDialog('Access Key is a system-generated passkey assigned to your event. You can find the Access Key on the Event Kiosk page of the staff portal.');
     showNativeDialog('Access Key is a system-generated passkey assigned to your event. You can find the Access Key on the Event Kiosk page of the staff portal.');
     
+}
+
+//Add/remove watermark text style to locations dropdown
+function RemoveWaterMarkText(ctl){
+    var selectedVal =  $(ctl).val();
+
+    if(selectedVal == -1){
+        $(ctl).addClass("water-mark-text");
+    }
+    else{
+        $(ctl).removeClass("water-mark-text");
+        $(ctl).removeClass("Error");
+    }
+
 }

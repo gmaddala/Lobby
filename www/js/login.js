@@ -206,7 +206,7 @@ function SignIn(logon, isCardreader){
 
     var isRSVP = false;
     var submitIntake = false; //if no reasons list, immediately submit intake
-    var qjson = JSON.parse(localStorage.getItem("questions"));
+    //var qjson = JSON.parse(localStorage.getItem("questions"));
     var allqjson = JSON.parse(localStorage.getItem("allquestions"));
     if(allqjson.HasQuestions == false)
     {
@@ -434,13 +434,17 @@ function CheckIn(logon, isoverride, isCardreader){
                     {
                         $('#success').removeClass('invisible');
                         $('#failed').addClass('invisible');
-
+           
+                    var d = new Date();
+                    var timestamp = d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
 
                         if(isManualRSVPCheckIn){
                             $('#divSearchSuccess').removeClass('DisplayNone');
                             $('#divSearchFail').addClass('DisplayNone');
                             $('#divSearchLastCheckIn').removeClass('DisplayNone');
-                            $('#spanSearchLastCheckIn').text(fullName);
+                            //$('#spanSearchLastCheckIn').text(fullName);
+                            $('#searchLastCheckIn').text(fullName);
+                            $('#searchCurrentTimeStamp').text(timestamp);
                                if(isoverride)
                                {
                                     $('#divSearchSuccess span').text('Override Successful');
@@ -455,7 +459,9 @@ function CheckIn(logon, isoverride, isCardreader){
                             $('#divSwipeSuccess').removeClass('DisplayNone');
                             $('#divSwipeFail').addClass('DisplayNone');
                             $('#divSwipeLastCheckIn').removeClass('DisplayNone');
-                            $('#spanSwipeLastCheckIn').text(fullName);
+                            //$('#spanSwipeLastCheckIn').text(fullName);
+                            $('#swipeLastCheckIn').text(fullName);
+                            $('#swipeCurrentTimeStamp').text(timestamp);
                             DisplayRSVPCheckInButton(false);
                            if(isoverride)
                            {
@@ -611,21 +617,55 @@ function ClickRegistration()
 }
 
 function ValidateAppKey(){
-	  var key = $("#txtAccessKey").val();
-	  if(key == null || key == "")
-	  {//highlight the error field
+    var key = $("#txtAccessKey").val();
+    var isLocVisible = false;
+    if ($("#ddl-locations").is(":visible"))
+    {
+        isLocVisible = true;
+        
+    }
+    
+    var isValid = true;
+    if(key == null || key == "")
+    {//highlight the error field
           $("#txtAccessKey").addClass("Error");
-	  }
+          isValid = false;
+    }
+    else
+    {
+        $("#txtAccessKey").removeClass("Error");
+    }
+    if (isLocVisible)
+    {
+    var loc = $("#ddl-locations").val();
+    if (loc == null || loc == "" || loc == "-1")
+    {
+        $("#ddl-locations").addClass("Error");
+        isValid = false;
+    }
+    else
+    {
+        $("#ddl-locations").removeClass("Error");
+    }
+    }
+    
+    if (isValid)
+    {
+        app.stopCardReader();
+        LaunchKiosk(true);
+    }
+    
 	  else
 	  {
-          $("#txtAccessKey").removeClass("Error");
+          
+          //$("#txtAccessKey").removeClass("Error");
           //$('#divAppKeyError').addClass("DisplayNone");
 //          $("#txtAccessKey").next().addClass("DisplayNone");
-          app.stopCardReader();
+          //app.stopCardReader();
 
           //localStorage.setItem("key", "null");
           //call launchkiosk method to launch the new kiosk / relaunch existing kiosk
-          LaunchKiosk(true);
+          //LaunchKiosk(true);
           //window.open("index.html", "_self");
 	  }
 }
@@ -725,8 +765,12 @@ function ResetLobby(){
     app1.navigate('#' + initialView);
     
     //reset RSVP related fields when the app is reset
-    $('#spanSearchLastCheckIn').text("");
-    $('#spanSwipeLastCheckIn').text("");
+    //$('#spanSearchLastCheckIn').text("");
+    //$('#spanSwipeLastCheckIn').text("");
+    $('#swipeLastCheckIn').text("");
+    $('#searchLastCheckIn').text("");
+    $('#searchCurrentTimeStamp').text("");
+    $('#swipeCurrentTimeStamp').text("");
 };
 
 //not used
@@ -785,7 +829,7 @@ function InitForm(){
                 }
             }
         }
-        $('span[canDisplayLocation="true"]').text(locationName);
+        $('span[canDisplayLocation="true"]').text("Location: " + locationName);
         //app1.navigate("#rsvp_eleg");
     }
     else
