@@ -142,7 +142,7 @@ function HandleMultipleForms()
     {
         $("#multPostForms").removeClass("invisible");
         
-        
+        $("#multPostFormsDropdown").empty();
         for(var i = 0 ; i < postFormsList.length ; i++)
         {
             $("#multPostFormsDropdown").append("<option value='" + postFormsList[i].IntakeID + "'>" +  postFormsList[i].LastUpdated + "</option>");
@@ -161,6 +161,7 @@ function StartPreSession()
 
 function StartPostSession()
 {
+    localStorage.setItem("preformid", 3);
     var postFormsList = JSON.parse(localStorage.getItem("postformidlist"));
     var formID;
     if(postFormsList.length == 1)
@@ -187,11 +188,15 @@ function StartPostSession()
 
 function SetQuestions(formid)
 {
+    
     var forms = JSON.parse(localStorage.getItem("allquestions"));
+    
     for(var i = 0 ; i < forms.Questions.length ; i++)
     {
+        
         if(forms.Questions[i].ID.trim() == formid)
         {
+            //alert(i);
             localStorage.setItem("questions", JSON.stringify(forms.Questions[i]));
             return;
         }
@@ -327,18 +332,24 @@ function SetStudentData(jsonobj, submitIntake)
                 {
                     localStorage.setItem("postformidlist", JSON.stringify(jsonobj.Data.FormsToDisplay.PostEvaluationForms)); //jsonarray
                     localStorage.setItem("preformid", jsonobj.Data.FormsToDisplay.PreEvaluationFormID);
+                    //alert("login pre formid = " + localStorage.getItem("preformid"));
                     
                     if(jsonobj.Data.FormsToDisplay.PostEvaluationForms.length > 0)
                     {
+                        //alert("Multiple");
                         HandleMultipleForms();
                     }
                     else
                     {
+                        //alert("Single");
                         StartPreSession(); //no post eval forms, go directly to pre eval
                     }
                 }
                 else
                 {
+                    localStorage.setItem("preformid", 0);//no application form for cpo lobby
+                    //localStorage.setItem("preformid", jsonobj.Data.FormsToDisplay.PreEvaluationFormID);
+                    
                     if(!submitIntake)
                     {
     //                    window.open("reasons.html", "_self");
@@ -403,7 +414,19 @@ function CheckIn(logon, isoverride, isCardreader){
            },
            success: function(data){
                //alert(data);
-               var jsonobj = JSON.parse(data);
+           var jsonobj = JSON.parse(data);
+           
+           if(jsonobj.Status == 500)
+           {
+           endLoading();
+           //case when the Event is not active
+           showNativeDialog("Event is Not Active. Please enter a valid key");
+           //window.open("index.html", "_self");
+           DisplayReconfigureLobbyDialog();
+           return;
+           }
+           
+           
                 if(jsonobj.Data.UserInfo.IsValidLogon == false)
                 {
                     //showDialog("Not valid logon");
@@ -435,39 +458,45 @@ function CheckIn(logon, isoverride, isCardreader){
                         $('#success').removeClass('invisible');
                         $('#failed').addClass('invisible');
 
-
-                        if(isManualRSVPCheckIn){
-                            $('#divSearchSuccess').removeClass('DisplayNone');
-                            $('#divSearchFail').addClass('DisplayNone');
-                            $('#divSearchLastCheckIn').removeClass('DisplayNone');
-                            $('#spanSearchLastCheckIn').text(fullName);
-                               if(isoverride)
-                               {
-                                    $('#divSearchSuccess span').text('Override Successful');
-                               }
-                               else{
-                                    $('#divSearchSuccess span').text('Check-in Successful');
-                               }
-                            DisplayRSVPCheckInButton(false);
-                        }
-                        else
-                        {
-                            $('#divSwipeSuccess').removeClass('DisplayNone');
-                            $('#divSwipeFail').addClass('DisplayNone');
-                            $('#divSwipeLastCheckIn').removeClass('DisplayNone');
-                            $('#spanSwipeLastCheckIn').text(fullName);
-                            DisplayRSVPCheckInButton(false);
-                           if(isoverride)
-                           {
-                               $('#divSwipeSuccess span').text('Override Successful');
-                           }
-                           else{
-                               $('#divSwipeSuccess span').text('Check-in Successful');
-                           }
-                        }
+           var d = new Date();
+           var timestamp = d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
            
-                        ClearRSVPFields(true);
-                    }
+           if(isManualRSVPCheckIn){
+           $('#divSearchSuccess').removeClass('DisplayNone');
+           $('#divSearchFail').addClass('DisplayNone');
+           $('#divSearchLastCheckIn').removeClass('DisplayNone');
+           //$('#spanSearchLastCheckIn').text(fullName);
+           $('#searchLastCheckIn').text(fullName);
+           $('#searchCurrentTimeStamp').text(timestamp);
+           if(isoverride)
+           {
+           $('#divSearchSuccess span').text('Override Successful');
+           }
+           else{
+           $('#divSearchSuccess span').text('Check-in Successful');
+           }
+           DisplayRSVPCheckInButton(false);
+           }
+           else
+           {
+           $('#divSwipeSuccess').removeClass('DisplayNone');
+           $('#divSwipeFail').addClass('DisplayNone');
+           $('#divSwipeLastCheckIn').removeClass('DisplayNone');
+           //$('#spanSwipeLastCheckIn').text(fullName);
+           $('#swipeLastCheckIn').text(fullName);
+           $('#swipeCurrentTimeStamp').text(timestamp);
+           DisplayRSVPCheckInButton(false);
+           if(isoverride)
+           {
+           $('#divSwipeSuccess span').text('Override Successful');
+           }
+           else{
+           $('#divSwipeSuccess span').text('Check-in Successful');
+           }
+           }
+           
+           ClearRSVPFields(true);
+           }
                     else
                     {
                         $('#failed').removeClass('invisible');
@@ -611,23 +640,57 @@ function ClickRegistration()
 }
 
 function ValidateAppKey(){
-	  var key = $("#txtAccessKey").val();
-	  if(key == null || key == "")
-	  {//highlight the error field
-          $("#txtAccessKey").addClass("Error");
-	  }
-	  else
-	  {
-          $("#txtAccessKey").removeClass("Error");
-          //$('#divAppKeyError').addClass("DisplayNone");
-//          $("#txtAccessKey").next().addClass("DisplayNone");
-          app.stopCardReader();
-
-          //localStorage.setItem("key", "null");
-          //call launchkiosk method to launch the new kiosk / relaunch existing kiosk
-          LaunchKiosk(true);
-          //window.open("index.html", "_self");
-	  }
+    var key = $("#txtAccessKey").val();
+    var isLocVisible = false;
+    if ($("#ddl-locations").is(":visible"))
+    {
+        isLocVisible = true;
+        
+    }
+    
+    var isValid = true;
+    if(key == null || key == "")
+    {//highlight the error field
+        $("#txtAccessKey").addClass("Error");
+        isValid = false;
+    }
+    else
+    {
+        $("#txtAccessKey").removeClass("Error");
+    }
+    if (isLocVisible)
+    {
+        var loc = $("#ddl-locations").val();
+        if (loc == null || loc == "" || loc == "-1")
+        {
+            $("#ddl-locations").addClass("Error");
+            isValid = false;
+        }
+        else
+        {
+            $("#ddl-locations").removeClass("Error");
+        }
+    }
+    
+    if (isValid)
+    {
+        app.stopCardReader();
+        LaunchKiosk(true);
+    }
+    
+    else
+    {
+        
+        //$("#txtAccessKey").removeClass("Error");
+        //$('#divAppKeyError').addClass("DisplayNone");
+        //          $("#txtAccessKey").next().addClass("DisplayNone");
+        //app.stopCardReader();
+        
+        //localStorage.setItem("key", "null");
+        //call launchkiosk method to launch the new kiosk / relaunch existing kiosk
+        //LaunchKiosk(true);
+        //window.open("index.html", "_self");
+    }
 }
 
 function NavigateToReasonsPage(){
@@ -725,9 +788,12 @@ function ResetLobby(){
     app1.navigate('#' + initialView);
     
     //reset RSVP related fields when the app is reset
-    $('#spanSearchLastCheckIn').text("");
-    $('#spanSwipeLastCheckIn').text("");
-};
+    //$('#spanSearchLastCheckIn').text("");
+    //$('#spanSwipeLastCheckIn').text("");
+    $('#swipeLastCheckIn').text("");
+    $('#searchLastCheckIn').text("");
+    $('#searchCurrentTimeStamp').text("");
+    $('#swipeCurrentTimeStamp').text("");};
 
 //not used
 function ClickLogon(){
@@ -785,7 +851,7 @@ function InitForm(){
                 }
             }
         }
-        $('span[canDisplayLocation="true"]').text(locationName);
+        $('span[canDisplayLocation="true"]').text("Location: " + locationName);
         //app1.navigate("#rsvp_eleg");
     }
     else

@@ -24,7 +24,7 @@ function getAPIUrl()
     //QA
 //    return "https://api-qa.sa.ucla.edu/lobbyapi";
     //Prod
-//    return "https://api.sa.ucla.edu/lobbyapi";
+    //return "https://api.sa.ucla.edu/lobbyapi";
     
     
 }

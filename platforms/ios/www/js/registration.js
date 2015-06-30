@@ -177,7 +177,7 @@ function Register()
 	{
 		phoneNumber = phoneNumberFormatted.replace("(", "").replace(")", "").replace("-","");
 		//if($('#txt_phone').val().length != 10 || !$('#txt_phone').val().match(numbers))
-		if(phoneNumber.length != 10 || !phoneNumber.match(numbers))
+		if(phoneNumber.length != 10) //|| !phoneNumber.match(numbers))
 		{
 			hasError = true;
 			//$('#phone_error').text('Please enter valid Phone Number');

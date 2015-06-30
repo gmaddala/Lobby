@@ -35,8 +35,15 @@ function LaunchKiosk(fromLoginPage)
                    var jsonobj = JSON.parse(data);
                    if(jsonobj.Status == 200)
                    {
-                   //RedirectToLoginPage(jsonobj);
+                   
+                   if (jsonobj.Data.Active == true)
+                   {
                         RedirectToLoginPage(data, fromLoginPage);
+                   }
+                   else
+                   {
+                   showNativeDialog("Application is Not Active. Please enter a valid key");
+                   }
                    }
                    else
                    {

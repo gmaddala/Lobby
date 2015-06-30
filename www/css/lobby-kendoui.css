@@ -7,6 +7,18 @@
     display:block;
 }
 
+
+/*This is for Anonymous Continue button for LGBTS lobby */
+.Anonymousbutton{
+    margin-top:20px;
+    margin-bottom:20px;
+    margin-left:auto;
+    margin-right:auto;
+    width:70%;
+    display:block;
+    background-color: white !important;
+}
+
 .ReasonsDropDown{
 height: 50vh;
 overflow-y: scroll !important;

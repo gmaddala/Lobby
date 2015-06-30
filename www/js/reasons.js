@@ -125,6 +125,7 @@ function SubmitReasons(e)
 				}
 		}
 	}
+    
     if(canDelay){
 //        alert('delay..');
         setTimeout(function(){SubmitIntake(myJsonObj);}, 300);
@@ -232,9 +233,17 @@ function ValidateReasons2(q_array){
         {
             if (responseContainer.children().length == 1)
             {
+                
+                //input control
+                var txtBox = responseContainer.find('input');
+                
+                if (txtBox.length == 0)// || (txtBox.length == 1 && responseContainer.find($("input[id^='txtother']")).length > 0))
+                {
+                    //alert("Hi");
                 //button group
                 if(responseContainer.find('ul'))
                 {
+                    //alert(responseContainer.children().data("kendoMobileButtonGroup").current().attr('id'));
                     if(responseContainer.children().data("kendoMobileButtonGroup").current().attr('id') == undefined)
                     {
                         responseContainer.find('ul').parent().addClass("Error");
@@ -249,8 +258,8 @@ function ValidateReasons2(q_array){
                         SetUserResponseForQuestionId(question.ID, responseContainer.children().data("kendoMobileButtonGroup").current().attr('id'), "");
                     }
                 }
-                //input control
-                var txtBox = responseContainer.find('input');
+                }
+                
                 if(txtBox.length != 0)
                 {
                     response = txtBox.val();
@@ -357,13 +366,19 @@ function SetUpIntakeJSONObj()
     },
     LocationID: localStorage.getItem("selLocationID"),
     CardSwiped: localStorage.getItem("cardswiped"),
-    IntakeID: localStorage.getItem("intakeID")
+    IntakeID: localStorage.getItem("intakeID"),
+    PreEvaluationFormID: localStorage.getItem("preformid")
     };
     
-    console.log("email: " + myJsonObj.Email)
+    //console.log("email: " + myJsonObj.Email)
     
     return myJsonObj;
 
+}
+
+function DummyRedirect(e)
+{
+    
 }
 
 function SubmitIntake(myJsonObj)
@@ -380,10 +395,43 @@ function SubmitIntake(myJsonObj)
            loading();
            },
            success: function(data){
-                //reset user responses on Reasons page
-                ResetUserResponses();
+           
+           
+           var obj = jQuery.parseJSON(data);
+           
+           if(obj.Status == 406)
+           {
+           //case when the Event/Lobby is not active
+           showNativeDialog("Application is Not Active. Please enter a valid key");
+           //window.open("index.html", "_self");
+           DisplayReconfigureLobbyDialog();
+           }
+           
+           else
+           {
+           //reset user responses on Reasons page
+           ResetUserResponses();
+           
+           localStorage.setItem("intakeID", obj.Data);
+           //alert(obj.Data);
 				//window.open("thankyou.html", "_self");
-                app1.navigate("#divThankYouView", "slide:left");
+           //alert("reasons pre formid = " + myJsonObj.PreEvaluationFormID);
+           if (myJsonObj.PreEvaluationFormID != 1)
+           {
+           app1.navigate("#divThankYouView", "slide:left");
+           }
+           else
+           {
+           SetQuestions(2);
+           localStorage.setItem("preformid", 2)
+           endLoading();
+           //redirect to questions-body1 div and redirect back to questions-body so that the data-show event fires
+           app1.navigate("#questions-body1");
+           app1.navigate("#questions-body");
+           
+           }
+           }
+           
            },
            error: function (jqXHR, textStatus, errorThrown) {
            showNativeDialog("An error has occurred. Please try again." + jqXHR.responseText);
@@ -393,7 +441,7 @@ function SubmitIntake(myJsonObj)
            },
            complete: function(){
 				endLoading();
-           }
+           },
            
            });
 }
@@ -669,10 +717,21 @@ function ClearSearch(){
     AddOrgs("");
 }
 
+
+
 function DisplayResponses(e){
+    
+    var divid = $("#questions-body");
+    
+    var divQuestion = $("#divQuestions");
+    
+    var divResponses = $("#ulResponses");
+    
     //add delay before displaying all the response controls to prevent accidental touch on response controls
-    $('#divQuestions').addClass('DisplayHidden');
-    $('#ulResponses').addClass('DisplayHidden');
+    
+    divQuestion.addClass('DisplayHidden');
+    
+    divResponses.addClass('DisplayHidden');
     
     eventQuestions = JSON.parse(localStorage.getItem("questions"));
     var q_array = new Array();
@@ -687,14 +746,14 @@ function DisplayResponses(e){
         $('#spanMsgNoQuestion').addClass("DisplayNone");
         $('div.ReasonsContainer span').first().addClass('DisplayNone');
         $('#divContinueButton').addClass('DisplayNone');
-//        setTimeout(function(){
+        //        setTimeout(function(){
         
-//                   $('#continueBtn').trigger('click');
-//                   app1.navigate("#divThankYouView", "slide:left");
-//                   }, 1200);
+        //                   $('#continueBtn').trigger('click');
+        //                   app1.navigate("#divThankYouView", "slide:left");
+        //                   }, 1200);
         
         setTimeout(function(){$('#continueBtn').trigger('click'); app1.navigate("#divThankYouView", "slide:left");}, 50);
-
+        
     }
     else{
         $('#divContinueButton').removeClass('DisplayNone');
@@ -702,13 +761,13 @@ function DisplayResponses(e){
     
     if (q_array.length < 3)
     { //Display one-column layout like display if there're only 2 questions or less. This will be needed for most of the lobby which has single question
-        $('#divQuestions').empty();
+        divQuestion.empty();
         window.setTimeout(function(){
-                          $('#ulResponses').removeClass('DisplayHidden')
+                          divResponses.removeClass('DisplayHidden')
                           }, 400);
-
+        
         //reset the response container
-        $("#ulResponses").empty();
+        divResponses.empty();
         //Hide the instruction
         $('div.ReasonsContainer span').first().addClass('DisplayNone');
         
@@ -717,7 +776,7 @@ function DisplayResponses(e){
             var question = q_array[i];
             $('#questions-body div[data-role="content"]').append('<div class="control reasons-form" id="div_reason_list_' + question.ID +'"><label id="i-4" style="margin-bottom:3%;"><span id="' + question.ID +'_prompt"></span></label></div><div class="control">');
             
-            $("#ulResponses").append("<li><span class='span-question-text'>" + question.QuestionText + "</span><div><ul id='ul_" + question.ID + "'></ul></div></li>");
+            divResponses.append("<li><span class='span-question-text'>" + question.QuestionText + "</span><div><ul id='ul_" + question.ID + "'></ul></div></li>");
             
             var inputtype = GetResponseControlType(question.ResponsesType);//"checkbox";
             var responses = question.Responses;
@@ -730,7 +789,7 @@ function DisplayResponses(e){
                 e.view.element.find("#ul_" + question.ID).kendoMobileListView({
                                                                               //dataSource: responses,
                                                                               //template: "id: #: id# with text: #: text#",
-                                                                              template: "<label>#: Text# <input type='" + inputtype + "' name='input-" + question.ID + "' id='#:ID#' class='textbox-#:OpensTextbox#'/></label>",
+                                                                              template: "<label>#: Description# <input type='" + inputtype + "' name='input-" + question.ID + "' id='#:ID#' class='textbox-#:OpensTextbox#'/></label>",
                                                                               });
                 
                 e.view.element.find("#ul_" + question.ID).data("kendoMobileListView").append(responses);
@@ -770,51 +829,51 @@ function DisplayResponses(e){
                     {
                         txtId = responses[index].ID;
                         $("input[id='" + txtId + "']").change(function(){
-                                if(this.checked){
-                                    $("#ul_" + question.ID).after("<div class='OtherDiv'><input type='text' id='" + txtId + "-txtother'/></div>");
-    //                $('div.OtherDiv input').val(responseText);
-                                }
-                                else{
-                                    $('div.OtherDiv').remove();
-                                }
-                              });
+                                                              if(this.checked){
+                                                              $("#ul_" + question.ID).after("<div class='OtherDiv'><input type='text' id='" + txtId + "-txtother'/></div>");
+                                                              //                $('div.OtherDiv input').val(responseText);
+                                                              }
+                                                              else{
+                                                              $('div.OtherDiv').remove();
+                                                              }
+                                                              });
                     }
                 }
                 if(inputtype == "radio"){
                     txtId = responses[index].ID;
                     if(responses[index].OpensTextbox == true){
-                    $("input[id='" + txtId + "']").change(function(){
-                          if(this.checked){
-                          $("#ul_" + question.ID).after("<div class='OtherDiv'><input type='text' id='" + txtId + "-txtother'/></div>");
-                          //                $('div.OtherDiv input').val(responseText);
-                          }
-                          else{
-//                          $('div.OtherDiv').remove();
-                          }
-                      });
+                        $("input[id='" + txtId + "']").change(function(){
+                                                              if(this.checked){
+                                                              $("#ul_" + question.ID).after("<div class='OtherDiv'><input type='text' id='" + txtId + "-txtother'/></div>");
+                                                              //                $('div.OtherDiv input').val(responseText);
+                                                              }
+                                                              else{
+                                                              //                          $('div.OtherDiv').remove();
+                                                              }
+                                                              });
                     }
                     
                     if(responses[index].OpensTextbox == false){
-                    //remove Other textbox if any other options are selected
-                    $("input[id='" + txtId + "']").change(function(){
-                                                          if(this.checked){
-                                                          $('div.OtherDiv').remove();
-                                                          }
-                                                          });
+                        //remove Other textbox if any other options are selected
+                        $("input[id='" + txtId + "']").change(function(){
+                                                              if(this.checked){
+                                                              $('div.OtherDiv').remove();
+                                                              }
+                                                              });
                     }
                 }
             }
         }//for
         
         //Continue button
-//        $("#ulResponses").append('<li><a data-role="button" id="continueBtn" class="button">Continue</a></li>');
-//        e.view.element.find("#continueBtn").kendoMobileButton({click: SubmitReasons});
+        //        $("#ulResponses").append('<li><a data-role="button" id="continueBtn" class="button">Continue</a></li>');
+        //        e.view.element.find("#continueBtn").kendoMobileButton({click: SubmitReasons});
     }
     else{//Build questions and responses if there're more than 2 questions
         //Display the instruction
-        $('#ulResponses').empty();
+        divResponses.empty();
         window.setTimeout(function(){
-                          $('#divQuestions').removeClass('DisplayHidden')
+                          divQuestion.removeClass('DisplayHidden')
                           }, 400);
         
         $('div.ReasonsContainer span').first().removeClass('DisplayNone');
@@ -825,9 +884,15 @@ function DisplayResponses(e){
 var canReconstructListView = false;
 //Method to build questions and response summary where # of questions > 2
 function BuildQuestionsAndResponses(q_array, e){
+    //alert("BuildQuestionsAndResponses");
+    //var e = $("#questions-body");
+    var divid = $("#questions-body");
+    var divQuestion = $("#divQuestions");
+    var divResponses = $("#ulResponses");
+    
     var defaultResponseText = "Required";
     //check if questions are already constructed
-    var canConstructQuestions = $("#divQuestions").children().length == 0;
+    var canConstructQuestions = divQuestion.children().length == 0;
     var userResponses = JSON.parse(localStorage.getItem("CollectedResponses"));
     
     //if user response is not available, clear the responses that were already made
@@ -842,7 +907,8 @@ function BuildQuestionsAndResponses(q_array, e){
         console.log('canConstructQuestions..' + canConstructQuestions);
     if (canConstructQuestions){
         //Reset listview control and collected user response
-        ResetListViewControls();
+            ResetListViewControls();
+        
         var collectedResponses = [], response, responseId;
         
         for(var i = 0; i < q_array.length; i++) {
@@ -874,6 +940,7 @@ function BuildQuestionsAndResponses(q_array, e){
             {//radio button
                 inputtype = "radio";
                 divResponse = '<div class="span4 ResponseContainer" id="divResponse'+ question.ID + '" displayListView="false"><span id="spanResponseText' + question.ID + '" class="Response Required">' + defaultResponseText + '</span> <span class="response-detail-chevron-container"><i class="icon-chevron-sign-right response-detail-chevron"></i></span></div>';
+                //alert("divResponse - " + divResponse);
             }
             else if(question.ResponsesType == "2")
             {//checkbox
@@ -917,7 +984,12 @@ function BuildQuestionsAndResponses(q_array, e){
             }
             
             divQuestionAndResponse = divQuestionText + divResponse;
-            $('#divQuestions').append(divContainer.replace('{0}', divQuestionAndResponse));
+            //alert("divQuestionAndResponse - " + divQuestionAndResponse);
+            
+            var searchedDiv = divQuestion;
+            var appendedDiv = searchedDiv.append(divContainer.replace('{0}', divQuestionAndResponse));
+            //alert(searchedDiv);
+            //alert(appendedDiv);
             
             if(question.ResponsesType != "4" && question.ResponsesType != "5" && question.ResponsesType != "10")
             {//Display all the responses for the question if the response type is not textbox/numeric textbox or button group
@@ -935,14 +1007,21 @@ function BuildQuestionsAndResponses(q_array, e){
             
             
             var responses = question.Responses;
-            e.view.content.append($('<ul ></ul>'));
-            
             var viewID = e.view.id;
+            //alert(viewID);
+            //alert(e.id);
+            e.view.content.append($('<ul ></ul>'));
+            //alert(e.view);
+            //alert(e.view.content);
+            
+            
+            
             
             if(inputtype == "radio" || inputtype == "checkbox" || inputtype == "selectbox")
             {
                 //e.view.element.find("#btnResponseDetail_" + question.ID).kendoMobileButton(); //, question:12 | {click: ShowResponsePage}
                 //$("#btnResponseDetail_" + question.ID).addClass('ResponseDetailButton');
+                //alert(inputtype);
             }
             else if(inputtype == "textbox")
             {
@@ -977,6 +1056,7 @@ function BuildQuestionsAndResponses(q_array, e){
     else{
         //load responses for the questions
         var question, responseType, responseText;
+        //alert(q_array.length);
         for(var i = 0; i < q_array.length; i++) {
             question = q_array[i];
             responseType = GetResponseControlType(question.ResponsesType);
@@ -1531,18 +1611,21 @@ function CollectResponse(e)
             else{
                 $('div.OtherDiv input').blur();
             }
-        }			
+        }
+        
+        var divid = "#questions-body";
+            
         //canSaveResponse is false when no reason is provided when "Other" reason is selected
         if (canSaveResponse){
             if(isOther){
                 //if Other textbox is displayed, add a 200ms delay before completing the transition with slide effect
                 //Note: If Slide transition is not needed, delay is not needed
-                setTimeout(function(){ app1.navigate("#questions-body", "slide:left"); }, 200);
+                setTimeout(function(){ app1.navigate(divid, "slide:left"); }, 200);
             }
             else
             {
                 //adding transition effect stops the page from navigating when the keypad is displayed on iOS7
-                app1.navigate("#questions-body", "slide:left");
+                app1.navigate(divid, "slide:left");
             }
         }
     }
@@ -1575,20 +1658,27 @@ function getOrganizations(){
     }
     //populate the question text
     $('#spanQuestionText1').text(questionText);
-    
     return responseForQuestion;
 }
 
 
 //method added on SPA integration
 function NavigateToReasonSummary(){
-    app1.navigate("#questions-body");//, "slide:left");
+    //app1.navigate("#questions-body");//, "slide:left");
+    var divid = "#questions-body";
+    
+    if ($("#questions-body1").is(":visible"))
+    {
+        divid = "#questions-body1";
+    }
+    app1.navigate(divid);
 }
 
 //Reset user responses to display blank form on reasons page load
 function ResetUserResponses(){
     //empty all the questions and responses that were already displayed
     $("#divQuestions").empty();
+    $("#divQuestions1").empty();
     //Reset CollectedResponses
     localStorage.setItem("CollectedResponses", JSON.stringify(""));
 }

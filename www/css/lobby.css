@@ -598,8 +598,13 @@ div.gray-div + div.gray-div{
 
 .panel-button-div{
     position:fixed;
- /*   bottom:0;  */
+ /*   bottom:0;*/
     bottom: 10vh;
+    width:100%;
+}
+
+.posteval-button-div{
+    position:fixed;
     width:100%;
 }
 

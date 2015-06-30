@@ -1,4 +1,6 @@
 function InitializeThankYou(){
+    //app1.navigate("#questions-body");
+    //return;
     clearStudentInfo();
     
     if(localStorage.getItem("confirmation") != null && localStorage.getItem("confirmation") != "null")

@@ -261,11 +261,12 @@ div.gray-div{
 }
 
 .DivAnonymousContinueButton{
-/*	background-color: #fff;*/
-	height:50%;
-    position:fixed;
-    width:100%;
-    bottom:0;
+    /*	background-color: #fff;
+     height:50%;
+     position:fixed;
+     width:100%;
+     bottom:0;*/
+    margin-left : 25%;
 }
 
 .AnonymousContinueButton
@@ -1027,7 +1028,7 @@ font-size:large;
   padding-right: 3%;
 }
 .RSVPCheckInPadding{
-    padding-left:15%;
+    padding-left:5%;
     padding-top:8%;
     font-size: 1.2em;
 }
@@ -1217,6 +1218,7 @@ font-size:large;
 .exit-locations{
     font-size: 100% !important;
     padding-bottom: 2%;
+    height: 1.7em;
 }
 
 .big-font > span.km-text{
@@ -1293,4 +1295,8 @@ font-size:large;
     width: 40%;
     vertical-align: middle;
     float:left;
+}
+
+.water-mark-text{
+    color: #ccc;
 }

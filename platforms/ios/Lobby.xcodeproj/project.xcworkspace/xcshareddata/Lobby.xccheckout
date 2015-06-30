@@ -11,9 +11,7 @@
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>4C9455508043CA779D5FE1D26167F448CB7C702E</key>
-		<string>https://bitbucket.org/cjwfries/lobby-kiosk-app.git</string>
-		<key>B24FACB1-6A3C-41B5-8721-CDC68FF67F05</key>
-		<string>https://bitbucket.org/cjwfries/lobby-kiosk-app.git</string>
+		<string>https://github.com/UCLA-SAIT/Lobby.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>platforms/ios/Lobby.xcodeproj</string>
@@ -21,11 +19,9 @@
 	<dict>
 		<key>4C9455508043CA779D5FE1D26167F448CB7C702E</key>
 		<string>../../../..</string>
-		<key>B24FACB1-6A3C-41B5-8721-CDC68FF67F05</key>
-		<string>../../../../../lobby</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://bitbucket.org/cjwfries/lobby-kiosk-app.git</string>
+	<string>https://github.com/UCLA-SAIT/Lobby.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
@@ -38,15 +34,7 @@
 			<key>IDESourceControlWCCIdentifierKey</key>
 			<string>4C9455508043CA779D5FE1D26167F448CB7C702E</string>
 			<key>IDESourceControlWCCName</key>
-			<string>CPOLobby</string>
-		</dict>
-		<dict>
-			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
-			<string>public.vcs.git</string>
-			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>B24FACB1-6A3C-41B5-8721-CDC68FF67F05</string>
-			<key>IDESourceControlWCCName</key>
-			<string>lobby</string>
+			<string>GiriLobbyDev</string>
 		</dict>
 	</array>
 </dict>
