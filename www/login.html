@@ -75,7 +75,7 @@
 		</div>
         <div data-role="view" id="viewFormSelection" data-layout="LayoutWithUclaLogoNoClose" data-show="InitForm" data-transition-end="FocusLoginControl">
             <div id="div_select_form" class="HorizontalCenter SignInContainer">
-                <span class="LoginInstruction">Please select which session you are checking in for</span>
+                <!--<span class="LoginInstruction">Please select which session you are checking in for</span>-->
 
                 <div id="div_choose_form" class="panel-button-div">
                     <a data-role="button" class="LoginPageButton" data-click="StartPreSession" data-transition="slide"><span><br/>Start new session</span> <span class="ArrowPadding"><i class="icon-circle-arrow-right AlignArrows"></i></span></a>
@@ -86,16 +86,18 @@
                         <select id="multPostFormsDropdown">
                             
                         </select>
+                        
                         <a data-role="button" class="LoginPageButton" data-click="StartPostSession" data-transition="slide" style="width:initial !important;"><span><span class="ArrowPadding"><i class="icon-circle-arrow-right AlignArrows"></i></span></a>
                     </label>
+                    
                 </div>
-            </div>
+           </div>
 		</div>
         
-		<!-- Anonymous view -->
-		<div data-role="view" id="anon" class="white-button" data-layout="LayoutWithUclaLogo">
-            <div class="xDivAnonymousContinueButton absolute-center">
-                <a data-role="button" class="AnonymousContinueButton" data-click="NavigateToReasonsPage">Continue</a>
+        <!-- Anonymous view -->
+        <div data-role="view" id="anon" class="white-button" data-layout="LayoutWithUclaLogo">
+            <div class="DivAnonymousContinueButton absolute-center">
+                <a data-role="button" class="Anonymousbutton km-widget km-button" data-click="NavigateToReasonsPage">Continue</a>
             </div>
         </div>
 		
@@ -154,15 +156,20 @@
 
                              </div>
                          </div>
+                         
                          <div class="DisplayNone last-successful-rsvp-checkin" id="divSwipeLastCheckIn">
-                             <span class="rsvp-last-checkin">Last successful check-in: </span><span id="spanSwipeLastCheckIn" class="span-word-wrap" canDisplayLastCheckIn="true"></span>
-                        </div>
+                             <span class="rsvp-last-checkin">Last successful check-in: </span><span class="span-word-wrap" id="swipeCurrentTimeStamp" currentTimeStamp="true">
+                             </span><br>
+                             </span><span class="span-word-wrap" id="swipeLastCheckIn" canDisplayLastCheckIn="true"></span>
+                         </div>
+                         
                     </div>
                 </div>
                 <div data-role="view" id="divSearchView" class="right-pane-search-container" data-show="InitRSVPSearch">
                     <div id="divRSVPSearchContainer"> <!-- class="rsvp-search-container" -->
                         <div class="event-name-container">
                             <span canDisplayEventName="true" class="event-name"></span>
+                            <br><br>
                             <span canDisplayLocation="true" class="location-text"></span>
                         </div>
                         <div class="rsvp-search-instruction rsvp-content-font">
@@ -205,7 +212,10 @@
                             </div>
                         </div>
                         <div class="DisplayNone last-successful-rsvp-checkin rsvp-content-font" id="divSearchLastCheckIn">
-                            <span class="rsvp-last-checkin">Last successful check-in: </span><span id="spanSearchLastCheckIn" class="span-word-wrap"  canDisplayLastCheckIn="true"></span>
+                            <span class="rsvp-last-checkin">Last successful check-in:
+                            </span><span class="span-word-wrap" id="searchCurrentTimeStamp" currentTimeStamp="true">
+                            </span><br>
+                            </span><span class="span-word-wrap" id="searchLastCheckIn" canDisplayLastCheckIn="true"></span>
                         </div>
                     </div>
                 </div>
@@ -271,7 +281,7 @@
         </div>
         
         <!-- Reasons page controls -->
-        <div id="questions-body" data-role="view" data-title=" " data-layout="checklayout" data-show="DisplayResponses" class="WhiteBackground">
+         <div id="questions-body" data-role="view" data-title=" " data-layout="checklayout" data-show="DisplayResponses" class="WhiteBackground">
             <div class="ReasonsContainer">
                 <span class="span-question-text DisplayNone" style="margin:0;" id="spanMsgAnyQuestion">Please answer the following questions:</span>
                 <span class="span-question-text DisplayNone" style="margin:0;" id="spanMsgNoQuestion">Please wait...</span>
@@ -285,7 +295,24 @@
                 </div>
             </div>
         </div>
+         
         
+        
+      <div id="questions-body1" data-role="view" data-title=" " data-layout="checklayout" data-show="DummyRedirect" class="WhiteBackground">
+            <div class="ReasonsContainer">
+                <span class="span-question-text DisplayNone" style="margin:0;" id="spanMsgAnyQuestion">Please answer the following questions:</span>
+                <span class="span-question-text DisplayNone" style="margin:0;" id="spanMsgNoQuestion">Please wait...</span>
+                <ul data-role="listview" data-style="inset" id="ulResponses1" data-type="group" class="response-container-lt-2Q">
+                </ul>
+                <div class="row-fluid FormIndentation" id="divQuestions1" style="padding-left:2%;">
+                    
+                </div>
+                <div style="padding-left:6%;">
+                    <div id="divContinueButton" class="ContinueButtonPadding"><a data-role="button" id="continueBtn" class="button1" data-click="SubmitReasons">Continue</a></div>
+                </div>
+            </div>
+        </div>
+       
         <div id="divCompleteResponseView" data-role="view" data-title="" data-layout="ResponseDetailsLayout" data-show="DisplayQuestionResponses" class="WhiteBackground">
             <div class="ResponseDetailContainer">
                 <span id="spanQuestionText"></span>
@@ -457,12 +484,12 @@
 
                     <ul data-role="listview" id="ulReconfigureApp" class="reconfigure-app">
                         <li>
-                            <label>New kiosk access key                     <input id="txtAccessKey" type="text" MaxLength="6" class="RemoveBoxShadow exit-access-key" placeholder="Access Key"/>                            <i class="glyphicon icon-warning-sign WarningSign DisplayNone"></i>
+                            <label>New Kiosk Access Key                     <input id="txtAccessKey" type="text" MaxLength="6" class="RemoveBoxShadow exit-access-key" placeholder="Access Key"/>                            <i class="glyphicon icon-warning-sign WarningSign DisplayNone"></i>
                             </label>
                         </li>
                         <li id="liLocations" class="invisible">
                             <label id="lbl-locations">Select a Location
-                                <select id="ddl-locations" class="exit-locations">
+                                <select id="ddl-locations" class="exit-locations" onchange="RemoveWaterMarkText(this)>
                                 </select>
                             </label>
                         </li>

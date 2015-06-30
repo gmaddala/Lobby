@@ -393,7 +393,7 @@
         //QA
 //        [request setURL:[NSURL URLWithString:@"https://api-qa.sa.ucla.edu/lobbyapi/api/errorlog"]];
         //Prod
-//        [request setURL:[NSURL URLWithString:@"https://api.sa.ucla.edu/lobbyapi/api/errorlog"]];
+       //[request setURL:[NSURL URLWithString:@"https://api.sa.ucla.edu/lobbyapi/api/errorlog"]];
         [request setHTTPMethod:@"POST"];
         [request setValue: postLength forHTTPHeaderField:@"Content-Length"];
         [request setValue: authKey forHTTPHeaderField:@"Auth-Key"];
