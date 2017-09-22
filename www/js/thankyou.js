@@ -31,5 +31,5 @@ function InitializeThankYou(){
                                 app1.navigate("#", "slide:left");
                             }
                         }
-                      }, 2500);
+                      }, 3000);
 }

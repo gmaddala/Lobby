@@ -41,8 +41,9 @@ var app = {
         //alert("start cardreader");
         if(typeof cardreader != "undefined")
         {
+            //alert(uid);
             var success = function(uid) {
-                if(localStorage.getItem("rsvp") == "true" || localStorage.getItem("enforcedeligibility") == "true")
+                if(localStorage.getItem("rsvp") == "true" || (localStorage.getItem("enforcedeligibility") == "true" && localStorage.getItem("ApplicationTypeID") == 2))
                 {
                     //reset intakeId for RSVP
                     localStorage.setItem("intakeid", -1);
@@ -217,7 +218,7 @@ function SignIn(logon, isCardreader){
     {
         submitIntake = true;
     }
-    if(localStorage.getItem("rsvp") == "true" || localStorage.getItem("enforcedeligibility") == "true"){
+    if(localStorage.getItem("rsvp") == "true" || (localStorage.getItem("enforcedeligibility") == "true" && localStorage.getItem("ApplicationTypeID") == 2)){
         isRSVP = true;
     }
     
@@ -234,16 +235,33 @@ function SignIn(logon, isCardreader){
 //				   console.log('before send..');
 				   loading();
 				   },
-				   success: function(data){
-                        var jsonobj = JSON.parse(data);
+                   success: function(data){
+                   var jsonobj = JSON.parse(data);
                    
                    
-                        if(!isRSVP){
-                            SetStudentData(jsonobj, submitIntake);
-                        }
-                       else{
-                            SetRSVPStudentData(jsonobj);
-                       }
+                   if (localStorage.getItem("LobbyTypeId") == GlobalObjects.LobbyType.CheckIn_CheckOut) {
+                   localStorage.setItem("logonvalue", logon);
+                   
+                   //only for current students
+                   if (localStorage.getItem("enforcedeligibility") == "true" && localStorage.getItem("eligibilitytype") == "1" && localStorage.getItem("ApplicationTypeID") == "1" && jsonobj.Data.UserInfo.DictionaryUserInfo.CurrentStudent == "false")
+                   {
+                        showNativeDialog("Not a Current student");
+                   }
+                   else
+                   {
+                        StartPageOnSwipeOrLogon(jsonobj);
+                   }
+                   
+                   }
+                   else {
+                   
+                   if (!isRSVP) {
+                   SetStudentData(jsonobj, submitIntake);
+                   }
+                   else {
+                   SetRSVPStudentData(jsonobj);
+                   }
+                   }
                    
 					
 					//window.open("login.html?key=" + $('#txtAccessKey').val() + "&deptname=" + jsonobj.Data.DeptName ,"_self");
@@ -322,6 +340,7 @@ function SetStudentData(jsonobj, submitIntake)
             {
                 var dictionaryObj = jsonobj.Data.DictionaryUserInfo;
                 localStorage.setItem("uid", dictionaryObj.UID);
+                localStorage.setItem("uclalogonid", dictionaryObj.UclaLogonId);
                 localStorage.setItem("firstname", dictionaryObj.FirstName)
                 localStorage.setItem("lastname", dictionaryObj.LastName);
                 localStorage.setItem("phone", dictionaryObj.Phone);
@@ -344,11 +363,26 @@ function SetStudentData(jsonobj, submitIntake)
                         //alert("Single");
                         StartPreSession(); //no post eval forms, go directly to pre eval
                     }
+                    //not a bruin card lobby
+                    localStorage.setItem("BCAgreementVersionNumber", "0");
                 }
                 else
                 {
                     localStorage.setItem("preformid", 0);//no application form for cpo lobby
                     //localStorage.setItem("preformid", jsonobj.Data.FormsToDisplay.PreEvaluationFormID);
+                    var preCheckInPage = JSON.parse(localStorage.getItem("PreCheckInPage"));
+                    
+                    if (preCheckInPage.length > 0)
+                    {
+                        //Bruin card lobby. Get Agreement text
+                        GetAgreement();
+                        
+                    }
+                    
+                    else
+                        
+                    {
+                        localStorage.setItem("BCAgreementVersionNumber", "0");
                     
                     if(!submitIntake)
                     {
@@ -361,7 +395,9 @@ function SetStudentData(jsonobj, submitIntake)
                     else
                     {
     //                    window.open("thankyou.html", "_self");
-                        app1.navigate("#questions-body");                    
+                        app1.navigate("#questions-body");
+                    }
+                        
                     }
                     //window.open("reasons.html?key=" + getUrlParameter('key') + "&uid=" + jsonobj.Data.UID + "&rsvp=" + getUrlParameter("rsvp") + "&anon=" + getUrlParameter("anon") + "&firstname=" + jsonobj.Data.DictionaryUserInfo.FirstName + "&lastname=" + jsonobj.Data.DictionaryUserInfo.LastName + "&phone=" + jsonobj.Data.DictionaryUserInfo.Phone + "&email=" + jsonobj.Data.DictionaryUserInfo.Email + "&initialintakestatus=" + getUrlParameter("initialintakestatus"), "_self");
                 }
@@ -377,6 +413,26 @@ function SetStudentData(jsonobj, submitIntake)
                 //$('#txt_logon').focus();
                 app.startCardReader();
             }
+}
+
+function GetAgreement(){
+    var preCheckIn = JSON.parse(localStorage.getItem("PreCheckInPage"));
+    if(preCheckIn == "divAgreement")
+    {
+        if(localStorage.getItem("BCAgreementText") != null && localStorage.getItem("BCAgreementText") != "null")
+        {
+            $("#agreementtext").html(localStorage.getItem("BCAgreementText"));
+        }
+        app1.navigate("#bruincard-agreement");
+    }
+    else{
+        app1.navigate("#questions-body");
+    }
+}
+
+function DisplayReasons(){
+    app1.navigate("#questions-body");
+    
 }
 
 function OverrideCheckIn(){
@@ -434,6 +490,13 @@ function CheckIn(logon, isoverride, isCardreader){
                 }
                else
                {
+           
+           if (localStorage.getItem("LobbyTypeId") == GlobalObjects.LobbyType.CheckIn_CheckOut) {
+           localStorage.setItem("logonvalue", logon);
+           StartPageOnSwipeOrLogon(jsonobj);
+           }
+           else
+           {
            
                    localStorage.setItem("uid", jsonobj.Data.UserInfo.DictionaryUserInfo.UID);
                    localStorage.setItem("firstname", jsonobj.Data.UserInfo.DictionaryUserInfo.FirstName)
@@ -516,7 +579,7 @@ function CheckIn(logon, isoverride, isCardreader){
                         }
                     }
            
-           
+           }
                }
            if(!isManualRSVPCheckIn){
            //start the card reader if rsvp flag for manual search is turned off
@@ -542,7 +605,209 @@ function CheckIn(logon, isoverride, isCardreader){
                     endLoading();
                 }
            });
+    
+
 }
+
+
+var IsCheckBtnClicked = false;
+
+function StartPageOnSwipeOrLogon(jsonobj) {
+    var timeout = 10000; //10 sec before redirect;
+    
+    if (jsonobj.Data.IntakeId != null && jsonobj.Data.IntakeId != 0 && jsonobj.Data.IntakeId != undefined) {
+        localStorage.setItem("intakeID", jsonobj.Data.IntakeId);
+    }
+    
+    $('#viewCheckInCheckOutStartPage').removeClass('invisible');
+    app1.navigate('#viewCheckInCheckOutStartPage');
+    
+    IsCheckBtnClicked = false;
+    
+    setTimeout(function () {
+               if (!IsCheckBtnClicked) {
+               ClearCheckInCheckOutLobby(0);
+               }
+               }, timeout);
+    
+    
+}
+
+
+function CheckInOnConfirmedClick() {
+    localStorage.setItem("IsConfirmedCheckIn", "yes");
+    SetAsCheckedIn();
+}
+
+function SetAsCheckedIn(){
+    
+    IsCheckBtnClicked = true;
+    
+    $.ajax({
+           type: "GET",
+           url: getAPIUrl() + "/api/CheckInCheckOut/GetCheckedIn",
+           data: {"logon": localStorage.getItem("logonvalue"), "locationID": localStorage.getItem("selLocationID"), "cardswiped": localStorage.getItem("cardswiped"), "appid": localStorage.getItem("appid"), "initialintakestatus": localStorage.getItem("initialintakestatus"), "checkOutIntakeStatus": localStorage.getItem("CheckOutIntakeStatus"), "intakeid": localStorage.getItem("intakeID"), "isConfirmedCheckIn": localStorage.getItem("IsConfirmedCheckIn") },
+           beforeSend: function () {
+           app.stopCardReader();
+           loading();
+           },
+           success: function (data) {
+           //alert(data);
+           var jsonobj = JSON.parse(data);
+           
+           if (jsonobj.Status == 500) {
+           endLoading();
+           //case when the Event is not active
+           showNativeDialog("A system error occured processing your request");
+           return;
+           }
+           
+           ShowViewOnCheckInCallBack(jsonobj.Data.CheckInErrorType);
+           app.startCardReader();
+           },
+           error: function (jqXHR, textStatus, errorThrown) {
+           app.startCardReader();
+           },
+           complete: function () {
+           endLoading();
+           }
+           });
+}
+
+
+function SetAsCheckedOut() {
+    
+    IsCheckBtnClicked = true;
+    
+    $.ajax({
+           type: "GET",
+           url: getAPIUrl() + "/api/CheckInCheckOut/GetCheckedOut",
+           data: {"logon": localStorage.getItem("logonvalue"), "locationID": localStorage.getItem("selLocationID"), "cardswiped": localStorage.getItem("cardswiped"), "appid": localStorage.getItem("appid"), "initialintakestatus": localStorage.getItem("initialintakestatus"), "checkOutIntakeStatus": localStorage.getItem("CheckOutIntakeStatus"), "intakeId": localStorage.getItem("intakeID")},
+           beforeSend: function () {
+           app.stopCardReader();
+           loading();
+           },
+           success: function (data) {
+           //alert(data);
+           var jsonobj = JSON.parse(data);
+           
+           if (jsonobj.Status == 500) {
+           endLoading();
+           //case when the Event is not active
+           showNativeDialog("A system error occured processing your request");
+           return;
+           }
+           
+           ShowViewOnCheckOutCallBack(jsonobj.Data.CheckOutErrorType);
+           app.startCardReader();
+           },
+           error: function (jqXHR, textStatus, errorThrown) {
+           app.startCardReader();
+           },
+           complete: function () {
+           endLoading();
+           }
+           });
+}
+
+function ShowViewOnCheckInCallBack(checkInErrorType) {
+    
+    if (checkInErrorType == GlobalObjects.CheckInErrorType.Success)
+    {
+        $('#viewSuccessCheckIn').removeClass('invisible');
+        app1.navigate('#viewSuccessCheckIn');
+        ClearCheckInCheckOutLobby();
+    }
+    if (checkInErrorType == GlobalObjects.CheckInErrorType.RoomFull)
+    {
+        $('#viewRoomFull').removeClass('invisible');
+        app1.navigate('#viewRoomFull');
+        ClearCheckInCheckOutLobby();
+    }
+    if (checkInErrorType == GlobalObjects.CheckInErrorType.NoTraningWithin360)
+    {
+        $('#viewTrainingNotComplete').removeClass('invisible');
+        $('#NoTrainingMsg').text('');
+        $('#NoTrainingMsg').text(localStorage.getItem('NoTrainingMessage'));
+        app1.navigate('#viewTrainingNotComplete');
+        ClearCheckInCheckOutLobby(10000); //10 sec timeout
+    }
+    if (checkInErrorType == GlobalObjects.CheckInErrorType.NotCheckedOut)
+    {
+        $('#viewNotCheckedOut').removeClass('invisible');
+        app1.navigate('#viewNotCheckedOut');
+    }
+    if (checkInErrorType == GlobalObjects.CheckInErrorType.IntakeId_NotSupplied) {
+        ShowFlashMessage("An error occured processing your request");
+        ClearCheckInCheckOutLobby();
+    }
+    if (checkInErrorType == GlobalObjects.CheckInErrorType.SystemError) {
+        ShowFlashMessage("An error occured processing your check in");
+        ClearCheckInCheckOutLobby();
+    }
+    
+}
+
+
+function ShowViewOnCheckOutCallBack(checkOutErrorType) {
+    
+    if (checkOutErrorType == GlobalObjects.CheckOutErrorType.Success)
+    {
+        $('#viewSuccessCheckOut').removeClass('invisible');
+        app1.navigate('#viewSuccessCheckOut');
+        ClearCheckInCheckOutLobby();
+    }
+    if (checkOutErrorType == GlobalObjects.CheckOutErrorType.NotCheckedIn) {
+        $('#viewNotCheckedIn').removeClass('invisible');
+        app1.navigate('#viewNotCheckedIn');
+    }
+    if (checkOutErrorType == GlobalObjects.CheckOutErrorType.IntakeId_NotSupplied) {
+        ShowFlashMessage("An error occured processing your request");
+        ClearCheckInCheckOutLobby();
+    }
+    if (checkOutErrorType == GlobalObjects.CheckOutErrorType.SystemError) {
+        ShowFlashMessage("An error occured processing your check out");
+        ClearCheckInCheckOutLobby();
+    }
+    
+}
+
+
+function StartOverOnCancelClick() {
+    
+    ClearCheckInCheckOutLobby(0);
+}
+
+
+function ClearCheckInCheckOutLobby(timeOutTime) {
+    var timeout = 5000; //default timeout 5 sec
+    
+    console.log('ClearCheckInCheckOutLobby');
+    
+    if (timeOutTime != null && timeOutTime != undefined) {
+        timeout = timeOutTime;
+    }
+    
+    setTimeout(function () {
+               
+               localStorage.setItem("intakeID", "-1");
+               localStorage.setItem("logonvalue", "");
+               
+               $('#viewCheckInCheckOutStartPage').addClass('invisible');
+               $('#viewNotCheckedIn').addClass('invisible');
+               $('#viewNotCheckedOut').addClass('invisible');
+               $('#viewTrainingNotComplete').addClass('invisible');
+               $('#viewSuccessCheckOut').addClass('invisible');
+               $('#viewSuccessCheckIn').addClass('invisible');
+               $('#viewRoomFull').addClass('invisible');
+               
+               localStorage.setItem("IsConfirmedCheckIn", "");
+               
+               ResetLobby();
+               
+               }, timeout);
+}
+
 
 function ClearRSVPFields(canAddDelay){
     var timeout = 320000;//display the status message for 5 mins (300s) when displaying success/failed status
@@ -747,10 +1012,10 @@ function Initialize(){
     InitForm();
     if(localStorage.getItem("allowregistration") == "false")
     {
-        $("#btn-register").addClass("invisible");
+        $("#btn-register-event").addClass("invisible");
     }
     else{
-        $("#btn-register").removeClass("invisible");
+        $("#btn-register-event").removeClass("invisible");
     }
     //suggested by Telerik team; Ticket# 856962
     kendo.UserEvents.defaultThreshold(9);
@@ -777,11 +1042,10 @@ function ResetLobby(){
     InitForm();
     if(localStorage.getItem("allowregistration") == "false")
     {
-        $("#btn-register").addClass("invisible");
+        $("#btn-register-event").addClass("invisible");
     }
-    else
-    {
-        $("#btn-register").removeClass("invisible");
+    else{
+        $("#btn-register-event").removeClass("invisible");
     }
     
     //app1 = new kendo.mobile.Application(document.body, {useNativeScrolling: true, initial: initialView}); //, transition: 'overlay:up'
@@ -826,7 +1090,7 @@ function InitForm(){
         //app1.navigate("#anon");
         $("#body").addClass("molecules-bg");
     }
-    else if(localStorage.getItem("rsvp") == "true" || localStorage.getItem("enforcedeligibility") == "true")
+    else if(localStorage.getItem("rsvp") == "true" || (localStorage.getItem("enforcedeligibility") == "true" && localStorage.getItem("ApplicationTypeID") == 2))
     {
         
         initialView = "rsvp_eleg";
@@ -861,6 +1125,22 @@ function InitForm(){
         $("#txt_logon").val("").focus();
         $('#div_logon1').click();
         $('#txt_logon').focus();
+        //get welcomepage text from database
+        
+        if (localStorage.getItem("ApplicationTypeID") == 1)
+        {
+        $("#div_bruincard_event").remove();
+        $("#div_signin_method_event").remove();
+        $("#btn-register-event").remove();
+        $('#welcomepage_text').empty();
+        $('#welcomepage_text').prepend(localStorage.getItem("WelcomePageText"));
+        }
+        
+        if (localStorage.getItem("ApplicationTypeID") == 2)
+        {
+            $('#welcomepage_text').remove();
+        }
+        
 //        console.log('set default focus');
 //        setTimeout(function(){console.log('focussing..');$('#txt_logon').val('').focus();}, 800);
         $("#body").addClass("molecules-bg");

@@ -917,6 +917,57 @@ div.km-listview-wrapper input[type="search"]
     display:inline-block;
     color:#fff;
 }
+
+/* Ashe Lobby*/
+
+.regular-text{
+    text-align:left;
+    font-size: 125%;
+    color:#fff;
+}
+
+.center-text{
+    text-align:center;
+    font-size: 125%;
+    color:#fff;
+}
+
+.absolute-center-fix-welcome{
+    height: 0% !important;
+    /*    padding-top: 35%;*/
+    margin-top: 30%;
+    margin-left:15%
+}
+
+.absolute-center-fix-middle{
+    height: 0% !important;
+    /*    padding-top: 35%;*/
+    margin-top: 25%;
+    text-align:center;
+}
+
+.bold-instruction-header{
+    text-align:left;
+    color:#fff;
+    font-size:x-large;
+    font-weight:bold;
+    margin:0 !important;
+}
+
+.bold-instruction-yellow{
+    text-align:left;
+    color:#fff000;
+    font-size:x-large;
+    font-weight:bold;
+    margin:0 !important;
+}
+
+.WelcomeSwipeBruinCard{
+    color:#fff000;
+}
+
+
+
 .AlignArrows{
     margin-left:2.9%;
 }
@@ -1261,7 +1312,7 @@ font-size:large;
 /*fix text movement from top to center in iOS 8.1*/
 .absolute-center-fix{
     height: 0% !important;
-/*    padding-top: 35%;*/
+    /*    padding-top: 35%;*/
     margin-top: 35%;
 }
 
@@ -1300,6 +1351,7 @@ font-size:large;
 .water-mark-text{
     color: #ccc;
 }
+
 
 /* CheckIn / Chick Out (cico) Lobby Design classes */
 .cico-header-container{
@@ -1385,7 +1437,7 @@ font-size:large;
 
 .cico-Button-DarkBlue-Squared{
     background-color: #313852 !important;
-    border-radius: 10px !important;
+    border-radius: 20px !important;
     border-color: #313852 !important;
     padding:1% !important;
     color: #fff !important;
@@ -1396,6 +1448,21 @@ font-size:large;
     padding-top: 4% !important;
     padding-bottom: 4% !important;
 }
+
+.cico-Button-DarkBlue-Squared-Login{
+    background-color: #313852 !important;
+    border-radius: 20px !important;
+    border-color: #313852 !important;
+    padding:1% !important;
+    color: #fff !important;
+    font-size: 250% !important;
+    margin-left: 1% !important;
+    margin-top: 1% !important;
+    display: inline;
+    padding-top: 2% !important;
+    padding-bottom: 2% !important;
+}
+
 
 .cico-Button-DarkBlue{
     background-color: #313852 !important;

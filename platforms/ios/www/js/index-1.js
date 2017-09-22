@@ -162,9 +162,21 @@ function InitializeLocalStorage()
     localStorage.setItem("eligibilitytype", jsonobj.Data.EligibilityType);
     localStorage.setItem("locations", JSON.stringify(jsonobj.Data.Locations));
     localStorage.setItem("intakeID", -1);
+    localStorage.setItem("ApplicationTypeID", jsonobj.Data.ApplicationTypeID);
     
     localStorage.setItem("LobbyTypeId", JSON.stringify(jsonobj.Data.LobbyTypeId));
     localStorage.setItem("CheckOutIntakeStatus", JSON.stringify(jsonobj.Data.CheckOutIntakeStatus));
+    
+    localStorage.setItem("EmailRequired", JSON.stringify(jsonobj.Data.EmailRequired));
+    localStorage.setItem("PreCheckInPage", JSON.stringify(jsonobj.Data.PreCheckInPage));
+    //localStorage.setItem("BCAgreementText", JSON.stringify(jsonobj.Data.BCAgreementText));
+    localStorage.setItem("BCAgreementVersionNumber", JSON.stringify(jsonobj.Data.BCAgreementVersionNumber));
+    localStorage.setItem("BCAgreementText", (JSON.stringify(jsonobj.Data.BCAgreementText)).replace(/"/g,''));
+    //remove quotes for welcome text html
+    localStorage.setItem("WelcomePageText", (JSON.stringify(jsonobj.Data.WelcomePageText)).replace(/"/g,''));
+                                                                                                   
+localStorage.setItem("NoTrainingMessage", (JSON.stringify(jsonobj.Data.NoTrainingMessage)).replace(/"/g,''));
+    
 }
 
 var isCardReaderStarted = false;

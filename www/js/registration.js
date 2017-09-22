@@ -136,6 +136,20 @@ function Register()
 //        $('#txt_lastname').next().addClass('DisplayNone');
     }
     
+    if (localStorage.getItem("EmailRequired") == "true"){
+        if($('#txt_email').val().length == 0)
+        {
+            hasError = true;
+            $('#txt_email').addClass('Error');
+            $('#txt_email').addClass('Required');
+        }
+        else
+        {
+            $('#txt_email').removeClass('Error');
+            $('#txt_email').removeClass('Required');
+        }
+    }
+    
     if($('#txt_email').val().length > 0)
     {
 		var re = /\S+@\S+\.\S+/
@@ -151,27 +165,6 @@ function Register()
 			$('#txt_email').removeClass('Error');
         }
     }
-	else
-	{
-		$('#txt_email').removeClass('Error');
-	}
-    
-//    var numbers = /^[0-9]+$/;
-//    if($('#txt_uid').val().length > 0)
-//	{
-//		if($('#txt_uid').val().length != 9 || !$('#txt_uid').val().match(numbers))
-//		{
-//			hasError = true;
-//			//$('#uid_error').text('Please enter valid UID');
-//			$('#txt_uid').addClass('Error');
-//		}
-//	}
-//    else
-//    {
-//        //$('#uid_error').text('');
-//		$('#txt_uid').removeClass('Error');
-//    }
-    
 	phoneNumberFormatted = $('#txt_phone').val();
 	if(phoneNumberFormatted.length > 0)
 	{
@@ -219,8 +212,39 @@ function Register()
         else
         {
 //            window.open("reasons.html", "_self");
-            app1.navigate("#questions-body");
+            
+            var preCheckInPage = JSON.parse(localStorage.getItem("PreCheckInPage"));
+            
+            if (preCheckInPage.length > 0)
+            {
+                //Bruin card lobby. Get Agreement text
+                GetAgreement();
+                
+            }
+            
+            else
+                
+            {
+                localStorage.setItem("BCAgreementVersionNumber", "0");
+                app1.navigate("#questions-body");
+            }
         }
+    }
+}
+
+
+function GetAgreement(){
+    var preCheckIn = JSON.parse(localStorage.getItem("PreCheckInPage"));
+    if(preCheckIn == "divAgreement")
+    {
+        if(localStorage.getItem("BCAgreementText") != null && localStorage.getItem("BCAgreementText") != "null")
+        {
+            $("#agreementtext").html(localStorage.getItem("BCAgreementText"));
+        }
+        app1.navigate("#bruincard-agreement");
+    }
+    else{
+        app1.navigate("#questions-body");
     }
 }
 

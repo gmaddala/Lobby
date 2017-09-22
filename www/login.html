@@ -35,7 +35,6 @@
         </style>
         
         <script src="js/jquery.min.js"></script>
-        <!--<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>->
          <!-- <script src="js/angular.min.js"></script> -->
         <script src="js/kendo.all.min.js"></script>
         <!--masked input -->
@@ -53,14 +52,23 @@
                     </head>
     <body class="molecules-bg" id="body">
 		<div id="not_anon" class="login-textbox invisible" data-role="view" data-layout="LayoutWithUclaLogo">
-            <div id="div_bruincard" class="absolute-center absolute-center-fix">
+            <div id="div_bruincard_event" class="absolute-center absolute-center-fix">
                 <p class="bold-instruction extra-large"><span class="SwipeBruinCard">Swipe your BruinCard</span></p>
             </div>
+            <div id="welcomepage_text">
             
-            <div id="div_signin_method" class="panel-button-div">
-                <a data-role="button" class="LoginPageButton" href="#viewSigninWithUclaLogon" data-transition="slide"><span><br/>Don't have a BruinCard? Sign in here</span> <span class="ArrowPadding"><i class="icon-circle-arrow-right"></i></span></a> <!-- AlignArrows-->
+            
+            
+            
+            
+            
+            </div>
+            
+            <div id="div_signin_method_event" class="panel-button-div">
+                <a data-role="button" class="LoginPageButton" href="#viewSigninWithUclaLogon" data-transition="slide"><span><br/>Don't have a BruinCard? Sign in here</span> <span class="ArrowPadding"><i class="icon-circle-arrow-right"></i></span></a>
                 
-                <a data-role="button" class="LoginPageButton" data-click="ClickRegistration" id="btn-register" data-transition="slide"><span><br/>Don't have a UCLA ID? Register here</span> <span class="ArrowPadding"><i class="icon-circle-arrow-right"></i></span></a>
+                
+                <a data-role="button" class="LoginPageButton" data-click="ClickRegistration" id="btn-register-event" data-transition="slide"><span><br/>Don't have a UCLA ID? Register here</span> <span class="ArrowPadding"><i class="icon-circle-arrow-right"></i></span></a>
             </div>
         </div>
 		<div data-role="view" id="viewSigninWithUclaLogon" data-layout="LayoutWithUclaLogoNoClose" data-show="InitForm" data-transition-end="FocusLoginControl">
@@ -68,7 +76,7 @@
                 <span class="LoginInstruction">Please provide your UCLA Logon ID or UID</span>
                 <input id="txt_logon" type="text" class="horizontal-center textbox LoginTextBox" placeholder="Enter your UCLA Logon ID Or UID" style="display:block;"/>
                 <div class="SignInButtons">
-                    <a data-role="button" class="SignInButton big-font" href="#" data-transition="slide:reverse">Cancel</a>
+                    <a data-role="button" class="SignInButton big-font" href="#not_anon" data-transition="slide:reverse">Cancel</a>
                     <a data-role="button" class="SignInButton big-font font-bold" data-click="SignInWithUclaLogon">Sign In</a>
                 </div>
             </div>
@@ -80,9 +88,9 @@
                 <div id="div_choose_form" class="panel-button-div">
                     <a data-role="button" class="LoginPageButton" data-click="StartPreSession" data-transition="slide"><span><br/>Start new session</span> <span class="ArrowPadding"><i class="icon-circle-arrow-right AlignArrows"></i></span></a>
                     
-                    <a id="singlePostForm" data-role="button" class="LoginPageButton invisible" data-click="StartPostSession" data-transition="slide"><span><br/>Complete post session</span> <span class="ArrowPadding"><i class="icon-circle-arrow-right AlignArrows"></i></span></a>
+                    <a id="singlePostForm" data-role="button" class="LoginPageButton invisible" data-click="StartPostSession" data-transition="slide"><span><br/>Complete Post Session Evaluation</span> <span class="ArrowPadding"><i class="icon-circle-arrow-right AlignArrows"></i></span></a>
                     
-                    <label class="LoginPageButton invisible" id="multPostForms">Complete post session
+                    <label class="LoginPageButton invisible" id="multPostForms">Complete Post Session Evaluation
                         <select id="multPostFormsDropdown">
                             
                         </select>
@@ -466,6 +474,215 @@
 				</div>
 			</div>
 		</div>
+        
+        <!-- Layouts for CheckIn / Check Out: prefix: cico lobby-->
+        
+        <!-- Views -->
+        
+        <div id="viewCheckInCheckOutStartPage" class="login-textbox invisible " data-role="view" data-layout="HeaderFullTopWithCancelBtn">
+            
+            <div class="cico-header2">
+                <p class="white text-size-400 text-align-left"><span>Start Here...</span></p>
+            </div>
+            
+            <div class="absolute-center">
+                <p class="cntr white text-size-250"><span>Please select one of the options</span></p>
+                
+                <div class="cntr large_blank_line">
+                    <p>
+                    <a data-role="button" class="cico-Button-DarkBlue-Squared text-bold" data-click="SetAsCheckedIn" data-transition="slide">
+                        <span class="ArrowPadding"><i class="icon-check"></i></span> Check-IN
+                    </a>
+                    <a data-role="button" class="cico-Button-DarkBlue-Squared text-bold" data-click="SetAsCheckedOut">
+                        <span class="ArrowPadding"><i class="icon-signout"></i></span> Check-OUT
+                    </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        
+        <div id="viewRoomFull" class="login-textbox invisible" data-role="view" data-layout="HeaderFullTopWithCancelBtn">
+            
+            <div class="cico-header2">
+                <p class="white text-size-400 text-align-left"><span>Sorry...</span></p>
+            </div>
+            
+            <div class="absolute-center">
+                <p class="cntr white text-size-250"><span>The Room is full.</span></p>
+            </div>
+        </div>
+        
+        
+        <div id="viewCheckOutOptions" class="invisible" data-role="view" data-layout="HeaderFullTopWithCancelBtn">
+            <div class="cico-header2">
+                <p class="white text-size-400 text-align-center"><span>CHECK-OUT</span></p>
+            </div>
+            
+            <div class="absolute-center">
+                <p class="cntr white text-size-250"><span>There are two ways to check out :</span></p>
+                
+                <div id="checkInOptions" class="molecules-bg sea-bg full-width cico-panel">
+                    <div style="padding-left: 25%">
+                        <p style="display: block;" class="text-align-left">
+                        <a class="cico-btn-link DarkBlue" data-click="SignOutWithCardSwipe" data-transition="slide">
+                            <span class="digit-in-cirle text-size-150"> 1 </span> <span class="text-size-250">SWIPE your BruinCard</span> <span style="color: InactiveCaptionText;" class="text-size-300"><i class="icon-circle-arrow-right"></i></span>
+                        </a>
+                        </p>
+                        
+                        <p style="display: block;" class="text-align-left">
+                        <span class="digit-in-cirle text-size-150"> 2 </span> <input id="txt_logon" type="text" class="horizontal-center textbox LoginTextBox" placeholder="Type in your UCLA Logon ID or UID" />
+                        <a data-role="button" class="cico-Button-DarkBlue" data-click="SignOutWithUclaLogon">Check-OUT</a>
+                        </p>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div id="viewCheckInOptions" class="invisible" data-role="view" data-layout="HeaderFullTopWithCancelBtn">
+            <div class="cico-header2">
+                <p class="white text-size-400 text-align-center"><span>CHECK-IN</span></p>
+            </div>
+            
+            <div class="absolute-center">
+                <p class="cntr white text-size-250"><span>There are two ways to check in :</span></p>
+                
+                <div id="checkInOptions" class="molecules-bg sea-bg full-width cico-panel">
+                    <div style="padding-left: 25%">
+                        <p style="display: block;" class="text-align-left">
+                        <a class="cico-btn-link DarkBlue" href="#SignInCardSwipe" data-transition="slide">
+                            <span class="digit-in-cirle text-size-150"> 1 </span> <span class="text-size-250">SWIPE your BruinCard</span>
+                            <span style="color: InactiveCaptionText;" class="text-size-300"><i class="icon-circle-arrow-right"></i></span>
+                        </a>
+                        </p>
+                        
+                        <p style="display: block;" class="text-align-left">
+                        <span class="digit-in-cirle text-size-150"> 2 </span> <input id="txt_logon" type="text" class="horizontal-center textbox LoginTextBox" placeholder="Type in your UCLA Logon ID or UID" />
+                        <a data-role="button" class="cico-Button-DarkBlue" data-click="SignInWithUclaLogon">Check-IN</a>
+                        </p>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div id="viewNotCheckedIn" class="invisible" data-role="view" data-layout="HeaderFullTopWithCancelBtn">
+            
+            <div class="cico-header2">
+                <p class="white text-size-400 text-align-left"><span>Wait...</span></p>
+            </div>
+            
+            <div class="absolute-center">
+                <p class="cntr white text-size-250"><span>We do not have a record of you checking in.<br /> Please check in first.</span></p>
+                
+                <div class="cntr large_blank_line">
+                    <p>
+                    <a data-role="button" class="cico-Button-DarkBlue-Squared text-bold" data-click="SetAsCheckedIn" data-transition="slide">
+                        <span class="ArrowPadding"><i class="icon-check"></i></span> Check-IN
+                    </a>
+                    </p>
+                </div>
+            </div>
+            
+        </div>
+        
+        
+        <div id="viewNotCheckedOut" class="invisible" data-role="view" data-layout="HeaderFullTopWithCancelBtn">
+            
+            <div class="cico-header2">
+                <p class="white text-size-400 text-align-left"><span>Wait...</span></p>
+            </div>
+            
+            <div class="absolute-center">
+                <p class="text-align-left white text-size-250"><span class="sea">Did you check out</span> the last time you were here?</p>
+                
+                
+                <p class="text-align-left white text-size-250"><span>Please make sure you check out before you leave.</span></p>
+                
+                <div class="cntr blank_line">
+                    <p>
+                    <a data-role="button" class="cico-Button-DarkBlue text-bold" data-click="CheckInOnConfirmedClick" data-transition="slide">
+                        <span class="ArrowPadding"><i class="icon-check"></i></span> Got it.  Continue checking in.
+                    </a>
+                    </p>
+                </div>
+            </div>
+            
+        </div>
+        
+        <div id="viewTrainingNotComplete" class="invisible" data-role="view" data-layout="HeaderFullTopWithCancelBtn">
+            
+            <div class="cico-header2">
+                <p class="white text-size-400 text-align-left"><span>Sorry...</span></p>
+            </div>
+            
+            <div class="absolute-center">
+                <p class="text-align-left white text-size-250" id="NoTrainingMsg">
+                <!--Your training has expired please contact Student Shop personnel in 1763 Boelter Hall to schedule an appointment for retraining. You will be unable to use the facility until this training has been completed.-->
+                </p>
+            </div>
+            
+        </div>
+        
+        <div id="viewSuccessCheckOut" class="invisible" data-role="view" data-layout="HeaderFullTopBlank">
+            <div class="absolute-center">
+                <p class="cntr white text-size-250"><span>You have successfully checked out.</span></p>
+            </div>
+        </div>
+        
+        <div id="viewSuccessCheckIn" class="<!--invisible-->" data-role="view" data-layout="HeaderFullTopBlank">
+            <div class="absolute-center">
+                <p class="text-align-left white text-size-250"><span>You have successfully checked in.</span></p>
+                <p class="text-align-left white text-size-250"><span>Please remember to
+                    <span class="sea">check out</span> before you leave.</span></p>
+            </div>
+        </div>
+        
+        <!-- End Views -->
+        
+        <!-- Headers -->
+        
+        <div data-role="layout" data-id="HeaderFullTopWithCancelBtn">
+            <div data-role="header">
+                <div id="welcome_text_div" class="top-text cico-header-container">
+                    <p class="cico-header-container-1">
+                    <span class="header-text header-text-fix">
+                        <a data-role="button" class="cico-btn-link" data-click="StartOverOnCancelClick" data-transition="slide:reverse">Cancel</a>
+                    </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div data-role="layout" data-id="HeaderFullTopWithLogo">
+            <div data-role="header">
+                <div id="welcome_text_div" class="top-text cico-header-container">
+                    <p class="cico-header-container-1">
+                    <img src="img/logo-ucla.png" class="header-logo HeaderLogoFix ucla-logo-center" />
+                    <span populatedeptname="true" class="header-text header-text-fix"></span>
+                    </p>
+                    <span populatewelcomemessage="true" class="clear-margin-padding header-text"></span>
+                </div>
+            </div>
+        </div>
+        
+        
+        <div data-role="layout" data-id="HeaderFullTopBlank">
+            <div data-role="header">
+                <div id="welcome_text_div" class="top-text cico-header-container">
+                    <p class="cico-header-container-1">
+                    <span class="header-text header-text-fix">
+                    </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- End Headers -->
+        
+        <!-- End Layouts for Check In / Check Out Lobby operations -->
+        
 
 		<!-- modal dialog to reconfigure lobby -->
 		<div data-role="modalview" id="dialog-modal">
@@ -554,9 +771,39 @@
 				<span id="spanFlashMessage" class="AlertText"></span>
 			</div>
 		</div>
+        
+        <!-- Bruin Card Agreement Page-->
+        <div data-role="view" id="bruincard-agreement">
+            <div data-role="header">
+                <div id="div_header_cancel" class="header-div">
+                    <a href="#not_anon" class="cancel-link cancelLinkFix" data-role="button">Cancel</a>
+                    <div>
+                    </div>
+                </div>
+            </div>
+            <div class="div-white-body WhiteBodyFix" style="overflow-y:scroll;">
+                <span class="clear-margin-padding header-text" style="color:#0094ff" id="TermConditions">Terms and Conditions:</span>
+                
+                <br>
+                <br>
+                
+                <div style="color:#000;font-size:smaller;" id="agreementtext"></div>
+                
+                <br>
+                
+                <div style="padding-left:6%;">
+                        <div id="divAgreeButton" class="ContinueButtonPadding"><a data-role="button" id="agreeBtn" class="button1" data-click="DisplayReasons">I Agree</a></div>
+         
+         
+                </div>
+                
+            
+                
+            </div>
+            
+        </div>
 		
         <script type="text/javascript" src="phonegap.js"></script>
-		
         <!-- <script type="text/javascript" src="js/blocks.js"></script> -->
         <script type="text/javascript" src="js/login.js"></script>
 <!--        Index.js -- needed to call relaunch kiosk-->

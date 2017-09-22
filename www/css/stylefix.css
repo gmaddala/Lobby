@@ -917,6 +917,57 @@ div.km-listview-wrapper input[type="search"]
     display:inline-block;
     color:#fff;
 }
+
+/* Ashe Lobby*/
+
+.regular-text{
+    text-align:left;
+    font-size: 125%;
+    color:#fff;
+}
+
+.center-text{
+    text-align:center;
+    font-size: 125%;
+    color:#fff;
+}
+
+.absolute-center-fix-welcome{
+    height: 0% !important;
+    /*    padding-top: 35%;*/
+    margin-top: 30%;
+    margin-left:15%
+}
+
+.absolute-center-fix-middle{
+    height: 0% !important;
+    /*    padding-top: 35%;*/
+    margin-top: 25%;
+    text-align:center;
+}
+
+.bold-instruction-header{
+    text-align:left;
+    color:#fff;
+    font-size:x-large;
+    font-weight:bold;
+    margin:0 !important;
+}
+
+.bold-instruction-yellow{
+    text-align:left;
+    color:#fff000;
+    font-size:x-large;
+    font-weight:bold;
+    margin:0 !important;
+}
+
+.WelcomeSwipeBruinCard{
+    color:#fff000;
+}
+
+
+
 .AlignArrows{
     margin-left:2.9%;
 }
@@ -1261,7 +1312,7 @@ font-size:large;
 /*fix text movement from top to center in iOS 8.1*/
 .absolute-center-fix{
     height: 0% !important;
-/*    padding-top: 35%;*/
+    /*    padding-top: 35%;*/
     margin-top: 35%;
 }
 
@@ -1300,3 +1351,178 @@ font-size:large;
 .water-mark-text{
     color: #ccc;
 }
+
+
+/* CheckIn / Chick Out (cico) Lobby Design classes */
+.cico-header-container{
+    padding-top: 0;
+}
+
+.cico-header-container-1{
+    padding:1%;
+    background:-webkit-radial-gradient(circle, #3284bf,#1e4b87);
+    margin-bottom: 0%;
+    margin-top:0%;
+    margin-left: 0%;
+    width:100%;
+}
+
+.cico-header2 {
+    padding-top:10%;
+    width:100%;
+    background: transparent;
+}
+
+.text-align-left {
+    margin-top:2%;
+    padding-left: 12%;
+}
+
+.text-align-cntr {
+    text-align: center;
+}
+
+
+.sea-bg{
+    background-color: #39a2bd;
+}
+
+.full-width {
+    width:100%;
+}
+
+.text-size-150 {
+    font-size: 150%;
+}
+
+.text-size-250 {
+    font-size: 250%;
+}
+
+.text-size-300 {
+    font-size: 300%;
+}
+
+.text-size-400 {
+    font-size: 400%;
+}
+
+.text-bold{
+    font-weight:bold;
+    margin:0 !important;
+}
+
+.white {
+    color:#fff;
+}
+
+.DarkBlue {
+    color:#313852 !important;
+}
+
+.sea {
+    color:#29cfbd !important;
+}
+
+.cntr {
+    text-align:center;
+}
+
+
+.cico-panel {
+    padding-top: 3%;
+    padding-bottom: 3%;
+}
+
+
+.cico-Button-DarkBlue-Squared{
+    background-color: #313852 !important;
+    border-radius: 20px !important;
+    border-color: #313852 !important;
+    padding:1% !important;
+    color: #fff !important;
+    font-size: 250% !important;
+    margin-left: 1% !important;
+    margin-top: 1% !important;
+    display: inline;
+    padding-top: 4% !important;
+    padding-bottom: 4% !important;
+}
+
+.cico-Button-DarkBlue-Squared-Login{
+    background-color: #313852 !important;
+    border-radius: 20px !important;
+    border-color: #313852 !important;
+    padding:1% !important;
+    color: #fff !important;
+    font-size: 250% !important;
+    margin-left: 1% !important;
+    margin-top: 1% !important;
+    display: inline;
+    padding-top: 2% !important;
+    padding-bottom: 2% !important;
+}
+
+
+.cico-Button-DarkBlue{
+    background-color: #313852 !important;
+    border-radius: 10px !important;
+    border-color: #313852 !important;
+    padding:1% !important;
+    color: #fff !important;
+    font-size: 250% !important;
+    margin-left: 1% !important;
+    margin-top: 1% !important;
+    display: inline;
+}
+
+.digit-in-cirle {
+    border-radius: 50px !important;
+    border-color: #313852 !important;
+    padding: 1.5%;
+}
+
+.large_blank_line {
+    margin-top: 4%;
+}
+
+.blank_line {
+    margin-top: 2%;
+}
+
+.cico-btn-link, .cico-btn-link:active
+{ background-color:transparent;
+    background-image:none;
+    -webkit-box-shadow:none;
+    -moz-box-shadow:none;
+    box-shadow:none
+}
+
+.cico-btn-link{
+    border-color:transparent !important;
+    cursor:pointer;
+    color:#fff !important;
+    -webkit-border-radius:0;-moz-border-radius:0;
+    border-radius:0}
+
+.cico-btn-link:hover, .cico-btn-link:focus
+{
+    text-decoration:none;
+    background-color:transparent;
+    color: #eee !important;
+}
+
+
+.LinkButton{
+    margin:0;
+    width:100%;
+    border-radius:0 !important;
+    color:#fff !important;
+    border:0 !important;
+    text-align:center !important;
+    font-weight:bold !important;
+    font-size:150% !important;
+}
+
+
+/* End Check In / Check Out - cico Lobby Design classes*/

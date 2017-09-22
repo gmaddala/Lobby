@@ -254,9 +254,12 @@
 #endif
         if([self.mtSCRALib getTrack1Masked].length == 0)
         {
+            //NSString * status = [[self.mtSCRALib getTrack2Masked] substringWithRange:NSMakeRange(1, 20)];;
             CDVPluginResult *pluginResult = [CDVPluginResult
                                              resultWithStatus: CDVCommandStatus_ERROR                                     messageAsString: @"Did not capture UID"];
-            
+            //messageAsString: status];
+            //NSString * status = [self.mtSCRALib getOperationStatus];
+            //alert(status);
             [self.mtSCRALib clearBuffers];
             
             [self.commandDelegate sendPluginResult:pluginResult callbackId:self.cordovaCommand.callbackId];
@@ -288,6 +291,7 @@
         //in case of an exception, set the card read status as ERROR
         CDVPluginResult *pluginResult = [CDVPluginResult
                                          resultWithStatus: CDVCommandStatus_ERROR                                     messageAsString: @"Did not capture UID"];
+                                         //messageAsString:message];
         
         [self.mtSCRALib clearBuffers];
         
@@ -389,11 +393,11 @@
         //create mutable URL request
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
         //Test
-        //[request setURL:[NSURL URLWithString:@"http://sait-test.uclanet.ucla.edu/lobbyapi/api/errorlog"]];
+        //[request setURL:[NSURL URLWithString:@"https://sait-test.uclanet.ucla.edu/lobbyapi/api/errorlog"]];
         //QA
-        //[request setURL:[NSURL URLWithString:@"https://api-qa.sa.ucla.edu/lobbyapi_new/api/errorlog"]];
+        //[request setURL:[NSURL URLWithString:@"https://api-qa.sa.ucla.edu/v2/lobbyapi/api/errorlog"]];
         //Prod
-       //[request setURL:[NSURL URLWithString:@"https://api.sa.ucla.edu/lobbyapi/api/errorlog"]];
+        //[request setURL:[NSURL URLWithString:@"https://api.sa.ucla.edu/lobbyapi/api/errorlog"]];
         [request setURL:[NSURL URLWithString:@"https://api.sa.ucla.edu/v2/lobbyapi/api/errorlog"]];
         [request setHTTPMethod:@"POST"];
         [request setValue: postLength forHTTPHeaderField:@"Content-Length"];

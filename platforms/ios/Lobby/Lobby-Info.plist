@@ -49,7 +49,7 @@
 		</dict>
 	</dict>
 	<key>CFBundleIdentifier</key>
-	<string>edu.ucla.sait.lobby.ent</string>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -64,10 +64,6 @@
 	<string>1.0.0</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSMainNibFile</key>
-	<string></string>
-	<key>NSMainNibFile~ipad</key>
-	<string></string>
 	<key>UIApplicationExitsOnSuspend</key>
 	<true/>
 	<key>UISupportedExternalAccessoryProtocols</key>

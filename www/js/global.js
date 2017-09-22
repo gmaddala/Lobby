@@ -20,11 +20,11 @@ function getUrlParameter(sParam)
 
 function getAPIUrl()
 {
-    //return "http://sait-test.uclanet.ucla.edu/lobbyapi";
+    //return "https://sait-test.uclanet.ucla.edu/lobbyapi";
     //QA
-    //return "https://api-qa.sa.ucla.edu/lobbyapi_new";
+    //return "https://api-qa.sa.ucla.edu/v2/lobbyapi";
     //Prod
-    //return "https://api.sa.ucla.edu/lobbyapi";
+    //return "https://api.sa.ucla.edu/lobbyapi"; old version obsolete
     return "https://api.sa.ucla.edu/v2/lobbyapi";
     
     
@@ -163,4 +163,10 @@ function endLoading(){
 function AddMiddleClass() {
       //this.element.closest(".km-modalview-root").addClass("MiddleModalView")
 	  this.element.closest(".k-animation-container").addClass("MiddleModalView1")
+}
+
+GlobalObjects = {
+LobbyType: { NONE: 0, CheckIn_CheckOut: 1 },
+CheckInErrorType: { NONE: 0, SystemError: 1, IntakeId_NotSupplied: 2, Success: 3, RoomFull: 4, NoTraningWithin360: 5, NotCheckedOut: 6 },
+CheckOutErrorType: { NONE: 0, SystemError: 1, IntakeId_NotSupplied: 2, Success: 3, NotCheckedIn: 4 }
 }

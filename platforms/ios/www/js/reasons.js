@@ -206,6 +206,34 @@ function ValidateReasons1(q_array){
             }
         }
         
+        
+        for(var x = 0 ; x < question.Responses.length ; x++)
+        {
+            if (question.Responses[x].ReasonTypeID == 2)
+            {
+                var otherTextbox = $('div.OtherDiv input');
+                var otherText = otherTextbox.val();
+                otherText = $.trim(otherText);
+                
+                if(otherText.length > 0)
+                {
+                    var phoneNumber = otherText.replace("(", "").replace(")", "").replace("-","");
+                    if(phoneNumber.length != 10)
+                    {
+                        otherTextbox.addClass('Error');
+                        hasError = true;
+                    }
+                    else{
+                        otherTextbox.removeClass('Error');
+                        hasError = false;
+                    }
+                }
+                
+            }
+        }
+        
+        
+        
 		if (firstErrCtl == undefined){
 		   firstErrCtl = ctl;
 		   //**scrollTop and focus both does the same; commented scrollTop
@@ -272,9 +300,35 @@ function ValidateReasons2(q_array){
                     }
                     else
                     {
+                        
                         responseContainer.find('input').parent().removeClass("Error");
                         responseContainer.find('input').removeClass("Error");
                         SetUserResponseForQuestionId(question.ID, txtBox.attr('id'), responseContainer.find('input').val());
+                        
+                        
+                        for(var x = 0 ; x < question.Responses.length ; x++)
+                        {
+                            if (question.Responses[x].ReasonTypeID == 2)
+                            {
+                                
+                                if(response.length > 0)
+                                {
+                                    var phoneNumber = response.replace("(", "").replace(")", "").replace("-","");
+                                    if(phoneNumber.length != 10)
+                                    {
+                                        responseContainer.find('input').addClass("Error");
+                                        hasError = true;
+                                    }
+                                    else
+                                    {
+                                        responseContainer.find('input').removeClass("Error");
+                                    }
+                                }
+                                
+                            }
+                        }
+                        
+                        
                     }
                 }
             }
@@ -293,6 +347,8 @@ function ValidateReasons2(q_array){
                     responseContainer.removeClass("Error");
                 }
             }
+            
+            
         }//if not invisible
         else
         {
@@ -354,6 +410,7 @@ function SetUpIntakeJSONObj()
     }
     var myJsonObj = {
     UID: localStorage.getItem("uid"),
+    UclaLogonId: localStorage.getItem("uclalogonid"),
     FirstName: localStorage.getItem("firstname"),
     LastName: localStorage.getItem("lastname"),
     Phone: localStorage.getItem("phone"),
@@ -367,7 +424,8 @@ function SetUpIntakeJSONObj()
     LocationID: localStorage.getItem("selLocationID"),
     CardSwiped: localStorage.getItem("cardswiped"),
     IntakeID: localStorage.getItem("intakeID"),
-    PreEvaluationFormID: localStorage.getItem("preformid")
+    PreEvaluationFormID: localStorage.getItem("preformid"),
+    BCAgreementVersionNumber:localStorage.getItem("BCAgreementVersionNumber")
     };
     
     //console.log("email: " + myJsonObj.Email)
@@ -717,8 +775,6 @@ function ClearSearch(){
     AddOrgs("");
 }
 
-
-
 function DisplayResponses(e){
     
     var divid = $("#questions-body");
@@ -843,12 +899,30 @@ function DisplayResponses(e){
                     txtId = responses[index].ID;
                     if(responses[index].OpensTextbox == true){
                         $("input[id='" + txtId + "']").change(function(){
-                                                              if(this.checked){
-                                                              $("#ul_" + question.ID).after("<div class='OtherDiv'><input type='text' id='" + txtId + "-txtother'/></div>");
+                                                                if(this.checked){
+                                                              //if($("#" + txtId).checked){
+                                                              //$("#ul_" + question.ID).after("<div class='OtherDiv'><input type='text' id='" + txtId + "-txtother'/></div>");
+                                                              $('div.OtherDiv').remove();
+                                                              $("#ul_" + question.ID).after("<div class='OtherDiv'><input type='text' id='" + this.id + "-txtother'/></div>");
                                                               //                $('div.OtherDiv input').val(responseText);
+                                                              
+                                                              
+                                                              for(var x = 0 ; x < responses.length ; x++)
+                                                              {
+                                                              if (responses[x].ReasonTypeID == 2)
+                                                                {
+                                                              
+                                                              $('#' + this.id + '-txtother').attr('placeholder', '(999)999-9999');
+                                                              $('#' + this.id + '-txtother').mask('(999)999-9999');
+                                                              $('#' + this.id + '-txtother').attr('type', 'tel');
+                                                              $('#' + this.id + '-txtother').focus();
+                                                                }
+                                                              }
+                                                            
                                                               }
                                                               else{
                                                               //                          $('div.OtherDiv').remove();
+                                                              //$("#" + txtId).remove();
                                                               }
                                                               });
                     }
@@ -879,6 +953,8 @@ function DisplayResponses(e){
         $('div.ReasonsContainer span').first().removeClass('DisplayNone');
         BuildQuestionsAndResponses(q_array, e);
     }
+    
+    
 }
 
 var canReconstructListView = false;
@@ -957,6 +1033,7 @@ function BuildQuestionsAndResponses(q_array, e){
                 inputtype = "textbox";
                 responseId = responses[0].ID;
                 divResponse = '<div class="span4" id="divResponse'+ question.ID + '" style="padding-top:1.5%;"><input type="text" name="' + question.ID + '" id="' +  responseId + '"  class="TextBox FloatRight Borderless" placeholder="'+ defaultResponseText +'"></input></div>';
+                
             }
             else if (question.ResponsesType == "5")
             {//numeric textbox
@@ -1026,6 +1103,14 @@ function BuildQuestionsAndResponses(q_array, e){
             else if(inputtype == "textbox")
             {
                 e.view.element.find("#ul_" + question.ID).kendoMobileListView();
+                if (responses[0].ReasonTypeID == 2)
+                {
+                    
+                    $('#' +  responses[0].ID).attr('placeholder', '(999)999-9999');
+                    $('#' + responses[0].ID).mask('(999)999-9999');
+                    $('#' + responses[0].ID).attr('type', 'tel');
+                }
+
             }
             else if(inputtype == "buttongroup")
             {
@@ -1069,6 +1154,7 @@ function BuildQuestionsAndResponses(q_array, e){
                 if(responseText != ""){//if user provided a response, remove error highlight
                     $('#divResponse'+ question.ID).removeClass("Error");
                     //populate in the readonly control
+                    responseText = responseText.replace("<u>", "").replace("</u>", "");
                     $('#spanResponseText'+ question.ID).text(responseText).removeClass("Required");
                 }
                 else
@@ -1214,6 +1300,7 @@ function GetResponseText(questionId)
     }
     
     if (retResponseText == undefined) retResponseText = "";
+    
     return retResponseText;
 }
 
