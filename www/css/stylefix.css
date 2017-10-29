@@ -88,6 +88,7 @@ div#modalviewAlert.ReasonsAlert.km-widget.km-modalview.km-view
     font-size:0.9em;
 }
 
+
 .HelpText{
   color: #073198 !important;
   font-size: 12px;
@@ -905,6 +906,10 @@ div.km-listview-wrapper input[type="search"]
     margin-left:2%;
     color:#fff000;
 }
+.EstimatedWaitTime{
+    color:#ffffff;
+}
+
 .ArrowPadding
 {
     padding-left:1%;
@@ -944,6 +949,12 @@ div.km-listview-wrapper input[type="search"]
     /*    padding-top: 35%;*/
     margin-top: 25%;
     text-align:center;
+}
+
+.absolute-center-fix-estimate{
+    height: 0% !important;
+    /*        padding-top: 58% !important;*/
+    margin-top: 28%;
 }
 
 .bold-instruction-header{
@@ -1169,6 +1180,17 @@ font-size:large;
 
 .extra-large{
     font-size: 250%;
+}
+.medium-size{
+   font-size:120% !important;
+   padding: 2%;
+   background-color:orange;
+   
+}
+
+.km-content p {
+    margin-left: 15%;
+    margin-right: 15%;
 }
 
 /* fix for header in layouts */
