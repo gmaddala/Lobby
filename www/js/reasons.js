@@ -424,6 +424,7 @@ function SetUpIntakeJSONObj()
     LocationID: localStorage.getItem("selLocationID"),
     CardSwiped: localStorage.getItem("cardswiped"),
     IntakeID: localStorage.getItem("intakeID"),
+    ShowNameOnPublicQueue: localStorage.getItem("ShowNameOnPublicQueue"),
     PreEvaluationFormID: localStorage.getItem("preformid"),
     BCAgreementVersionNumber:localStorage.getItem("BCAgreementVersionNumber")
     };
@@ -783,8 +784,7 @@ function DisplayResponses(e){
     
     var divResponses = $("#ulResponses");
     
-    //add delay before displaying all the response controls to prevent accidental touch on response controls
-    
+    //add delay before displaying all the response controls to prevent accidental touch on response controls    
     divQuestion.addClass('DisplayHidden');
     
     divResponses.addClass('DisplayHidden');
