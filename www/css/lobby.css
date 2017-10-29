@@ -370,6 +370,12 @@ div.div-white-body-interior .textbox{
     font-weight:bold;
     margin:0 !important;
 }
+.bold-instruction-white{
+    text-align:center;
+    color:#fff;
+    font-size:medium;
+    font-weight:bold;
+}
 
 .link-gold{
     color:#ffbf63;
@@ -616,6 +622,16 @@ div.gray-div + div.gray-div{
     bottom: 0;
     right: 0;
     height:7%;
+}
+.absolute-center-estimate{
+    margin: auto;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    height:7%;
+    
 }
 
 div.dialog-modal-container .textbox{
