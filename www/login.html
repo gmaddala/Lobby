@@ -39,6 +39,10 @@
         <script src="js/kendo.all.min.js"></script>
         <!--masked input -->
         <script src="js/jquery.maksedinput.min.js"></script>
+        <!--Refresh -->
+        <script>
+        setInterval('autoRefresh_div()',300000);
+        </script>
 		<!-- Bootstrap -->
 		<link href="css/bootstrap.min.css" rel="stylesheet">  <!-- media="screen" -->
             <link href="css/lobby-kendoui.css" rel="stylesheet" />
@@ -52,6 +56,10 @@
                     </head>
     <body class="molecules-bg" id="body">
 		<div id="not_anon" class="login-textbox invisible" data-role="view" data-layout="LayoutWithUclaLogo">
+            <!--EstimatedWaitTimeInMinutes -->
+           <!--<div id="div_estimated_wait" class="absolute-center-estimate absolute-center-fix-estimate">
+                <p class="bold-instruction-white medium-size"><span class="EstimatedWaitTime">Estimated Wait Time: <span id="EstimatedWT"></span> Mins</span></p>
+            </div>-->
             <div id="div_bruincard_event" class="absolute-center absolute-center-fix">
                 <p class="bold-instruction extra-large"><span class="SwipeBruinCard">Swipe your BruinCard</span></p>
             </div>
@@ -285,6 +293,22 @@
             <div class="CenterAlign RegisterButtonContainer">
                 <a data-role="button" class="SignInButton big-font" data-click="NavigateToLoginPage" data-transition="slide:reverse">Cancel</a>
                 <a data-role="button" data-click="SubmitRegistrationForm" class="SignInButton font-bold big-font">Register</a>
+            </div>
+        </div>
+        <!--Warning Page -->
+        <div id="divShowNameOnPublicQueue" data-role="view" data-title=" " data-layout="checklayout" class="WhiteBackground">
+            <div class="ReasonsContainer">
+                <p class="span-question-text" style="margin:0;">
+                If you select "Yes" below, part of your name will be displayed on the monitor in the lobby so that you can determine your place in line. If you select "No", "Name not Provided" will be displayed.
+                </p>
+                <ul data-role="listview" data-style="inset" id="ShowName" class="response-container-lt-2Q">
+                 <li data-uid=""><label class="km-listview-label">Yes, I agree to display my name.<input type="radio" name="CheckRadio" value="true" id="radio1" class="textbox-false km-widget km-icon km-check"></label></li>
+                 <li data-uid=""><label class="km-listview-label">No, please do not display my name.<input type="radio" name="CheckRadio" id="radio0" value="false"  class="textbox-false km-widget km-icon km-check"></label></li>
+               
+                </ul>
+                <div style="padding-left:6%;">
+                    <div id="divWarningButton" class="ContinueButtonPadding"><a data-role="button" id="nameBtn" class="button1" data-click="DisplayName">Continue</a></div>
+                </div>
             </div>
         </div>
         
