@@ -374,29 +374,36 @@ function SetStudentData(jsonobj, submitIntake)
                     
                     if (preCheckInPage.length > 0)
                     {
-                        //Bruin card lobby. Get Agreement text
-                        GetAgreement();
-                        
+                        if(preCheckInPage == "divAgreement"){
+                            //Bruin card lobby. Get Agreement text
+                              GetAgreement();
+                        }
+                        else if(preCheckInPage == "divShowNameOnPublicQueue"){
+                            $('div.ReasonsContainer span').first().removeClass('DisplayNone');
+                            $('input[name=CheckRadio]').attr('checked',false);
+                            app1.navigate("#divShowNameOnPublicQueue");
+                            localStorage.setItem("BCAgreementVersionNumber", "0");
+                        }
                     }
-                    
                     else
-                        
                     {
                         localStorage.setItem("BCAgreementVersionNumber", "0");
                     
-                    if(!submitIntake)
-                    {
+                    //if(!submitIntake)
+                    //{
     //                    window.open("reasons.html", "_self");
+                        //app1.navigate("#divShowNameOnPublicQueue");
                         app1.navigate("#questions-body");
                         //var endTimer1 = new Date().getTime();
                         //console.log('time taken to authenticate..' + (endTimer1 - startTimer1));
 
-                    }
-                    else
-                    {
+                    //}
+                    //else
+                    //{
     //                    window.open("thankyou.html", "_self");
-                        app1.navigate("#questions-body");
-                    }
+                        //app1.navigate("#divShowNameOnPublicQueue");
+                        //app1.navigate("#questions-body");
+                    //}
                         
                     }
                     //window.open("reasons.html?key=" + getUrlParameter('key') + "&uid=" + jsonobj.Data.UID + "&rsvp=" + getUrlParameter("rsvp") + "&anon=" + getUrlParameter("anon") + "&firstname=" + jsonobj.Data.DictionaryUserInfo.FirstName + "&lastname=" + jsonobj.Data.DictionaryUserInfo.LastName + "&phone=" + jsonobj.Data.DictionaryUserInfo.Phone + "&email=" + jsonobj.Data.DictionaryUserInfo.Email + "&initialintakestatus=" + getUrlParameter("initialintakestatus"), "_self");
@@ -430,7 +437,43 @@ function GetAgreement(){
     }
 }
 
+function DisplayName(){
+    var hasError = false;
+    // put validation
+    if((localStorage.getItem("WaitTimeFeatureEnabled") == "false"))
+    {
+        localStorage.setItem("ShowNameOnPublicQueue",null);
+
+    }
+    else {
+        if($('input:radio[name=CheckRadio]:checked').val() == undefined) {
+            
+            var hasError = true;
+            var ctl = $('input:radio[name=CheckRadio]');
+            $(ctl).closest('div').addClass("Error");
+            if(hasError)
+            {
+                return;
+            }
+        }
+        else{
+            var ctl = $('input:radio[name=CheckRadio]');
+            $(ctl).closest('div').removeClass("Error");
+            localStorage.setItem("ShowNameOnPublicQueue",$('input:radio[name=CheckRadio]:checked').val());
+            
+
+        }
+    }
+    $('input[name=input-46]').attr('checked',false);
+    app1.navigate("#questions-body");
+}
+
 function DisplayReasons(){
+    
+    //if(localStorage.getItem("ShowNameOnPublicQueue") == "")
+    //{
+      //  localStorage.setItem("Error") = "Please select one of the options";
+    //}
     app1.navigate("#questions-body");
     
 }
@@ -1064,6 +1107,43 @@ function ClickLogon(){
     app1.Navigate('#viewSigninWithUclaLogon');
     app.stopCardReader();
 }
+//Refresh
+function autoRefresh_div()
+{
+    getEstimatedWaitTime();
+    
+    //$("EstimatedWT").text(document.getElementById("EstimatedWT").innerHTML);
+    $("EstimatedWT").text(document.getElementById("EstimatedWT").innerHTML);
+    
+}
+
+function getEstimatedWaitTime(){
+    $.ajax({
+           type: "GET",
+           url: getAPIUrl() + "/api/EstimatedWaitTime",
+           data: {"appkey": localStorage.getItem("key")},
+           beforeSend: function(){
+           //loading();
+           },
+           success: function(data){
+           //alert(data);
+           var jsonobj = JSON.parse(data);
+           localStorage.setItem("EstimatedWaitTime", jsonobj.Data.EstimatedWaitTime);
+           document.getElementById("EstimatedWT").innerHTML = localStorage.getItem("EstimatedWaitTime");
+           document.getElementById("EstimatedWT");
+           //console.log(localStorage.getItem("EstimatedWaitTime"));
+           
+           },
+           error: function (jqXHR, textStatus, errorThrown) {
+           //alert('The access key you entered is incorrect. Please reenter your access key.');
+           showNativeDialog('00 Minutes');
+           //alert(jqXHR + ";\n\n" + textStatus + ";\n\n" + errorThrown);
+           },
+           complete: function(){
+           endLoading();
+           }
+           });
+}
 
 function InitForm(){
 //    $("#DeptName").text(localStorage.getItem("deptname"));
@@ -1134,7 +1214,19 @@ function InitForm(){
         $("#btn-register-event").remove();
         $('#welcomepage_text').empty();
         $('#welcomepage_text').prepend(localStorage.getItem("WelcomePageText"));
+        
+            if(localStorage.getItem("WaitTimeFeatureEnabled") == "false")
+            {
+                $('#div_estimated_wait').remove();
+            }
+            else
+            {
+                getEstimatedWaitTime();
+            }
+            
         }
+        
+   
         
         if (localStorage.getItem("ApplicationTypeID") == 2)
         {
