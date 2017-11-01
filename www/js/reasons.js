@@ -408,6 +408,10 @@ function SetUpIntakeJSONObj()
     {
         localStorage.setItem("cardswiped", false);
     }
+    if(localStorage.getItem("ShowNameOnPublicQueue") == "null")
+    {
+        localStorage.setItem("ShowNameOnPublicQueue", false);
+    }
     var myJsonObj = {
     UID: localStorage.getItem("uid"),
     UclaLogonId: localStorage.getItem("uclalogonid"),
@@ -434,6 +438,7 @@ function SetUpIntakeJSONObj()
     return myJsonObj;
 
 }
+
 
 function DummyRedirect(e)
 {
