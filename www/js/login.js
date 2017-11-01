@@ -378,22 +378,42 @@ function SetStudentData(jsonobj, submitIntake)
                             //Bruin card lobby. Get Agreement text
                               GetAgreement();
                         }
-                        else if(preCheckInPage == "divShowNameOnPublicQueue"){
+                        else if((preCheckInPage == "divShowNameOnPublicQueue") && (localStorage.getItem("WaitTimeFeatureEnabled") == "true")){
                             $('div.ReasonsContainer span').first().removeClass('DisplayNone');
                             $('input[name=CheckRadio]').attr('checked',false);
                             app1.navigate("#divShowNameOnPublicQueue");
                             localStorage.setItem("BCAgreementVersionNumber", "0");
                         }
+                        else
+                        {
+                            localStorage.setItem("BCAgreementVersionNumber", "0");
+                            if((localStorage.getItem("WaitTimeFeatureEnabled") == "false"))
+                            {
+                                localStorage.setItem("ShowNameOnPublicQueue",null);
+                                
+                            }
+                            
+                            $('input[name=input-46]').attr('checked',false);
+                            app1.navigate("#questions-body");
+                            
+                        }
                     }
                     else
                     {
                         localStorage.setItem("BCAgreementVersionNumber", "0");
-                    
+                        if((localStorage.getItem("WaitTimeFeatureEnabled") == "false"))
+                        {
+                            localStorage.setItem("ShowNameOnPublicQueue",null);
+                            
+                        }
+                        $('input[name=input-46]').attr('checked',false);
+                        app1.navigate("#questions-body");
+                    }
                     //if(!submitIntake)
                     //{
     //                    window.open("reasons.html", "_self");
                         //app1.navigate("#divShowNameOnPublicQueue");
-                        app1.navigate("#questions-body");
+                        
                         //var endTimer1 = new Date().getTime();
                         //console.log('time taken to authenticate..' + (endTimer1 - startTimer1));
 
@@ -405,7 +425,7 @@ function SetStudentData(jsonobj, submitIntake)
                         //app1.navigate("#questions-body");
                     //}
                         
-                    }
+                    
                     //window.open("reasons.html?key=" + getUrlParameter('key') + "&uid=" + jsonobj.Data.UID + "&rsvp=" + getUrlParameter("rsvp") + "&anon=" + getUrlParameter("anon") + "&firstname=" + jsonobj.Data.DictionaryUserInfo.FirstName + "&lastname=" + jsonobj.Data.DictionaryUserInfo.LastName + "&phone=" + jsonobj.Data.DictionaryUserInfo.Phone + "&email=" + jsonobj.Data.DictionaryUserInfo.Email + "&initialintakestatus=" + getUrlParameter("initialintakestatus"), "_self");
                 }
             }
@@ -440,12 +460,12 @@ function GetAgreement(){
 function DisplayName(){
     var hasError = false;
     // put validation
-    if((localStorage.getItem("WaitTimeFeatureEnabled") == "false"))
-    {
-        localStorage.setItem("ShowNameOnPublicQueue",null);
+    //if((localStorage.getItem("WaitTimeFeatureEnabled") == "false"))
+    //{
+        //localStorage.setItem("ShowNameOnPublicQueue",null);
 
-    }
-    else {
+    //}
+    //else {
         if($('input:radio[name=CheckRadio]:checked').val() == undefined) {
             
             var hasError = true;
@@ -463,17 +483,15 @@ function DisplayName(){
             
 
         }
-    }
+    //}
+    $('#spanMsgAnyQuestion').empty();
+    $('#spanMsgNoQuestion').empty();
     $('input[name=input-46]').attr('checked',false);
     app1.navigate("#questions-body");
 }
 
 function DisplayReasons(){
-    
-    //if(localStorage.getItem("ShowNameOnPublicQueue") == "")
-    //{
-      //  localStorage.setItem("Error") = "Please select one of the options";
-    //}
+    $('input[name=input-46]').attr('checked',false);
     app1.navigate("#questions-body");
     
 }
@@ -1110,10 +1128,16 @@ function ClickLogon(){
 //Refresh
 function autoRefresh_div()
 {
+    if(localStorage.getItem("WaitTimeFeatureEnabled") == "true")
+    {
     getEstimatedWaitTime();
     
     //$("EstimatedWT").text(document.getElementById("EstimatedWT").innerHTML);
     $("EstimatedWT").text(document.getElementById("EstimatedWT").innerHTML);
+    }
+    else {
+    //do nothing
+    }
     
 }
 
@@ -1318,5 +1342,5 @@ window.onerror = function(msg, url, line){
 
 function CapitalizeFirstLetter(ctl){
     var ctlText = $(ctl).val();
-    return string.charAt(0).toUpperCase() + ctlText.slice(1);
+    return ctlText.charAt(0).toUpperCase() + ctlText.slice(1);
 }
