@@ -203,6 +203,7 @@ function Register()
         //localStorage.setItem("phone", $('#txt_phone').val());
 		localStorage.setItem("phone", phoneNumber);
         localStorage.setItem("email", $('#txt_email').val());
+        localStorage.setItem("uclalogonid", "");
         
         if(submitIntake)
         {
@@ -217,17 +218,43 @@ function Register()
             
             if (preCheckInPage.length > 0)
             {
-                //Bruin card lobby. Get Agreement text
-                GetAgreement();
-                
+                if(preCheckInPage == "divAgreement"){
+                    //Bruin card lobby. Get Agreement text
+                    GetAgreement();
+                }
+                else if((preCheckInPage == "divShowNameOnPublicQueue") && (localStorage.getItem("WaitTimeFeatureEnabled") == "true")){
+                localStorage.setItem("BCAgreementVersionNumber", "0");
+                    $('div.ReasonsContainer span').first().removeClass('DisplayNone');
+                    $('input[name=CheckRadio]').attr('checked',false);
+                    app1.navigate("#divShowNameOnPublicQueue");
+                    
+                }
+                else
+                {
+                    localStorage.setItem("BCAgreementVersionNumber", "0");
+                    if((localStorage.getItem("WaitTimeFeatureEnabled") == "false"))
+                    {
+                        localStorage.setItem("ShowNameOnPublicQueue",null);
+                        
+                    }
+                    $('input[name=input-46]').attr('checked',false);
+                    app1.navigate("#questions-body");
+                    
+                }
             }
-            
             else
-                
             {
                 localStorage.setItem("BCAgreementVersionNumber", "0");
+                if((localStorage.getItem("WaitTimeFeatureEnabled") == "false"))
+                {
+                    localStorage.setItem("ShowNameOnPublicQueue",null);
+                    
+                }
+                $('input[name=input-46]').attr('checked',false);
                 app1.navigate("#questions-body");
             }
+            
+            
         }
     }
 }
@@ -244,6 +271,7 @@ function GetAgreement(){
         app1.navigate("#bruincard-agreement");
     }
     else{
+        $('input[name=input-46]').attr('checked',false);
         app1.navigate("#questions-body");
     }
 }
