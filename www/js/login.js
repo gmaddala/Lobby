@@ -156,7 +156,7 @@ function HandleMultipleForms()
 function StartPreSession()
 {
     SetQuestions(localStorage.getItem("preformid"));
-    
+    $('input[name=input-46]').attr('checked',false);
     app1.navigate("#questions-body");
 }
 
@@ -184,6 +184,7 @@ function StartPostSession()
     }
     
     SetQuestions(formID);
+    $('input[name=input-46]').attr('checked',false);
     app1.navigate("#questions-body");
 }
 
@@ -453,6 +454,7 @@ function GetAgreement(){
         app1.navigate("#bruincard-agreement");
     }
     else{
+        $('input[name=input-46]').attr('checked',false);
         app1.navigate("#questions-body");
     }
 }
