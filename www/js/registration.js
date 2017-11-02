@@ -101,6 +101,7 @@ function SubmitRegistrationForm(){
     //when soft keypad is open on the device, focus is arbitrarily set on a input control when 'Register' button is hit
     //To avoid arbitrary focus, trigger blur event of all the input controls after a delay of 400ms
     Register();
+    $('input[name=input-46]').attr('checked',false);
 //    setTimeout(function(){ console.log('calling Regiser');
 //                   $('#divRegistration input').blur();
                     //Register();
