@@ -350,6 +350,9 @@ input[type="text"], input[type="number"]{
 .ContinueButtonPadding{
 	padding-top:2%;
 }
+.ContinueButtonPaddingName{
+    padding-top:5%;
+}
 .QuestionAndResponseContainer
 {
 	clear:both;	
