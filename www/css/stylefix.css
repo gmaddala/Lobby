@@ -954,7 +954,7 @@ div.km-listview-wrapper input[type="search"]
 .absolute-center-fix-estimate{
     height: 0% !important;
     /*        padding-top: 58% !important;*/
-    margin-top: 28%;
+    margin-top: 20%;
 }
 
 .bold-instruction-header{
@@ -1189,8 +1189,8 @@ font-size:large;
 }
 
 .km-content p {
-    margin-left: 15%;
-    margin-right: 15%;
+    margin-left: 25%;
+    margin-right: 25%;
 }
 
 /* fix for header in layouts */
