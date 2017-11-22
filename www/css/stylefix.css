@@ -1180,7 +1180,7 @@ font-size:large;
     color: #666;
     zoom: 1.2;
 }
-
+	
 .extra-large{
     font-size: 250%;
 }
@@ -1196,7 +1196,9 @@ font-size:large;
     margin-right: 25%;
 }
 
-
+.km-content .medium-size {
+    padding: 20px;
+}
 /* fix for header in layouts */
 .welcome-container{
     padding-top: 0;
