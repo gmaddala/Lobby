@@ -1191,10 +1191,11 @@ font-size:large;
    
 }
 
-.km-content p {
+.km-content #div_estimated_wait {
     margin-left: 25%;
     margin-right: 25%;
 }
+
 
 /* fix for header in layouts */
 .welcome-container{
