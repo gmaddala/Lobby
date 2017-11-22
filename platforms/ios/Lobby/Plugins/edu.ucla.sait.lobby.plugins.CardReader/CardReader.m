@@ -252,11 +252,23 @@
 #ifdef _DGBPRNT
         NSLog(@"%@", pResponse);
 #endif
+        //if([self.mtSCRALib getMaskedTracks].length > 0 && [[self.mtSCRALib getMaskedTracks] rangeOfString:@"E?"].length > 0)
+        //{
+            
+
+            //CDVPluginResult *pluginResult = [CDVPluginResult
+                                            // resultWithStatus: CDVCommandStatus_ERROR                                     messageAsString: @"Please swipe your Bruincard again."];
+          
+           // [self.mtSCRALib clearBuffers];
+            
+           // [self.commandDelegate sendPluginResult:pluginResult callbackId:self.cordovaCommand.callbackId];
+        //}
+        
         if([self.mtSCRALib getTrack1Masked].length == 0)
         {
             //NSString * status = [[self.mtSCRALib getTrack2Masked] substringWithRange:NSMakeRange(1, 20)];;
             CDVPluginResult *pluginResult = [CDVPluginResult
-                                             resultWithStatus: CDVCommandStatus_ERROR                                     messageAsString: @"Did not capture UID"];
+                                             resultWithStatus: CDVCommandStatus_ERROR                                     messageAsString: @"There is an issue with your Bruincard. Please contact Bruin card office to have your card fixed. You can also sign in using your University ID or Ucla Logon ID."];
             //messageAsString: status];
             //NSString * status = [self.mtSCRALib getOperationStatus];
             //alert(status);
@@ -393,6 +405,7 @@
         //create mutable URL request
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
         //Test
+        
         //[request setURL:[NSURL URLWithString:@"https://sait-test.uclanet.ucla.edu/lobbyapi/api/errorlog"]];
         //QA
         //[request setURL:[NSURL URLWithString:@"https://api-qa.sa.ucla.edu/v2/lobbyapi/api/errorlog"]];
