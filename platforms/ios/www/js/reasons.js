@@ -408,6 +408,10 @@ function SetUpIntakeJSONObj()
     {
         localStorage.setItem("cardswiped", false);
     }
+    if(localStorage.getItem("ShowNameOnPublicQueue") == "null")
+    {
+        localStorage.setItem("ShowNameOnPublicQueue", false);
+    }
     var myJsonObj = {
     UID: localStorage.getItem("uid"),
     UclaLogonId: localStorage.getItem("uclalogonid"),
@@ -424,6 +428,7 @@ function SetUpIntakeJSONObj()
     LocationID: localStorage.getItem("selLocationID"),
     CardSwiped: localStorage.getItem("cardswiped"),
     IntakeID: localStorage.getItem("intakeID"),
+    ShowNameOnPublicQueue: localStorage.getItem("ShowNameOnPublicQueue"),
     PreEvaluationFormID: localStorage.getItem("preformid"),
     BCAgreementVersionNumber:localStorage.getItem("BCAgreementVersionNumber")
     };
@@ -433,6 +438,7 @@ function SetUpIntakeJSONObj()
     return myJsonObj;
 
 }
+
 
 function DummyRedirect(e)
 {
@@ -783,8 +789,7 @@ function DisplayResponses(e){
     
     var divResponses = $("#ulResponses");
     
-    //add delay before displaying all the response controls to prevent accidental touch on response controls
-    
+    //add delay before displaying all the response controls to prevent accidental touch on response controls    
     divQuestion.addClass('DisplayHidden');
     
     divResponses.addClass('DisplayHidden');

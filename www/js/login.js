@@ -56,7 +56,8 @@ var app = {
             };
             var error = function(message) {
                 //alert(message);
-				showCardReaderErrorAlert("Please reswipe your BruinCard");
+				//showCardReaderErrorAlert("Please reswipe your BruinCard");
+                showCardReaderErrorAlert(message);
                 /*
                 $( "#dialog" ).on( "dialogclose", function( event, ui ) {
                                   app.stopCardReader();
@@ -239,6 +240,21 @@ function SignIn(logon, isCardreader){
                    success: function(data){
                    var jsonobj = JSON.parse(data);
                    
+                   if(jsonobj.Status == 500)
+                   {
+                   endLoading();
+                   if (localStorage.getItem("ApplicationTypeID") == 2){
+                   //case when the Event is not active
+                   showNativeDialog("Event is Not Active. Please enter a valid key");
+                   }
+                   else if (localStorage.getItem("ApplicationTypeID") == 1){
+                   //case when the Event is not active
+                   showNativeDialog("Lobby is Not Active. Please enter a valid key");
+                   }
+                   DisplayReconfigureLobbyDialog();
+                   app.startCardReader();
+                   return;
+                   }
                    
                    if (localStorage.getItem("LobbyTypeId") == GlobalObjects.LobbyType.CheckIn_CheckOut) {
                    localStorage.setItem("logonvalue", logon);

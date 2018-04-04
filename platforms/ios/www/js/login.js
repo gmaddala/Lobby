@@ -56,7 +56,8 @@ var app = {
             };
             var error = function(message) {
                 //alert(message);
-				showCardReaderErrorAlert("Please reswipe your BruinCard");
+				//showCardReaderErrorAlert("Please reswipe your BruinCard");
+                showCardReaderErrorAlert(message);
                 /*
                 $( "#dialog" ).on( "dialogclose", function( event, ui ) {
                                   app.stopCardReader();
@@ -156,7 +157,7 @@ function HandleMultipleForms()
 function StartPreSession()
 {
     SetQuestions(localStorage.getItem("preformid"));
-    
+    $('input[name=input-46]').attr('checked',false);
     app1.navigate("#questions-body");
 }
 
@@ -184,6 +185,7 @@ function StartPostSession()
     }
     
     SetQuestions(formID);
+    $('input[name=input-46]').attr('checked',false);
     app1.navigate("#questions-body");
 }
 
@@ -238,6 +240,21 @@ function SignIn(logon, isCardreader){
                    success: function(data){
                    var jsonobj = JSON.parse(data);
                    
+                   if(jsonobj.Status == 500)
+                   {
+                   endLoading();
+                   if (localStorage.getItem("ApplicationTypeID") == 2){
+                   //case when the Event is not active
+                   showNativeDialog("Event is Not Active. Please enter a valid key");
+                   }
+                   else if (localStorage.getItem("ApplicationTypeID") == 1){
+                   //case when the Event is not active
+                   showNativeDialog("Lobby is Not Active. Please enter a valid key");
+                   }
+                   DisplayReconfigureLobbyDialog();
+                   app.startCardReader();
+                   return;
+                   }
                    
                    if (localStorage.getItem("LobbyTypeId") == GlobalObjects.LobbyType.CheckIn_CheckOut) {
                    localStorage.setItem("logonvalue", logon);
@@ -374,31 +391,58 @@ function SetStudentData(jsonobj, submitIntake)
                     
                     if (preCheckInPage.length > 0)
                     {
-                        //Bruin card lobby. Get Agreement text
-                        GetAgreement();
-                        
+                        if(preCheckInPage == "divAgreement"){
+                            //Bruin card lobby. Get Agreement text
+                              GetAgreement();
+                        }
+                        else if((preCheckInPage == "divShowNameOnPublicQueue") && (localStorage.getItem("WaitTimeFeatureEnabled") == "true")){
+                            $('div.ReasonsContainer span').first().removeClass('DisplayNone');
+                            $('input[name=CheckRadio]').attr('checked',false);
+                            app1.navigate("#divShowNameOnPublicQueue");
+                            localStorage.setItem("BCAgreementVersionNumber", "0");
+                        }
+                        else
+                        {
+                            localStorage.setItem("BCAgreementVersionNumber", "0");
+                            if((localStorage.getItem("WaitTimeFeatureEnabled") == "false"))
+                            {
+                                localStorage.setItem("ShowNameOnPublicQueue",null);
+                                
+                            }
+                            
+                            $('input[name=input-46]').attr('checked',false);
+                            app1.navigate("#questions-body");
+                            
+                        }
                     }
-                    
                     else
-                        
                     {
                         localStorage.setItem("BCAgreementVersionNumber", "0");
-                    
-                    if(!submitIntake)
-                    {
-    //                    window.open("reasons.html", "_self");
+                        if((localStorage.getItem("WaitTimeFeatureEnabled") == "false"))
+                        {
+                            localStorage.setItem("ShowNameOnPublicQueue",null);
+                            
+                        }
+                        $('input[name=input-46]').attr('checked',false);
                         app1.navigate("#questions-body");
+                    }
+                    //if(!submitIntake)
+                    //{
+    //                    window.open("reasons.html", "_self");
+                        //app1.navigate("#divShowNameOnPublicQueue");
+                        
                         //var endTimer1 = new Date().getTime();
                         //console.log('time taken to authenticate..' + (endTimer1 - startTimer1));
 
-                    }
-                    else
-                    {
+                    //}
+                    //else
+                    //{
     //                    window.open("thankyou.html", "_self");
-                        app1.navigate("#questions-body");
-                    }
+                        //app1.navigate("#divShowNameOnPublicQueue");
+                        //app1.navigate("#questions-body");
+                    //}
                         
-                    }
+                    
                     //window.open("reasons.html?key=" + getUrlParameter('key') + "&uid=" + jsonobj.Data.UID + "&rsvp=" + getUrlParameter("rsvp") + "&anon=" + getUrlParameter("anon") + "&firstname=" + jsonobj.Data.DictionaryUserInfo.FirstName + "&lastname=" + jsonobj.Data.DictionaryUserInfo.LastName + "&phone=" + jsonobj.Data.DictionaryUserInfo.Phone + "&email=" + jsonobj.Data.DictionaryUserInfo.Email + "&initialintakestatus=" + getUrlParameter("initialintakestatus"), "_self");
                 }
             }
@@ -426,11 +470,46 @@ function GetAgreement(){
         app1.navigate("#bruincard-agreement");
     }
     else{
+        $('input[name=input-46]').attr('checked',false);
         app1.navigate("#questions-body");
     }
 }
 
+function DisplayName(){
+    var hasError = false;
+    // put validation
+    //if((localStorage.getItem("WaitTimeFeatureEnabled") == "false"))
+    //{
+        //localStorage.setItem("ShowNameOnPublicQueue",null);
+
+    //}
+    //else {
+        if($('input:radio[name=CheckRadio]:checked').val() == undefined) {
+            
+            var hasError = true;
+            var ctl = $('input:radio[name=CheckRadio]');
+            $(ctl).closest('div').addClass("Error");
+            if(hasError)
+            {
+                return;
+            }
+        }
+        else{
+            var ctl = $('input:radio[name=CheckRadio]');
+            $(ctl).closest('div').removeClass("Error");
+            localStorage.setItem("ShowNameOnPublicQueue",$('input:radio[name=CheckRadio]:checked').val());
+            
+
+        }
+    //}
+    $('#spanMsgAnyQuestion').empty();
+    $('#spanMsgNoQuestion').empty();
+    $('input[name=input-46]').attr('checked',false);
+    app1.navigate("#questions-body");
+}
+
 function DisplayReasons(){
+    $('input[name=input-46]').attr('checked',false);
     app1.navigate("#questions-body");
     
 }
@@ -1064,6 +1143,49 @@ function ClickLogon(){
     app1.Navigate('#viewSigninWithUclaLogon');
     app.stopCardReader();
 }
+//Refresh
+function autoRefresh_div()
+{
+    if(localStorage.getItem("WaitTimeFeatureEnabled") == "true")
+    {
+    getEstimatedWaitTime();
+    
+    //$("EstimatedWT").text(document.getElementById("EstimatedWT").innerHTML);
+    $("EstimatedWT").text(document.getElementById("EstimatedWT").innerHTML);
+    }
+    else {
+    //do nothing
+    }
+    
+}
+
+function getEstimatedWaitTime(){
+    $.ajax({
+           type: "GET",
+           url: getAPIUrl() + "/api/EstimatedWaitTime",
+           data: {"appkey": localStorage.getItem("key")},
+           beforeSend: function(){
+           //loading();
+           },
+           success: function(data){
+           //alert(data);
+           var jsonobj = JSON.parse(data);
+           localStorage.setItem("EstimatedWaitTime", jsonobj.Data.EstimatedWaitTime);
+           document.getElementById("EstimatedWT").innerHTML = localStorage.getItem("EstimatedWaitTime");
+           document.getElementById("EstimatedWT");
+           //console.log(localStorage.getItem("EstimatedWaitTime"));
+           
+           },
+           error: function (jqXHR, textStatus, errorThrown) {
+           //alert('The access key you entered is incorrect. Please reenter your access key.');
+           showNativeDialog('00 Minutes');
+           //alert(jqXHR + ";\n\n" + textStatus + ";\n\n" + errorThrown);
+           },
+           complete: function(){
+           endLoading();
+           }
+           });
+}
 
 function InitForm(){
 //    $("#DeptName").text(localStorage.getItem("deptname"));
@@ -1134,7 +1256,19 @@ function InitForm(){
         $("#btn-register-event").remove();
         $('#welcomepage_text').empty();
         $('#welcomepage_text').prepend(localStorage.getItem("WelcomePageText"));
+        
+            if(localStorage.getItem("WaitTimeFeatureEnabled") == "false")
+            {
+                $('#div_estimated_wait').remove();
+            }
+            else
+            {
+                getEstimatedWaitTime();
+            }
+            
         }
+        
+   
         
         if (localStorage.getItem("ApplicationTypeID") == 2)
         {
@@ -1226,5 +1360,5 @@ window.onerror = function(msg, url, line){
 
 function CapitalizeFirstLetter(ctl){
     var ctlText = $(ctl).val();
-    return string.charAt(0).toUpperCase() + ctlText.slice(1);
+    return ctlText.charAt(0).toUpperCase() + ctlText.slice(1);
 }

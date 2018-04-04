@@ -156,6 +156,17 @@ function InitializeLocalStorage()
         localStorage.setItem("questions", null);
     }
     
+    //Added by PM
+    localStorage.setItem("WaitTimeFeatureEnabled", JSON.stringify(jsonobj.Data.WaitTimeFeatureEnabled));
+    if(jsonobj.Data.WaitTimeFeatureEnabled == true)
+    {
+        localStorage.setItem("WaitTimeFeatureEnabled", "true");
+    }
+    else
+    {
+        localStorage.setItem("WaitTimeFeatureEnabled", "false");
+    }
+    
     localStorage.setItem("allowregistration", jsonobj.Data.AllowRegistration);
     localStorage.setItem("confirmation", jsonobj.Data.ConfirmationMessage);
     localStorage.setItem("welcome", jsonobj.Data.WelcomeMessage);

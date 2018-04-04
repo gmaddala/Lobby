@@ -20,12 +20,13 @@ function getUrlParameter(sParam)
 
 function getAPIUrl()
 {
+    //Test
     //return "https://sait-test.uclanet.ucla.edu/lobbyapi";
     //QA
-    //return "https://api-qa.sa.ucla.edu/v2/lobbyapi";
+    return "https://api-qa.sa.ucla.edu/v2/lobbyapi";
     //Prod
     //return "https://api.sa.ucla.edu/lobbyapi"; old version obsolete
-    return "https://api.sa.ucla.edu/v2/lobbyapi";
+    //return "https://api.sa.ucla.edu/v2/lobbyapi";
     
     
 }
@@ -77,6 +78,7 @@ function clearStudentInfo()
     localStorage.setItem("email", null);
     localStorage.setItem("cardswiped", null);
     localStorage.setItem("intakeID", -1);
+    localStorage.setItem("ShowNameOnPublicQueue", null);
 }
 
 function showDialog(message) {
@@ -143,7 +145,7 @@ function GetOfflineStudentData(){
   var retData = "";
   if (isOfflineMode())
   {
-    retData = '{"Status":200,"ErrorMessage":null,"Data":{"IsValidLogon":true,"DictionaryUserInfo":{"FirstName":"LESLIE","UclaLogonId":"leabbott","Email":"leabbott@ucla.edu","UID":"403723183","LastName":"ABBOTT","Phone":"7609009579"}}}';
+    retData = '{"Status":200,"ErrorMessage":null,"Data":{"IsValidLogon":true,"DictionaryUserInfo":{"FirstName":"LESLIE","UclaLogonId":"leabbott","Email":"leabbott@ucla.edu","UID":"403723183","LastName":"ABBOTT","Phone":"7609009579","ShowNameOnPublicQueue":true}}}';
   }
   
   return retData;

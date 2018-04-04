@@ -41,7 +41,8 @@ startCardReader: function() {
     var success = function(uid) {
         SignIn(uid);
     };
-    var error = function(message) { alert("Error: Please reswipe card"); };
+    //var error = function(message) { alert("Error: Please reswipe card"); };
+    var error = function(message) { alert("Error: " + message); };
     cardreader.startCardReader(success, error);
 },
 stopCardReader: function(){
