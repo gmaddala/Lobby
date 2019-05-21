@@ -70,7 +70,7 @@
 /* Begin PBXFileReference section */
 		1D3623240D0F684500981E51 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		1D6058910D05DD3D006BFB54 /* LobbyTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = LobbyTest.app; path = Lobby.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D6058910D05DD3D006BFB54 /* Lobby.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lobby.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F766FDD13BBADB100FB74C0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Localizable.strings; sourceTree = "<group>"; };
 		1F766FE013BBADB100FB74C0 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = Localizable.strings; sourceTree = "<group>"; };
 		25F3EB61161B4630A3B99BCE /* CardReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CardReader.m; path = edu.ucla.sait.lobby.plugins.AndroidCardreaderPlugin/CardReader.m; sourceTree = "<group>"; };
@@ -172,7 +172,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D6058910D05DD3D006BFB54 /* LobbyTest.app */,
+				1D6058910D05DD3D006BFB54 /* Lobby.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -359,7 +359,7 @@
 			);
 			name = Lobby;
 			productName = Lobby;
-			productReference = 1D6058910D05DD3D006BFB54 /* LobbyTest.app */;
+			productReference = 1D6058910D05DD3D006BFB54 /* Lobby.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -372,7 +372,7 @@
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
 						DevelopmentTeam = LSD86D256Y;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.Keychain = {
 								enabled = 1;
@@ -535,8 +535,9 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = Lobby/Lobby.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: UNIVERSITY OF CALIFORNIA, LOS ANGELES";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: UNIVERSITY OF CALIFORNIA, LOS ANGELES";
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DEVELOPMENT_TEAM = LSD86D256Y;
 				ENABLE_BITCODE = NO;
@@ -576,8 +577,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = edu.ucla.sait.lobby.ent;
 				PRODUCT_NAME = Lobby;
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "834cc3ad-969a-4599-b87a-1e1f73c4be38";
+				PROVISIONING_PROFILE_SPECIFIER = "SAIT In-House";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -588,8 +589,9 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = Lobby/Lobby.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: UNIVERSITY OF CALIFORNIA, LOS ANGELES";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: UNIVERSITY OF CALIFORNIA, LOS ANGELES";
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = YES;
 				DEVELOPMENT_TEAM = LSD86D256Y;
 				ENABLE_BITCODE = NO;
@@ -627,8 +629,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = edu.ucla.sait.lobby.ent;
 				PRODUCT_NAME = Lobby;
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "834cc3ad-969a-4599-b87a-1e1f73c4be38";
+				PROVISIONING_PROFILE_SPECIFIER = "SAIT In-House";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
