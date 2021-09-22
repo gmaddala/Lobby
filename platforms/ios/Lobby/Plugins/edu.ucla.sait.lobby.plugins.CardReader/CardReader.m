@@ -406,12 +406,12 @@
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
         //Test
         
-        //[request setURL:[NSURL URLWithString:@"https://sait-test.uclanet.ucla.edu/lobbyapi/api/errorlog"]];
+        [request setURL:[NSURL URLWithString:@"https://sait-test.uclanet.ucla.edu/lobbyapi/api/errorlog"]];
         //QA
         //[request setURL:[NSURL URLWithString:@"https://api-qa.sa.ucla.edu/v2/lobbyapi/api/errorlog"]];
         //Prod
         //[request setURL:[NSURL URLWithString:@"https://api.sa.ucla.edu/lobbyapi/api/errorlog"]];
-        [request setURL:[NSURL URLWithString:@"https://api.sa.ucla.edu/v2/lobbyapi/api/errorlog"]];
+        //[request setURL:[NSURL URLWithString:@"https://api.sa.ucla.edu/v2/lobbyapi/api/errorlog"]];
         [request setHTTPMethod:@"POST"];
         [request setValue: postLength forHTTPHeaderField:@"Content-Length"];
         [request setValue: authKey forHTTPHeaderField:@"Auth-Key"];
