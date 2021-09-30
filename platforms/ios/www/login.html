@@ -275,7 +275,7 @@
                         </li>
                         <li>
                             <label>
-                                <span class="Label">Mobile Phone</span><input id="txt_phone" type="tel" class="textbox RemoveBoxShadow" placeholder="(999)999-9999" style="display:block;" maxlength="13"/><span class="SpanError DisplayNone"><i class="icon-warning-sign WarningSign"></i></span>
+                                <span class="Label">Mobile Phone<span class="RequiredField">*</span></span><input id="txt_phone" type="tel" class="textbox RemoveBoxShadow" placeholder="(999)999-9999" style="display:block;" maxlength="13"/><span class="SpanError DisplayNone"><i class="icon-warning-sign WarningSign"></i></span>
                             </label>
                         </li>
                         <!--<li>
@@ -296,7 +296,7 @@
             </div>
         </div>
         <!--Warning Page -->
-        <div id="divShowNameOnPublicQueue" data-role="view" data-title=" " data-layout="checklayout" class="WhiteBackground">
+        <div id="divShowNameOnPublicQueue" data-role="view" data-title=" " data-layout="checklayout" class="WhiteBackground" data-show="ResetDisplayName">
             <div class="ReasonsContainer">
                 <p class="span-question-text" style="margin:0;">
                 If you select "Yes" below, part of your name will be displayed on the monitor in the lobby so that you can determine your place in line. If you select "No", "Name not Provided" will be displayed.
@@ -306,6 +306,10 @@
                  <li data-uid=""><label class="km-listview-label">No, please do not display my name.<input type="radio" name="CheckRadio" id="radio0" value="false"  class="textbox-false km-widget km-icon km-check"></label></li>
                
                 </ul>
+                <div class="row-fluid" id="div_phone">
+                    <div class="span4 RegisterFormLabel">Mobile Phone<span class="RequiredField">*</span></div>
+                    <div class="span8"><input id="txt_phone_show_name" type="text" class="textbox" placeholder="(999)999-9999" style="display:block;"/></div>
+                </div>
                 <div style="padding-left:6%;">
                     <div id="divWarningButton" class="ContinueButtonPaddingName"><a data-role="button" id="nameBtn" class="button1" data-click="DisplayName">Continue</a></div>
                 </div>
@@ -800,7 +804,8 @@
         <div data-role="view" id="bruincard-agreement">
             <div data-role="header">
                 <div id="div_header_cancel" class="header-div">
-                    <a href="#not_anon" class="cancel-link cancelLinkFix" data-role="button">Cancel</a>
+                    <!-- Call DisplayLogin method in registration.js -->
+                    <a href="#not_anon" class="cancel-link cancelLinkFix" data-role="button" data-click="DisplayLogin">Cancel</a>
                     <div>
                     </div>
                 </div>

@@ -120,6 +120,7 @@ function Register()
     else
     {
 		$('#txt_firstname').removeClass('Error');
+        $('#txt_firstname').addClass('Required');
         //$('#txt_firstname').next().addClass('DisplayNone');
     }
     
@@ -134,7 +135,20 @@ function Register()
     {
         //$('#lastname_error').text('');
 		$('#txt_lastname').removeClass('Error');
+        $('#txt_lastname').addClass('Required');
 //        $('#txt_lastname').next().addClass('DisplayNone');
+    }
+    
+    if($('#txt_phone').val().length == 0)
+    {
+        hasError = true;
+        $('#txt_phone').addClass('Error');
+        $('#txt_phone').addClass('Required');
+    }
+    else
+    {
+        $('#txt_phone').removeClass('Error');
+        $('#txt_phone').addClass('Required');
     }
     
     if (localStorage.getItem("EmailRequired") == "true"){
@@ -181,11 +195,11 @@ function Register()
             $('#txt_phone').removeClass('Error');
         }
 	}
-    else
-    {
+    //else
+    //{
         //$('#uid_error').text('');
-		$('#txt_phone').removeClass('Error');
-    }
+		//$('#txt_phone').removeClass('Error');
+    //}
     
     
     if(!hasError)
@@ -205,6 +219,7 @@ function Register()
 		localStorage.setItem("phone", phoneNumber);
         localStorage.setItem("email", $('#txt_email').val());
         localStorage.setItem("uclalogonid", "");
+        localStorage.setItem("signin", "false");
         
         if(submitIntake)
         {

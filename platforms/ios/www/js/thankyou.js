@@ -5,7 +5,7 @@ function InitializeThankYou(){
     
     if(localStorage.getItem("confirmation") != null && localStorage.getItem("confirmation") != "null")
     {
-        $("#thankyoumsg").text(localStorage.getItem("confirmation"));
+        $("#thankyoumsg").html(localStorage.getItem("confirmation"));
     }
     
     var url = "";

@@ -122,6 +122,7 @@ function SignInWithUclaLogon(){
         $('#txt_logon').removeClass('Error');
         //app.stopCardReader();
         SignIn($('#txt_logon').val());
+        localStorage.setItem("signin", "true");
     }
     else
     {
@@ -475,6 +476,17 @@ function GetAgreement(){
     }
 }
 
+function ResetDisplayName(e){
+    $("#txt_phone_show_name").val("");
+    //alert("hi");
+    if (localStorage.getItem("signin") != "true"){
+        $("#div_phone").addClass('DisplayNone');
+    }
+    else{
+        $("#div_phone").removeClass('DisplayNone');
+    }
+}
+
 function DisplayName(){
     var hasError = false;
     // put validation
@@ -486,13 +498,10 @@ function DisplayName(){
     //else {
         if($('input:radio[name=CheckRadio]:checked').val() == undefined) {
             
-            var hasError = true;
+            hasError = true;
             var ctl = $('input:radio[name=CheckRadio]');
             $(ctl).closest('div').addClass("Error");
-            if(hasError)
-            {
-                return;
-            }
+            
         }
         else{
             var ctl = $('input:radio[name=CheckRadio]');
@@ -501,6 +510,51 @@ function DisplayName(){
             
 
         }
+    
+    if (localStorage.getItem("signin") == "true"){
+        
+    
+    
+    if($('#txt_phone_show_name').val().length == 0)
+    {
+        hasError = true;
+        $('#txt_phone_show_name').addClass("Error");
+    }
+    else
+    {
+        $('#txt_phone_show_name').removeClass("Error");
+    }
+    
+    var phoneNumber, phoneNumberFormatted
+    phoneNumberFormatted = $('#txt_phone_show_name').val();
+    if(phoneNumberFormatted.length > 0)
+    {
+        phoneNumber = phoneNumberFormatted.replace("(", "").replace(")", "").replace("-","");
+        if(phoneNumber.length != 10)
+        {
+            hasError = true;
+            $('#txt_phone_show_name').addClass("Error");
+        }
+        else{
+            $('#txt_phone_show_name').removeClass("Error");
+            localStorage.setItem("phone", phoneNumber);
+        }
+    }
+        
+    }
+    //else
+    //{
+        //$('#txt_phone').removeClass('Error');
+    //}
+    
+    if(hasError)
+    {
+        return;
+    }
+    //else{
+        //localStorage.setItem("phone", phoneNumber);
+    //}
+    
     //}
     $('#spanMsgAnyQuestion').empty();
     $('#spanMsgNoQuestion').empty();
